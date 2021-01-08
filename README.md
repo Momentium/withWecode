@@ -14,12 +14,12 @@
 
   ```
   main
-  └-develop
-    └-front-end
-      └-feature/foo
+  └ develop
+    └ front-end
+      └ feature/foo
         ...
-    └-back-end
-      └-feature/bar
+    └ back-end
+      └ feature/bar
         ...
   ```
 
