@@ -91,9 +91,11 @@ div{
     height: 1.75rem;
     border-radius: 0.9rem;
     border: 1px solid #D8D8D8;
-    
-    &focus{outline:none;}
-
+    box-sizing:border-box;
+    padding: 4px 34px 4px 13px;
+    &:focus{
+      outline:none;
+    }
   }
     i{
       position: absolute;
