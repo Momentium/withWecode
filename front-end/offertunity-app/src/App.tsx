@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import styled from 'styled-components';
+import Main from './pages/main/Main';
 
-function App() {
+const App = () => {
+  const [HH, setHH] = useState<number|undefined>(0);
+  useEffect(() => {
+
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      {/* Header 들어갈 자리 */}
+
+      <StAppCont headerHeight={HH}>
+      {/* Route 들어갈 자리 */} 
+        <Route exact path="/" component={Main} />
+      </StAppCont>
+      
+      {/* Footer 들어갈 자리 */}
+      
+    </BrowserRouter>
   );
 }
 
 export default App;
+
+const StAppCont = styled.div<{headerHeight:number|undefined}>`
+  margin-top: ${props => `${props.headerHeight}px`};
+`;
