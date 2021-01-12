@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Main from './pages/main/Main';
+import FooterC from './common/footer/FooterC';
 
 const App = () => {
   const [HH, setHH] = useState<number|undefined>(0);
@@ -19,6 +20,7 @@ const App = () => {
       </StAppCont>
       
       {/* Footer 들어갈 자리 */}
+      <FooterC/>
       
     </BrowserRouter>
   );
