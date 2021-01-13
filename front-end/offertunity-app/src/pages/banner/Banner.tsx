@@ -3,22 +3,33 @@ import styled from 'styled-components';
 
 const Banner = () => {
 
+  const [bannerImg,setBannerImg]=useState([]);
   const [moveX,setMoveX] = useState(0);
+
   const activeSlider =() =>{
     setMoveX(moveX - 100);
   }
+
+  useEffect(() => {
+    fetch("/data/mainBanner.json")
+    .then(res =>res.json())
+    .then(res=>{
+      console.log(res, 'res')
+      setBannerImg(res.banner)
+    
+    })
+  },[])
+  
 
   
 
   return(
     <Bannercon>
       <BannerSlider onClick={activeSlider} style={{ transform: `translateX(${moveX}%)` }}>
-       <li >
-         <img src="/images/greenbanner.jpg" alt=""/>
-       </li>
-       <li >
-         <img src="/images/yellowbanner.jpg" alt=""/>
-       </li>
+       {bannerImg.map(slide =>{
+         <li><img src="{slide}" alt=""/></li>
+         console.log(slide)
+       })}
       </BannerSlider>
     </Bannercon>
   );
