@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 const ConWidth = styled.div`
   width: 80rem;
