@@ -1,5 +1,4 @@
-import { styled } from "@material-ui/core";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 const ConWidth = css`
   width: 80rem;

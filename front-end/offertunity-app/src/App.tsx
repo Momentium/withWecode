@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
-import Main from './pages/main/Main'
-import Project from './pages/project/ProjectPage'
-import theme from './Styles/theme'
+import Header from './components/pages/header/Header'
+import Main from './components/pages/main/Main'
+import Project from './components/pages/project/ProjectPage'
+import theme from './components/styles/theme'
 
 const App = () => {
   const [HH, setHH] = useState<number | undefined>(0)

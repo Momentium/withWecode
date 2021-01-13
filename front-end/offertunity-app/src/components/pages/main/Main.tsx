@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Banner from '../banner/Banner'
-import Selection from './selection/Selection'
+import Selection from '../selection/Selection'
 
 const Main = () => {
   return (
