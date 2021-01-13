@@ -6,7 +6,7 @@ interface BannerProps{
   img : string
 }
 
-const Banner:React.FC<BannerProps>= ({img})=> {
+const BannerPresent:React.FC<BannerProps>= ({img})=> {
 
   const [bannerImg,setBannerImg]=useState([]);
   const [moveX,setMoveX] = useState(0);
@@ -26,7 +26,7 @@ const Banner:React.FC<BannerProps>= ({img})=> {
   },[])
 
   return(
-    <Bannercon>
+    <BannerPre>
       <BannerSlider onClick={activeSlider} style={{ transform: `translateX(${moveX}%)` }}>
        {bannerImg.map((slide:any,idx:number) =>{
          return(
@@ -38,15 +38,20 @@ const Banner:React.FC<BannerProps>= ({img})=> {
          
        })}
       </BannerSlider>
-    </Bannercon>
+    </BannerPre>
   );
 };
 
-export default Banner;  
+export default BannerPresent;  
 
-const Bannercon = styled.div`
+
+
+
+
+const BannerPre = styled.div`
   width: 100%;
   height:43.74rem;
+  overflow: hidden;
 `;
 
 const BannerSlider = styled.ul`
