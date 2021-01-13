@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Main from './pages/main/Main';
+import Project from './pages/project/ProjectPage';
 
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
       <StAppCont headerHeight={HH}>
       {/* Route 들어갈 자리 */} 
         <Route exact path="/" component={Main} />
+        <Route path="/project" component={Project} />
       </StAppCont>
       
       {/* Footer 들어갈 자리 */}
