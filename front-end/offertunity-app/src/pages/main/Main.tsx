@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Banner from '../banner/Banner'
 
 const Main = () => {
   return (
     <StMainCont>
-      <div className="banner-cont"></div>
+      <div className="banner-cont">
+        <Banner />
+      </div>
       <div className="projects-cont">
         <div className="progress"></div>
         <div className="new"></div>

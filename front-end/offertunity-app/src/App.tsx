@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Main from './pages/main/Main';
 
+
 const App = () => {
   const [HH, setHH] = useState<number|undefined>(0);
   useEffect(() => {
@@ -12,7 +13,7 @@ const App = () => {
   return (
     <BrowserRouter>
       {/* Header 들어갈 자리 */}
-
+      
       <StAppCont headerHeight={HH}>
       {/* Route 들어갈 자리 */} 
         <Route exact path="/" component={Main} />
