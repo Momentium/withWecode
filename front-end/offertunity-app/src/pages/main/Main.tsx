@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Banner from '../banner/Banner'
 
+interface BannerProps{
+  img : string
+}
+
 const Main = () => {
   return (
     <StMainCont>
       <div className="banner-cont">
-        <Banner />
+        <Banner img={""}/>
       </div>
       <div className="projects-cont">
         <div className="progress"></div>

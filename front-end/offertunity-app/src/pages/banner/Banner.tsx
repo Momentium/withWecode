@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const Banner = () => {
+
+interface BannerProps{
+  img : string
+}
+
+const Banner:React.FC<BannerProps>= ({img})=> {
 
   const [bannerImg,setBannerImg]=useState([]);
   const [moveX,setMoveX] = useState(0);
@@ -19,16 +24,18 @@ const Banner = () => {
     
     })
   },[])
-  
-
-  
 
   return(
     <Bannercon>
       <BannerSlider onClick={activeSlider} style={{ transform: `translateX(${moveX}%)` }}>
-       {bannerImg.map(slide =>{
-         <li><img src="{slide}" alt=""/></li>
-         console.log(slide)
+       {bannerImg.map((slide:any,idx:number) =>{
+         return(
+         <li key={idx} >
+           <img src={slide.img} alt=""/>
+          </li>
+         )
+         
+         
        })}
       </BannerSlider>
     </Bannercon>
