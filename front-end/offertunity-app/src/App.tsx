@@ -7,7 +7,7 @@ import Project from './components/pages/project/ProjectPage';
 
 
 const App = () => {
-  const [HH, setHH] = useState<number|undefined>(0);
+  const [HH, setHH] = useState<number|undefined>(60);
   useEffect(() => {
 
   }, []);
@@ -16,6 +16,7 @@ const App = () => {
     <BrowserRouter>
       {/* Header 들어갈 자리 */}
       <Header/>
+      
       <StAppCont headerHeight={HH}>
       {/* Route 들어갈 자리 */} 
         <Route exact path="/" component={Main} />
