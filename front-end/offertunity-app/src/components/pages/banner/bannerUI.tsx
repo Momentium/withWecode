@@ -15,16 +15,16 @@ const BannerPresent:React.FC<BannerProps>= ({img,script,title})=> {
   const [bannerImg,setBannerImg]=useState([]);
   const [moveX,setMoveX] = useState(0);
 
-  const sliderGoRight =(e: any) =>{ 
+  const sliderGoRight =() =>{ 
     if(moveX === -100*(bannerImg.length-1)){
-      setMoveX(0)
+      return;
     }else 
     { setMoveX(moveX - 100)};
   }
 
-  const sliderGoLeft =(e: any) =>{ 
+  const sliderGoLeft =() =>{ 
     if(moveX === 0){
-      setMoveX(-100*(bannerImg.length-1))
+      return;
     }else 
     { setMoveX(moveX + 100)};
   }
@@ -58,7 +58,7 @@ const BannerPresent:React.FC<BannerProps>= ({img,script,title})=> {
          )    
        })}
       </BannerSlider>
-      <RightButton  onClick={sliderGoRight}><i className="fas fa-chevron-right"/></RightButton>
+      <RightButton onClick={sliderGoRight}><i className="fas fa-chevron-right"/></RightButton>
     </BannerPre>
   );
 };
