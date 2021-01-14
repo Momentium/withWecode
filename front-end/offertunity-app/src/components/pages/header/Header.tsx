@@ -10,7 +10,6 @@ const Header = () => {
     .then(res=>res.json())
     .then(res=>{
       setNavList(res.navMenu)
-      console.log(navList)
     })
   },[]);
 
@@ -20,8 +19,8 @@ const Header = () => {
         <h1><span>OFFER</span>TUNITY</h1>
         <nav>
           <ul>
-          {navList.map(menu => {
-            return(<li>{menu}</li>)
+          {navList.map((menu, idx) => {
+            return(<li key={idx}>{menu}</li>)
             
           })}
           </ul>
@@ -46,6 +45,8 @@ const HeaderCon =styled.div`
   width:100%;
   height:4.37rem;
   background: #fff;
+  text-align:center;
+  line-height:4.37rem;
 
   .conBox {
     margin:0 auto;
@@ -98,7 +99,7 @@ div{
   }
     i{
       position: absolute;
-      top: 0.43rem;
+      top: 1.6rem;
       right:0.62rem;
       color:#707070;
     }
