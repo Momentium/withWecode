@@ -14,6 +14,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         {/* Header 들어갈 자리 */}
+        <Header />
 
         <StAppCont headerHeight={HH}>
           {/* Route 들어갈 자리 */}
