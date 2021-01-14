@@ -48,8 +48,8 @@ const Title =styled.div`
 `;
 
 const Progress = styled.div`
-  width:68%;
-  padding-right:1.6rem;
+  width:69%;
+  padding-right:2.4rem;
   display: inline-block;
   border-right:1px solid #ccc;
 `;
