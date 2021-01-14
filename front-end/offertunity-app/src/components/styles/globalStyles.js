@@ -118,7 +118,8 @@ body {
   letter-spacing: -0.5px;
 }
 ol,
-ul {
+ul,
+li {
   list-style: none;
 }
 blockquote,
@@ -151,5 +152,4 @@ a {
   color: black;
 }
 `;
-
 export default GlobalStyle;

@@ -1,62 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
 const Banner = () => {
+  const [bannerImg, setBannerImg] = useState([]);
+  const [moveX, setMoveX] = useState(0);
 
-  const [bannerImg,setBannerImg]=useState([]);
-  const [moveX,setMoveX] = useState(0);
-
-  const activeSlider =() =>{
+  const activeSlider = () => {
     setMoveX(moveX - 100);
-  }
+  };
 
   useEffect(() => {
     fetch("/data/mainBanner.json")
-    .then(res =>res.json())
-    .then(res=>{
-      console.log(res, 'res')
-      setBannerImg(res.banner)
-    
-    })
-  },[])
-  
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res, "res");
+        setBannerImg(res.banner);
+      });
+  }, []);
 
-  
-
-  return(
+  return (
     <Bannercon>
-      <BannerSlider onClick={activeSlider} style={{ transform: `translateX(${moveX}%)` }}>
-       {bannerImg.map(slide =>{
-         <li><img src="{slide}" alt=""/></li>
-         console.log(slide)
-       })}
+      <BannerSlider
+        onClick={activeSlider}
+        style={{ transform: `translateX(${moveX}%)` }}
+      >
+        {bannerImg.map((slide) => {
+          <li>
+            <img src="{slide}" alt="" />
+          </li>;
+        })}
       </BannerSlider>
     </Bannercon>
   );
 };
 
-export default Banner;  
+export default Banner;
 
 const Bannercon = styled.div`
   width: 100%;
-  height:43.74rem;
+  height: 43.74rem;
 `;
 
 const BannerSlider = styled.ul`
-  display:flex;
-  margin:0;
-  padding:0;
+  display: flex;
+  margin: 0;
+  padding: 0;
   width: 100%;
-  height:100%;
+  height: 100%;
   transition: 0.4s;
-  li{
-    min-width:100%;
-    height:100%;
-    list-style:none;
-    img{
-      
-      width:100%;
-      height:100%;
+  li {
+    min-width: 100%;
+    height: 100%;
+    list-style: none;
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
-`
+`;
