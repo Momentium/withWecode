@@ -13,8 +13,7 @@ ReactDOM.render(
       <App />
     </StylesProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
 
 reportWebVitals();

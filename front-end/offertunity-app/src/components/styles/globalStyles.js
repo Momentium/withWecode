@@ -158,5 +158,4 @@ button {
   }
 }
 `;
-
 export default GlobalStyle;
