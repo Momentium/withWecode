@@ -8,7 +8,9 @@ const ProjectPage = () => {
       <StUpperCont>
         <div className="title">진행중인 지원사업</div>
         <StFilter>
-          <SelectBtn category={""}/>
+          <SelectBtn curPage={"project"} category={"date"}/>
+          <SelectBtn curPage={"project"} category={"support"}/>
+          <SelectBtn curPage={"project"} category={"establish"}/>
         </StFilter>
       </StUpperCont>
 

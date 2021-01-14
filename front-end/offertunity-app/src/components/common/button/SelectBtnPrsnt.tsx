@@ -1,30 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Button, Zoom } from '@material-ui/core';
+import { Button, Zoom, Collapse } from '@material-ui/core';
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
 
 interface Props {
-  value: string;
+  popList: boolean;
+  popSelectList: (e: React.MouseEvent<HTMLElement>) => void; 
+  value: string|null;
+  compList: JSX.Element[];
 }
 
-const SelectBtnPrsnt:React.FC<Props> = ({ value }) => {
-  const [zoomIn, setZoomIn] = useState<boolean>(true);
-  const handleClick = () => {
-    setZoomIn(!zoomIn);
-  }
+const SelectBtnPrsnt:React.FC<Props> = (props) => {
+  const [btnH, setBtnH] = useState<number|undefined>(0);
+  const btnRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // console.log(btnRef.current?.clientHeight);
+    setBtnH(btnRef.current?.clientHeight);
+  }, []);
 
   return (
-    <StSelectBtnWrap onClick={handleClick} >
-      {"value"}
-      <StBtnWrap>
-        <ExpandMore style={{visibility: 'hidden'}}/>
-        <Zoom in={zoomIn} style={{position: 'absolute', top: 0, left: 0, zIndex: 1,}}><ExpandMore/></Zoom>
-        <Zoom in={!zoomIn} style={{position: 'absolute', top: 0, left: 0, zIndex: 2,}}><ExpandLess/></Zoom>
-      </StBtnWrap>
-    </StSelectBtnWrap>
+    <StSelectBtnCont>
+      <div ref={btnRef}>
+        <StSelectBtnWrap onClick={props.popSelectList} >
+          {props.value}
+          <StBtnWrap>
+            <ExpandMore style={{visibility: 'hidden'}}/>
+            <Zoom in={!props.popList} style={{position: 'absolute', top: 0, left: 0, zIndex: 1,}}><ExpandMore/></Zoom>
+            <Zoom in={props.popList} style={{position: 'absolute', top: 0, left: 0, zIndex: 2,}}><ExpandLess/></Zoom>
+          </StBtnWrap>
+        </StSelectBtnWrap>
+      </div>
+
+      <StListCont topPos={btnH}>
+        <div className="abs-cont">
+          <Collapse in={props.popList}>
+              {props.compList}
+          </Collapse>
+        </div>
+      </StListCont>
+
+    </StSelectBtnCont>
   );
 };
 export default SelectBtnPrsnt;
+
+const StSelectBtnCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+`;
 
 const StSelectBtnWrap = styled(Button)`
   display: flex;
@@ -52,4 +80,18 @@ const StBtnWrap = styled.div`
   position: relative;
   display: flex;
   margin-left: 4px;
+`;
+
+const StListCont = styled.div<{topPos:number|undefined}>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .abs-cont {
+    position: absolute;
+    top: ${props => `${props.topPos}px`};
+    transform: translateY(8px);
+    z-index: 5;
+  }
 `;
