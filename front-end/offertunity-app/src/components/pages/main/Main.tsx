@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import Banner from '../banner/Banner'
+import Banner from '../banner/banner'
 import Selection from '../selection/Selection'
 
-interface BannerProps{
-  img : string
-}
 
 const Main = () => {
   return (
     <StMainCont>
       <div className="banner-cont">
-        <Banner img={""}/>
+        <Banner />
       </div>
       <div className='projects-cont'>
         <div className='progress'></div>

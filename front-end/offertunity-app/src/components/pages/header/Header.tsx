@@ -10,7 +10,6 @@ const Header = () => {
     .then(res=>res.json())
     .then(res=>{
       setNavList(res.navMenu)
-      console.log(navList)
     })
   },[]);
 
@@ -20,8 +19,8 @@ const Header = () => {
         <h1><span>OFFER</span>TUNITY</h1>
         <nav>
           <ul>
-          {navList.map(menu => {
-            return(<li>{menu}</li>)
+          {navList.map((menu, idx) => {
+            return(<li key={idx}>{menu}</li>)
             
           })}
           </ul>
