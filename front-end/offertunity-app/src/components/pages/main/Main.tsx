@@ -32,5 +32,5 @@ const Main = () => {
 export default Main;
 
 const StMainCont = styled.div`
-  height: 300vh;
+  color: black;
 `;

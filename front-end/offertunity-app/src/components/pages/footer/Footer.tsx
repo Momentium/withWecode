@@ -39,7 +39,8 @@ const FooterSection = styled.footer`
   display: flex;
   justify-content: space-between;
   ${({ theme }) => theme.ConWidth}
-  height: 31.25rem;
+  padding-top: 4.563rem;
+  height: 14.438rem;
 
   .left {
     .top {

@@ -12,7 +12,7 @@ const Title: React.FC<Props> = ({ title }) => {
 export default Title;
 
 const SectionTitle = styled.h1`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.titleSize};
 `;
