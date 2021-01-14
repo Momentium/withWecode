@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import Header from "./components/pages/header/Header";
+import Banner from "./components/pages/banner/Banner"
 import Main from "./components/pages/main/Main";
 import Project from "./components/pages/project/ProjectPage";
 import theme from "./components/styles/theme";
@@ -15,7 +16,7 @@ const App = () => {
       <BrowserRouter>
         {/* Header 들어갈 자리 */}
         <Header />
-
+        <Banner />
         <StAppCont headerHeight={HH}>
           {/* Route 들어갈 자리 */}
           <Route exact path="/" component={Main} />
