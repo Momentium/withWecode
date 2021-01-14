@@ -13,6 +13,7 @@ const SelectBtn: React.FC<Props> = ({ curPage, category, }) => {
   // let _selectList: string[];
   const [selected, setSelected] = useState<string|null>("");
   const [compList, setCompList] = useState<any[]>([]);
+  const [popList, setPopList] = useState<boolean>(false);
 
   useEffect(() => {
     axios.get("data/selectData.json").then((res) => {
@@ -32,11 +33,9 @@ const SelectBtn: React.FC<Props> = ({ curPage, category, }) => {
   }, [selected]);
 
   const changeSelect = (e: React.MouseEvent<HTMLElement>) => {
-    // console.log(e.currentTarget.textContent)
     setSelected(e.currentTarget.textContent);
+    setPopList(false);
   }
-  
-  const [popList, setPopList] = useState<boolean>(false);
 
   const popSelectList = () => {
     setPopList(!popList);
