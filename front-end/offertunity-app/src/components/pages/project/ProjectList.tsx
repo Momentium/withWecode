@@ -6,6 +6,7 @@ const ProjectList = () => {
   const [pjts, setPjts] = useState<any>([]);
 
   useEffect(() => {
+    
     setPjts(pjts.map((el:{}, idx:number) => 
       <Project key={idx} el={el}/>
     ));
