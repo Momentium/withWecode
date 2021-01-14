@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
@@ -59,19 +58,3 @@ const BannerSlider = styled.ul`
     }
   }
 `;
-=======
-import React from 'react';
-import BannerPresent from '../banner/bannerUI';
-
-
-
-const Banner = () => {
-  return (
-    <div>
-      <BannerPresent img={""} script={""} title={""} />
-    </div>
-  )
-};
-
-export default Banner;
->>>>>>> 78eb8fa7c2c81a0194eebbf3937898dd636d6cfa
