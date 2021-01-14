@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import ProjectList from './ProjectList';
 import styled from 'styled-components';
-import { FlexDiv } from '../../styles/flexDiv';
-import Select from '../../common/Select';
+import ProjectList from './ProjectList';
+import SelectBtn from '../../common/button/SelectBtn';
 
-const ProjectPage:React.FC<any> = ({ location }) => {
-  useEffect(() => {
-    sessionStorage.setItem('curPage', location.pathname?.substring(1));
-  }, []);
-  
-
+const ProjectPage = () => {
   return (
     <div>
       <StUpperCont>
         <div className="title">진행중인 지원사업</div>
-        <StSelectCont>
-          <Select curPage={location.pathname?.substring(1)} category={"date"}/>
-          <Select curPage={location.pathname?.substring(1)} category={"support"}/>
-          <Select curPage={location.pathname?.substring(1)} category={"establish"}/>
-        </StSelectCont>
+        <StFilter>
+          <SelectBtn curPage={"project"} category={"date"}/>
+          <SelectBtn curPage={"project"} category={"support"}/>
+          <SelectBtn curPage={"project"} category={"establish"}/>
+        </StFilter>
       </StUpperCont>
 
       <ProjectList/>
@@ -27,9 +20,12 @@ const ProjectPage:React.FC<any> = ({ location }) => {
 };
 export default ProjectPage;
 
-const StUpperCont = styled(FlexDiv)`
+const StUpperCont = styled.div`
+  display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
-const StSelectCont = styled(StUpperCont)`
+const StFilter = styled(StUpperCont)`
+  
 `;
