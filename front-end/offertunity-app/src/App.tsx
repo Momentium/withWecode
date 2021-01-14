@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import Header from './components/pages/header/Header'
 import Main from './components/pages/main/Main'
-import Project from './components/pages/project/ProjectPage'
+import ProjectPage from './components/pages/project/ProjectPage';
 import theme from './components/styles/theme'
 
 const App = () => {
@@ -14,11 +14,12 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         {/* Header 들어갈 자리 */}
+        <Header/>
 
         <StAppCont headerHeight={HH}>
           {/* Route 들어갈 자리 */}
           <Route exact path='/' component={Main} />
-          <Route path='/project' component={Project} />
+          <Route path='/project' component={ProjectPage} />
         </StAppCont>
 
         {/* Footer 들어갈 자리 */}

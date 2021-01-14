@@ -15,5 +15,6 @@ const Project:React.FC<Props> = ({el}) => {
 export default Project;
 
 const StPjtWrap = styled.div`
-  
+  width: 100%;
+  border: 2px solid green;
 `;
