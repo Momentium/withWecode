@@ -118,7 +118,7 @@ body {
   letter-spacing: -0.5px;
 }
 ol,
-ul {
+ul,li {
   list-style: none;
 }
 blockquote,
@@ -150,6 +150,12 @@ a {
   text-decoration: none;
   color: black;
 }
+button {
+  background:none;
+  border:none;
+  &:focus{
+    outline:none;
+  }
+}
 `;
-
 export default GlobalStyle;
