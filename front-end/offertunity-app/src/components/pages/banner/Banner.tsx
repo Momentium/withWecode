@@ -2,7 +2,6 @@ import React from 'react';
 import BannerPresent from '../banner/bannerUI';
 
 
-
 const Banner = () => {
   return (
     <div>
