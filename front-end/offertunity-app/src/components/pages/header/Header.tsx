@@ -45,6 +45,8 @@ const HeaderCon =styled.div`
   width:100%;
   height:4.37rem;
   background: #fff;
+  text-align:center;
+  line-height:4.37rem;
 
   .conBox {
     margin:0 auto;
@@ -97,7 +99,7 @@ div{
   }
     i{
       position: absolute;
-      top: 0.43rem;
+      top: 1.6rem;
       right:0.62rem;
       color:#707070;
     }
