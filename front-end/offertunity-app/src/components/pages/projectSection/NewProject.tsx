@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import NewCard from './NewCard'
 
 const NewProject = () => {
+
+  const [newProject,setNewProject] = useState([]);
+
+  useEffect(()=>{
+    fetch("/data/newProject.json")
+    .then(res => res.json())
+    .then(res=>{
+      setNewProject(res.new);
+    })
+  },[])
+
   return(
     <New>
-      <span>컨텐츠 추가예정</span>
+      {newProject.map((el:any , idx: number) =>{
+        return(<NewCard key={idx} data={el}  index={idx}/>)
+      })}
     </New>
   )
 };

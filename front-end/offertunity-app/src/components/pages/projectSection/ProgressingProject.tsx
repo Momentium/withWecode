@@ -13,19 +13,16 @@ import ProgressingCard from './ProgressingCard'
     .then(res =>res.json())
     .then(res =>{
       setProjectData(res.projecting)
-      console.log(projectData)
     })
   },[])
 
   return(
     <Progessing>
-
      {projectData.map((el: any, idx: number)=>{
        return(
-       <ProgressingCard data = {el} key={idx}/>
+       <ProgressingCard data = {el} key={idx} index={idx}/>
        )  
      })}
-
     </Progessing>
   )
 };

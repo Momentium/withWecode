@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ProgressingProject from './ProgressingProject';
 import NewProject from './NewProject';
+import MoreProject from './MoreProject'
 
 
 
@@ -10,12 +11,18 @@ const ProjectSection = () => {
   <Project >
 
     <Progress>
-      <Title>진행 중인 지원사업</Title>
+      <Title>
+        진행 중인 지원사업
+        <MoreProject />
+      </Title>
       <ProgressingProject  />
     </Progress>
 
     <New>
-      <Title>새로운 지원사업</Title>
+      <Title>
+        새로운 지원사업
+        <MoreProject />
+      </Title>
       <NewProject />
     </New>
     
@@ -27,20 +34,28 @@ export default ProjectSection;
 
 const Project = styled.section`
   ${({ theme }) => theme.ConWidth}
-  margin-top:7.5rem;
   display: flex;
   justify-content: space-between;
+  padding:8rem 0;
 `
 
-const Title =styled.p`
-  font-size:1.75rem;
+const Title =styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom:2.18rem;
+  font-size: 1.68rem;
   font-weight:bold;
 `;
 
 const Progress = styled.div`
+  width:68%;
+  padding-right:1.6rem;
   display: inline-block;
+  border-right:1px solid #ccc;
 `;
 
 const New =styled.div`
-display: inline-block
+padding-left:1.25rem;
+display: inline-block;;
+width:30%;
 `;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Banner from "../banner/Banner";
+import ProjectSection from "../projectSection/ProjectSection";
 import Selection from "../selection/Selection";
 import Newsletter from "../newsletter/Newsletter";
 import Footer from "../footer/Footer";
@@ -13,6 +14,7 @@ const Main = () => {
           <Banner />
         </div>
         <div className="projects-cont">
+          <ProjectSection />
           <div className="progress"></div>
           <div className="new"></div>
         </div>
