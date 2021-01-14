@@ -1,5 +1,6 @@
 import ProjectList from './ProjectList';
 import styled from 'styled-components';
+import SelectBtn from '../../common/button/SelectBtn';
 
 const ProjectPage = () => {
   return (
@@ -7,9 +8,7 @@ const ProjectPage = () => {
       <StUpperCont>
         <div className="title">진행중인 지원사업</div>
         <StFilter>
-          <div></div>
-          <div></div>
-          <div></div>
+          <SelectBtn category={""}/>
         </StFilter>
       </StUpperCont>
 
