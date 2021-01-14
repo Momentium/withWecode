@@ -36,7 +36,7 @@ const Project = styled.section`
   ${({ theme }) => theme.ConWidth}
   display: flex;
   justify-content: space-between;
-  padding:8rem 0;
+  padding:4rem 0;
 `
 
 const Title =styled.div`
