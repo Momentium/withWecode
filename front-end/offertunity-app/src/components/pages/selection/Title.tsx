@@ -1,16 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 interface Props {
-  title: string
+  title: string;
 }
 
 const Title: React.FC<Props> = ({ title }) => {
-  return <SectionTitle>{title}</SectionTitle>
-}
+  return <SectionTitle>{title}</SectionTitle>;
+};
 
-export default Title
+export default Title;
 
 const SectionTitle = styled.h1`
+  margin-bottom: 1.25rem;
+  font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.titleSize};
-`
+`;
