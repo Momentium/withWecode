@@ -94,6 +94,7 @@ const BannerSlider = styled.ul`
       position:absolute;
       top:27.31rem;
       left:19.94rem;
+      width:19rem;
       color: #FFFFFF;
       span{ 
         display: inline-block;
@@ -113,16 +114,16 @@ const BannerSlider = styled.ul`
 
 const Button = styled.button`
   position:absolute;
-  top:40rem;
+  top:37rem;
   color: #FFFFFF;
 `;
 
 const RightButton =styled(Button)`
-  right:20.63rem;
+  right:15.63rem;
   
 `;
 
 const LeftButton =styled(Button)`
-  right:25rem; 
+  right:20rem; 
   z-index: 10;
 `;
