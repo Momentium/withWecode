@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Banner from '../banner/Banner'
 import Selection from '../selection/Selection'
-import InvestmentList from '../investmentList/InvestmentList'
+import InvestList from '../investList/InvestList'
 
 
 const Main = () => {
@@ -17,7 +17,7 @@ const Main = () => {
       </div>
       <div className='projects-banner'></div>
       <div className='invest-cont'>
-        <InvestmentList />
+        <InvestList />
       </div>
       <div className='startup-cont'>
         <Selection />
