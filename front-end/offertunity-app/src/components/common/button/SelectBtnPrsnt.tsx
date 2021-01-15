@@ -67,10 +67,13 @@ const StSelectBtnWrap = styled(Button)`
   text-align: left;
 
   .MuiButton-label {
-    margin-left: 4px;
+    text-align: center;
+    font: normal normal normal 15px/20px Spoqa Han Sans Neo;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
   }
 
-  font: normal normal normal 14px/16px Arial;
   letter-spacing: 0px;
   color: #2699FB;
   opacity: 1;
