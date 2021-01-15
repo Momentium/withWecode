@@ -3,18 +3,25 @@ import styled from "styled-components";
 
 const Cards = ({ data }: any) => {
   const { title, image, logo, label, field, stack, invest, description } = data;
+  const backgroundLogoImage = {
+    backgroundImage: `url(${logo})`,
+    backgroundSize: "contain",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+  };
+  const backgroundImage = {
+    backgroundImage: `url(${image})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  };
   return (
     <>
       <CardContainer>
-        <ImageWrapper>
-          <img src={image} />
-        </ImageWrapper>
+        <ImageWrapper style={backgroundImage} />
         <BottomSection>
           <TitleWrapper>
             <p>{title}</p>
-            <LogoWrapper>
-              <img src={logo} />
-            </LogoWrapper>
+            <LogoWrapper style={backgroundLogoImage} />
           </TitleWrapper>
           <LabelWrapper>
             {label.map((category: string, idx: any) => {
@@ -25,9 +32,7 @@ const Cards = ({ data }: any) => {
         <Figure>
           <TitleWithLogo>
             <h1>{title}</h1>
-            <div className="logoWrapper">
-              <img src={logo} />
-            </div>
+            <div className="logoWrapper" style={backgroundLogoImage}></div>
           </TitleWithLogo>
           <Information>
             <div>
@@ -97,13 +102,8 @@ const TitleWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  width: 3.75rem;
+  width: 4.18rem;
   height: 3.75rem;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 const LabelWrapper = styled.div`
@@ -157,11 +157,6 @@ const TitleWithLogo = styled.div`
   .logoWrapper {
     width: 2.6rem;
     height: 2.5rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
   }
 `;
 const Information = styled.div`

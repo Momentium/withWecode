@@ -113,7 +113,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: white;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   line-height: 1.2;
   letter-spacing: -0.5px;
 }

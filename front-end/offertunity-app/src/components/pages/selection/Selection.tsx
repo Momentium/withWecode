@@ -6,32 +6,39 @@ import Cards from "./Cards";
 
 const Selection = () => {
   const [companyData, setCompanyData] = useState<any[]>([]);
-  const [onSelectTab, setOnSelectTab] = useState<Boolean>(false);
+  const [filter, setFilter] = useState<String | null>("플랫폼");
+
+  const handleClickTab = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const currText = (event.target as HTMLButtonElement).textContent;
+    setFilter(currText);
+  };
 
   useEffect(() => {
-    selectionData();
-  }, []);
-
-  const selectionData = () => {
     fetch("/data/selection.json")
       .then((res) => res.json())
       .then((res) => setCompanyData(res.platform));
-  };
+  }, []);
 
-  const clickHandler = (event: any) => {
-    let target = event.target;
-    console.log(target);
-  };
+  useEffect(() => {
+    const filtered = companyData.map((data) => ({
+      ...data,
+      filtered: data.label.includes(filter),
+    }));
+    setCompanyData(filtered);
+  }, [filter]);
 
   return (
     <Selections>
       <Title title={"스타트업 셀렉션"} />
-      <Tabs />
+      <Tabs handleClickTab={handleClickTab} />
       <CardContainer>
-        {companyData &&
-          companyData.map((companyCard: any, idx: number) => (
+        {companyData.map((companyCard: any, idx: number) =>
+          companyCard.filtered === true ? (
             <Cards data={companyCard} key={idx} />
-          ))}
+          ) : (
+            ""
+          )
+        )}
       </CardContainer>
     </Selections>
   );
