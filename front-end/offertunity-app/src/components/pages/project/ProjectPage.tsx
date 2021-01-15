@@ -1,12 +1,12 @@
-import ProjectList from './ProjectList';
 import styled from 'styled-components';
+import ProjectList from './ProjectList';
 import SelectBtn from '../../common/button/SelectBtn';
 
 const ProjectPage = () => {
   return (
-    <div>
+    <StPjtPageCont>
       <StUpperCont>
-        <div className="title">진행중인 지원사업</div>
+        <StTitleWrap>진행중인 지원사업</StTitleWrap>
         <StFilter>
           <SelectBtn curPage={"project"} category={"date"}/>
           <SelectBtn curPage={"project"} category={"support"}/>
@@ -15,10 +15,20 @@ const ProjectPage = () => {
       </StUpperCont>
 
       <ProjectList/>
-    </div>
+    </StPjtPageCont>
   );
 };
 export default ProjectPage;
+
+const StPjtPageCont = styled.div`
+  ${({ theme }) => theme.ConWidth}
+`;
+
+const StTitleWrap = styled.h1`
+  margin-bottom: 1.25rem;
+  font-weight: bold;
+  font-size: ${({ theme }) => theme.fontSizes.titleSize};
+`;
 
 const StUpperCont = styled.div`
   display: flex;
@@ -26,6 +36,4 @@ const StUpperCont = styled.div`
   align-items: center;
 `;
 
-const StFilter = styled(StUpperCont)`
-  
-`;
+const StFilter = styled(StUpperCont)``;
