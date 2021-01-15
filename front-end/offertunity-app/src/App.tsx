@@ -5,6 +5,8 @@ import Header from "./components/pages/header/Header";
 import Banner from "./components/pages/banner/Banner"
 import Main from "./components/pages/main/Main";
 import Project from "./components/pages/project/ProjectPage";
+import Newsletter from "./components/pages/newsletter/Newsletter";
+import Footer from "./components/pages/footer/Footer";
 import theme from "./components/styles/theme";
 
 const App = () => {
@@ -24,6 +26,8 @@ const App = () => {
         </StAppCont>
 
         {/* Footer 들어갈 자리 */}
+        <Newsletter />
+        <Footer />
       </BrowserRouter>
     </ThemeProvider>
   );
