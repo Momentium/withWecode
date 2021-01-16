@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Slider from "react-slick";
 import BannerCard from "./BannerCard"
+import Stepper from './Stepper'
+
 
 export default function SimpleSlider() {
 
@@ -67,6 +69,7 @@ export default function SimpleSlider() {
   };
 
   return (
+    <>
     <Slider {...settings}>
       {banner.map((bannercon:string) => {
         return(
@@ -78,5 +81,8 @@ export default function SimpleSlider() {
         )
       })}
     </Slider>
+    <Stepper />
+    </>
   );
 }
+
