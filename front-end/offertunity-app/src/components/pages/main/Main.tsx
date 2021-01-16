@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import Banner from '../banner/Banner'
 import Selection from '../selection/Selection'
 import InvestList from '../investList/InvestList'
 
@@ -8,9 +7,6 @@ import InvestList from '../investList/InvestList'
 const Main = () => {
   return (
     <StMainCont>
-      <div className="banner-cont">
-        <Banner />
-      </div>
       <div className='projects-cont'>
         <div className='progress'></div>
         <div className='new'></div>
@@ -28,4 +24,7 @@ const Main = () => {
 }
 export default Main
 
-const StMainCont = styled.div``
+
+const StMainCont = styled.div`
+  color: black;
+`;

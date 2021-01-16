@@ -1,5 +1,5 @@
 import React from 'react';
-import BannerPresent from '../banner/bannerUI';
+import BannerPresent from './bannerUI';
 
 
 
@@ -11,4 +11,4 @@ const Banner = () => {
   )
 };
 
-export default Banner;
+export default Banner; 
