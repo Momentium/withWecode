@@ -1,5 +1,5 @@
 {
-  "banner":[
+  "bannerCon":[
     {
       "img":"/images/banner1.png",
       "script":"기회를 찾는 이들을 위한 스타트업 플랫폼",
@@ -7,18 +7,18 @@
     },
     {
       "img":"/images/banner1.png",
-      "script":"패트와 매트의 메인페이지를 위한 여정",
-      "title":"신받드 힘내줘요"
+      "script":"기회를 찾는 이들을 위한 스타트업 플랫폼",
+      "title":"필요한 지원사업 여기 있어요"
     },
     {
       "img":"/images/banner1.png",
-      "script":"룰루랄라",
-      "title":"OFFERTUNITY"
+      "script":"기회를 찾는 이들을 위한 스타트업 플랫폼",
+      "title":"필요한 지원사업 여기 있어요"
     },
     {
       "img":"/images/banner1.png",
-      "script":"typeScript 어렵지 않아요",
-      "title":"인프런으로 놀러오세요"
+      "script":"기회를 찾는 이들을 위한 스타트업 플랫폼",
+      "title":"필요한 지원사업 여기 있어요"
     }
   ]
 }

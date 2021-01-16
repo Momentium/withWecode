@@ -1,128 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react'
+import Slider from "react-slick";
+import BannerCard from "./BannerCard"
 
+export default function SimpleSlider() {
 
-interface BannerProps{
-  img : string
-  script: string
-  title: string
-}
+    const[ banner,setBanner ]=useState([])
+    useEffect(()=>{
+      fetch("/data/mainBanner.json")
+      .then((res)=>res.json())
+      .then((res)=>{
+        setBanner(res.bannerCon)
+        console.log(res)
+      })
+    },[])
 
-const BannerPresent:React.FC<BannerProps>= ({img,script,title})=> {
-
-  
-
-  const [bannerImg,setBannerImg]=useState([]);
-  const [moveX,setMoveX] = useState(0);
-
-  const sliderGoRight =(e: any) =>{ 
-    if(moveX === -100*(bannerImg.length-1)){
-      setMoveX(0)
-    }else 
-    { setMoveX(moveX - 100)};
-  }
-
-  const sliderGoLeft =(e: any) =>{ 
-    if(moveX === 0){
-      setMoveX(-100*(bannerImg.length-1))
-    }else 
-    { setMoveX(moveX + 100)};
-  }
-
-  useEffect(() => {
-    fetch("/data/mainBanner.json")
-    .then(res =>res.json())
-    .then(res=>{
-      console.log(setBannerImg)
-      setBannerImg(res.banner)
+    function SamplePrevArrow(props:any) {
+      const { className, style, onClick } = props;
+      return (
+        <div
+          className={className}
+          style={{ 
+            ...style, 
+            display: "inline-block",
+            position: "absolute", 
+            zIndex: "100",
+            bottom: "6rem",
+            right: "21rem"}}
+            onClick={onClick}
+        >
+          <i className="fas fa-chevron-left" style={{fontSize:"1.25rem",color:"white"}}/>
+        </div>
+        
+      );
+    }
     
-    })
-  },[])
+    function SampleNextArrow(props:any) {
+      const { className, style, onClick } = props;
+      return (
+        <div
+          className={className}
+          style={{ 
+            ...style, 
+            display: "inline-block",
+            position: "absolute",
+            zIndex: "100",
+            bottom: "6rem",
+            right: "18rem" }}
+            onClick={onClick}
+        >
+          <i className="fas fa-chevron-right"style={{fontSize:"1.25rem",color:"white"}}/>
+        </div>
+      );
+    }
 
+  var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1, 
+    bslidesToShow: 0,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
+  };
 
-
-  return(
-    <BannerPre >
-      <LeftButton  onClick={sliderGoLeft}><i className="fas fa-chevron-left"/></LeftButton>
-      <BannerSlider style={{ transform: `translateX(${moveX}%)` }}>
-       {bannerImg.map((slide:any,idx:number) =>{
-         return(
-         <li key={idx} >
-           <img src={slide.img} alt=""/>
-           <div>
-            <span>{slide.script}</span>
-            <p>{slide.title}</p>
-           </div>
-          </li>
-          
-         )    
-       })}
-      </BannerSlider>
-      <RightButton  onClick={sliderGoRight}><i className="fas fa-chevron-right"/></RightButton>
-    </BannerPre>
+  return (
+    <Slider {...settings}>
+      {banner.map((bannercon:string) => {
+        return(
+          <div>
+            <h3>
+              <BannerCard data={bannercon}/>
+            </h3>
+          </div>
+        )
+      })}
+    </Slider>
   );
-};
-
-export default BannerPresent;  
-
-const BannerPre = styled.div`
- position:relative;
-  width: 100%;
-  height:43.74rem;
-  overflow: hidden;
-
-
-`;
-
-const BannerSlider = styled.ul`
-  display:flex;
-  margin:0;
-  padding:0;
-  width: 100%;
-  height:100%;
-  transition: 0.4s;
-  li{
-    position:relative;
-    min-width:100%;
-    height:100%;
-    list-style:none;
-    img{
-      width:100%;
-      height:100%;
-    }
-    div{ 
-      position:absolute;
-      top:27.31rem;
-      left:19.94rem;
-      color: #FFFFFF;
-      span{ 
-        display: inline-block;
-        font-size:0.93rem;
-        padding-bottom:2.28rem;
-      }
-      p{ 
-        font-size:2.87rem;
-        font-weight:bold;
-        letter-spacing: -0.46px;
-        color: #FFFFFF;
-      }
-    }
-  
-  }
-`
-
-const Button = styled.button`
-  position:absolute;
-  top:40rem;
-  color: #FFFFFF;
-`;
-
-const RightButton =styled(Button)`
-  right:20.63rem;
-  
-`;
-
-const LeftButton =styled(Button)`
-  right:25rem; 
-  z-index: 10;
-`;
+}
