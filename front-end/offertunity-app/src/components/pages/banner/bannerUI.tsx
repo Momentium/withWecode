@@ -5,6 +5,7 @@ import Stepper from './Stepper'
 
 
 export default function SimpleSlider() {
+  
 
     const[ banner,setBanner ]=useState([])
     useEffect(()=>{
