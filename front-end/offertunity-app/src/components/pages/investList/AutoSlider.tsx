@@ -6,7 +6,9 @@ function SamplePrevArrow(props:any) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "inline-block",  fontSize:"1.25rem"}}
+      style={{ ...style, display: "inline-block",  fontSize:"1.25rem",position: "absolute",
+      top: "-7.5rem",
+      left: "26rem"}}
       onClick={onClick}
     >
       <i className="fas fa-chevron-left"/>
@@ -20,7 +22,9 @@ function SampleNextArrow(props:any) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "inline-block",fontSize:"1.25rem" }}
+      style={{ ...style, display: "inline-block",fontSize:"1.25rem",position: "absolute",
+      top: "-7.5rem",
+      left: "30rem" }}
       onClick={onClick}
     >
       <i className="fas fa-chevron-right"/>
