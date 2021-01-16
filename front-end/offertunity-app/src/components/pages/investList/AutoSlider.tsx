@@ -1,6 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import Slider from "react-slick";
 
+function SamplePrevArrow(props:any) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "inline-block",  fontSize:"1.25rem"}}
+      onClick={onClick}
+    >
+      <i className="fas fa-chevron-left"/>
+    </div>
+    
+  );
+}
+
+function SampleNextArrow(props:any) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "inline-block",fontSize:"1.25rem" }}
+      onClick={onClick}
+    >
+      <i className="fas fa-chevron-right"/>
+    </div>
+  );
+}
+
+
+
 export default function SimpleSlider() {
   var settings = {
     dots: false,
@@ -11,6 +40,8 @@ export default function SimpleSlider() {
     bslidesToShow: 0,
     autoplay: true,
     autoplaySpeed: 2000,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
   };
 
   const [invList,setInvestList] = useState([]);
