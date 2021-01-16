@@ -15,16 +15,16 @@ const BannerPresent:React.FC<BannerProps>= ({img,script,title})=> {
   const [bannerImg,setBannerImg]=useState([]);
   const [moveX,setMoveX] = useState(0);
 
-  const sliderGoRight =() =>{ 
+  const sliderGoRight =(e: any) =>{ 
     if(moveX === -100*(bannerImg.length-1)){
-      return;
+      setMoveX(0)
     }else 
     { setMoveX(moveX - 100)};
   }
 
-  const sliderGoLeft =() =>{ 
+  const sliderGoLeft =(e: any) =>{ 
     if(moveX === 0){
-      return;
+      setMoveX(-100*(bannerImg.length-1))
     }else 
     { setMoveX(moveX + 100)};
   }
@@ -58,7 +58,7 @@ const BannerPresent:React.FC<BannerProps>= ({img,script,title})=> {
          )    
        })}
       </BannerSlider>
-      <RightButton onClick={sliderGoRight}><i className="fas fa-chevron-right"/></RightButton>
+      <RightButton  onClick={sliderGoRight}><i className="fas fa-chevron-right"/></RightButton>
     </BannerPre>
   );
 };
@@ -94,7 +94,6 @@ const BannerSlider = styled.ul`
       position:absolute;
       top:27.31rem;
       left:19.94rem;
-      width:19rem;
       color: #FFFFFF;
       span{ 
         display: inline-block;
@@ -114,16 +113,16 @@ const BannerSlider = styled.ul`
 
 const Button = styled.button`
   position:absolute;
-  top:37rem;
+  top:40rem;
   color: #FFFFFF;
 `;
 
 const RightButton =styled(Button)`
-  right:15.63rem;
+  right:20.63rem;
   
 `;
 
 const LeftButton =styled(Button)`
-  right:20rem; 
+  right:25rem; 
   z-index: 10;
 `;
