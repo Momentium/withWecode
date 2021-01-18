@@ -21,9 +21,6 @@ export default InvestList;
 
 const Wrap = styled.section`
   ${({ theme }) => theme.ConWidth};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-bottom:5.8rem;
 `
 
@@ -35,6 +32,7 @@ const Title = styled.span`
 
 const More = styled.div`
   font-size:0.87rem;
+  float:right;
   cursor:pointer;
   img{
     width:5rem;
