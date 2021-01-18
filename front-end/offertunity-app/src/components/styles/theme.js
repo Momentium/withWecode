@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 
 const ConWidth = css`
   width: 80rem;
@@ -28,7 +29,6 @@ const paddings = {
   xl: calcRem(14),
   xxl: calcRem(16),
   xxxl: calcRem(18),
-  xxxxl: calcRem(200),
 };
 
 const margins = {
@@ -38,19 +38,32 @@ const margins = {
   xl: calcRem(14),
   xxl: calcRem(16),
   xxxl: calcRem(18),
+  xxxxl: calcRem(30),
 };
 
 const colors = {
   black: "#000000",
   white: "#FFFFFF",
 };
-const theme = {
+
+const theme = createMuiTheme({
+  props: {
+    // Name of the component ⚛️
+    MuiButtonBase: {
+      // The properties to apply
+      disableRipple: true, // No more ripple, on the whole application 💣!
+    },
+  },
+  transitions: {
+    // So we have 'transition: none;' everywhere
+    create: () => "none",
+  },
   fontSizes,
   colors,
   paddings,
   margins,
   ConWidth,
-  Title
-};
+  Title,
+});
 
 export default theme;

@@ -1,42 +1,59 @@
-import React, { MouseEvent, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import Title from './Title'
-import Tabs from './Tabs'
-import Cards from './Cards'
+import React, { MouseEvent, useEffect, useState } from "react";
+import styled from "styled-components";
+import Title from "./Title";
+import Tabs from "./Tabs";
+import Cards from "./Cards";
+import axios from "axios";
 
 const Selection = () => {
-  const [companyData, setCompanyData] = useState<any[]>([])
+  const [companyData, setCompanyData] = useState<any[]>([]);
+  const [cardList, setCardList] = useState<JSX.Element[]>([]);
+  const [view, setView] = useState<boolean[]>([]);
+  const [filter, setFilter] = useState<String | any>("플랫폼");
+
+  const handleClickTab = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const currText = (event.target as HTMLButtonElement).textContent;
+    setFilter(currText);
+  };
 
   useEffect(() => {
-    selectionData()
-  }, [])
+    axios.get("data/selection.json").then((res) => {
+      const data = res.data.platform;
+      setCompanyData(data);
+      setCardList(
+        data.map((el: any, idx: number) => <Cards key={el.idx} data={el} />)
+      );
+      setView(data.map((el: any, idx: number) => el.label.includes(filter)));
+    });
+  }, []);
 
-  const selectionData = () => {
-    fetch('/data/selection.json')
-      .then((res) => res.json())
-      .then((res) => setCompanyData(res.platform))
-  }
-
-  const clickHandler = () => {
-    console.log('hello')
-  }
+  useEffect(() => {
+    setView(
+      view.map((el: boolean, idx: number) =>
+        companyData[idx].label.includes(filter) ? true : false
+      )
+    );
+  }, [filter]);
 
   return (
     <Selections>
-      <Title title={'스타트업 셀렉션'} />
-      <Tabs clickHandler={clickHandler} />
-      <>
-        {companyData &&
-          companyData.map((el: any, idx: number) => (
-            <Cards data={el} key={idx} />
-          ))}
-      </>
+      <Title title={"스타트업 셀렉션"} />
+      <Tabs handleClickTab={handleClickTab} />
+      <CardContainer>
+        {cardList.filter((el: JSX.Element, idx: number) => view[idx])}
+      </CardContainer>
     </Selections>
-  )
-}
+  );
+};
 
-export default Selection
+export default Selection;
 
 const Selections = styled.section`
   ${({ theme }) => theme.ConWidth}
-`
+`;
+
+const CardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+`;

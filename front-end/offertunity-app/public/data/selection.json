@@ -1,39 +1,126 @@
 {
-  "platform" : [{
-    "id":1,
-    "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG04Q9FkhO6NkxU05GtBxW4m__59P5DK14SA&usqp=CAU",
-    "logo":"https://d1vv4p3ixxyri0.cloudfront.net/companies_logo/4cfddf5ac8e27a1ae07328861777ff3fdb8b32698a94865322f234315d387bad_1547000327313133.jpg",
-    "title":"모멘티움",
-    "label":["플랫폼","마감임박","IB자료 업로드","예비창업자","개발자구함"]
-  },
-  {
-    "id":2,
-    "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG04Q9FkhO6NkxU05GtBxW4m__59P5DK14SA&usqp=CAU",
-    "logo":"https://d1vv4p3ixxyri0.cloudfront.net/companies_logo/4cfddf5ac8e27a1ae07328861777ff3fdb8b32698a94865322f234315d387bad_1547000327313133.jpg",
-    "title":"왓챠",
-    "label":["IB자료 업로드","예비창업자","개발자구함"]
-  },
-  {
-    "id":3,
-    "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG04Q9FkhO6NkxU05GtBxW4m__59P5DK14SA&usqp=CAU",
-    "logo":"https://d1vv4p3ixxyri0.cloudfront.net/companies_logo/4cfddf5ac8e27a1ae07328861777ff3fdb8b32698a94865322f234315d387bad_1547000327313133.jpg",
-    "title":"원티드",
-    "label":["플랫폼","마감임박","개발자구함"]
-  }
-  ,
-  {
-    "id":4,
-    "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG04Q9FkhO6NkxU05GtBxW4m__59P5DK14SA&usqp=CAU",
-    "logo":"https://d1vv4p3ixxyri0.cloudfront.net/companies_logo/4cfddf5ac8e27a1ae07328861777ff3fdb8b32698a94865322f234315d387bad_1547000327313133.jpg",
-    "title":"네이버",
-    "label":["플랫폼","IB자료 업로드","예비창업자","개발자구함"]
-  },
-  {
-    "id":5,
-    "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG04Q9FkhO6NkxU05GtBxW4m__59P5DK14SA&usqp=CAU",
-    "logo":"https://d1vv4p3ixxyri0.cloudfront.net/companies_logo/4cfddf5ac8e27a1ae07328861777ff3fdb8b32698a94865322f234315d387bad_1547000327313133.jpg",
-    "title":"다음",
-    "label":["플랫폼","개발자구함"]
-  }
-]
+  "platform": [
+    {
+      "id": 1,
+      "image": "./images/selection/momentium.png",
+      "logo": "./images/selection/logo/momentium2.png",
+      "title": "모멘티움",
+      "label": [
+        "플랫폼",
+        "마감임박",
+        "IR자료 업로드",
+        "예비창업자",
+        "개발자구함"
+      ],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 2,
+      "image": "./images/selection/watcha.png",
+      "logo": "./images/selection/logo/wadiz2.png",
+      "title": "와디즈",
+      "label": ["IR자료 업로드", "예비창업자", "개발자구함"],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 3,
+      "image": "./images/selection/wantedx2.png",
+      "logo": "./images/selection/logo/wanted2.png",
+      "title": "원티드",
+      "label": ["플랫폼", "마감임박", "개발자구함"],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 4,
+      "image": "./images/selection/ogimage_new2x.png",
+      "logo": "/images/selection/logo/wishke2.png",
+      "title": "위스캣",
+      "label": ["플랫폼", "IR자료 업로드", "예비창업자", "개발자구함"],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 5,
+      "image": "./images/selection/linderx2.png",
+      "logo": "/images/selection/logo/linder2.png",
+      "title": "린더",
+      "label": ["플랫폼", "개발자구함"],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 6,
+      "image": "./images/selection/scatterx2.png",
+      "logo": "/images/selection/logo/scatter2.png",
+      "title": "스캐터랩",
+      "label": [
+        "플랫폼",
+        "마감임박",
+        "IR자료 업로드",
+        "예비창업자",
+        "개발자구함"
+      ],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 7,
+      "image": "/images/selection/daangn_life.png",
+      "logo": "/images/selection/logo/dangn2.png",
+      "title": "당근마켓",
+      "label": ["IR자료 업로드", "예비창업자", "개발자구함"],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 8,
+      "image": "./images/selection/acha.png",
+      "logo": "/images/selection/logo/acha2.png",
+      "title": "아차",
+      "label": ["플랫폼", "마감임박", "개발자구함"],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 9,
+      "image": "./images/selection/screen-5@2x.png",
+      "logo": "/images/selection/logo/412xauto@2x.png",
+      "title": "클래스101",
+      "label": ["플랫폼", "IR자료 업로드", "예비창업자", "개발자구함"],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    },
+    {
+      "id": 10,
+      "image": "./images/selection/mediagramx2.png",
+      "logo": "/images/selection/logo/smile2.png",
+      "title": "필리밀리",
+      "label": ["플랫폼", "개발자구함"],
+      "field": "스타트업",
+      "stack": "블록체인",
+      "invest": "시리즈A",
+      "description": "스타트업의 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다 스타트업 설명이 들어갑니다우리는 이런 스타트업입니다."
+    }
+  ]
 }
