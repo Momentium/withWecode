@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Slider from "react-slick";
 import BannerCard from "./BannerCard"
-import Stepper from './Stepper'
+import styled from "styled-components";
+// import Stepper from './Stepper'
 
 
 export default function SimpleSlider() {
 
- 
     const[ banner,setBanner ]=useState([])
     useEffect(()=>{
       fetch("/data/mainBanner.json")
@@ -28,15 +28,14 @@ export default function SimpleSlider() {
             position: "absolute", 
             zIndex: "100",
             bottom: "6rem",
-            right: "21rem"}}
-            onClick={onClick}
-        >
+            right: "21rem",
+            cursor: "pointer"}}
+            onClick={onClick}>
           <i className="fas fa-chevron-left" style={{fontSize:"1.25rem",color:"white"}}/>
         </div>
-        
       );
     }
-    
+  
      function SampleNextArrow(props:any) {
       const { className, style, onClick } = props;
       return (
@@ -48,9 +47,9 @@ export default function SimpleSlider() {
             position: "absolute",
             zIndex: "100",
             bottom: "6rem",
-            right: "18rem" }}
-            onClick={onClick}
-        >
+            right: "18rem",
+            cursor: "pointer" }}
+            onClick={onClick}>
           <i className="fas fa-chevron-right"style={{fontSize:"1.25rem",color:"white"}}/>
         </div>
       );
@@ -71,7 +70,7 @@ export default function SimpleSlider() {
   };
 
   return (
-    <>
+    <Wrap>
     <Slider {...settings} >
       {banner.map((bannercon:string) => {
         return(
@@ -83,8 +82,30 @@ export default function SimpleSlider() {
         )
       })}
     </Slider>
-    <Stepper />
-    </>
+    {/* <Stepper /> */}
+    <Level >
+      <div/>
+    </Level>
+    </Wrap>
   );
 }
 
+const Wrap = styled.div`
+  position:relative;
+`;
+const Level =styled.div`
+  position: absolute;
+  bottom:4.25rem;
+  left: 20rem;   
+  width:23.5rem;
+  height:0.2rem;
+  border:1px solid #ccc;
+  border-radius:3px;
+  overflow:hidden;
+  div{
+    width:100%;
+    height:100%;
+    background-color:white;
+    transform: translateX(-75%);
+  }
+`;
