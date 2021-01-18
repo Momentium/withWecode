@@ -8,7 +8,7 @@ function SamplePrevArrow(props:any) {
       className={className}
       style={{ ...style, display: "inline-block",  fontSize:"1.25rem",position: "absolute",
       top: "-7.5rem",
-      left: "26rem",
+      left: "24rem",
     cursor:"pointer"}}
       onClick={onClick}
     >
@@ -21,11 +21,11 @@ function SamplePrevArrow(props:any) {
 function SampleNextArrow(props:any) {
   const { className, style, onClick } = props;
   return (
-    <div
+    <div 
       className={className}
       style={{ ...style, display: "inline-block",fontSize:"1.25rem",position: "absolute",
       top: "-7.5rem",
-      left: "30rem",
+      left: "27rem",
       cursor:"pointer" }}
       onClick={onClick}
     >
@@ -47,7 +47,40 @@ export default function SimpleSlider() {
     autoplay: true,
     autoplaySpeed: 2000,
     nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1180,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          initialSlide: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   const [invList,setInvestList] = useState([]);
@@ -66,7 +99,7 @@ export default function SimpleSlider() {
         {invList.map((logo:any)=>{
           return(
             <div >
-              <h3 style={{width:'12.5rem',height:'12.5rem',display:'flex',alignItems:'center',cursor:"pointer"}}>
+              <h3 style={{width:"12.5rem",height:"12.5rem",display:'flex',alignItems:'center',cursor:"pointer"}}>
                 <img src={logo.img} alt="" style={{display:'inline-block',width:'100%',padding:'1.5rem'}}/>
               </h3>
             </div>
