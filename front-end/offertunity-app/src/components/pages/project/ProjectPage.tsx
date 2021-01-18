@@ -1,31 +1,44 @@
-import ProjectList from './ProjectList';
 import styled from 'styled-components';
-import SelectBtn from '../../common/button/SelectBtn';
+import * as St from '../../styles/styledComp';
+import ProjectList from './ProjectList';
+import SelectBtn from 'components/common/button/SelectBtn';
 
 const ProjectPage = () => {
   return (
-    <div>
-      <StUpperCont>
-        <div className="title">진행중인 지원사업</div>
-        <StFilter>
-          <SelectBtn curPage={"project"} category={"date"}/>
-          <SelectBtn curPage={"project"} category={"support"}/>
-          <SelectBtn curPage={"project"} category={"establish"}/>
-        </StFilter>
-      </StUpperCont>
+    <>
+      <St.Section>
+        <StCont className="upper-cont">
+          <St.SectionTitle>진행중인 지원사업</St.SectionTitle>
+          {/* <StTitleWrap>진행중인 지원사업</StTitleWrap> */}
+          <StCont className="filter-cont">
+            <SelectBtn curPage={"project"} category={"date"}/>
+            <SelectBtn curPage={"project"} category={"support"}/>
+            <SelectBtn curPage={"project"} category={"establish"}/>
+          </StCont>
+        </StCont>
+      </St.Section>
 
       <ProjectList/>
-    </div>
+    </>
   );
 };
 export default ProjectPage;
 
-const StUpperCont = styled.div`
-  display: flex;
+
+const StCont = styled(St.FlexDiv)`
   justify-content: space-between;
-  align-items: center;
+
+  &.upper-cont{
+    margin-bottom: 48px;
+  }
 `;
 
-const StFilter = styled(StUpperCont)`
-  
-`;
+// const StPjtPageCont = styled.div`
+//   ${({ theme }) => theme.ConWidth}
+// `;
+
+// const StTitleWrap = styled.h1`
+//   margin-bottom: 1.25rem;
+//   font-weight: bold;
+//   font-size: ${({ theme }) => theme.fontSizes.titleSize};
+// `;
