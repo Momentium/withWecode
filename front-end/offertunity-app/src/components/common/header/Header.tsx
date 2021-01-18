@@ -16,7 +16,9 @@ const Header = () => {
   return(
     <HeaderCon>
       <header className="conBox">
-        <h1><span>OFFER</span>TUNITY</h1>
+        <h1>
+          <img src="/images/header/logo.png" alt="로고"/>
+        </h1>
         <nav>
           <ul>
           {navList.map((menu, idx) => {
@@ -52,12 +54,11 @@ const HeaderCon =styled.div`
     margin:0 auto;
     width:80rem;
     h1 {
-      display:inline-block;
-      font-size:1.5rem;
-      line-height:1.8rem;
-      font: normal normal bold 1.5rem/1.8rem Spoqa Han Sans Neo;
-      span{
-        color:#5541ED;
+      display: inline-block;
+      width:10.25rem;
+      cursor: pointer;
+      img{
+        width:100%;
       }
     }
     nav {
@@ -71,7 +72,7 @@ const HeaderCon =styled.div`
           margin-left:3.5rem;
           list-style:none;
           font: normal normal normal 0.9rem/1.25rem Spoqa Han Sans Neo;
-          
+          cursor: pointer;
         }
       }
       
@@ -109,5 +110,6 @@ div{
     margin-left:1.43rem;
     font-size:0.8rem;
     color:#898989;
+    cursor: pointer;
   }
 `;

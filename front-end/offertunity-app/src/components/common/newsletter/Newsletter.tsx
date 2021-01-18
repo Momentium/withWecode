@@ -19,7 +19,6 @@ const Newsletter = () => {
         <div className="bottom">
           <span>무료</span>&nbsp;구독 신청하기
         </div>
-        <img src="/images/newsletter/square1.png" />
       </InnerBox>
     </Box>
   );
