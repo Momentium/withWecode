@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import Slider from "react-slick";
 import BannerCard from "./BannerCard"
 import styled from "styled-components";
-// import Stepper from './Stepper'
+
+
+
+
 
 
 export default function SimpleSlider() {
@@ -34,6 +37,8 @@ export default function SimpleSlider() {
           <i className="fas fa-chevron-left" style={{fontSize:"1.25rem",color:"white"}}/>
         </div>
       );
+
+
     }
   
      function SampleNextArrow(props:any) {
@@ -48,7 +53,8 @@ export default function SimpleSlider() {
             zIndex: "100",
             bottom: "6rem",
             right: "18rem",
-            cursor: "pointer" }}
+            cursor: "pointer",
+          }}
             onClick={onClick}>
           <i className="fas fa-chevron-right"style={{fontSize:"1.25rem",color:"white"}}/>
         </div>
@@ -82,7 +88,6 @@ export default function SimpleSlider() {
         )
       })}
     </Slider>
-    {/* <Stepper /> */}
     <Level >
       <div/>
     </Level>
