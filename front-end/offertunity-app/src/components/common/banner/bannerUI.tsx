@@ -5,6 +5,9 @@ import styled from "styled-components";
 
 
 
+
+
+
 export default function SimpleSlider() {
 
     const[ banner,setBanner ]=useState([])
@@ -34,6 +37,8 @@ export default function SimpleSlider() {
           <i className="fas fa-chevron-left" style={{fontSize:"1.25rem",color:"white"}}/>
         </div>
       );
+
+
     }
   
      function SampleNextArrow(props:any) {
