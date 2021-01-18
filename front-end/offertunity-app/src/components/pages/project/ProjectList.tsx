@@ -13,9 +13,7 @@ const ProjectList = () => {
     .then((res) => {
       const _resData = res.data;
       setPjts(_resData.map((el:{}, idx:number) => 
-        <Project key={idx} 
-          data={el}
-        />
+        <Project key={idx} data={el}/>
       ));
     })
   }, []);
