@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import Header from "./components/common/header/Header";
-import Banner from "./components/common/banner/Banner"
+import Banner from "./components/common/banner/Banner";
 import Main from "./components/pages/main/Main";
 import ProjectPage from "./components/pages/project/ProjectPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
+import StartupList from "./components/pages/startupList/StartupList";
 
 const App = () => {
   const [HH, setHH] = useState<number | undefined>(60);
