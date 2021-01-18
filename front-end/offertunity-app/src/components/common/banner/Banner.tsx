@@ -1,14 +1,14 @@
 import React from 'react';
-import BannerPresent from './bannerUI';
+import AutoSlider from './bannerUI'
 
 
-
-const Banner = () => {
+const InvestList = () => {
   return (
     <div>
-      <BannerPresent img={""} script={""} title={""} />
+      <AutoSlider />  
     </div>
   )
 };
 
-export default Banner; 
+export default InvestList;
+

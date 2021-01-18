@@ -5,6 +5,10 @@ const GlobalStyle = createGlobalStyle`
  ${reset}
 * {
   box-sizing: border-box;
+
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 html,
 body,
@@ -113,9 +117,13 @@ body {
   margin: 0;
   padding: 0;
   background-color: white;
-  font-family: 'Noto Sans KR', sans-serif;
   line-height: 1.2;
   letter-spacing: -0.5px;
+
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
 }
 ol,
 ul,li {
