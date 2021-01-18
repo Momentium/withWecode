@@ -6,8 +6,7 @@ import AutoSlider from './bannerUI'
 const InvestList = () => {
   return (
     <div>
-      <AutoSlider />
-      
+      <AutoSlider />  
     </div>
   )
 };

@@ -54,7 +54,7 @@ export default function SimpleSlider() {
         </div>
       );
     }
-     const NextBtn = React.memo(SampleNextArrow)
+     
 
   var settings = {
     dots: false,

@@ -5,7 +5,7 @@ const BannerCard = ({ data }: any) => {
   const { img, script, title } = data;
   return (
     <BannerWrap>
-      <img src={img} alt=""/>
+      <img src={img} alt={script}/>
       <TxtWrap>
         <p>{script}</p>
         <span>{title}</span>
