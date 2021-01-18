@@ -8,8 +8,8 @@ import MoreProject from './MoreProject'
 
 const ProjectSection = () => {
   return(
+    <ProjectCon>
   <Project >
-
     <Progress>
       <Title>
         진행 중인 지원사업
@@ -25,19 +25,24 @@ const ProjectSection = () => {
       </Title>
       <NewProject />
     </New>
-    
   </Project>
+    <img src="/projectImg/coronabanner.png" alt="코로나 19 맟춤형 지원사업"/>
+  </ProjectCon>
   )
 };
 
 export default ProjectSection;
 
-const Project = styled.section`
+const ProjectCon = styled.section`
   ${({ theme }) => theme.ConWidth}
+  padding:4rem 0;
+`
+
+const Project = styled.div`
   display: flex;
   justify-content: space-between;
-  padding:8rem 0;
-`
+  margin-bottom:11rem;
+`;
 
 const Title =styled.div`
   display: flex;
@@ -48,8 +53,8 @@ const Title =styled.div`
 `;
 
 const Progress = styled.div`
-  width:68%;
-  padding-right:1.6rem;
+  width:69%;
+  padding-right:2.4rem;
   display: inline-block;
   border-right:1px solid #ccc;
 `;
@@ -59,3 +64,4 @@ padding-left:1.25rem;
 display: inline-block;;
 width:30%;
 `;
+
