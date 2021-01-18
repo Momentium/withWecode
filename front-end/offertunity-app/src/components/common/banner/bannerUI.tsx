@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Slider from "react-slick";
 import BannerCard from "./BannerCard"
 import styled from "styled-components";
-// import Stepper from './Stepper'
+
 
 
 export default function SimpleSlider() {
@@ -82,7 +82,6 @@ export default function SimpleSlider() {
         )
       })}
     </Slider>
-    {/* <Stepper /> */}
     <Level >
       <div/>
     </Level>
@@ -92,7 +91,6 @@ export default function SimpleSlider() {
 
 const Wrap = styled.div`
   position:relative;
-  min-width:120rem;
 `;
 const Level =styled.div`
   position: absolute;
