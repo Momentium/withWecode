@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Title from "./Title";
 import Tabs from "./Tabs";
 import Cards from "./Cards";
-import { Filter } from "@material-ui/icons";
-import { JsxElement } from "typescript";
+import axios from "axios";
 
 const Selection = () => {
   const [companyData, setCompanyData] = useState<any[]>([]);
+  const [cardList, setCardList] = useState<JSX.Element[]>([]);
+  const [view, setView] = useState<boolean[]>([]);
   const [filter, setFilter] = useState<String | any>("플랫폼");
-  const [filtered, setFiltered] = useState<any[]>([]);
 
   const handleClickTab = (event: React.MouseEvent<HTMLButtonElement>) => {
     const currText = (event.target as HTMLButtonElement).textContent;
@@ -17,43 +17,31 @@ const Selection = () => {
   };
 
   useEffect(() => {
-    fetch("/data/selection.json")
-      .then((res) => res.json())
-      .then((res) => setCompanyData(res.platform))
-      .then((res) => {
-        setFiltered(
-          companyData.map((companyCard: any, idx: number) => {
-            return companyCard.label.includes(filter) ? (
-              <Cards data={companyCard} key={idx} />
-            ) : null;
-          })
-        );
-      });
+    axios.get("data/selection.json").then((res) => {
+      const data = res.data.platform;
+      setCompanyData(data);
+      setCardList(
+        data.map((el: any, idx: number) => <Cards key={el.idx} data={el} />)
+      );
+      setView(data.map((el: any, idx: number) => el.label.includes(filter)));
+    });
   }, []);
 
   useEffect(() => {
-    console.log(companyData);
-    setFiltered(
-      companyData.map((companyCard: any, idx: number) => {
-        return companyCard.label.includes(filter) ? (
-          <Cards data={companyCard} key={idx} />
-        ) : null;
-      })
+    setView(
+      view.map((el: boolean, idx: number) =>
+        companyData[idx].label.includes(filter) ? true : false
+      )
     );
   }, [filter]);
 
-  const filterCompanyData = () => {
-    const filtered = companyData.map((data: any) => ({
-      ...data,
-      filtered: data.label.includes(filter),
-    }));
-    setCompanyData(filtered);
-  };
   return (
     <Selections>
       <Title title={"스타트업 셀렉션"} />
       <Tabs handleClickTab={handleClickTab} />
-      <CardContainer>{filtered}</CardContainer>
+      <CardContainer>
+        {cardList.filter((el: JSX.Element, idx: number) => view[idx])}
+      </CardContainer>
     </Selections>
   );
 };
