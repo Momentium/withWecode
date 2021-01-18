@@ -92,6 +92,7 @@ export default function SimpleSlider() {
 
 const Wrap = styled.div`
   position:relative;
+  min-width:120rem;
 `;
 const Level =styled.div`
   position: absolute;
