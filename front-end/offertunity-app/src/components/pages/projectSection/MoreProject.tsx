@@ -12,11 +12,15 @@ const MoreProject = () => {
 
 export default MoreProject;
 
-const More =styled.div`
+const More =styled.button`
   display:inline-block;
   width:5.18rem;
+  cursor:pointer;
   p{
     font-size:0.8rem;
     font-weight:normal;
+  }
+  img{
+    display:inherit;
   }
 `;

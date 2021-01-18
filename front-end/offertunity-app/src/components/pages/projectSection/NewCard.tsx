@@ -31,6 +31,7 @@ const Card =styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom:1.56rem;
+  cursor: pointer;
   img{
     width:7.5rem;
     height: 5rem;
