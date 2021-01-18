@@ -33,6 +33,7 @@ const Card =styled.div`
   display: inline-block;
   margin: 0 1.62rem 1.5rem 0;
   width:16.5rem;
+  cursor: pointer;
   img{
     width: 100%;
     height:11rem;
