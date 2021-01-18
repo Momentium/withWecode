@@ -8,7 +8,8 @@ function SamplePrevArrow(props:any) {
       className={className}
       style={{ ...style, display: "inline-block",  fontSize:"1.25rem",position: "absolute",
       top: "-7.5rem",
-      left: "26rem"}}
+      left: "26rem",
+    cursor:"pointer"}}
       onClick={onClick}
     >
       <i className="fas fa-chevron-left"/>
@@ -24,7 +25,8 @@ function SampleNextArrow(props:any) {
       className={className}
       style={{ ...style, display: "inline-block",fontSize:"1.25rem",position: "absolute",
       top: "-7.5rem",
-      left: "30rem" }}
+      left: "30rem",
+      cursor:"pointer" }}
       onClick={onClick}
     >
       <i className="fas fa-chevron-right"/>
@@ -64,7 +66,7 @@ export default function SimpleSlider() {
         {invList.map((logo:any)=>{
           return(
             <div >
-              <h3 style={{width:'12.5rem',height:'12.5rem',display:'flex',alignItems:'center'}}>
+              <h3 style={{width:'12.5rem',height:'12.5rem',display:'flex',alignItems:'center',cursor:"pointer"}}>
                 <img src={logo.img} alt="" style={{display:'inline-block',width:'100%',padding:'1.5rem'}}/>
               </h3>
             </div>

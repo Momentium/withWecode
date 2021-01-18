@@ -35,6 +35,7 @@ const Title = styled.span`
 
 const More = styled.div`
   font-size:0.87rem;
+  cursor:pointer;
   img{
     width:5rem;
     margin-left:1.5rem;
