@@ -48,7 +48,7 @@ export default function SimpleSlider() {
             zIndex: "100",
             bottom: "6rem",
             right: "18rem",
-            cursor: "pointer" 
+            cursor: "pointer",
           }}
             onClick={onClick}>
           <i className="fas fa-chevron-right"style={{fontSize:"1.25rem",color:"white"}}/>
