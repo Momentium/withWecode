@@ -5,6 +5,7 @@ import Header from './components/pages/header/Header'
 import Main from './components/pages/main/Main'
 import Project from './components/pages/project/ProjectPage'
 import theme from './components/styles/theme'
+import SignUp from './components/pages/signup/SignUp'
 
 const App = () => {
   const [HH, setHH] = useState<number | undefined>(60)
@@ -20,6 +21,7 @@ const App = () => {
           {/* Route 들어갈 자리 */}
           <Route exact path='/' component={Main} />
           <Route path='/project' component={Project} />
+          <Route path ='./signUp' component={SignUp} />
         </StAppCont>
 
         {/* Footer 들어갈 자리 */}
