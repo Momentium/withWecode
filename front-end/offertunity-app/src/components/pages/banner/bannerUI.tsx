@@ -5,8 +5,8 @@ import Stepper from './Stepper'
 
 
 export default function SimpleSlider() {
-  
 
+ 
     const[ banner,setBanner ]=useState([])
     useEffect(()=>{
       fetch("/data/mainBanner.json")
@@ -17,7 +17,7 @@ export default function SimpleSlider() {
       })
     },[])
 
-    function SamplePrevArrow(props:any) {
+    function  SamplePrevArrow(props:any) {
       const { className, style, onClick } = props;
       return (
         <div
@@ -37,7 +37,7 @@ export default function SimpleSlider() {
       );
     }
     
-    function SampleNextArrow(props:any) {
+     function SampleNextArrow(props:any) {
       const { className, style, onClick } = props;
       return (
         <div
@@ -55,6 +55,7 @@ export default function SimpleSlider() {
         </div>
       );
     }
+     const NextBtn = React.memo(SampleNextArrow)
 
   var settings = {
     dots: false,
@@ -71,7 +72,7 @@ export default function SimpleSlider() {
 
   return (
     <>
-    <Slider {...settings}>
+    <Slider {...settings} >
       {banner.map((bannercon:string) => {
         return(
           <div>
