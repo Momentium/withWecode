@@ -17,7 +17,6 @@ const SelectBtn: React.FC<Props> = ({ curPage, category, }) => {
 
   useEffect(() => {
     axios.get("data/selectData.json").then((res) => {
-      console.log(selected)
       const _data = res.data[curPage];
       const _selectList = _data[category];
 
