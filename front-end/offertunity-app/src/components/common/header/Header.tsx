@@ -71,46 +71,16 @@ const HeaderCon =styled.header`
   height:4.37rem;
   background: #fff;
   text-align:center;
-  /* line-height:4.37rem; */
-
-  /* .conBox {
-    margin:0 auto;
-    width:80rem;
-    h1 {
-      display: inline-block;
-      width:10.25rem;
-      cursor: pointer;
-      img{
-        width:100%;
-      }
-    }
-    nav {
-      display: inline-block;
-      font-size:0.9rem;
-      line-height:1.2rem;
-      ul{
-        padding-left:0;
-          li{
-          display: inline-block;
-          margin-left:3.5rem;
-          list-style:none;
-          font: normal normal normal 0.9rem/1.25rem Spoqa Han Sans Neo;
-          cursor: pointer;
-        }
-      }
-      
-    }
-  } */
 `;
 
 const StLogoWrap = styled(St.FlexDiv)`
   display: flex;
   flex: 1;
+  
   img {
     width:10.25rem;
     display: block;
   }
-
 `;
 
 const StNavCont = styled.nav`
@@ -225,6 +195,7 @@ const StSearchWrap = styled.div<{focus: boolean}>`
       border-color: #5541ED; 
     }
   }
+
   @keyframes fadeInIcon{
     0% { 
       opacity: 0;
@@ -251,30 +222,6 @@ const Auth = styled.div`
   display: flex;
   flex: 1;
 
-  /* display:inline-block;
-  margin-left:12.19rem; */
-
-  /* div{ 
-    display: inline-block;
-    position: relative;
-    input{
-      width: 12.5rem;
-      height: 1.75rem;
-      border-radius: 0.9rem;
-      border: 1px solid #D8D8D8;
-      box-sizing:border-box;
-      padding: 4px 34px 4px 13px;
-      &:focus{
-        outline:none;
-      }
-    }
-    i{
-      position: absolute;
-      top: 1.6rem;
-      right:0.62rem;
-      color:#707070;
-    }
-  } */
   p{
     display: inline-block;
     margin-left:1.43rem;
