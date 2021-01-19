@@ -5,6 +5,7 @@ import Header from "./components/common/header/Header";
 import Banner from "./components/common/banner/Banner"
 import Main from "./components/pages/main/Main";
 import ProjectPage from "./components/pages/project/ProjectPage";
+import SignUp from "./components/pages/signUp/SignUp"
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
@@ -23,6 +24,7 @@ const App = () => {
           {/* Route 들어갈 자리 */}
           <Route exact path="/" component={Main} />
           <Route path="/project" component={ProjectPage} />
+          <Route path="/signUp" component={SignUp} />
         </StAppCont>
 
         {/* Footer 들어갈 자리 */}
