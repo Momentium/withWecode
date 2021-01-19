@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Title from "./Title";
+import CardList from "./CardList";
+import axios from "axios";
+import styled from "styled-components";
 
-const TwStartup = () => {
-  return <p>hello</p>;
+const TwStartup = (props: any) => {
+  const [like, setLike] = useState<Boolean>(false);
+  const [startupList, setStartupList] = useState<any>([]);
+
+  useEffect(() => {
+    axios.get("data/thisweekStartup.json").then((res) => {
+      const _data = res.data.data;
+      setStartupList(_data);
+    });
+  }, []);
+
+  return (
+    <ConBox>
+      <Title title={"금주의 대표 스타트업"} />
+      <CardList list={startupList} name={"issueStartup"} boxName={"issueBox"} />
+    </ConBox>
+  );
 };
 
 export default TwStartup;
 
-c;
+const ConBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 13.875rem;
+`;
