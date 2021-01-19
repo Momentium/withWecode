@@ -26,8 +26,5 @@ const TwStartup = (props: any) => {
 export default TwStartup;
 
 const ConBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px 13.875rem;
+  width: 80rem;
 `;

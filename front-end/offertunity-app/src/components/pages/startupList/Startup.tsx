@@ -2,10 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import CardList from "./CardList";
 
-const Startup = ({ data }: any) => {
+const Startup = ({ data, itemsPerPage, page }: any) => {
   return (
     <StartupBox>
-      <CardList list={data} name={"startupList"} />
+      <CardList
+        data={data}
+        name={"startupList"}
+        boxName={"startupBox"}
+        itemsPerPage={itemsPerPage}
+        page={page}
+      />
     </StartupBox>
   );
 };
@@ -13,7 +19,5 @@ const Startup = ({ data }: any) => {
 export default Startup;
 
 const StartupBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0px 13.875rem;
+  width: 80rem;
 `;

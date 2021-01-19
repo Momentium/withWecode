@@ -21,7 +21,7 @@ const BannerWrap = styled.div`
   width: 100%;
   height: 43.75rem;
   img {
-    width: 100%;
+    min-width: 120rem;
     height: 100%;
   }
 `;
@@ -31,7 +31,7 @@ const TxtWrap = styled.div`
   top: 23.75rem;
   left: 20rem;
   display: inline-block;
-  width: 19rem;
+  width: 20rem;
   color: #fff;
   p {
     font-size: 1rem;

@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
 import TwStartup from "./TwStartup";
 import Startup from "./Startup";
+import PaginationCmp from "../../common/pagination/PaginationCmp";
 import axios from "axios";
 import styled from "styled-components";
-import Pagination from "@material-ui/lab/Pagination";
 
 const StartupList = () => {
   const [startupList, setStartupList] = useState<any[]>([]);
-  const itemsPerPage = 10;
-  const [noOfPages] = React.useState(
-    Math.ceil(startupList.length / itemsPerPage)
-  );
-  const [page, setPage] = React.useState(1);
-
-  const handleChnage = () => {
-    console.log("clicked");
-  };
+  const itemsPerPage = 16;
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     axios.get("data/startupList.json").then((res) => {
@@ -24,6 +17,10 @@ const StartupList = () => {
     });
   }, []);
 
+  const handleClickPage = (event: any, value: any) => {
+    setPage(value);
+  };
+
   return (
     <StartupCompanyList>
       <TwStartup />
@@ -31,16 +28,12 @@ const StartupList = () => {
         <span>OFFER + (OPPOR)TUNITY</span>
         <p>스타트업의 기회를 만들어 갑니다.</p>
       </Banner>
-      <Startup data={startupList} />
-      <Pagination
-        count={noOfPages}
+      <Startup data={startupList} itemsPerPage={itemsPerPage} page={page} />
+      <PaginationCmp
+        onChange={handleClickPage}
+        listLength={startupList.length}
         page={page}
-        onChange={handleChnage}
-        defaultPage={1}
-        colo="primary"
-        size="large"
-        showFirstButton
-        showLastButton
+        itemsPerPage={itemsPerPage}
       />
     </StartupCompanyList>
   );
@@ -49,7 +42,9 @@ const StartupList = () => {
 export default StartupList;
 
 const StartupCompanyList = styled.div`
-  height: 182rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Banner = styled.div`
@@ -62,6 +57,7 @@ const Banner = styled.div`
   border: 1px solid black;
   margin-top: 6.875rem;
   margin-bottom: 5.25rem;
+  padding: 100px;
 
   span {
     font-size: 1.25rem;

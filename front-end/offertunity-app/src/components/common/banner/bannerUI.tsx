@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import BannerCard from "./BannerCard";
 import styled from "styled-components";
-// import Stepper from './Stepper'
 
 export default function SimpleSlider() {
   const [banner, setBanner] = useState([]);
@@ -89,7 +88,6 @@ export default function SimpleSlider() {
           );
         })}
       </Slider>
-      {/* <Stepper /> */}
       <Level>
         <div />
       </Level>

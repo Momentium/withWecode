@@ -2,8 +2,6 @@ import React from "react";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import styled from "styled-components";
 import Title from "./Title";
-import Labels from "./Labels";
-import { isNamedExports } from "typescript";
 
 const Card = ({ data, name }: any) => {
   const { title, image, label, description } = data;
@@ -15,7 +13,7 @@ const Card = ({ data, name }: any) => {
 
   return (
     <Wrapper className={name}>
-      <Image style={cardImage}>
+      <Image style={cardImage} className={name}>
         <LikeBtn>
           <FavoriteBorderIcon fontSize="large" />
         </LikeBtn>
@@ -24,9 +22,7 @@ const Card = ({ data, name }: any) => {
       <Description>{description}</Description>
       <LabelWrapper>
         {label.map((element: any, idx: number) => (
-          <Label>
-            <span>{element}</span>
-          </Label>
+          <Label>{element}</Label>
         ))}
       </LabelWrapper>
     </Wrapper>
@@ -37,13 +33,20 @@ export default Card;
 
 const Wrapper = styled.div`
   &.startupList {
-    width: 22.5rem;
-    padding-right: 1.25rem;
+    width: 19.4rem;
     margin-bottom: 6.125rem;
+  }
+
+  &.startupList:not(:nth-child(4n)) {
+    margin-right: 1%;
   }
 
   &.issueStartup {
     width: 28.688rem;
+  }
+
+  &.issueStartup:not(:nth-child(3n)) {
+    margin-right: 1%;
   }
 `;
 
@@ -75,16 +78,22 @@ const Description = styled.div`
 `;
 const LabelWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
 `;
 
 const Label = styled.div`
-  min-height: 1.875rem;
-  padding: 0.25rem 0.3rem;
-  margin-right: 0.625rem;
-  background: #f1f9ff 0% 0% no-repeat padding-box;
+  display: inline-block;
+  height: 26px;
+  background-color: #f1f9ff;
   border: 3px solid #bce0fd;
   border-radius: 4px;
+  padding: 4px 8px;
+  color: rgb(37, 129, 255);
+  font-size: 11px;
+  font-weight: 400;
+  margin-right: 8px;
+  margin-top: 8px;
 
   span {
     text-align: center;
