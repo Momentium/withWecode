@@ -2,7 +2,7 @@
   "data": [
     {
       "id": 1,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "모멘티움",
       "label": [
         "플랫폼",
@@ -19,7 +19,7 @@
     },
     {
       "id": 2,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "왓챠",
       "label": [
         "플랫폼",
@@ -36,7 +36,7 @@
     },
     {
       "id": 3,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "라라라",
       "label": [
         "플랫폼",
@@ -53,7 +53,7 @@
     },
     {
       "id": 4,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "하하하",
       "label": [
         "플랫폼",
@@ -70,7 +70,7 @@
     },
     {
       "id": 5,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "에이프릴",
       "label": [
         "플랫폼",
@@ -87,7 +87,7 @@
     },
     {
       "id": 6,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "아프로헤어",
       "label": [
         "플랫폼",
@@ -104,7 +104,7 @@
     },
     {
       "id": 7,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "막국수",
       "label": [
         "플랫폼",
@@ -121,7 +121,7 @@
     },
     {
       "id": 8,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "쟁반짜장",
       "label": [
         "플랫폼",
@@ -138,7 +138,7 @@
     },
     {
       "id": 9,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "도쿄",
       "label": [
         "플랫폼",
@@ -155,7 +155,7 @@
     },
     {
       "id": 10,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -172,7 +172,7 @@
     },
     {
       "id": 11,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -189,7 +189,7 @@
     },
     {
       "id": 12,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -206,7 +206,7 @@
     },
     {
       "id": 13,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -223,7 +223,7 @@
     },
     {
       "id": 14,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -240,7 +240,7 @@
     },
     {
       "id": 15,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -257,7 +257,7 @@
     },
     {
       "id": 16,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -274,7 +274,7 @@
     },
     {
       "id": 17,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -291,7 +291,7 @@
     },
     {
       "id": 18,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -308,7 +308,7 @@
     },
     {
       "id": 19,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -325,7 +325,7 @@
     },
     {
       "id": 20,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -342,7 +342,7 @@
     },
     {
       "id": 21,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -359,7 +359,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -376,7 +376,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -393,7 +393,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -410,7 +410,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -427,7 +427,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -444,7 +444,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -461,7 +461,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -478,7 +478,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -495,7 +495,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "런던",
       "label": [
         "플랫폼",
@@ -512,7 +512,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "스시",
       "label": [
         "플랫폼",
@@ -529,7 +529,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "가다랑어",
       "label": [
         "플랫폼",
@@ -546,7 +546,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "칼국수",
       "label": [
         "플랫폼",
@@ -563,7 +563,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "토마토",
       "label": [
         "플랫폼",
@@ -580,7 +580,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "캐비어",
       "label": [
         "플랫폼",
@@ -597,7 +597,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "마라탕",
       "label": [
         "플랫폼",
@@ -614,7 +614,7 @@
     },
     {
       "id": 22,
-      "image": "./images/selection/wantedx2.png",
+      "image": "/images/selection/logo/dangn2.png",
       "title": "짜장면",
       "label": [
         "플랫폼",

@@ -21,13 +21,16 @@ const StartupList = () => {
     setPage(value);
   };
 
+  const bannerImg = {
+    backgroundImage: `url(/images/startupList/banner.png)`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+  };
+
   return (
     <StartupCompanyList>
       <TwStartup />
-      <Banner>
-        <span>OFFER + (OPPOR)TUNITY</span>
-        <p>스타트업의 기회를 만들어 갑니다.</p>
-      </Banner>
+      <Banner style={bannerImg} />
       <Startup data={startupList} itemsPerPage={itemsPerPage} page={page} />
       <PaginationCmp
         onChange={handleClickPage}
