@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Title from "./Title";
 
 const Card = ({ data, name }: any) => {
-  const { title, image, label, description } = data;
+  const { title, image, label, description, service } = data;
   const cardImage = {
     backgroundImage: `url(${image})`,
     backgroundRepeat: "no-repeat",
@@ -19,6 +19,12 @@ const Card = ({ data, name }: any) => {
         </LikeBtn>
       </Image>
       <Title title={title} />
+      {service && (
+        <Service>
+          <span>주요 서비스</span>
+          {service}
+        </Service>
+      )}
       <Description>{description}</Description>
       <LabelWrapper>
         {label.map((element: any, idx: number) => (
@@ -42,7 +48,7 @@ const Wrapper = styled.div`
   }
 
   &.issueStartup {
-    width: 28.688rem;
+    width: 25rem;
   }
 
   &.issueStartup:not(:nth-child(3n)) {
@@ -67,14 +73,14 @@ const LikeBtn = styled.div`
 const Image = styled.div`
   position: relative;
   width: 100%;
-  height: 12.5rem;
-  margin-bottom: 1.813rem;
+  height: 16.667rem;
+  margin-bottom: 0.958rem;
 `;
 
 const Description = styled.div`
   width: 100%;
-  margin-top: 1.188rem;
-  margin-bottom: 2.188rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 `;
 const LabelWrapper = styled.div`
   display: flex;
@@ -82,22 +88,26 @@ const LabelWrapper = styled.div`
   width: 100%;
 `;
 
+const Service = styled.div`
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 1rem;
+
+  span {
+    margin-right: 1.5rem;
+    color: #5541ed;
+  }
+`;
+
 const Label = styled.div`
   display: inline-block;
   height: 26px;
-  background-color: #f1f9ff;
-  border: 3px solid #bce0fd;
-  border-radius: 4px;
+  border: 1px solid #c2bdf0;
   padding: 4px 8px;
-  color: rgb(37, 129, 255);
+  color: #c2bdf0;
   font-size: 11px;
   font-weight: 400;
   margin-right: 8px;
   margin-top: 8px;
-
-  span {
-    text-align: center;
-    font: normal normal normal 12px/12px Arial;
-    color: #2699fb;
-  }
 `;
