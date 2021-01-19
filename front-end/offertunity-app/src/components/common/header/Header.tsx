@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Header = () => {
-
+  const history = useHistory()
   const [navList,setNavList] = useState([]);
 
   useEffect(()=>{
@@ -13,10 +14,14 @@ const Header = () => {
     })
   },[]);
 
+  const goToMain = ()=>{
+    history.push("/")
+  }
+
   return(
     <HeaderCon>
       <header className="conBox">
-        <h1>
+        <h1 onClick={goToMain}>
           <img src="/images/header/logo.png" alt="로고"/>
         </h1>
         <nav>
