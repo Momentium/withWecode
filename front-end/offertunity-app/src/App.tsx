@@ -6,6 +6,8 @@ import Banner from "./components/common/banner/Banner"
 import Main from "./components/pages/main/Main";
 import ProjectPage from "./components/pages/project/ProjectPage";
 import SignUp from "./components/pages/signUp/SignUp"
+import SignupSelectmember from "./components/pages/signUp/SignupSelectmember"
+import SignupFormStartup from "./components/pages/signUp/SignupFormStartup"
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
@@ -25,6 +27,8 @@ const App = () => {
           <Route exact path="/" component={Main} />
           <Route path="/project" component={ProjectPage} />
           <Route path="/signUp" component={SignUp} />
+          <Route path="/SignupSelectmember" component={SignupSelectmember} />
+          <Route path="/SignupFormStartup" component={SignupFormStartup} />
         </StAppCont>
 
         {/* Footer 들어갈 자리 */}
