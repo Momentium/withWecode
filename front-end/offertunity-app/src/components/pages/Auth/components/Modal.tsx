@@ -24,7 +24,7 @@ const Modal:React.FC<Props> = ({title, content, notionOne, notionTwo}) => {
         <Title>{title}</Title>
         <Content>{content}</Content>
         <Notion>{notionOne}<br/>{notionTwo}</Notion>
-        <Button>확인</Button>
+        <Button onClick={() =>{setOpen(!open)}}>확인</Button>
       </Box>
     </ModalWrap>
   )
@@ -84,6 +84,7 @@ const Button = styled.button`
   background:#5541ED;
   border-radius:0.3rem;
   color:#fff;
+  cursor:pointer;
 `;
 
 const CloseButton = styled.div`
@@ -93,9 +94,9 @@ const CloseButton = styled.div`
   background-image:url("/images/signUp/remove.png");
   background-size:contain;
   background-repeat:no-repeat;
-  cursor:pointer;
   button{
     width:1.25rem;
     height:1.25rem;
+    cursor:pointer;
   }
 `;

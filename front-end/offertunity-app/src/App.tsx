@@ -13,7 +13,10 @@ import SignUp from "./components/pages/Auth/signUp/SignUp"
 import SignupSelectmember from "./components/pages/Auth/signUp/SignupSelectmember"
 import SignupFormStartup from "./components/pages/Auth/signUp/SignupFormStartup"
 import SignupFormPartner from "./components/pages/Auth/signUp/SignupFormPartner"
+import SignupFinishStartup from "./components/pages/Auth/signUp/SignupFinishStartup"
+import SignupFinishPartner from "./components/pages/Auth/signUp/SignupFinishPartner"
 import SignIn from "./components/pages/Auth/signIn/SignIn"
+
 
 const App = () => {
   const [HH, setHH] = useState<number | undefined>(60);
@@ -35,6 +38,8 @@ const App = () => {
           <Route path="/SignupSelectmember" component={SignupSelectmember} />
           <Route path="/SignupFormStartup" component={SignupFormStartup} />
           <Route path="/SignupFormPartner" component={SignupFormPartner} />
+          <Route path="/SignupFinishStartup" component={SignupFinishStartup} />
+          <Route path="/SignupFinishPartner" component={SignupFinishPartner} />
 
         </StAppCont>
 
