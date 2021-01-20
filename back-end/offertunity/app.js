@@ -1,5 +1,6 @@
 require("dotenv").config();
-const { AUTH_TOKEN_SALT } = process.env
+const { COOKIE_SECRET } = process.env
+
 const express = require('express')
 const routes = require('./routes')
 const logger = require('morgan')('dev')
@@ -11,15 +12,16 @@ passportConfig(passport);
 
 app.use(express.json())
 app.use(logger)
-app.use(session({
-    secret: AUTH_TOKEN_SALT,
-    cookieSession: { maxAge: 60 * 60 * 1000 },
-    resave: true,
-    saveUninitialized: false
-}));
 
+app.use(session({
+  secret: COOKIE_SECRET,
+  cookieSession: { maxAge: 60 * 60 * 1000},
+  resave: true,
+  saveUninitialized: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(routes)
 
 // general error handler

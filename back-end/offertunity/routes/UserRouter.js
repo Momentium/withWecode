@@ -19,6 +19,17 @@ router.post(
     UserController.signIn
 )
 
+<<<<<<< HEAD
+router.get('/google', passport.authenticate('google'));
+
+router.get('/google/callback', passport.authenticate('google', {
+  failureRedirect: '/users',
+}), (req, res) => {
+  res.redirect('/users/signin');
+});
+
+module.exports = router
+=======
 
 router.get('/kakao', passport.authenticate('kakao'));
 
@@ -29,3 +40,4 @@ router.get('/auth/kakao', passport.authenticate('kakao', {
 });
 
 module.exports = router
+>>>>>>> back-end
