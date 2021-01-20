@@ -5,7 +5,6 @@ import Project from './Project';
 import BeltBanner from 'components/common/banner/BeltBanner';
 
 const ProjectList = () => {
-
   const [pjts, setPjts] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
@@ -13,9 +12,7 @@ const ProjectList = () => {
     .then((res) => {
       const _resData = res.data;
       setPjts(_resData.map((el:{}, idx:number) => 
-        <Project key={idx} 
-          data={el}
-        />
+        <Project key={idx} data={el}/>
       ));
     })
   }, []);
@@ -26,11 +23,12 @@ const ProjectList = () => {
         {pjts.slice(0, 5)}
       </St.Section>
 
-      <BeltBanner/>
+      <BeltBanner curPage={"projectPage"}/>
       
       <St.Section>
         {pjts.slice(5)}
       </St.Section>
+
     </>
   );
 };

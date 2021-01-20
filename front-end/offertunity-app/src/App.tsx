@@ -42,5 +42,6 @@ const App = () => {
 export default App;
 
 const StAppCont = styled.div<{ headerHeight: number | undefined }>`
-  margin-top: ${(props) => `${props.headerHeight}px`};
+  /* margin-top: ${(props) => `${props.headerHeight}px`}; */
+  margin-top: 7.5em;
 `;
