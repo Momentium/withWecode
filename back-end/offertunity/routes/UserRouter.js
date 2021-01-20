@@ -6,19 +6,20 @@ const { body } = require('express-validator')
 const { UserController } = require('../controllers')
 
 router.post(
-  '/signup',
-  body('email').isEmail(),
-  body('password').matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
-  UserController.signUp
+    '/signup',
+    body('email').isEmail(),
+    body('password').matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
+    UserController.signUp
 )
 
 router.post(
-  '/signin',
-  body('email').isEmail(),
-  body('password').matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
-  UserController.signIn
+    '/signin',
+    body('email').isEmail(),
+    body('password').matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
+    UserController.signIn
 )
 
+<<<<<<< HEAD
 router.get('/google', passport.authenticate('google'));
 
 router.get('/google/callback', passport.authenticate('google', {
@@ -28,3 +29,15 @@ router.get('/google/callback', passport.authenticate('google', {
 });
 
 module.exports = router
+=======
+
+router.get('/kakao', passport.authenticate('kakao'));
+
+router.get('/auth/kakao', passport.authenticate('kakao', {
+    failureRedirect: '/'
+}), (req, res) => {
+    res.redirect('/');
+});
+
+module.exports = router
+>>>>>>> back-end

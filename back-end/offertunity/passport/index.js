@@ -1,5 +1,6 @@
-const google = require('./googleStrategy')
-const prisma = require('../prisma')
+const google = require('./googleStrategy');
+const kakao = require('./kakaoStrategy');
+const prisma = require('../prisma');
 
 module.exports = (passport) => {
     passport.serializeUser((user, done) => {
@@ -11,4 +12,5 @@ module.exports = (passport) => {
             .catch(err => done(err));
     });
     google(passport);
+    kakao(passport);
 };
