@@ -1,7 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 
+
 const InputBox = () => {
+
+  const [checkAll,setCheckAll] = useState(false);
+
+  const [checkService,setCheckService] =useState(false);
+  const [checkPersonalInfo,setCheckPersonalInfo]=useState(false);
+  const [checkMarketing,setCheckMarketing]=useState(false);
+  const [checkAccountWake,setCheckAccountWake] =useState(false);
+
+  useEffect(() => {
+
+      const True = (checkService && checkPersonalInfo && checkMarketing && checkAccountWake)
+      setCheckAll(True);
+
+  },[checkService,checkPersonalInfo,checkMarketing,checkAccountWake])
+
+  
+  const handleCheckAll = () => {
+    setCheckAll(!checkAll)
+    setCheckService(!checkAll);
+    setCheckPersonalInfo(!checkAll);
+    setCheckMarketing(!checkAll);
+    setCheckAccountWake(!checkAll);
+  }
+
+ 
+
+ 
+  const service =()=>{
+    setCheckService(!checkService)
+  }
+  const personal =()=>{
+    setCheckPersonalInfo(!checkPersonalInfo)
+  }
+  const marketing =()=>{
+    setCheckMarketing(!checkMarketing)
+  }
+  const unLogin =()=>{
+    setCheckAccountWake(!checkAccountWake)
+  }
+
   return(
     <Wrap>
       <Email>
@@ -22,34 +63,35 @@ const InputBox = () => {
         <input type="text" placeholder="비밀번호를 다시 입력해주세요"/>
         <div>비밀번호가 일치하지 않습니다.</div>
       </PwCheck>
-      <Term>
-        <p>*약관동의</p>
-        <div className="agreeAll">
-          <label>
-            <input type="checkbox"/>
-            모든 약관에 동의합니다. 
-            <button>더보기</button>
-          </label>
-        </div>
-        <div className="labelBox">
-          <label>
-            <input type="checkbox"/>
-            서비스 이용약관에 동의합니다. (필수)
-          </label>
-          <label>
-            <input type="checkbox"/>
-            개인정보 수집 및 이용에 동의합니다. (필수)
-          </label>
-          <label >
-            <input type="checkbox"/>
-            마케팅 정보 수신 동의합니다. (선택)
-          </label>
-          <label> 
-            <input type="checkbox"/>
-            장기 미접속 시 계정 활성 상태 유지합니다. (선택)
-          </label>
-        </div>
-      </Term>
+      <Agree>
+        <p>*약관 동의</p>
+        <CheckAll>
+          <div onClick={handleCheckAll}>
+            <i className="fas fa-check-circle" style={{color:checkAll? "#707070" : "#D8D2D2"}}/>
+            <span>모든 약관에 동의합니다.</span>
+          </div>
+          <button>펼쳐보기<i className="fas fa-chevron-down"/></button>
+        </CheckAll>
+          <Terms>
+            <Term onClick={service}>
+              <i className="fas fa-check-circle" style={{color:checkService? "#707070" : "#D8D2D2"}}/>
+              <p>서비스 이용약관에 동의합니다. (필수)</p>
+            </Term>
+            <Term onClick={personal}>
+              <i className="fas fa-check-circle" style={{color:checkPersonalInfo? "#707070" : "#D8D2D2"}}/>
+              <p>개인정보 수집 및 이용 에 동의합니다. (필수)</p>
+            </Term>
+            <Term onClick={marketing}>
+              <i className="fas fa-check-circle" style={{color:checkMarketing? "#707070" : "#D8D2D2"}}/>
+              <p>마케팅 정보 수신 동의합니다. (선택)</p>
+            </Term>
+            <Term onClick={unLogin}>
+              <i className="fas fa-check-circle" style={{color:checkAccountWake? "#707070" : "#D8D2D2"}}/>
+              <p>장기 미접속 시 계정 활성 상태 유지합니다. (선택)</p>
+            </Term>
+          </Terms>
+        
+      </Agree>
     </Wrap>
   )
 };
@@ -57,7 +99,7 @@ const InputBox = () => {
 export default InputBox;
 
 const Wrap =styled.div`
-  width:50%;
+  width:41%;
 `;
 
 const Input = styled.div `
@@ -112,39 +154,64 @@ const PwCheck = styled(Input)`
  }
 `;
 
-const Term = styled(Input)`
-  .agreeAll{
-      z-index:10;
-      display: inline-block;
-      width:21rem;
-      height:3.12rem;
-      line-height:3.12rem;
-      border:2px solid #BCE0FD;
-      border-radius:0.5rem;
-      background:#F1F9FF;
+const Agree = styled(Input)`
+  
+`;
+
+const CheckAll = styled.div`
+  width:21rem;    
+  height:4.3rem;
+  line-height:4.3rem;
+  background:#F1F9FF;
+  border:2px solid #BCE0FD;
+  border-radius:0.5rem;
+  font-size:0.8rem;
+  color:#2699FB;
+  div{
+    display: inline-block;
+  }
+  i{
+    vertical-align:middle;
+    margin:0 1.4rem;
+    font-size:1.3rem;
+    color:#D8D2D2;
+    cursor: pointer;
+  }
+  span{
+    cursor: pointer;
+  }
+  button{
+    display: inline-block;
+    margin-left:5rem;
+    font-size:0.5rem;
+    color:#2699FB;
+    i{ 
       font-size:0.8rem;
-      color:#2699FB;
-      label{ 
-        margin-left:1.8rem;
-      }
+      margin:0 0 0 0.3rem;
     }
-    .labelBox{
-      z-index:1;
-      transform: translateY(-0.5rem);
-      padding: 2.3rem 2.2rem 1.6rem 0;
-      display: inline-block;
-      border:1px solid #707070;
-      border-radius:0.5rem;
-      font-size:0.75rem;
-      color:#707070;
-      label{
-      display:block;
-      margin-left:1.8rem;
-      }
-    }
-  input{ 
-    margin-right:1.6rem;
-    width:1rem;
-    height:1rem;
   }
 `;
+
+const Terms = styled.div`
+  padding:1rem 2rem;
+  width:21rem;
+  border:1px solid #D8D2D2;
+  border-radius:0.5rem;
+`;
+
+const Term = styled.div`
+  height:2rem;
+  i{
+    margin-right:1.4rem;
+    font-size:1rem;
+    cursor: pointer;
+  }
+  p{
+    display: inline-block;
+    font-size:0.75rem;
+    margin:0;
+    color:#707070;
+    cursor: pointer;
+  }
+`;
+

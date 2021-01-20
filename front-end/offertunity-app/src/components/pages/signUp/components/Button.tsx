@@ -14,6 +14,7 @@ const Button:React.FC<Props> = ({txt}) => {
 export default Button;
 
 const Btn = styled.button`
+  display: block;
   width:17.8rem;
   height:4.5rem;
   border:1px solid #707070;

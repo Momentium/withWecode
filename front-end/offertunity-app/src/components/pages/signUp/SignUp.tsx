@@ -40,7 +40,6 @@ export default SignUp;
 const Wrap= styled.section`
   ${({ theme }) => theme.ConWidth};
   display:flex;
-  align-items: center;
   justify-content:space-between;
   padding:17rem 0;
 `;
