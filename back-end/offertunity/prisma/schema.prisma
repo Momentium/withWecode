@@ -454,17 +454,18 @@ model user_types {
 
 model users {
   id               Int               @id @default(autoincrement())
-  name             String
+  sns_id           String              
+  name             String?
   type_id          Int
   profile_picture  String?
-  email            String
-  password         String
+  email            String            @unique
+  password         String?
   signup_method_id Int
   company_id       Int?
   phone_number     String?
-  is_verified      Int
-  created_at       DateTime
-  updated_at       DateTime
+  is_verified      Boolean           @default(false)
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @updatedAt
   companies        companies?        @relation(fields: [company_id], references: [id])
   signup_methods   signup_methods    @relation(fields: [signup_method_id], references: [id])
   user_types       user_types        @relation(fields: [type_id], references: [id])
