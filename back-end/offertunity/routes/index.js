@@ -1,6 +1,11 @@
 const express = require('express')
-const router = express.Router()
 
+const passport = require('passport')
+const bcrypt = require('bcrypt');
+
+const KakaoStrategy = require('passport-kakao').Strategy;
+
+const router = express.Router()
 const UserRouter = require('./UserRouter')
 
 router.use('/users', UserRouter)
