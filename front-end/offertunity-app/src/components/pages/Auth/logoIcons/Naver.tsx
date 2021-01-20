@@ -11,8 +11,8 @@ export default Naver;
 
 const NaverBtn =styled.button`
   background-image:url("/images/signup/naverLogo.png");
-  width:6.8rem;
-  height:6.8rem;
+  width:3.12rem;
+  height:3.12rem;
   background-size: contain;
   font-size:0;
   border-radius:100%;

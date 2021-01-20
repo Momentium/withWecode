@@ -10,12 +10,12 @@ const Kakao = () => {
 export default Kakao;
 
 const KakaoBtn = styled.button`
-  width:6.8rem;
-  height:6.8rem;
+  width:3.12rem;
+  height:3.12rem;
   background-size: contain;
   font-size:0;
   border-radius:100%;
   background-image:url("/images/signup/kakaoLogo.png");
   cursor: pointer;
-  margin:0 4.5rem;
+  margin:0 3rem;
 `;

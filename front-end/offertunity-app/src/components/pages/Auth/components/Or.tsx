@@ -14,8 +14,9 @@ const Or = () => {
 export default Or;
 
 const OrWrap =styled.div`
-  font-size:1.25rem;
+  font-size:0.8rem;
   line-height:1.438rem;
+  color:#898989;
   p{
     display: inline-block;
     width: 5rem;
@@ -23,8 +24,8 @@ const OrWrap =styled.div`
   span{
     display: inline-block;
     vertical-align: middle;
-    width:17.8rem;
+    width:9.8rem;
     height:1px;
-    background-color:#707070;
+    background-color:#898989;
   }
 `;

@@ -21,11 +21,12 @@ export default Question;
 
 const Wrap = styled.div`
   span{
-   font-size:1.25rem;
+   font-size:0.18rem;
   }
   button{
-    color:red;
-    font-size:1.25rem;
+    color:#5541ED;
+    font-size:0.18rem;
     cursor: pointer;
+    border-bottom:1px solid #5541ED;
   }
 `;

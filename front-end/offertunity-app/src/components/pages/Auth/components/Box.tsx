@@ -13,8 +13,10 @@ const Box:React.FC<Props> = ({SubtitleOne,SubtitleTwo,title,ex}) => {
     <Wrap>
       <Subtitle>{SubtitleOne}<br/>{SubtitleTwo}</Subtitle>
       <Button>
-        <p>{title}</p>
-        <span>{ex}</span>
+        <div className="btntxt">
+          <p>{title}</p>
+          <span>{ex}</span>
+        </div>
       </Button>
     </Wrap>
   )
@@ -23,34 +25,38 @@ const Box:React.FC<Props> = ({SubtitleOne,SubtitleTwo,title,ex}) => {
 export default Box;
 
 const Wrap = styled.div`
-  width:36.81rem;
+  width:25rem;
   text-align:center;
 `;
 
 const Subtitle = styled.p`
-  margin-bottom:2.3rem;
-  font-size:1.8rem;
+  margin-bottom:4rem;
+  font-size:1.3rem;
   font-weight: bold;
-  line-height:3rem;
+  line-height:2rem;
 `;
 
-const Button = styled.button`
+const Button = styled.div`
   width:100%;
-  height:23rem;
-  border:0.18rem solid black;
+  height:18.75rem;
+  border-radius:0.5rem;
+  text-align:left;
   cursor: pointer;
+  .btntxt{
+    padding: 2rem
+  }
   p{
     margin-bottom:1.8rem;
-    font-size:3.125rem;
+    font-size:2.25rem;
+    font-weight: bold;
   }
   span{
-    font-size:1.25rem;
+    font-size:0.9rem;
     font-weight: bold;
-    color: #2699FB;
   }
 
   &:hover{
-    background-color:#000;
+    background-color:rgba(0,0,0,0.7);
     transition:.2s;
     p{
       color:#fff;

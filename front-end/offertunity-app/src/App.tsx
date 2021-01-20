@@ -5,12 +5,15 @@ import Header from "./components/common/header/Header";
 import Banner from "./components/common/banner/Banner"
 import Main from "./components/pages/main/Main";
 import ProjectPage from "./components/pages/project/ProjectPage";
-import SignUp from "./components/pages/signUp/SignUp"
-import SignupSelectmember from "./components/pages/signUp/SignupSelectmember"
-import SignupFormStartup from "./components/pages/signUp/SignupFormStartup"
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
+
+import SignUp from "./components/pages/Auth/signUp/SignUp"
+import SignupSelectmember from "./components/pages/Auth/signUp/SignupSelectmember"
+import SignupFormStartup from "./components/pages/Auth/signUp/SignupFormStartup"
+import SignupFormPartner from "./components/pages/Auth/signUp/SignupFormPartner"
+import SignIn from "./components/pages/Auth/signIn/SignIn"
 
 const App = () => {
   const [HH, setHH] = useState<number | undefined>(60);
@@ -26,9 +29,13 @@ const App = () => {
           {/* Route 들어갈 자리 */}
           <Route exact path="/" component={Main} />
           <Route path="/project" component={ProjectPage} />
+
           <Route path="/signUp" component={SignUp} />
+          <Route path="/SignIn" component={SignIn} />
           <Route path="/SignupSelectmember" component={SignupSelectmember} />
           <Route path="/SignupFormStartup" component={SignupFormStartup} />
+          <Route path="/SignupFormPartner" component={SignupFormPartner} />
+
         </StAppCont>
 
         {/* Footer 들어갈 자리 */}

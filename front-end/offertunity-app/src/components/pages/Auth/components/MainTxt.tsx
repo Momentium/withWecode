@@ -15,7 +15,6 @@ const MainTxt:React.FC<Props> = ({subtitle,subtitletwo,title}) => {
       <p>{subtitle}<br/>{subtitletwo}</p>
       <span>{title}</span>
     </Text>
-    
   )
 };
 
@@ -23,15 +22,14 @@ export default MainTxt;
 
 const Text = styled.div`
   display: inline-block;
-  margin-bottom:4.5rem;
+  margin-bottom:2.5rem;
   p{
-    font-size:1.5rem;
+    font-size:1.3rem;
     margin-bottom:3rem;
-    line-height:3rem;
+    line-height:2rem;
   }
   span{
-    font-size:4.5rem;
+    font-size:3.3rem;
     font-weight:bold;
   }
 `;
-
