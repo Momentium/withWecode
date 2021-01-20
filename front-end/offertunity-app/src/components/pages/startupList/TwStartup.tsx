@@ -18,7 +18,12 @@ const TwStartup = (props: any) => {
   return (
     <ConBox>
       <Title title={"금주의 대표 스타트업"} />
-      <CardList list={startupList} name={"issueStartup"} boxName={"issueBox"} />
+      <CardList
+        list={startupList}
+        name={"issueStartup"}
+        boxName={"issueBox"}
+        background={"cover"}
+      />
     </ConBox>
   );
 };

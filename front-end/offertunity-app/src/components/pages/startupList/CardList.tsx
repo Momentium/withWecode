@@ -2,19 +2,26 @@ import React from "react";
 import styled from "styled-components";
 import Card from "./Card";
 
-const CardList = ({ list, data, name, boxName, itemsPerPage, page }: any) => {
-  console.log(name, boxName);
+const CardList = ({
+  list,
+  data,
+  name,
+  boxName,
+  itemsPerPage,
+  page,
+  background,
+}: any) => {
   return (
     <Container className={boxName}>
       {list &&
         list.map((data: any, idx: number) => (
-          <Card data={data} key={idx} name={name} />
+          <Card data={data} key={idx} name={name} background={background} />
         ))}
       {data &&
         data
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((item: any) => {
-            return <Card data={item} name={name} />;
+            return <Card data={item} name={name} background={background} />;
           })}
     </Container>
   );

@@ -26,6 +26,7 @@ const Startup = ({ data, itemsPerPage, page }: any) => {
         boxName={"startupBox"}
         itemsPerPage={itemsPerPage}
         page={page}
+        background={"contain"}
       />
     </StartupBox>
   );
