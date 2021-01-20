@@ -1,19 +1,19 @@
-console.log("location: passport/index.js")
+const prisma = require('../prisma');
 
-const passport = require('passport');
+const google = require('./googleStrategy');
+const kakao = require('./kakaoStrategy');
 const naver = require('./naverStrategy');
-const User = require('../prisma');
 
 module.exports = (passport) => {
     passport.serializeUser((user, done) => {
         done(null, user.id);
     });
-
     passport.deserializeUser((id, done) => {
-        User.findOne({ where: { id } })
+        prisma.users.findUnique({where: {id}})
             .then(user => done(null, user))
             .catch(err => done(err));
     });
-
+    google(passport);
+    kakao(passport);
     naver(passport);
-}
+};

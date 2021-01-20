@@ -1,22 +1,23 @@
-const {AUTH_TOKEN_SALT} = process.env
+require("dotenv").config();
+const { AUTH_TOKEN_SALT } = process.env
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const {UserService} = require('../services')
-const {errorWrapper, errorGenerator} = require('../errors')
+const { UserService } = require('../services')
+const { errorWrapper, errorGenerator } = require('../errors')
 
-const signUp = errorWrapper(async (req, res) => {
-    const {email, password, name, type, signup_method} = req.body
+const signUp = errorWrapper(async(req, res) => {
+    const { email, name, password, typeId, signUpMethodId } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
 
     const foundUser = await UserService.findUser({ email })
-    if (foundUser) errorGenerator({statusCode: 409, message: 'duplicated'})
+    if (foundUser) errorGenerator({ statusCode: 409, message: 'duplicated' })
 
     const createdUser = await UserService.createUser({
         email,
-        password: hashedPassword,
         name,
-        user_types: {connect: {id: Number(type)}},
-        signup_methods: {connect: {id: Number(signup_method)}}
+        password: hashedPassword,
+        user_types: { connect: { id: Number(typeId) } },
+        signup_methods: { connect: { id: Number(signUpMethodId) } }
     })
 
     res.status(201).json({
@@ -25,21 +26,18 @@ const signUp = errorWrapper(async (req, res) => {
     })
 })
 
-const logIn = errorWrapper(async (req, res) => {
-    const {email, password: inputPassword} = req.body
-
+const signIn = errorWrapper(async(req, res) => {
+    const { email, password: inputPassword } = req.body
     const foundUser = await UserService.findUser({ email })
     if (!foundUser) errorGenerator({ statusCode: 400, message: 'client input invalid' })
-
     const { id, password: hashedPassword } = foundUser
     const isValidPassword = await bcrypt.compare(inputPassword, hashedPassword)
     if (!isValidPassword) errorGenerator({ statusCode: 400, message: 'client input invalid' })
-
     const token = jwt.sign({ id }, AUTH_TOKEN_SALT)
-    res.status(200).json({message: 'login success!', token})
+    res.status(200).json({ message: 'login success!', token })
 })
 
 module.exports = {
-    logIn,
-    signUp
+    signIn,
+    signUp,
 }

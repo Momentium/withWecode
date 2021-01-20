@@ -5,15 +5,21 @@ const createUser = (fields) => {
 }
 
 const findUser = (field) => {
-    const [uniqueKey] = Object.keys(field) //비구조화 배열 --> 'email'
+    const [uniqueKey] = Object.keys(field)
 
-    const isKeyId = uniqueKey === 'id' //재혁천재.
+    const isKeyId = uniqueKey === 'id'
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
+    return prisma.users.findUnique({ where: { [uniqueKey]: value } })
+}
 
-    return prisma.users.findUnique({ where: {[uniqueKey] : value}})
+const findUserType = (field) => {
+    const [typeId] = Object.keys(field)
+    const value = field[typeId]
+    return prisma.user_types.findUnique({ where: { id: value } })
 }
 
 module.exports = {
     createUser,
-    findUser
+    findUser,
+    findUserType,
 }
