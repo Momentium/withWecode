@@ -1,6 +1,8 @@
+const prisma = require('../prisma');
+
 const google = require('./googleStrategy');
 const kakao = require('./kakaoStrategy');
-const prisma = require('../prisma');
+const naver = require('./naverStrategy');
 
 module.exports = (passport) => {
     passport.serializeUser((user, done) => {
@@ -13,4 +15,5 @@ module.exports = (passport) => {
     });
     google(passport);
     kakao(passport);
+    naver(passport);
 };

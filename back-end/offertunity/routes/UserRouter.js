@@ -5,6 +5,8 @@ const { body } = require('express-validator')
 
 const { UserController } = require('../controllers')
 
+//email
+
 router.post(
     '/signup',
     body('email').isEmail(),
@@ -19,7 +21,22 @@ router.post(
     UserController.signIn
 )
 
-<<<<<<< HEAD
+//naver
+
+router.get('/naver', passport.authenticate('naver'));
+
+router.get('/naver/callback', function (req, res, next) {
+  passport.authenticate('naver', function (err, user) {
+    if (!user) { return res.redirect("/"); }
+    req.logIn(user, function (err) { 
+       console.log('naver/callback user : ', user);
+       return res.redirect("/success");        
+    });
+  })(req, res);
+});
+
+//google
+
 router.get('/google', passport.authenticate('google'));
 
 router.get('/google/callback', passport.authenticate('google', {
@@ -28,16 +45,15 @@ router.get('/google/callback', passport.authenticate('google', {
   res.redirect('/users/signin');
 });
 
-module.exports = router
-=======
+//kakao
 
 router.get('/kakao', passport.authenticate('kakao'));
 
-router.get('/auth/kakao', passport.authenticate('kakao', {
+router.get('/kakao/callback', passport.authenticate('kakao', {
     failureRedirect: '/'
 }), (req, res) => {
     res.redirect('/');
 });
 
 module.exports = router
->>>>>>> back-end
+

@@ -1,0 +1,20 @@
+/**
+ * @swagger
+ * tags:
+ *   name: signUp
+ *   description: signup to the website
+ * definitions:
+ *   Todo:
+ *     type: object
+ *     required:
+ *       - content
+ *     properties:
+ *       _id:
+ *         type: string
+ *         description: email
+ *       content:
+ *         type: string
+ *         description: password
+ */
+
+router.put('/', signUp, signIn);

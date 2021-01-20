@@ -9,20 +9,7 @@ const findUser = (field) => {
 
     const isKeyId = uniqueKey === 'id'
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
-
-<<<<<<< HEAD
-  return prisma.users.findUnique({ where: { [uniqueKey]: value } })
-=======
-    console.log({
-        [uniqueKey]: value
-    })
-
-    return prisma.users.findUnique({
-        where: {
-            [uniqueKey]: value
-        }
-    })
->>>>>>> back-end
+    return prisma.users.findUnique({ where: { [uniqueKey]: value } })
 }
 
 const findUserType = (field) => {

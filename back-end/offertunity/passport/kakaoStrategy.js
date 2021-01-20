@@ -5,7 +5,7 @@ const prisma = require('../prisma');
 module.exports = (passport) => {
     passport.use(new KakaoStrategy({
         clientID: process.env.KAKAO_ID,
-        callbackURL: "http://localhost:3000/users/auth/kakao",
+        callbackURL: "http://localhost:3000/users/kakao/callback",
     }, async(accessToken, refreshToken, profile, done) => {
         try {
             const exUser = await prisma.users.findUnique({ where: { snsld: profile.id, provider: 'kakao' } });

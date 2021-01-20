@@ -28,26 +28,13 @@ const signUp = errorWrapper(async(req, res) => {
 
 const signIn = errorWrapper(async(req, res) => {
     const { email, password: inputPassword } = req.body
-
-<<<<<<< HEAD
-  const foundUser = await UserService.findUser({ email })
-  if (!foundUser) errorGenerator({ statusCode: 400, message: 'client input invalid' })
-  const { id, password: hashedPassword } = foundUser
-  const isValidPassword = await bcrypt.compare(inputPassword, hashedPassword)
-  if (!isValidPassword) errorGenerator({ statusCode: 400, message: 'client input invalid' })
-  const token = jwt.sign({ id }, AUTH_TOKEN_SALT)
-  res.status(200).json({ message: 'login success!', token })
-=======
     const foundUser = await UserService.findUser({ email })
     if (!foundUser) errorGenerator({ statusCode: 400, message: 'client input invalid' })
-    console.log('hi2')
     const { id, password: hashedPassword } = foundUser
     const isValidPassword = await bcrypt.compare(inputPassword, hashedPassword)
     if (!isValidPassword) errorGenerator({ statusCode: 400, message: 'client input invalid' })
-    console.log('hi')
     const token = jwt.sign({ id }, AUTH_TOKEN_SALT)
     res.status(200).json({ message: 'login success!', token })
->>>>>>> back-end
 })
 
 module.exports = {
