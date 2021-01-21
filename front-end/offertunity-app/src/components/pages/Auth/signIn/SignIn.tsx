@@ -6,9 +6,13 @@ import Kakao from "../logoIcons/Kakao"
 import Facebook from "../logoIcons/Facebook"
 import Or from "../components/Or"
 import Question from "../components/Question"
+import Header from "../components/Header"
 
 const SignIn:React.FC = () => {
   return (
+    
+    <>
+    <Header />
     <Wrap>
       <Bg>
         <MainTxt 
@@ -45,6 +49,7 @@ const SignIn:React.FC = () => {
         <Question ask="아직 OFFERTUNITY 회원이 아니신가요?" button="회원가입"/>
       </Con>
     </Wrap>
+    </>
   )
 };
 

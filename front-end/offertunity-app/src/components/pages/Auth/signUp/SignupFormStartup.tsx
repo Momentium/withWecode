@@ -3,7 +3,7 @@ import styled from "styled-components";
 import InputBox from "../components/InputBox"
 import MainTxt from "../components/MainTxt"
 import Button from "../components/Button"
-import Modal from "../components/Modal"
+
 
 const SignupFormStartup:React.FC = () => {
   return(
@@ -19,12 +19,7 @@ const SignupFormStartup:React.FC = () => {
       </TxtWrap>
       <InputBox />
     </Wrap>
-    <Modal 
-    title="이메일 인증하기" 
-    content="22312@asnj.com" 
-    notionOne="입력해주신 정보는 등록되지 않은 이메일 계정입니다." 
-    notionTwo="다른 계정 혹은 회원가입을 해주세요."
-    />
+   
     </>
     
   )

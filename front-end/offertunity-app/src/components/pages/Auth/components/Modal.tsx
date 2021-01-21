@@ -51,11 +51,11 @@ const Box = styled.div`
   padding-left:8rem;
   text-align:left;
   background:#fff;
-  background-image:url("/images/signUp/modalBg.png");
+  background-image:url("/images/signUp/modalBg.svg");
   background-repeat:no-repeat;
-  background-position-y: bottom;
-  background-position-x:right;
-  background-size:22rem;
+  background-position-y: 9rem;
+  background-position-x: 40rem;
+  background-size:16rem;
 `;
 
 const Title = styled.p`

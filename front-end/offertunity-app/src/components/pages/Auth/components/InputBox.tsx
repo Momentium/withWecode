@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
+import Modal from "../components/Modal"
+
 
 
 const InputBox = () => {
 
-  const [checkAll,setCheckAll] = useState(false);
+  const [modal,setModal] = useState(false);
+  
 
+  const [checkAll,setCheckAll] = useState(false);
   const [checkService,setCheckService] =useState(false);
   const [checkPersonalInfo,setCheckPersonalInfo]=useState(false);
   const [checkMarketing,setCheckMarketing]=useState(false);
@@ -37,6 +41,12 @@ const InputBox = () => {
 
   return(
     <Wrap>
+       {modal && <Modal 
+        title="이메일 인증하기" 
+        content="22312@asnj.com" 
+        notionOne="입력해주신 이메일로 인증번호를 보냈습니다." 
+        notionTwo="확인 후 인증번호를 입력해주세요 !"
+        /> }
       <Email>
         <p><span>*</span>E-mail (아이디)</p>
         <GetEmeil>
@@ -45,7 +55,9 @@ const InputBox = () => {
         </GetEmeil>
         <CheckEmeil>
           <input type="text" placeholder="인증번호를 입력해주세요."/>
-          <button>인증확인</button>
+          <button onClick={() =>{setModal(!modal)}}>
+            인증확인
+          </button>
         </CheckEmeil>
       </Email>
       <Name>
