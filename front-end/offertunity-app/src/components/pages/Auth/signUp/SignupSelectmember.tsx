@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
+import Header from "../components/Header"
 import Box from "../components/Box"
 
 const SignupSelectmember:React.FC = () => {
   return(
+    <>
+    <Header />
     <Wrap>
       <Startup>
         <Box 
@@ -20,6 +23,7 @@ const SignupSelectmember:React.FC = () => {
         ex="지원기관, 투자기관 등"/>
       </Partner>
     </Wrap>
+    </>
   )
 };
 
@@ -40,7 +44,7 @@ const Bg = styled.div`
 `;
 
 const Startup = styled(Bg)`
-  margin-left:9rem;
+  margin-left:12rem;
   background-image:url("/images/signup/startupBg.png");
 `;
 

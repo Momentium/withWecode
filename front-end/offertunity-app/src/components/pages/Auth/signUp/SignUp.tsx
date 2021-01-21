@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import Header from "../components/Header"
 import MainTxt from "../components/MainTxt";
 import Naver from "../logoIcons/Naver"
 import Kakao from "../logoIcons/Kakao"
@@ -9,6 +10,8 @@ import Question from "../components/Question"
 
 const SignUp:React.FC = () => {
   return (
+    <>
+    <Header />
     <Wrap>
       <Bg>
         <MainTxt 
@@ -33,6 +36,7 @@ const SignUp:React.FC = () => {
         <Question ask="이미 오퍼튜니티 회원이신가요?" button="로그인"/>
       </Con>
     </Wrap>
+    </>
   )
 };
 
@@ -43,13 +47,12 @@ const Wrap= styled.section`
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:17rem 0;
+  padding:15rem 0;
 `;
 
 const Con = styled.div`
   display: inline-block;
   width:50%;
-  padding-right:4rem;
   text-align:center;
 `;
 
@@ -82,14 +85,16 @@ const Icon =styled.div`
 `;
 
 const Bg = styled.div`
-  width:40rem;
+  width:44rem;
   height:29rem;
   background-image:url("/images/signup/offertunity.png");
   background-size:contain;
   background-repeat:no-repeat;
-  background-position:bottom;
+  background-position-x: 4rem;
+  background-position-y: 5rem;
   text-align:center;
   p{
+    margin-left:7rem;
     font-size:2rem;
   }
 `;

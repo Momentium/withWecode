@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from "styled-components";
+import Header from "../components/Header"
 import InputBox from "../components/InputBox"
 import MainTxt from "../components/MainTxt"
 import Button from "../components/Button"
 
 const SignupFormPartner:React.FC = () => {
   return(
+    <>
+    <Header />
     <Wrap>
       <TxtWrap>
         <MainTxt 
@@ -17,6 +20,7 @@ const SignupFormPartner:React.FC = () => {
       </TxtWrap>
       <InputBox />
     </Wrap>
+    </>
   )
 };
 
@@ -30,6 +34,6 @@ const Wrap= styled.section`
 `;
 
 const TxtWrap = styled.div`
-  padding-left:7rem;
+  padding-left:11rem;
 `;
 

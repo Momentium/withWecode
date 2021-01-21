@@ -118,7 +118,7 @@ const InputBox = () => {
 export default InputBox;
 
 const Wrap =styled.div`
-  width:44%;
+  width:41%;
 `;
 
 const Input = styled.div `

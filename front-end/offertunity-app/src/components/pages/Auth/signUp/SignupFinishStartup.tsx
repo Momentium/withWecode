@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
+import Header from "../components/Header"
 import MainTxt from "../components/MainTxt";
 
 const SignupFinishStartup = () => {
   return (
+    <>
+    <Header />
     <Wrap>
       <MainTxt 
         subtitle="예비 창업가부터 유니콘 스타트업까지" 
@@ -12,6 +15,7 @@ const SignupFinishStartup = () => {
         />
         <button>로그인</button>
     </Wrap>
+    </>
   )
 };
 
@@ -19,7 +23,7 @@ export default SignupFinishStartup;
 
 const Wrap= styled.section`
   ${({ theme }) => theme.ConWidth};
-  padding:19rem 0;
+  padding:19rem 0 19rem 12rem;
 
   button{
     display:block;

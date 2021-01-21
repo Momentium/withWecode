@@ -35,7 +35,7 @@ const Wrap= styled.section`
 `;
 
 const TxtWrap = styled.div`
-  padding-left:7rem;
+  padding-left:11rem;
 `;
 
 
