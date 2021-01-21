@@ -18,11 +18,9 @@ const CardList = ({
           <Card data={data} key={idx} name={name} background={background} />
         ))}
       {data &&
-        data
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((item: any) => {
-            return <Card data={item} name={name} background={background} />;
-          })}
+        data.map((item: any) => {
+          return <Card data={item} name={name} background={background} />;
+        })}
     </Container>
   );
 };

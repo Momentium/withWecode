@@ -9,13 +9,24 @@ const StartupList = () => {
   const [startupList, setStartupList] = useState<any[]>([]);
   const itemsPerPage = 16;
   const [page, setPage] = useState(1);
+  const [updatePage, setUpdatePage] = useState(0);
+  const [currPage, setCurrPage] = useState(80);
+  const [totalLength, setTotalLength] = useState(0);
 
   useEffect(() => {
-    axios.get("data/startupList.json").then((res) => {
-      const _data = res.data.data;
-      setStartupList(_data);
+    const LIMIT = 16;
+    axios
+      .get(`http://localhost:3000/data/offset=${page}&limit=${LIMIT}.json`)
+      .then((res) => {
+        setStartupList(res.data.data);
+      });
+  }, [page]);
+
+  useEffect(() => {
+    axios.get(`data/startupList.json`).then((res) => {
+      setTotalLength(res.data.data.length);
     });
-  }, []);
+  });
 
   const handleClickPage = (event: any, value: any) => {
     setPage(value);
@@ -37,6 +48,7 @@ const StartupList = () => {
         listLength={startupList.length}
         page={page}
         itemsPerPage={itemsPerPage}
+        totalLength={totalLength}
       />
     </StartupCompanyList>
   );

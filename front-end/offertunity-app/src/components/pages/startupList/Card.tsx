@@ -4,7 +4,7 @@ import Title from "./Title";
 
 const Card = ({ data, name, background }: any) => {
   const { title, image, label, description, service, shortDescriotion } = data;
-  const [likeStatus, setLikeStatus] = useState<Boolean>(false);
+  const [likeStatus, setLikeStatus] = useState<any>(false);
   const [likeImg, setLikeImg] = useState<JSX.Element>(
     <img alt="logo" src="/images/icons/heart.png" />
   );
@@ -43,7 +43,7 @@ const Card = ({ data, name, background }: any) => {
       )}
       <Description>{description}</Description>
       <LabelWrapper>
-        {label.slice(0, 3).map((element: any, idx: number) => (
+        {label.map((element: any, idx: number) => (
           <Label>{element}</Label>
         ))}
       </LabelWrapper>
@@ -54,6 +54,7 @@ const Card = ({ data, name, background }: any) => {
 export default Card;
 
 const Wrapper = styled.div`
+  cursor: pointer;
   &.startupList {
     position: relative;
     width: 18.875rem;
@@ -68,6 +69,7 @@ const Wrapper = styled.div`
 
   &.issueStartup {
     width: 25rem;
+    height: 28.938rem;
   }
 
   &.issueStartup:not(:nth-child(3n)) {
@@ -108,12 +110,10 @@ const Description = styled.div`
   height: 3.375rem;
   overflow: hidden;
   margin-top: 0.5rem;
-  margin-bottom: 1rem;
   font-size: 0.938rem;
 `;
 const LabelWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
   flex-wrap: wrap;
   width: 100%;
 `;
@@ -134,6 +134,7 @@ const Label = styled.div`
   height: 26px;
   border: 1px solid #c2bdf0;
   padding: 4px 8px;
+  margin-top: 1rem;
   color: #c2bdf0;
   font-size: 11px;
   font-weight: 400;

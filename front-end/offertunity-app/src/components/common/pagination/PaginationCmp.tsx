@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PaginationCmp = ({ onChange, listLength, page, itemsPerPage }: any) => {
+const PaginationCmp = ({ onChange, page, itemsPerPage, totalLength }: any) => {
   const classes = useStyles();
-  const noOfPages = Math.ceil(listLength / itemsPerPage);
+  const noOfPages = Math.ceil(totalLength / itemsPerPage);
 
   return (
     <Box component="span">
