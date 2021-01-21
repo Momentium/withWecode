@@ -9,6 +9,7 @@ const Card = ({ data, name, background }: any) => {
     <img alt="logo" src="/images/icons/heart.png" />
   );
 
+  // 백엔드 좋아요 API 나오면 수정할예정
   const handleLikeBtn = () => {
     setLikeStatus(!likeStatus);
     likeStatus

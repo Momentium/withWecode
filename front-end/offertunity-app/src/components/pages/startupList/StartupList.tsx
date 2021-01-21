@@ -13,6 +13,7 @@ const StartupList = () => {
   const [currPage, setCurrPage] = useState(80);
   const [totalLength, setTotalLength] = useState(0);
 
+  // 백엔드 API 나오면 수정할예정
   useEffect(() => {
     const LIMIT = 16;
     axios
@@ -22,6 +23,7 @@ const StartupList = () => {
       });
   }, [page]);
 
+  // 백엔드 API 나오면 수정할예정
   useEffect(() => {
     axios.get(`data/startupList.json`).then((res) => {
       setTotalLength(res.data.data.length);

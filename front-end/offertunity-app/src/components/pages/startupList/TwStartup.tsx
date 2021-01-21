@@ -8,6 +8,7 @@ const TwStartup = (props: any) => {
   const [like, setLike] = useState<Boolean>(false);
   const [startupList, setStartupList] = useState<any>([]);
 
+  // 백엔드 API 나오면 수정할예정
   useEffect(() => {
     axios.get("data/thisweekStartup.json").then((res) => {
       const _data = res.data.data;
