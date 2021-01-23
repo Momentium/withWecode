@@ -50,8 +50,12 @@ const Header:React.FC<RouteComponentProps> = ({ location }) => {
         </StSearchWrap>
 
         <Auth>
-          <p>로그인</p>
-          <p>회원가입</p>
+          <Link to="/Auth/SignIn">
+            <p>로그인</p>
+          </Link>
+          <Link to="/Auth/SignUp">
+            <p>회원가입</p>
+          </Link>
         </Auth>
 
       </HeaderCon>
