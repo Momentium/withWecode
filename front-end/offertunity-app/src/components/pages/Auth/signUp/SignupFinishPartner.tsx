@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Header from "../components/Header"
 import MainTxt from "../components/MainTxt";
@@ -13,7 +14,9 @@ const SignupFinishPartner = () => {
         subtitletwo="지원사업과 투자 유치 기회를 만날 수 있습니다." 
         title="파트너 회원가입 완료"
         />
-        <button>로그인</button>
+        <Link to="/Auth/SignIn">
+          <button>로그인</button>
+        </Link>
     </Wrap>
     </>
   )

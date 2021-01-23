@@ -107,19 +107,13 @@ const InputBox = () => {
             </Term>
           </Terms>
       </Agree>
-      <div>
-        <Enroll>가입</Enroll>
-        <Cancle>취소</Cancle>
-      </div>
     </Wrap>
   )
 };
 
 export default InputBox;
 
-const Wrap =styled.div`
-  width:41%;
-`;
+const Wrap =styled.div``;
 
 const Input = styled.div `
   display: inline-block;
@@ -283,25 +277,5 @@ const Term = styled.div`
   }
 `;
 
-const Button = styled.button`
-  width:9.5rem;
-  height:3rem;
-  font-size:1.12rem;
-  line-height:3rem;
-  text-align:center;
-  border-radius:0.3rem;
-  cursor: pointer;
-`;
 
-const Enroll = styled(Button)`
-  margin-right:1rem;
-  background-color:#5541ED;
-  color:#fff;
-`;
-
-const Cancle = styled(Button)`
-  background-color:#fff;
-  border:1px solid #B7B7B7;
-  color:#000;
-`;
 

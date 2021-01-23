@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Header from "../components/Header"
 import Tab from "../components/Tab"
@@ -22,7 +23,9 @@ const FindPw = () => {
           <ChkBtn onClick={() =>{setModal(!modal)}}>확인</ChkBtn>
           <CancleBtn>취소</CancleBtn>
         </Buttons>
-        <Question ask="아직 OFFERTUNITY 회원이 아니신가요?" button="회원가입"/>
+        <Link to="/Auth/SignUp">
+          <Question ask="아직 OFFERTUNITY 회원이 아니신가요?" button="회원가입"/>
+        </Link>
       </Wrap>
       {modal && <Modal 
         title="비밀번호 찾기" 

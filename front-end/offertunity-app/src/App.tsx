@@ -8,8 +8,7 @@ import ProjectPage from "./components/pages/project/ProjectPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
-import SignUp from "./components/pages/Auth/signUp/SignUp";
-import SignIn from "./components/pages/Auth/signIn/SignIn";
+import Auth from "./components/pages/Auth/Auth"
 
 const App:React.FC<RouteComponentProps<any>> = ({location }) => {
   const [HH, setHH] = useState<number | undefined>(60);
@@ -21,24 +20,24 @@ const App:React.FC<RouteComponentProps<any>> = ({location }) => {
 
   return (
     <ThemeProvider theme={theme}>
+      
         {/* Header 들어갈 자리 */}
         {
-        location.pathname === ('/SignUp' || '/SignIn') &&
+        location.pathname !== "/Auth/:name"  &&
           <>
             <Header />
             <Banner />
           </>
         }
-        <Route path="/SignUp" component={SignUp} />
-        <Route path="/SignIn" component={SignIn} />
         <StAppCont headerHeight={HH}>
           {/* Route 들어갈 자리 */}
+          <Route path="/Auth/:name" component={Auth} />
           <Route exact path="/" component={Main} />
           <Route path="/project" component={ProjectPage} />
         </StAppCont>
          {/* Footer 들어갈 자리 */}
         {
-          location.pathname === ('/SignUp' || '/SignIn') &&
+          location.pathname !== "/Auth/:name"  &&
           <>
             <Newsletter />
             <Footer />

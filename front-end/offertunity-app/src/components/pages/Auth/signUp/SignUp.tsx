@@ -34,7 +34,7 @@ const SignUp:React.FC = () => {
         <BtnEmail>
           이메일로 회원가입
         </BtnEmail>
-        <Link to="/SignIn">
+        <Link to="/Auth/SignIn">
           <Question ask="이미 오퍼튜니티 회원이신가요?" button="로그인"/>
         </Link>
       </Con>

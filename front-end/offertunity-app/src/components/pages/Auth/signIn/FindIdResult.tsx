@@ -1,4 +1,5 @@
 import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
 import styled from "styled-components";
 import Header from "../components/Header"
 import Tab from "../components/Tab"
@@ -12,10 +13,14 @@ const FindIdResult = () => {
     <Con>
       <Wrap>
         <span>asdhadjh@dlksjld</span>
-        <p>OFFERTUNITY 는 이메일을 계정 아이디로 쓰이고 있습니다.</p>
-        <p>이메일 정보를 입력하고 [확인]을 클릭하면 가입 여부를 알려드립니다.</p>
-        <ChkBtn>회원가입</ChkBtn>
-        <CancleBtn>다시찾아보기</CancleBtn>
+        <p>입력하신 이메일 주소는 OFFERTUNITY에 등록되어 있지 않습니다.</p>
+        <p>아직 회원이 아니라면 아래 [회원가입하기] 버튼을 통해 회원가입을 완료해 주세요.</p>
+        <reactRouterDom.Link to="/Auth/SignUp">
+          <ChkBtn>회원가입</ChkBtn>
+        </reactRouterDom.Link>
+        <reactRouterDom.Link to="/Auth/FindId">
+          <CancleBtn>다시찾아보기</CancleBtn>
+        </reactRouterDom.Link>
       </Wrap>
     </Con>
     </>

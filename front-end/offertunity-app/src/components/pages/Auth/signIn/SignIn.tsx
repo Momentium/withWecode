@@ -33,7 +33,9 @@ const SignIn:React.FC = () => {
           <input type="checkbox"/>
           아이디 저장
           </label>
-          <button>아이디 / 비밀번호 찾기</button>
+          <Link to="/Auth/FindId">
+            <button>아이디 / 비밀번호 찾기</button>
+          </Link>
         </FindAccount>
         <BtnEmail>
           로그인
@@ -47,7 +49,7 @@ const SignIn:React.FC = () => {
           <Kakao/>
           <Facebook/>
         </Icon>
-        <Link to="/SignUp">
+        <Link to="/Auth/SignUp">
           <Question ask="아직 OFFERTUNITY 회원이 아니신가요?" button="회원가입"/>
         </Link>
       </Con>
@@ -154,6 +156,7 @@ const FindAccount = styled.div`
     background-repeat:no-repeat;
     background-size:0.4rem;
     background-position:right;
+    cursor: pointer;
   }
 `;
 

@@ -1,4 +1,5 @@
 import React, {  useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { useHistory } from 'react-router-dom';
 
@@ -10,14 +11,10 @@ const Tab = () => {
   const history = useHistory();
 
   const findId =(event:any)=>{
-    event.preventDefault();
-    history.push('/FindId');
     setIdTxt(!idTxt);
   }
 
   const findPw =(event:any)=>{
-    event.preventDefault();
-    history.push('/FindPw');
     setPwTxt(!pwTxt);
   }
 
@@ -26,8 +23,12 @@ const Tab = () => {
   return(
     <Wrap>
       <TabMenu>
-        <Id onClick={findId} className={idTxt ? 'active' :""}>아이디 찾기</Id>
-        <Password onClick={findPw} className={pwTxt ? 'active' :""}>비밀번호 찾기</Password>
+        <Link to="/Auth/FindId">
+          <Id onClick={findId} className={idTxt ? 'active' :""}>아이디 찾기</Id>
+        </Link>
+        <Link to="/Auth/FindPw">
+          <Password onClick={findPw} className={pwTxt ? 'active' :""}>비밀번호 찾기</Password>
+        </Link>
       </TabMenu>  
     </Wrap>
   )

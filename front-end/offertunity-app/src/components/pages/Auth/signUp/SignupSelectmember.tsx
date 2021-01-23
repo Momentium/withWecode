@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Header from "../components/Header"
 import Box from "../components/Box"
@@ -9,18 +10,22 @@ const SignupSelectmember:React.FC = () => {
     <Header />
     <Wrap>
       <Startup>
-        <Box 
-        SubtitleOne="지원사업부터 투자유치 까지" 
-        SubtitleTwo="기회를 찾고 있다면?" 
-        title="스타트업 회원" 
-        ex="예비 창업, 유니톤 기업 등"/>
+        <Link to="/Auth/SignupFormStartup">
+          <Box 
+          SubtitleOne="지원사업부터 투자유치 까지" 
+          SubtitleTwo="기회를 찾고 있다면?" 
+          title="스타트업 회원" 
+          ex="예비 창업, 유니톤 기업 등"/>
+        </Link>
       </Startup>
       <Partner>
-        <Box 
-        SubtitleOne="성장 가능성과 실행력을 가진" 
-        SubtitleTwo="좋은 스타트업을 찾고 있다면?" 
-        title="파트너 회원" 
-        ex="지원기관, 투자기관 등"/>
+        <Link to="/Auth/SignupFormPartner">
+          <Box 
+          SubtitleOne="성장 가능성과 실행력을 가진" 
+          SubtitleTwo="좋은 스타트업을 찾고 있다면?" 
+          title="파트너 회원" 
+          ex="지원기관, 투자기관 등"/>
+        </Link>
       </Partner>
     </Wrap>
     </>

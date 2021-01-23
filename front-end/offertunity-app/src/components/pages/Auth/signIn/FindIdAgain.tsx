@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Header from "../components/Header"
 import Tab from "../components/Tab"
@@ -14,8 +15,12 @@ const FindIdAgain = () => {
         <span>asdhadjh@dlksjld</span>
         <p>OFFERTUNITY의 소중한 회원님이셨군요!</p>
         <p>아래 [로그인] 버트을 통해 OFFERTUNITY에 로그인해주세요.</p>
-        <ChkBtn>로그인</ChkBtn>
-        <CancleBtn>다시찾아보기</CancleBtn>
+        <Link to="/Auth/SignIn">
+          <ChkBtn>로그인</ChkBtn>
+        </Link>
+        <Link to="/Auth/FindId">
+          <CancleBtn>다시찾아보기</CancleBtn>
+        </Link>
       </Wrap>
     </Con>
     </>
