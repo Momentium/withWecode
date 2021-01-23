@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Header from "../components/Header"
 import MainTxt from "../components/MainTxt";
@@ -33,7 +34,9 @@ const SignUp:React.FC = () => {
         <BtnEmail>
           이메일로 회원가입
         </BtnEmail>
-        <Question ask="이미 오퍼튜니티 회원이신가요?" button="로그인"/>
+        <Link to="/SignIn">
+          <Question ask="이미 오퍼튜니티 회원이신가요?" button="로그인"/>
+        </Link>
       </Con>
     </Wrap>
     </>

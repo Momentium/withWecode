@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import MainTxt from "../components/MainTxt";
 import Naver from "../logoIcons/Naver"
@@ -46,7 +47,9 @@ const SignIn:React.FC = () => {
           <Kakao/>
           <Facebook/>
         </Icon>
-        <Question ask="아직 OFFERTUNITY 회원이 아니신가요?" button="회원가입"/>
+        <Link to="/SignUp">
+          <Question ask="아직 OFFERTUNITY 회원이 아니신가요?" button="회원가입"/>
+        </Link>
       </Con>
     </Wrap>
     </>
