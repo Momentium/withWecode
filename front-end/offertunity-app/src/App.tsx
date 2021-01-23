@@ -16,28 +16,28 @@ const App:React.FC<RouteComponentProps<any>> = ({location }) => {
     console.log(location.pathname)
   }, []);
 
-    
+    const Reject = location.pathname.includes("/Auth")
 
   return (
     <ThemeProvider theme={theme}>
       
         {/* Header 들어갈 자리 */}
         {
-        location.pathname !== "/Auth/:name"  &&
+         !Reject  &&
           <>
             <Header />
             <Banner />
           </>
         }
+        <Route path="/Auth/:name" component={Auth} />
         <StAppCont headerHeight={HH}>
           {/* Route 들어갈 자리 */}
-          <Route path="/Auth/:name" component={Auth} />
           <Route exact path="/" component={Main} />
           <Route path="/project" component={ProjectPage} />
         </StAppCont>
          {/* Footer 들어갈 자리 */}
         {
-          location.pathname !== "/Auth/:name"  &&
+           !Reject  &&
           <>
             <Newsletter />
             <Footer />
