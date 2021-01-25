@@ -1,16 +1,16 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 interface Props {
-  curPage: string
+  curPage: string;
 }
 
-const BeltBanner:React.FC<Props> = ({ curPage }) => {
+const BeltBanner: React.FC<Props> = ({ curPage }) => {
   return (
     <StBBCont>
-      <img src={`/images/${curPage}/beltBanner.png`} alt=""/>
+      <img src={`/images/${curPage}/beltBanner.png`} alt="" />
     </StBBCont>
   );
-}
+};
 export default BeltBanner;
 
 const StBBCont = styled.div`
@@ -26,5 +26,4 @@ const StBBCont = styled.div`
     width: auto;
     height: 100%;
   }
-  
 `;
