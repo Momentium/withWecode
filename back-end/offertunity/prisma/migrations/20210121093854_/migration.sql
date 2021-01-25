@@ -440,9 +440,9 @@ CREATE TABLE `user_types` (
 -- CreateTable
 CREATE TABLE `users` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `sns_id` INT NOT NULL,
+    `sns_id` VARCHAR(191),
     `name` VARCHAR(191) NOT NULL,
-    `type_id` INT NOT NULL,
+    `type_id` INT,
     `profile_picture` VARCHAR(191),
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191),
@@ -618,7 +618,7 @@ ALTER TABLE `users` ADD FOREIGN KEY (`company_id`) REFERENCES `companies`(`id`) 
 ALTER TABLE `users` ADD FOREIGN KEY (`signup_method_id`) REFERENCES `signup_methods`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `users` ADD FOREIGN KEY (`type_id`) REFERENCES `user_types`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `users` ADD FOREIGN KEY (`type_id`) REFERENCES `user_types`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `votes` ADD FOREIGN KEY (`participants_id`) REFERENCES `participants`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
