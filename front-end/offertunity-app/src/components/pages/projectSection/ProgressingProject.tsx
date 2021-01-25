@@ -15,12 +15,13 @@ import ProgressingCard from './ProgressingCard'
       setProjectData(res.projecting)
     })
   },[])
+ 
 
   return(
     <Progessing>
-     {projectData.map((el: any, idx: number)=>{
+     {projectData.map((el:any , idx: number) => {
        return(
-       <ProgressingCard data = {el} key={idx} index={idx}/>
+       <ProgressingCard key={idx} data={el} index={idx}/>
        )  
      })}
     </Progessing>
