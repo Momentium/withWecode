@@ -9,23 +9,29 @@ import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
 import StartupList from "./components/pages/startupList/StartupList";
+import StartupDetails from "./components/pages/startupDetails/StartupDetails";
 
 const App = () => {
   const [HH, setHH] = useState<number | undefined>(60);
   useEffect(() => {}, []);
+  const [navHidden, setNavHidden] = useState(true);
+  const [visibleBanner, setVisibleBanner] = useState(true);
+
+  useEffect(() => {
+    window.location.pathname === "/details" && setVisibleBanner(false);
+  });
 
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        {/* Header 들어갈 자리 */}
         <Header />
-        <Banner />
+        {visibleBanner && <Banner />}
         <StAppCont headerHeight={HH}>
           {/* Route 들어갈 자리 */}
           <Route exact path="/" component={Main} />
           <Route path="/project" component={ProjectPage} />
+          <Route path="/details" component={StartupDetails} />
         </StAppCont>
-
         {/* Footer 들어갈 자리 */}
         <Newsletter />
         <Footer />
