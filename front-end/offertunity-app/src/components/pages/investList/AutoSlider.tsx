@@ -89,7 +89,6 @@ export default function SimpleSlider() {
     .then((res) =>res.json())
     .then((res) =>{
       setInvestList(res.invest)
-      console.log(res)
     })
   },[])
 
