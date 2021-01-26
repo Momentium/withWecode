@@ -24,7 +24,7 @@ const SignupFormStartup:React.FC = () => {
           <Button txt="다른 회원 선택하기"/>
         </Link>
       </TxtWrap>
-      <InputBox />
+      <InputBox typeId="1"/>
     </Wrap>
    
     </>

@@ -1,10 +1,15 @@
 import axios from 'axios';
-import React, { useEffect, useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import Modal from "../components/Modal"
 
+type Props = {
+  typeId:string
+}
 
-const InputBox = () => {
+
+const InputBox:React.FC<Props> = ({typeId}) => {
   
   const [modal,setModal] = useState(false);
   const [checkAll,setCheckAll] = useState(false);
@@ -24,6 +29,7 @@ const InputBox = () => {
     validatePassword:false,
   });
   const {email,name,password,passwordAgain,isPwSame,validateEmail,validatePassword} = inputs;
+  const history = useHistory();
  
 
   const SIGNUP =()=>{
@@ -31,7 +37,7 @@ const InputBox = () => {
         email:email,
         name:name,
         password:password,
-        typeId: "1",
+        typeId: typeId,
         signUpMethodId: "1"
     })
     .then(function(response){
@@ -41,6 +47,12 @@ const InputBox = () => {
       alert("필수사항을 입력해 주세요")
     })
     
+    if(typeId==="2"){
+      history.push("/Auth/SignupFinishPartner");
+    }
+    if(typeId==="1"){
+      history.push("/Auth/SignupFinishStartup");
+    }
   }
 
   const handleEmail=(event:any) => {
@@ -220,7 +232,7 @@ const InputBox = () => {
             가입
           </Enroll>
           <Cancle>취소</Cancle>
-        </div>
+      </div>
     </Wrap>
   )
 };
