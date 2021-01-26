@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const path = require("path")
 
 var multer = require("multer");
 var multerS3 = require("multer-s3");
@@ -30,7 +31,8 @@ const upload = multer({
     acl: "public-read", // 클라이언트에서 자유롭게 가용하기 위함
     key: (req, file, cb) => {
       console.log(file);
-      cb(null, file.originalname);
+      let extension = path.extname(file.originalname)
+      cb(null, 'profileimage/'+Date.now().toString()+extension);
     }
   }),
   limits: { fileSize: 5 * 1024 * 1024 } // 용량 제한

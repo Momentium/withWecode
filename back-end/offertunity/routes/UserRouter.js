@@ -78,7 +78,7 @@ router.post(
 router.delete(
   "/mypage",
   validateToken,
-  UserController.deleteMemberInfo,
+  UserController.deleteMemberInfo
   )
 
 

@@ -49,8 +49,7 @@ const showMemberInfo = errorWrapper(async(req, res) => {
 const addMemberInfo = errorWrapper(async(req, res) => {
     const { id: userId } = req.foundUser
     const requestedFields = req.body
-    console.log('req.files: ', req.file.location)
-    const profile_picture = req.file.location
+    const profile_picture = req.file? req.file.location : null;
     const addInfo = await UserService.updateInfo({ userId, requestedFields, profile_picture })
     res.status(201).json({
         message: 'information successfully added'
@@ -59,9 +58,9 @@ const addMemberInfo = errorWrapper(async(req, res) => {
 
 const deleteMemberInfo = errorWrapper(async(req, res) => {
     const { id: userId } = req.foundUser
-    const deletePhoto = await UserService.deletePhoto({ id: userId})
+    const deleteMemberInfo = await UserService.deleteMemberInfo({ id: userId})
     res.status(201).json({
-        message: 'data successfully deleted'
+        message: 'user successfully deleted'
     })
     
 })

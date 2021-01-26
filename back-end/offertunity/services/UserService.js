@@ -41,20 +41,16 @@ const updateInfo = (async (fields) => {
         })
     })
 
-const deletePhoto = (field) => {
+const deleteMemberInfo = (field) => {
     const [uniqueKey] = Object.keys(field)
     const isKeyId = uniqueKey === 'id'
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
 
-    return prisma.users.update({
+    return prisma.users.delete({
         where: {
             [uniqueKey]: value,
-        },
-        data:{
-            profile_picture: null
         }
     })
-
 }
 
 module.exports = {
@@ -63,6 +59,6 @@ module.exports = {
     findUserType,
     findUserInfo,
     updateInfo,
-    deletePhoto
+    deleteMemberInfo
 }
 
