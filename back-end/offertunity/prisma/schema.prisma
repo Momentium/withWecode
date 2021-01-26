@@ -454,7 +454,7 @@ model user_types {
 
 model users {
   id               Int               @id @default(autoincrement())
-  sns_id           String            @unique
+  sns_id           String?           @unique
   name             String
   type_id          Int?               
   profile_picture  String?

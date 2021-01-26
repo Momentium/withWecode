@@ -14,4 +14,4 @@ const validateToken = errorWrapper(async(req, res, next) => {
     next()
 })
 
-module.exports = validateToken
+module.exports = validateToken 
