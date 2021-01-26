@@ -12,14 +12,7 @@ const findUser = (field) => {
     return prisma.users.findUnique({ where: { [uniqueKey]: value } })
 }
 
-const findUserType = (field) => {
-    const [typeId] = Object.keys(field)
-    const value = field[typeId]
-    return prisma.user_types.findUnique({ where: { id: value } })
-}
-
 module.exports = {
     createUser,
     findUser,
-    findUserType,
 }

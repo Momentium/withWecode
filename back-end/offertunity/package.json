@@ -3,17 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "serve": "nodemon ./bin/www"
   },
   "dependencies": {
     "@prisma/client": "^2.14.0",
     "assert": "^2.0.0",
+    "aws-sdk": "^2.831.0",
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "express-mysql-session": "^2.1.5",
     "express-session": "^1.17.1",
     "express-validator": "^6.9.2",
@@ -22,6 +26,8 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-accesstoken": "^0.1.0",
@@ -37,7 +43,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@prisma/cli": "^2.14.0"
+    "@prisma/cli": "^2.14.0",
+    "nodemon": "^2.0.7"
   },
   "description": ""
 }

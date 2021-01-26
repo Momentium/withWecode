@@ -42,11 +42,11 @@ model companies {
   name                                                    String?
   logo_img                                                String?
   established_date                                        DateTime?
-  hompage                                                 String?
+  homepage                                                String?
   description                                             String?
   team_intro                                              String?
   member_count                                            Int?
-  user_types                                              user_types?            @relation(fields: [type_id], references: [id])
+  company_types                                           company_types?            @relation(fields: [type_id], references: [id])
   applicants                                              applicants[]
   company_documents                                       company_documents[]
   company_members                                         company_members[]
@@ -66,7 +66,7 @@ model companies {
   startup_likes                                           startup_likes[]
   users                                                   users[]
 
-  @@index([type_id], name: "FK_companies_type_id_user_types_id")
+  @@index([type_id], name: "FK_companies_type_id_company_types_id")
 }
 
 model company_documents {
@@ -137,14 +137,16 @@ model invested_from {
   startup_id           Int
   date                 DateTime
   invested_institution String
-  invested_fund        Int
+  invested_fund_id     Int
   corporate_value      Int
   series_id            Int
   investment_series    investment_series @relation(fields: [series_id], references: [id])
+  investment_funds     investment_funds  @relation(fields: [invested_fund_id], references: [id])
   startup_infos        startup_infos     @relation(fields: [startup_id], references: [id])
 
   @@index([series_id], name: "FK_invested_from_series_id_investment_series_id")
   @@index([startup_id], name: "FK_invested_from_startup_id_startup_infos_id")
+  @@index([invested_fund_id], name: "FK_invested_from_invested_fund_investment_funds_id")
 }
 
 model invested_to {
@@ -152,20 +154,23 @@ model invested_to {
   partner_id        Int
   date              DateTime
   startup_name      String
-  invested_fund     Int
+  invested_fund_id  Int
   corporate_value   Int
   series_id         Int
   companies         companies         @relation(fields: [partner_id], references: [id])
   investment_series investment_series @relation(fields: [series_id], references: [id])
+  investment_funds  investment_funds  @relation(fields: [invested_fund_id], references: [id])
 
   @@index([partner_id], name: "FK_invested_to_partner_id_companies_id")
   @@index([series_id], name: "FK_invested_to_series_id_investment_series_id")
+  @@index([invested_fund_id], name: "FK_invested_from_invested_fund_investment_funds_id")
 }
 
 model investment_funds {
   id            Int             @id @default(autoincrement())
-  range         String
+  name          String
   partner_infos partner_infos[]
+  startup_infos startup_infos[]
 }
 
 model investment_portfolio {
@@ -180,8 +185,10 @@ model investment_portfolio {
 model investment_series {
   id            Int             @id @default(autoincrement())
   name          String
-  invested_from invested_from[]
-  invested_to   invested_to[]
+  invested_from          invested_from[]
+  invested_to            invested_to[]
+  startup_infos          startup_infos[]
+  wish_investment_series wish_investment_series[]
 }
 
 model IR_requests {
@@ -376,12 +383,14 @@ model startup_images {
 
 model startup_infos {
   id                      Int              @id @default(autoincrement())
-  company_id              Int
+  company_id              Int              @unique
   rep                     String?
   sector_id               Int?
   core_technology_id      Int?
   item_description        String?
   contact                 String?
+  investment_series_id    Int?
+  investment_fund_id      Int?
   address_road            String?
   address_detail          String?
   service_type_id         Int?
@@ -391,19 +400,36 @@ model startup_infos {
   instagram_url           String?
   facebook_url            String?
   thumbnail               String?
-  business_types          business_types?  @relation(fields: [business_type_id], references: [id])
-  companies               companies        @relation(fields: [company_id], references: [id])
-  technologies            technologies?    @relation(fields: [core_technology_id], references: [id])
-  sectors                 sectors?         @relation(fields: [sector_id], references: [id])
-  service_types           service_types?   @relation(fields: [service_type_id], references: [id])
+  is_saved                Boolean         @default(false)
+  business_types          business_types?    @relation(fields: [business_type_id], references: [id])
+  companies               companies          @relation(fields: [company_id], references: [id])
+  technologies            technologies?      @relation(fields: [core_technology_id], references: [id])
+  sectors                 sectors?           @relation(fields: [sector_id], references: [id])
+  service_types           service_types?     @relation(fields: [service_type_id], references: [id])
+  investment_series       investment_series? @relation(fields: [investment_series_id], references: [id])
+  investment_funds        investment_funds?  @relation(fields: [investment_fund_id], references: [id])
   invested_from           invested_from[]
   startup_images          startup_images[]
+  wish_investment_series  wish_investment_series[]
 
   @@index([business_type_id], name: "FK_startup_infos_business_type_id_business_types_id")
   @@index([company_id], name: "FK_startup_infos_company_id_companies_id")
   @@index([core_technology_id], name: "FK_startup_infos_core_technology_id_technologies_id")
   @@index([sector_id], name: "FK_startup_infos_sector_id_sectors_id")
   @@index([service_type_id], name: "FK_startup_infos_service_type_id_service_types_id")
+  @@index([investment_series_id], name: "FK_startup_infos_investment_series_id")
+  @@index([investment_fund_id], name: "FK_startup_infos_investment_funds_id")
+}
+
+model wish_investment_series {
+  id                   Int    @id @default(autoincrement())
+  startup_id           Int
+  investment_series_id Int
+  startup_infos        startup_infos     @relation(fields: [startup_id], references: [id])
+  investment_series    investment_series @relation(fields: [investment_series_id], references: [id])
+
+  @@index([startup_id], name: "FK_wish_investment_series_startup_infos_id")
+  @@index([investment_series_id], name: "FK_wish_investment_series_investment_series_id")
 }
 
 model startup_likes {
