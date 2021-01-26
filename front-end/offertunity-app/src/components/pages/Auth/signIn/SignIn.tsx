@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import MainTxt from "../components/MainTxt";
@@ -10,8 +11,48 @@ import Question from "../components/Question"
 import Header from "../components/Header"
 
 const SignIn:React.FC = () => {
+
+  const [inputs,setInputs] = useState({
+    email:"",
+    password:""
+  })
+
+  const SIGNIN =()=>{
+    const {email,password} = inputs
+    axios.post(" http://10.0.1.29:3000/users/signin",{
+      email:email,
+      password:password
+    })
+    .then(function(response){
+      alert("로그인 성공")
+    })
+    .catch(function(error){
+      alert("로그인 실패")
+    })
+
+  }
+
+  const handleEmail =(event:any)=>{
+    event.preventDefault();
+    const {value} = event.target;
+    setInputs({
+      ...inputs,
+      email:value,
+    }) 
+  }
+
+  const handlePw =(event:any)=>{
+    event.preventDefault();
+    const {value} = event.target;
+    setInputs({
+      ...inputs,
+      password:value,
+    }) 
+  }
+
+
+
   return (
-    
     <>
     <Header />
     <Wrap>
@@ -25,8 +66,16 @@ const SignIn:React.FC = () => {
       <Con>
         <H2>로그인</H2>
         <InputBox>
-          <input type="text" placeholder="이메일 아이디를 입력해주세요"/>
-          <input type="password" placeholder="비밀번호(영문,숫자,특수문자 포함 8자 이상)"/>
+          <input 
+          id="id" 
+          type="text" 
+          placeholder="이메일 아이디를 입력해주세요"
+          onChange={handleEmail}/>
+          <input 
+          id="password" 
+          type="password" 
+          placeholder="비밀번호(영문,숫자,특수문자 포함 8자 이상)"
+          onChange={handlePw}/>
         </InputBox>
         <FindAccount>
           <label >
@@ -37,7 +86,7 @@ const SignIn:React.FC = () => {
             <button>아이디 / 비밀번호 찾기</button>
           </Link>
         </FindAccount>
-        <BtnEmail>
+        <BtnEmail onClick={SIGNIN}>
           로그인
         </BtnEmail>
         <Or />

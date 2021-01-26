@@ -215,7 +215,7 @@ const InputBox = () => {
       <div>
           <Enroll 
           style={{background: btnActive ? "#5541ED" : "#C3BDF4"}}
-          onClick={SIGNUP}
+          onClick={btnActive? SIGNUP : undefined}
           >
             가입
           </Enroll>
