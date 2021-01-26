@@ -2,9 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const Buttons = ({ boxStyle }: any) => {
+  const handleClickBtn = () => {
+    console.log("hello");
+  };
+
   return (
     <BtnBox style={boxStyle}>
-      <Btn>IR 자료 요청하기</Btn>
+      <Btn onClick={handleClickBtn}>IR 자료 요청하기</Btn>
     </BtnBox>
   );
 };
@@ -24,4 +28,5 @@ const Btn = styled.button`
   color: white;
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.base};
+  cursor: pointer;
 `;

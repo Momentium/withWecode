@@ -41,7 +41,7 @@ const CompanyInvestInfo = ({ data }: any) => {
       <InvestHistory>
         {attractInvestment.map((item: any, idx: number) => {
           return (
-            <HistoryWrapper className="wrapper">
+            <HistoryWrapper className="wrapper" key={idx}>
               <div className="titleBox">
                 <p className="title">{"투자 유치 이력"}</p>
               </div>
@@ -141,8 +141,12 @@ const HistoryWrapper = styled.div`
       margin-right: 14.063rem;
 
       .subTitle {
+        color: #898989;
+        font-weight: bold;
         span {
           margin-left: 1.5rem;
+          color: #000000;
+          font-weight: normal;
         }
       }
 

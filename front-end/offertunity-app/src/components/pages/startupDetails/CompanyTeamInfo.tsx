@@ -23,12 +23,12 @@ const CompanyTeamInfo = ({ data }: any) => {
       <Title title={"팀소개"} />
       <ShortInfo>
         <MiniTitle title={"한 줄 소개"} />
-        <span>우리는 어떠한 가치를 추구하는 멋진 스타트업입니다.</span>
+        <span>{shortDescription}</span>
       </ShortInfo>
       <div className="bottomBox">
         <TeamCount>
           <MiniTitle title={"팀원 수"} />
-          <div className="count">1~10명</div>
+          <div className="count">{member_count}</div>
         </TeamCount>
         <TeamMember>
           <div className="box">
@@ -40,23 +40,22 @@ const CompanyTeamInfo = ({ data }: any) => {
           </div>
           <ImageContainer>
             <Flicking
-              className="flicking"
-              gap={24}
+              className="flicking0"
+              gap={64}
+              bound={true}
               lastIndex={member.length}
               style={flickingContainer}
               ref={flicking}
             >
               {member.map((item: any, idx: number) => {
                 return (
-                  <>
-                    <ProfileInfo>
-                      <ProfileImg>
-                        <img src={item.photo} alt="사원의 프로필 사진입니다." />
-                      </ProfileImg>
-                      <div className="name">{item.name}</div>
-                      <div className="job">{item.job}</div>
-                    </ProfileInfo>
-                  </>
+                  <ProfileInfo key={idx}>
+                    <ProfileImg>
+                      <img src={item.photo} alt="사원의 프로필 사진입니다." />
+                    </ProfileImg>
+                    <div className="name">{item.name}</div>
+                    <div className="job">{item.job}</div>
+                  </ProfileInfo>
                 );
               })}
             </Flicking>
@@ -115,7 +114,7 @@ const TeamMember = styled.div`
   flex-direction: column;
   width: 83%;
   height: 100%;
-  padding: 2rem 2.5rem 0 2rem;
+  padding: 2rem 2.5rem 4rem 2rem;
   border: 1px solid #d9d9d9;
   border-radius: 6px;
 
@@ -128,22 +127,31 @@ const TeamMember = styled.div`
 
 const ImageContainer = styled.div`
   display: flex;
-  width: 80%;
+  width: 100%;
+  margin-top: 1.938rem;
 `;
 
 const ProfileImg = styled.div`
   width: 8.375rem;
   height: 8.375rem;
+  border-radius: 10%;
 
   img {
     width: 100%;
     height: 100%;
+    border-radius: 100%;
+    vertical-align: middle;
   }
 `;
 
 const ProfileInfo = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: column;
+
+  .name {
+    margin: 1rem 0;
+  }
 `;
 
 const ControlBtns = styled.div`

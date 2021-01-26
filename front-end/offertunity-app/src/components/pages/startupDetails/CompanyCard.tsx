@@ -56,8 +56,6 @@ const CompanyCard: React.FC<Props> = ({ data, clickLike }) => {
     window.open(url, "_blank");
   };
 
-  console.log(data);
-
   return (
     <CardBox>
       <CompanyImg style={backgroundImage} />

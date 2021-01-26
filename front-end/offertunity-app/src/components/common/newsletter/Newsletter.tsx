@@ -7,7 +7,7 @@ const backgroundImage = {
   backgroundSize: "cover",
 };
 
-const Newsletter = () => {
+const Newsletter = ({ data }: any) => {
   return (
     <Box style={backgroundImage}>
       <InnerBox>

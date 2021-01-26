@@ -10,7 +10,7 @@ interface Props {
 }
 
 const boxStyle = {
-  marginRight: "10px",
+  marginRight: "3.531rem",
 };
 
 const Buttons: React.FC<Props> = ({ like, clickLike }) => {
