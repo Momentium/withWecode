@@ -1,3 +1,4 @@
+console.log('location: passport/KakaoStrategy')
 const passport = require('passport');
 const KakaoStrategy = require('passport-kakao').Strategy;
 const prisma = require('../prisma');

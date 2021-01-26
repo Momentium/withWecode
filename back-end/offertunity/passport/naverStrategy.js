@@ -21,7 +21,7 @@ passport.use(new NaverStrategy({
         try { 
             const exUser = await prisma.users.findUnique({ where: {email: profile.emails[0].value}});
         if (exUser) {
-            console.log('logged in')
+            console.log('logged in', accessToken)
             done(null, exUser);
         } else {
             const newUser = await UserService.createUser({
