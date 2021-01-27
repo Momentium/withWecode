@@ -19,44 +19,49 @@ import MypageStartup from "./components/pages/mypage/MypageStartup";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [HH, setHH] = useState<number | undefined>(60);
-  useEffect(() => {
-    console.log(location.pathname);
-  }, []);
+  useEffect(() => {}, []);
+  const [navHidden, setNavHidden] = useState(true);
+  const [visibleBanner, setVisibleBanner] = useState(true);
+  const [visibleNewslatter, setVisibleNewslatter] = useState(true);
+  const [visiblefooter, setVisibleFooter] = useState(true);
 
-  const Reject = location.pathname.includes("/Auth");
-  const [visible, setVisible] = useState("");
+  useEffect(() => {
+    window.location.pathname === "/details" && setVisibleBanner(false);
+    window.location.pathname === "/MypageStartup" && setVisibleBanner(false);
+    if (window.location.pathname.includes("/Auth")) {
+      setVisibleBanner(false);
+      setNavHidden(false);
+      setVisibleNewslatter(false);
+      setVisibleFooter(false);
+    }
+  });
 
   return (
     <ThemeProvider theme={theme}>
       {/* Header 들어갈 자리 */}
-      {!Reject && (
-        <>
-          <Header />
-          <Banner />
-        </>
-      )}
+
+      {navHidden && <Header />}
+      {visibleBanner && <Banner />}
+
       <Route path="/Auth/:name" component={Auth} />
-      <StAppCont headerHeight={HH}>
-        {/* Route 들어갈 자리 */}
-        <Route exact path="/" component={Main} />
-        <Route path="/project" component={ProjectPage} />
-        <Route path="/list" component={StartupList} />
-        <Route path="/MypageStartup" component={MypageStartup} />
-      </StAppCont>
+      {/* <StAppCont headerHeight={HH}> */}
+      {/* Route 들어갈 자리 */}
+      <Route exact path="/" component={Main} />
+      <Route path="/project" component={ProjectPage} />
+      <Route path="/list" component={StartupList} />
+      <Route path="/MypageStartup" component={MypageStartup} />
+      {/* </StAppCont> */}
       {/* Footer 들어갈 자리 */}
-      {!Reject && (
-        <>
-          <Newsletter />
-          <Footer />
-        </>
-      )}
+
+      {visibleNewslatter && <Newsletter />}
+      {visiblefooter && <Footer />}
     </ThemeProvider>
   );
 };
 
 export default withRouter(App);
 
-const StAppCont = styled.div<{ headerHeight: number | undefined }>`
-  /* margin-top: ${(props) => `${props.headerHeight}px`}; */
-  margin-top: 7.5em;
-`;
+// const StAppCont = styled.div<{ headerHeight: number | undefined }>`
+//   /* margin-top: ${(props) => `${props.headerHeight}px`}; */
+//   margin-top: 7.5em;
+// `;
