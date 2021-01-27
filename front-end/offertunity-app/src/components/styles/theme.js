@@ -45,6 +45,7 @@ const colors = {
   black: "#000000",
   white: "#FFFFFF",
 };
+
 const theme = createMuiTheme({
   props: {
     // Name of the component ⚛️

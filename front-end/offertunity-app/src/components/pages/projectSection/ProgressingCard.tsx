@@ -9,7 +9,8 @@ interface Props {
 
 
 const ProgressingCard:React.FC<Props>  = ({data,index}) => {
-  const {img,subtitle,title,date,tag} =data;
+  const {img,subtitle,title,date,tag} = data;
+
   return(
     <Card key={index}> 
       <img src={img} alt={title}/>
@@ -19,8 +20,8 @@ const ProgressingCard:React.FC<Props>  = ({data,index}) => {
       </div>
       <Title>{title}</Title>
       
-        {tag.map((tag:any) => {
-          return <Tag>{tag}</Tag>
+        {tag.map((tag:any,idx: number) => {
+          return <Tag key={idx}>{tag}</Tag>
         })}
        
     </Card>
@@ -29,10 +30,11 @@ const ProgressingCard:React.FC<Props>  = ({data,index}) => {
 
 export default ProgressingCard;
 
-const Card =styled.div`
+const Card =styled.li`
   display: inline-block;
   margin: 0 1.62rem 1.5rem 0;
   width:16.5rem;
+  cursor: pointer;
   img{
     width: 100%;
     height:11rem;

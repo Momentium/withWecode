@@ -1,7 +1,10 @@
 import React from "react";
-import { styled } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  styled,
+} from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
@@ -20,17 +23,32 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CenteredTabs() {
+const theme = createMuiTheme({
+  overrides: {
+    MuiTabs: {
+      root: {
+        marginBottom: "0.625rem",
+      },
+      centered: {
+        justifyContent: "flex-start",
+      },
+      indicator: {
+        backgroundColor: "orange",
+      },
+    },
+  },
+});
+
+export default function CenteredTabs({ handleClickTab }: any) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    console.log(event.target);
     setValue(newValue);
   };
 
   return (
-    <Paper className={classes.root} elevation={0}>
+    <MuiThemeProvider theme={theme}>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -44,9 +62,16 @@ export default function CenteredTabs() {
         centered
       >
         {CATEGORY_ARR.map((category: string, idx: number) => {
-          return <Tab label={category} key={idx} />;
+          return (
+            <Tab
+              disableRipple
+              label={category}
+              key={idx}
+              onClick={(event) => handleClickTab(event)}
+            />
+          );
         })}
       </Tabs>
-    </Paper>
+    </MuiThemeProvider>
   );
 }

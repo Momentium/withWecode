@@ -3,35 +3,44 @@ import styled from "styled-components";
 import Title from "./Title";
 import Tabs from "./Tabs";
 import Cards from "./Cards";
+import axios from "axios";
 
 const Selection = () => {
   const [companyData, setCompanyData] = useState<any[]>([]);
-  const [onSelectTab, setOnSelectTab] = useState<Boolean>(false);
+  const [cardList, setCardList] = useState<JSX.Element[]>([]);
+  const [view, setView] = useState<boolean[]>([]);
+  const [filter, setFilter] = useState<String | any>("플랫폼");
+
+  const handleClickTab = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const currText = (event.target as HTMLButtonElement).textContent;
+    setFilter(currText);
+  };
 
   useEffect(() => {
-    selectionData();
+    axios.get("data/selection.json").then((res) => {
+      const data = res.data.platform;
+      setCompanyData(data);
+      setCardList(
+        data.map((el: any, idx: number) => <Cards key={el.idx} data={el} />)
+      );
+      setView(data.map((el: any, idx: number) => el.label.includes(filter)));
+    });
   }, []);
 
-  const selectionData = () => {
-    fetch("/data/selection.json")
-      .then((res) => res.json())
-      .then((res) => setCompanyData(res.platform));
-  };
-
-  const clickHandler = (event: any) => {
-    let target = event.target;
-    console.log(target);
-  };
+  useEffect(() => {
+    setView(
+      view.map((el: boolean, idx: number) =>
+        companyData[idx].label.includes(filter) ? true : false
+      )
+    );
+  }, [filter]);
 
   return (
     <Selections>
       <Title title={"스타트업 셀렉션"} />
-      <Tabs />
+      <Tabs handleClickTab={handleClickTab} />
       <CardContainer>
-        {companyData &&
-          companyData.map((companyCard: any, idx: number) => (
-            <Cards data={companyCard} key={idx} />
-          ))}
+        {cardList.filter((el: JSX.Element, idx: number) => view[idx])}
       </CardContainer>
     </Selections>
   );

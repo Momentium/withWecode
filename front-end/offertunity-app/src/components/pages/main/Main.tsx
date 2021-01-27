@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ProjectSection from "../projectSection/ProjectSection";
 import Selection from "../selection/Selection";
-import Newsletter from "../newsletter/Newsletter";
-import Footer from "../footer/Footer";
+import InvestList from "../investList/InvestList"
 
 const Main = () => {
   return (
@@ -15,15 +14,14 @@ const Main = () => {
           <div className="new"></div>
         </div>
         <div className="projects-banner"></div>
-        <div className="invest-cont"></div>
+        <div className="invest-cont">
+          < InvestList />
+        </div>
         <div className="startup-cont">
           <Selection />
         </div>
-        <div className="newsletter-cont">
-          <Newsletter />
-        </div>
+        
       </StMainCont>
-      <Footer />
     </>
   );
 };
