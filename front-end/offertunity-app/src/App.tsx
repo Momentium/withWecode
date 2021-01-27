@@ -26,10 +26,12 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
 
   useEffect(() => {
     window.location.pathname === "/details" && setVisibleBanner(false);
-    window.location.pathname.includes("/Auth") && setVisibleBanner(false);
-    window.location.pathname.includes("/Auth") && setNavHidden(false);
-    window.location.pathname.includes("/Auth") && setVisibleNewslatter(false);
-    window.location.pathname.includes("/Auth") && setVisibleFooter(false);
+    if (window.location.pathname.includes("/Auth")) {
+      setVisibleBanner(false);
+      setNavHidden(false);
+      setVisibleNewslatter(false);
+      setVisibleFooter(false);
+    }
   });
 
   return (
