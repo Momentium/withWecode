@@ -26,7 +26,7 @@ const StartupDetails = () => {
 
   return (
     <DetailBox>
-      <MoveBar />
+      <MoveBar data={companyData} />
       {companyData && (
         <>
           <CompanyCard data={companyData} />
