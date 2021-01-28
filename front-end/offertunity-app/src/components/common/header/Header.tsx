@@ -18,43 +18,46 @@ const Header: React.FC<RouteComponentProps> = ({ location }) => {
             <img src="/images/header/logo.png" alt="로고" />
           </Link>
         </StLogoWrap>
+        {!location.pathname.includes('auth') &&
+          <>
+            <StNavCont>
+              <StLinkWrap name="project" curPage={location.pathname?.substring(1)}>
+                <Link to="/project">지원사업</Link>
+              </StLinkWrap>
+              <StLinkWrap name="startup" curPage={location.pathname?.substring(1)}>
+                <Link to="/startup">스타트업</Link>
+              </StLinkWrap>
+              <StLinkWrap name="invest" curPage={location.pathname?.substring(1)}>
+                <Link to="/invest">투자기관</Link>
+              </StLinkWrap>
+              <StLinkWrap name="demo" curPage={location.pathname?.substring(1)}>
+                <Link to="/demo">온라인 데모데이</Link>
+              </StLinkWrap>
+              <StLinkWrap name="team" curPage={location.pathname?.substring(1)}>
+                <Link to="/team">팀빌딩</Link>
+              </StLinkWrap>
+            </StNavCont>
 
-        <StNavCont>
-          <StLinkWrap name="project" curPage={location.pathname?.substring(1)}>
-            <Link to="/project">지원사업</Link>
-          </StLinkWrap>
-          <StLinkWrap name="startup" curPage={location.pathname?.substring(1)}>
-            <Link to="/startup">스타트업</Link>
-          </StLinkWrap>
-          <StLinkWrap name="invest" curPage={location.pathname?.substring(1)}>
-            <Link to="/invest">투자기관</Link>
-          </StLinkWrap>
-          <StLinkWrap name="demo" curPage={location.pathname?.substring(1)}>
-            <Link to="/demo">온라인 데모데이</Link>
-          </StLinkWrap>
-          <StLinkWrap name="team" curPage={location.pathname?.substring(1)}>
-            <Link to="/team">팀빌딩</Link>
-          </StLinkWrap>
-        </StNavCont>
+            <StSearchWrap focus={focus} onFocus={handleFocus} onBlur={handleFocus}>
+              <div className="rel">
+                <UnSearchSvg />
+                <div className="abs">
+                  <SearchSvg />
+                </div>
+              </div>
+              <input type="text" />
+            </StSearchWrap>
 
-        <StSearchWrap focus={focus} onFocus={handleFocus} onBlur={handleFocus}>
-          <div className="rel">
-            <UnSearchSvg />
-            <div className="abs">
-              <SearchSvg />
-            </div>
-          </div>
-          <input type="text" />
-        </StSearchWrap>
-
-        <Auth>
-          <Link to="/Auth/SignIn">
-            <p>로그인</p>
-          </Link>
-          <Link to="/Auth/SignUp">
-            <p>회원가입</p>
-          </Link>
-        </Auth>
+            <Auth>
+              <Link to="/auth/signIn">
+                <p>로그인</p>
+              </Link>
+              <Link to="/auth/signUp">
+                <p>회원가입</p>
+              </Link>
+            </Auth>
+          </>
+        }
       </HeaderCon>
     </St.Section>
   );
@@ -65,6 +68,7 @@ export default withRouter(Header);
 const HeaderCon = styled.header`
   display: flex;
   justify-content: space-between;
+  /* justify-content: flex-start; */
   align-items: center;
 
   width: 100%;

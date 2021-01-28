@@ -34,7 +34,7 @@ const ProjectSection = () => {
 export default ProjectSection;
 
 const ProjectCon = styled.section`
-  ${({ theme }) => theme.ConWidth}
+  ${({ theme }) => theme.conWidth}
   padding:4rem 0;
 `
 

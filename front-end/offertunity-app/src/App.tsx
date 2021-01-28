@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, withRouter, RouteComponentProps } from "react-router-dom";
+import { Route, withRouter, RouteComponentProps } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import Header from "./components/common/header/Header";
 import Banner from "./components/common/banner/Banner";
@@ -12,35 +12,39 @@ import Auth from "./components/pages/Auth/Auth"
 import StartupList from "./components/pages/startupList/StartupList";
 
 
-const App:React.FC<RouteComponentProps<any>> = ({location }) => {
+const App:React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [HH, setHH] = useState<number | undefined>(60);
+  // useEffect(() => {
+    // console.log(location.pathname)
+  // }, []);
+
+  const [curPage, setCurPage] = useState<string>("");
   useEffect(() => {
-    console.log(location.pathname)
-  }, []);
+    setCurPage(location.pathname);
+  }, [location])
 
-    const Reject = location.pathname.includes("/Auth")
-
+    
   return (
     <ThemeProvider theme={theme}>
       
         {/* Header 들어갈 자리 */}
+        <Header />
         {
-         !Reject  &&
+         !curPage.includes("auth")  &&
           <>
-            <Header />
             <Banner />
           </>
         }
-        <Route path="/Auth/:name" component={Auth} />
         <StAppCont headerHeight={HH}>
           {/* Route 들어갈 자리 */}
           <Route exact path="/" component={Main} />
           <Route path="/project" component={ProjectPage} />
           <Route path="/list" component={StartupList} />
+          <Route path="/auth/:name" component={Auth} />
         </StAppCont>
          {/* Footer 들어갈 자리 */}
         {
-           !Reject  &&
+           !curPage.includes("auth")  &&
           <>
             <Newsletter />
             <Footer />
