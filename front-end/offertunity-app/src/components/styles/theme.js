@@ -2,6 +2,8 @@ import styled, { css } from "styled-components";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 
 const conWidth = css`
+  /* width: 100vw;
+  padding: 0 20rem; */
   width: 80rem;
   margin: 0 auto;
 `;

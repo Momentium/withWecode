@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Route, withRouter, RouteComponentProps } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import Header from "./components/common/header/Header";
@@ -15,37 +15,31 @@ import MypageStartup from "./components/pages/mypage/MypageStartup";
 import PartnerList from "components/pages/partnerList/PartnerList";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
-  const [HH, setHH] = useState<number | undefined>(60);
-  // useEffect(() => {
-  // console.log(location.pathname)
-  // }, []);
-
-  const [curPage, setCurPage] = useState<string>("");
+  const [headMargin, setHeadMargin] = useState<number | undefined>(0);
+  const headerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    setCurPage(location.pathname);
-  }, [location]);
+    setHeadMargin(headerRef.current?.clientHeight);
+  }, []);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={{ ...theme, ...location }}>
       {/* Header 들어갈 자리 */}
-      <Header />
-      {!curPage.includes("auth") && (
-        <>
-          <Banner />
-        </>
-      )}
-      <StAppCont headerHeight={HH}>
+      <Header ref={headerRef} />
+      <StAppCont headMargin={headMargin}>
+        {!location.pathname.includes("auth") && <Banner />}
+
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
         <Route path="/project" component={ProjectPage} />
         <Route path="/list" component={StartupList} />
-        <Route path="/partner" component={PartnerList} />
-        {/* <Route path="/partner/:id" component={PartnerList} /> */}
         <Route path="/auth/:name" component={Auth} />
         <Route path="/details" component={StartupDetails} />
+        <Route path="/partner" component={PartnerList} />
+        {/* <Route path="/partner/:id" component={PartnerList} /> */}
       </StAppCont>
+
       {/* Footer 들어갈 자리 */}
-      {!curPage.includes("auth") && (
+      {!location.pathname.includes("auth") && (
         <>
           <Newsletter />
           <Footer />
@@ -56,7 +50,6 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
 };
 export default withRouter(App);
 
-const StAppCont = styled.div<{ headerHeight: number | undefined }>`
-  /* margin-top: ${(props) => `${props.headerHeight}px`}; */
-  margin-top: 7.5em;
+const StAppCont = styled.div<{ headMargin: number | undefined }>`
+  margin-top: ${(props) => `${props.headMargin}px`};
 `;
