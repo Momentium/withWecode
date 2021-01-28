@@ -272,6 +272,8 @@ const startupInfoSave = errorWrapper(async(req, res) => {
 
     CompanyService.saveInfo(companyId)
 
+    CompanyService.saveInfo(companyId)
+
     await res.status(201).json({
         message: 'startup info saved'
     })

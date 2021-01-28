@@ -1,8 +1,8 @@
 const { upsertConnection } = require('../utils')
 const prisma = require('../prisma')
 
-const createCompany = (async (user_id, company_fields) => {
-    const companyInfo = await prisma.companies.create({ data: company_fields })
+const createCompany = (async (user_id, companyFields) => {
+    const companyInfo = await prisma.companies.create({ data: companyFields })
     await prisma.users.update({where: {id: user_id}, data: {companies: {connect: {id: companyInfo.id}}}})
     return companyInfo
 })
@@ -20,14 +20,14 @@ const updateCompany = (async (companyId, companyFields) => {
     return companyInfo
 })
 
-const createStartup = (async (company_id, startup_fields) => {
-    startup_fields.companies = {connect: {id: company_id}}
-    const startupInfo = await prisma.startups.create({ data: startup_fields })
+const createCompanyDetail = (async (companyId, table, fields) => {
+    fields.companies = {connect: {id: companyId}}
+    const startupInfo = await prisma[table].create({ data: fields })
     return startupInfo
 })
 
-const readStartup = (async (companyId) => {
-    return await prisma.startups.findUnique({where: {company_id: companyId}})
+const readCompanyDetail = (async (table, companyId) => {
+    return await prisma[table].findUnique({where: {company_id: companyId}})
 })
 
 const updateStartup = (async (companyId, startupFields) => {
@@ -46,6 +46,20 @@ const updateStartup = (async (companyId, startupFields) => {
     return updatedStartupInfo
 })
 
+const updatePartner = (async (companyId, partnerFields) => {
+    const partnerInfo = await readStartup(companyId)
+    const updatedStartupInfo = await prisma.startups.update({
+        where: {id: startupInfo.id},
+        data:
+        {
+            ...startupFields,
+            ...upsertConnection('technologies', partnerInfo.core_technology_id, partnerFields.technologies),
+            ...upsertConnection('investment_funds', partnerInfo.investment_fund_id, partnerFields.investment_funds),
+        }
+    })
+    return updatedStartupInfo
+})
+
 const checkExistence = (async (table, data) => {
     if ((await prisma[table].findMany({ where: data })).length > 0) {
         return true;
@@ -53,13 +67,6 @@ const checkExistence = (async (table, data) => {
         return false;
     }
 });
-
-const createMember = (async (companyId, members) => {
-    members.companies = {connect: {id: companyId}};
-    await prisma.company_members.create({
-        data: members
-    })
-})
 
 const checkWishInvestmentSeries = (async (startupId) => {
     return await prisma.wish_investment_series.findMany({ where: {startup_id: startupId} })
@@ -96,18 +103,28 @@ const deleteRelatedInfo = (async (table, id) => {
     })
 })
 
+const saveInfo = (async (companyId) => {
+    console.log('hoi')
+    await prisma.companies.update({
+        where: {id: companyId},
+        data: {is_saved: true}
+    })
+})
+
 module.exports = {
     createCompany,
     updateCompany,
     readCompany,
-    createStartup,
+    createCompanyDetail,
     updateStartup,
-    readStartup,
+    updatePartner,
+    readCompanyDetail,
     checkExistence,
     checkWishInvestmentSeries,
     createWishInvestmentSeries,
     updateWishInvestmentSeries,
     deleteWishInvestmentSeries,
     createRelatedInfo,
-    deleteRelatedInfo
+    deleteRelatedInfo,
+    saveInfo
 }

@@ -45,15 +45,24 @@ router.post(
     '/info/partner',
     validateToken,
     upload.fields([
-        {name: 'startupImages', maxCount: 5},
+        {name: 'logoImg', maxCount: 1},
+        {name: 'portfolioImages', maxCount: 5},
         {name: 'memberImages', maxCount: 100},
     ]),
     CompanyController.partnerInfoTempSave
 )
 
-// router.get(
-//     '/',
-//     CompanyController.startup
-// )
+router.post(
+    '/info/partner/save',
+    validateToken,
+    save,
+    upload.fields([
+        {name: 'logoImg', maxCount: 1},
+        {name: 'portfolioImages', maxCount: 5},
+        {name: 'memberImages', maxCount: 100},
+    ]),
+    CompanyController.partnerInfoTempSave,
+    CompanyController.partnerInfoSave
+)
 
 module.exports = router
