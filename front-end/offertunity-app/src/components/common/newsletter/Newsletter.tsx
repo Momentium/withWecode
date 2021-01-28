@@ -7,14 +7,14 @@ const backgroundImage = {
   backgroundSize: "cover",
 };
 
-const Newsletter = () => {
+const Newsletter = ({ data }: any) => {
   return (
     <Box style={backgroundImage}>
       <InnerBox>
         <div className="top">내게 필요한 지원사업만 알고 싶다면?</div>
         <div className="middle">
           <span>지원사업 큐레이팅 서비스</span>
-          <span className="title">소프트 뉴스레터</span>
+          <span className="title">스프트 뉴스레터</span>
         </div>
         <div className="bottom">
           <span>무료</span>&nbsp;구독 신청하기

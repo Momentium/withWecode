@@ -8,8 +8,10 @@ import ProjectPage from "./components/pages/project/ProjectPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
-import Auth from "./components/pages/Auth/Auth"
+import Auth from "./components/pages/Auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
+import StartupDetails from "./components/pages/startupDetails/StartupDetails";
+import MypageStartup from "./components/pages/mypage/MypageStartup";
 
 const App:React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
@@ -31,6 +33,7 @@ const App:React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/project" component={ProjectPage} />
           <Route path="/list" component={StartupList} />
           <Route path="/auth/:name" component={Auth} />
+          <Route path="/details" component={StartupDetails} />
         </StAppCont>
 
          {/* Footer 들어갈 자리 */}
@@ -44,9 +47,8 @@ const App:React.FC<RouteComponentProps<any>> = ({ location }) => {
     </ThemeProvider>
   );
 };
-
 export default withRouter(App);
 
-const StAppCont = styled.div<{headMargin: number|undefined}>`
+const StAppCont = styled.div<{headMargin: number | undefined}>`
   margin-top: ${props => `${props.headMargin}px`};
 `;
