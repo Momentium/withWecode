@@ -10,10 +10,10 @@ const Main = () => {
       <StMainCont>
         <div className="projects-cont">
           <ProjectSection />
-          <div className="progress"></div>
-          <div className="new"></div>
+          {/* <div className="progress"></div>
+          <div className="new"></div> */}
         </div>
-        <div className="projects-banner"></div>
+        {/* <div className="projects-banner"></div> */}
         <div className="invest-cont">
           < InvestList />
         </div>

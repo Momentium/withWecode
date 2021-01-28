@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import ProgressingCard from './ProgressingCard'
 
@@ -9,10 +10,10 @@ import ProgressingCard from './ProgressingCard'
   const [projectData,setProjectData] = useState([]);
 
   useEffect(() => {
-    fetch("/data/progressing.json")
-    .then(res =>res.json())
+    axios.get("/data/progressing.json")
     .then(res =>{
-      setProjectData(res.projecting)
+      const _resData = res.data
+      setProjectData(_resData.projecting)
     })
   },[])
  

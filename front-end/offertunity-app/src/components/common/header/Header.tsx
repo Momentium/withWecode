@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, RouteComponentProps, } from "react-router-dom";
+import withRouterAndRef from 'api/withRouterAndRef';
 import styled, { css } from "styled-components";
 import * as St from "components/styles/styledComp";
 import { SearchSvg, UnSearchSvg } from "assets/icons/SearchSvg";
 
-const Header: React.FC<RouteComponentProps> = ({ location }) => {
+const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(({ location }, ref) => {
+  // const { location } = props
   const [focus, setFocus] = useState<boolean>(false);
   const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
     setFocus(!focus);
   };
 
   return (
-    <St.Section>
+    <StSection ref={ref}>
       <HeaderCon>
         <StLogoWrap>
           <Link to="/">
             <img src="/images/header/logo.png" alt="로고" />
           </Link>
         </StLogoWrap>
-        {!location.pathname.includes('auth') &&
+
+        { !location.pathname.includes('auth') &&
           <>
             <StNavCont>
               <StLinkWrap name="project" curPage={location.pathname?.substring(1)}>
@@ -58,17 +61,32 @@ const Header: React.FC<RouteComponentProps> = ({ location }) => {
             </Auth>
           </>
         }
-      </HeaderCon>
-    </St.Section>
-  );
-};
 
-export default withRouter(Header);
+      </HeaderCon>
+    </StSection>
+  );
+});
+
+export default withRouterAndRef(Header);
+
+const StSection = styled.div`
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+
+  background: white;
+  width: 100vw;
+  padding: 0 20rem;
+`;
 
 const HeaderCon = styled.header`
   display: flex;
-  justify-content: space-between;
-  /* justify-content: flex-start; */
+  justify-content: ${({theme}) => theme.pathname.includes('auth') ? 
+    "flex-start"
+    :
+    "space-between"
+  };
   align-items: center;
 
   width: 100%;
@@ -79,7 +97,7 @@ const HeaderCon = styled.header`
 
 const StLogoWrap = styled(St.FlexDiv)`
   display: flex;
-  flex: 1;
+  flex: ${({theme}) => !theme.pathname.includes('auth') && 1 };
 
   img {
     width: 10.25rem;

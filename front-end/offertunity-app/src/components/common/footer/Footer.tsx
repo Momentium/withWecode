@@ -38,7 +38,7 @@ export default Footer;
 const FooterSection = styled.footer`
   display: flex;
   justify-content: space-between;
-  ${({ theme }) => theme.ConWidth}
+  ${({ theme }) => theme.conWidth}
   padding-top: 4.563rem;
   height: 14.438rem;
 
