@@ -30,14 +30,14 @@ router.post(
 
 router.get('/naver', passport.authenticate('naver'));
 
-router.get('/naver/callback', function (req, res, next) {
-  passport.authenticate('naver', function (err, user) {
-    if (!user) { return res.redirect("/"); }
-    req.logIn(user, function (err) { 
-       console.log('naver/callback user : ', user);
-       return res.redirect("/success");        
-    });
-  })(req, res);
+router.get('/naver/callback', function(req, res, next) {
+    passport.authenticate('naver', function(err, user) {
+        if (!user) { return res.redirect("/"); }
+        req.logIn(user, function(err) {
+            console.log('naver/callback user : ', user);
+            return res.redirect("/success");
+        });
+    })(req, res);
 });
 
 //google
@@ -45,9 +45,9 @@ router.get('/naver/callback', function (req, res, next) {
 router.get('/google', passport.authenticate('google'));
 
 router.get('/google/callback', passport.authenticate('google', {
-  failureRedirect: '/users',
+    failureRedirect: '/users',
 }), (req, res) => {
-  res.redirect('/users/signin');
+    res.redirect('/users/signin');
 });
 
 //kakao
@@ -64,22 +64,22 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
 //mypage
 
 router.get(
-  "/mypage", 
-  validateToken, 
-  UserController.showMemberInfo)
+    "/mypage",
+    validateToken,
+    UserController.showMemberInfo)
 
 router.post(
-  "/mypage",
-  validateToken,
-  upload.single('profile_picture'),
-  UserController.addMemberInfo,
-  )
-  
+    "/mypage",
+    validateToken,
+    upload.single('profile_picture'),
+    UserController.addMemberInfo,
+)
+
 router.delete(
-  "/mypage",
-  validateToken,
-  UserController.deleteMemberInfo
-  )
+    "/mypage",
+    validateToken,
+    UserController.deleteMemberInfo
+)
 
 
 
