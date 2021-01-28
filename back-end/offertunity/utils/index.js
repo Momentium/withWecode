@@ -1,4 +1,5 @@
 const s3 = require('./s3')
+const dayjs = require('dayjs')
 
 const upsertConnection = (name, oldValue, newValue) => {
     const shouldModify = oldValue != newValue || !!oldValue !== !!newValue;
@@ -34,8 +35,13 @@ const lengthChecker = (...data) => {
   }
 }
 
+const dateForm = async (dateInfo) => {
+  return await dayjs(dateInfo).toDate()
+}
+
 module.exports = {
     upsertConnection,
     typeChecker,
     lengthChecker,
+    dateForm
 }

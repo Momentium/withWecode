@@ -42,7 +42,7 @@ model companies {
   type_id                                                 Int?
   name                                                    String?
   logo_img                                                String?
-  established_date                                        DateTime?
+  established_date                                        DateTime?              @db.Date
   homepage                                                String?
   description                                             String?
   team_intro                                              String?
@@ -155,13 +155,13 @@ model invested_to {
   id                Int               @id @default(autoincrement())
   partner_id        Int
   date              DateTime
-  startup_name      String
+  invested_startup  String
   invested_fund_id  Int
   corporate_value   Int
   series_id         Int
-  companies         companies         @relation(fields: [partner_id], references: [id])
   investment_series investment_series @relation(fields: [series_id], references: [id])
   investment_funds  investment_funds  @relation(fields: [invested_fund_id], references: [id])
+  partners          partners          @relation(fields: [partner_id], references: [id])
 
   @@index([partner_id], name: "FK_invested_to_partner_id_companies_id")
   @@index([series_id], name: "FK_invested_to_series_id_investment_series_id")
@@ -475,7 +475,6 @@ model user_agreements {
 model user_types {
   id        Int         @id @default(autoincrement())
   name      String      @unique
-  companies companies[]
   users     users[]
 }
 
