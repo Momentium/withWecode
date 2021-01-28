@@ -34,7 +34,7 @@ const Box = styled.div`
 `;
 
 const InnerBox = styled.div`
-  ${({ theme }) => theme.ConWidth}
+  ${({ theme }) => theme.conWidth}
   padding-top: 7.75rem;
   padding-bottom: 7.373rem;
 

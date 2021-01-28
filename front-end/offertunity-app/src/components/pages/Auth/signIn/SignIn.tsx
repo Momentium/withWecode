@@ -54,7 +54,6 @@ const SignIn:React.FC = () => {
 
   return (
     <>
-    <Header />
     <Wrap>
       <Bg>
         <MainTxt 
@@ -110,7 +109,7 @@ const SignIn:React.FC = () => {
 export default SignIn;
 
 const Wrap= styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   display:flex;
   justify-content:space-between;
   align-items:center;
