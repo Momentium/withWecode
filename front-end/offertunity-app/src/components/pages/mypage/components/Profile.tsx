@@ -1,32 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 type Props = {
-  data: {};
+  data: any;
 };
 
 const Profile: React.FC<Props> = ({ data }) => {
+  const { name, profile_picture, email, route, belong } = data;
+
   return (
     <Wrap>
       <Img>
         <span>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuxUTL6JRSyW63O0dNiXSjLDHgdKf3K1DFNQ&usqp=CAU"
-            alt="프로필사진"
-          />
+          <img src={profile_picture} alt="프로필사진" />
         </span>
-        <p>Mat</p>
+        <p>{name}</p>
       </Img>
       <Text>
         <Box className="box">
           <Info>
             <span>아이디</span>
-            <p>ma0621@naver.com</p>
+            <p>{email}</p>
           </Info>
           <Info>
             <span>가입경로</span>
-            <p>이메일로 가입하기 회원</p>
+            <p>{route === "1" && "이메일"}로 가입하기 회원</p>
           </Info>
           <Info>
             <span>회원 구분</span>
@@ -41,7 +39,7 @@ const Profile: React.FC<Props> = ({ data }) => {
           </Info>
           <Info>
             <span>소속 스타트업</span>
-            <p>마이 스타트업을 등록해주세요.</p>
+            <p>{belong}</p>
           </Info>
           <BtnTwo>마이 스타트업 관리</BtnTwo>
         </Box>
@@ -52,8 +50,7 @@ const Profile: React.FC<Props> = ({ data }) => {
 
 export default Profile;
 
-const Wrap = styled.section`
-  ${({ theme }) => theme.ConWidth};
+const Wrap = styled.div`
   box-shadow: 0px 6px 16px #53526217;
   background: #fff;
   display: flex;

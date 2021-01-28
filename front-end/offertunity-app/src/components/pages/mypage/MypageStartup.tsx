@@ -9,17 +9,37 @@ import Interested from "./components/Interested";
 
 const MypageStartup: React.FC = () => {
   const [profileData, setProfileData] = useState({});
+  const [successData, setSuccessData] = useState();
+  const [interestData, setInterestData] = useState();
+  const [irData, setIrData] = useState();
 
   useEffect(() => {
     getProfileData();
+    getSuccessData();
+    getInterestData();
+    getIrData();
   }, []);
 
   const getProfileData = () => {
     axios.get("/data/mypageStartup.json").then((res) => {
       setProfileData(res.data.data.profile);
     });
-    //const name = profileData;
-    console.log(profileData);
+  };
+
+  const getSuccessData = () => {
+    axios.get("/data/boxone.json").then((res) => {
+      setSuccessData(res.data.Percentage);
+    });
+  };
+  const getInterestData = () => {
+    axios.get("/data/boxtwo.json").then((res) => {
+      setInterestData(res.data.interestIn);
+    });
+  };
+  const getIrData = () => {
+    axios.get("/data/boxthree.json").then((res) => {
+      setIrData(res.data.ir);
+    });
   };
 
   return (
@@ -32,9 +52,9 @@ const MypageStartup: React.FC = () => {
           <Profile data={profileData} />
           <WorkStation />
           <BoxWrap>
-            <Box />
-            <Box />
-            <Box />
+            <Box success={successData} interest={""} ir={""} />
+            <Box success={""} interest={interestData} ir={""} />
+            <Box success={""} interest={""} ir={irData} />
           </BoxWrap>
           <Level />
         </Center>
@@ -54,8 +74,8 @@ const Wrap = styled.div`
   padding-bottom: 7.6rem;
 `;
 
-const Center = styled.section`
-  ${({ theme }) => theme.ConWidth};
+const Center = styled.div`
+  ${({ theme }) => theme.conWidth}
 `;
 
 const Station = styled.div`
@@ -73,7 +93,7 @@ const BoxWrap = styled.div`
 `;
 
 const Title = styled.p`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   padding: 7.5rem 0 3.5rem 0;
   font-size: 1.75rem;
   font-weight: bold;

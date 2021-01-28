@@ -1,11 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-const CheckBtn = () => {
+type Props = {
+  data: any;
+  key: number;
+  index: number;
+};
+
+const CheckBtn: React.FC<Props> = ({ data, key, index }) => {
+  console.log(data.name);
+  const { name, check } = data;
   return (
-    <Btn>
+    <Btn key={index}>
       <i className="far fa-circle" />
-      회원가입 완료
+      {name}
     </Btn>
   );
 };
@@ -30,7 +38,6 @@ const Btn = styled.div`
     color: #c2bdf0;
     font-size: 1.5rem;
   }
-
   &:nth-child(3n) {
     margin-right: 0;
   }

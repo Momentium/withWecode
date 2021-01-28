@@ -18,5 +18,5 @@ const Interested = () => {
 export default Interested;
 
 const Wrap = styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth}
 `;

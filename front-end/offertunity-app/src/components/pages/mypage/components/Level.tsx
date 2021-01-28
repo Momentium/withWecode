@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ProgressBar from "./ProgressBar";
 import CheckBtn from "./CheckBtn";
+import axios from "axios";
 
-const Level = () => {
+const Level: React.FC = () => {
+  const [checked, setChecked] = useState([]);
+  useEffect(() => {
+    axios.get("/data/level.json").then((res) => {
+      setChecked(res.data.data);
+    });
+  }, []);
+
   return (
     <Wrap>
       <Title>
@@ -14,12 +22,9 @@ const Level = () => {
       </Title>
       <ProgressBar />
       <BtnWrap>
-        <CheckBtn />
-        <CheckBtn />
-        <CheckBtn />
-        <CheckBtn />
-        <CheckBtn />
-        <CheckBtn />
+        {checked.map((el: any, idx: number) => {
+          return <CheckBtn data={el} key={idx} index={idx} />;
+        })}
       </BtnWrap>
     </Wrap>
   );

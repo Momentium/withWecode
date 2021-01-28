@@ -26,6 +26,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
       <Header ref={headerRef} />
       <StAppCont headMargin={headMargin}>
         {!location.pathname.includes("auth") && <Banner />}
+        {!location.pathname.includes("MypageStartup") && <Banner />}
 
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
@@ -33,6 +34,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         <Route path="/list" component={StartupList} />
         <Route path="/auth/:name" component={Auth} />
         <Route path="/details" component={StartupDetails} />
+        <Route path="/MypageStartup" component={MypageStartup} />
       </StAppCont>
 
       {/* Footer 들어갈 자리 */}
