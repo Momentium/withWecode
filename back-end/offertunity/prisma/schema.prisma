@@ -129,9 +129,10 @@ model document_types {
 }
 
 model email_auth {
-  id          Int    @id @default(autoincrement())
-  email       String
-  auth_number String
+  email       String @unique
+  auth_number String @unique
+  @@id([email, auth_number])
+
 }
 
 model invested_from {
