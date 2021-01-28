@@ -10,7 +10,6 @@ export default function SimpleSlider() {
       .then((res) => res.json())
       .then((res) => {
         setBanner(res.bannerCon);
-        console.log(res);
       });
   }, []);
 

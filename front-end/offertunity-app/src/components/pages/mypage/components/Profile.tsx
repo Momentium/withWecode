@@ -2,7 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-const Profile = () => {
+type Props = {
+  data: {};
+};
+
+const Profile: React.FC<Props> = ({ data }) => {
   return (
     <Wrap>
       <Img>
@@ -12,7 +16,7 @@ const Profile = () => {
             alt="프로필사진"
           />
         </span>
-        <p>MAT</p>
+        <p>{data.name}</p>
       </Img>
       <Text>
         <Box className="box">

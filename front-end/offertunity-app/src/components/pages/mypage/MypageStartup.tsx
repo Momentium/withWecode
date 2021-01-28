@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import Profile from "./components/Profile";
 import WorkStation from "./components/WorkStation";
@@ -6,7 +7,19 @@ import Box from "./components/Box";
 import Level from "./components/Level";
 import Interested from "./components/Interested";
 
-const MypageStartup = () => {
+const MypageStartup: React.FC = () => {
+  const [profileData, setProfileData] = useState({});
+
+  useEffect(() => {
+    getProfileData();
+  }, []);
+
+  const getProfileData = () => {
+    axios.get("/data/mypageStartup.json").then((res) => {
+      setProfileData(res.data.data.profile);
+    });
+  };
+
   return (
     <>
       <Wrap>
@@ -14,7 +27,7 @@ const MypageStartup = () => {
           <Station>
             홈 <i className="fas fa-chevron-right" /> 마이페이지
           </Station>
-          <Profile />
+          <Profile data={profileData} />
           <WorkStation />
           <BoxWrap>
             <Box />
