@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Slider from "react-slick";
 import BannerCard from "./BannerCard";
 import styled from "styled-components";
@@ -6,11 +7,10 @@ import styled from "styled-components";
 export default function SimpleSlider() {
   const [banner, setBanner] = useState([]);
   useEffect(() => {
-    fetch("/data/mainBanner.json")
-      .then((res) => res.json())
-      .then((res) => {
-        setBanner(res.bannerCon);
-      });
+    axios.get("/data/mainBanner.json").then((res) => {
+      const _resData = res.data;
+      setBanner(_resData.bannerCon);
+    });
   }, []);
 
   function SamplePrevArrow(props: any) {

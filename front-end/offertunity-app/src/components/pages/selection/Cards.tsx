@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Labels from "../../common/label/Labels";
 
 const Cards = ({ data }: any) => {
   const { title, image, logo, label, field, stack, invest, description } = data;
@@ -23,11 +24,7 @@ const Cards = ({ data }: any) => {
             <p>{title}</p>
             <LogoWrapper style={backgroundLogoImage} />
           </TitleWrapper>
-          <LabelWrapper>
-            {label.map((category: string, idx: any) => {
-              return <span key={idx}>{category}</span>;
-            })}
-          </LabelWrapper>
+          <Labels label={label} />
         </BottomSection>
         <Figure>
           <TitleWithLogo>
@@ -104,23 +101,6 @@ const TitleWrapper = styled.div`
 const LogoWrapper = styled.div`
   width: 4.18rem;
   height: 3.75rem;
-`;
-
-const LabelWrapper = styled.div`
-  width: 100%;
-  padding-bottom: 0.625rem;
-  display: flex;
-  flex-wrap: wrap;
-
-  span {
-    margin: 0.3rem 0.6rem 0.3rem 0;
-    height: 1.4rem;
-    display: inline-block;
-    border: 1px solid #c3bdf4;
-    padding: 0.3rem 0.375rem;
-    color: #c3bdf4;
-    font-size: 0.688rem;
-  }
 `;
 
 const Figure = styled.div`

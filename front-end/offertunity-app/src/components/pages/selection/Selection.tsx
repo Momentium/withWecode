@@ -49,7 +49,7 @@ const Selection = () => {
 export default Selection;
 
 const Selections = styled.section`
-  ${({ theme }) => theme.ConWidth}
+  ${({ theme }) => theme.conWidth}
 `;
 
 const CardContainer = styled.div`

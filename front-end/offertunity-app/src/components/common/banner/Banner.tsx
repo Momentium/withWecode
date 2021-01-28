@@ -1,14 +1,17 @@
-import React from 'react';
+import styled from 'styled-components';
 import AutoSlider from './bannerUI'
 
 
 const InvestList = () => {
   return (
-    <div>
+    <StSlideCont>
       <AutoSlider />  
-    </div>
+    </StSlideCont>
   )
 };
 
 export default InvestList;
 
+const StSlideCont = styled.div`
+  margin-bottom: 7.5rem;
+`;
