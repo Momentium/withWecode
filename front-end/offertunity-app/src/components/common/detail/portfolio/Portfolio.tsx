@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  MouseEvent,
-  MutableRefObject,
-} from "react";
+import React, { useEffect, MouseEvent } from "react";
 import styled from "styled-components";
 import Flicking from "@egjs/react-flicking";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
@@ -20,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
     },
     paper: {
-      width: "500px",
+      width: "700px",
       height: "500px",
 
       "& img": {
@@ -34,14 +28,19 @@ const useStyles = makeStyles((theme: Theme) =>
 const CompanyImgSlider = ({ images }: any) => {
   const [open, setOpen] = React.useState(false);
   const [currImg, setCurrImg] = React.useState<string>();
+  const [visibleBtn, setVisibleBtn] = React.useState(false);
   const flicking = React.useRef() as React.MutableRefObject<any>;
 
+  useEffect(() => {
+    images.length <= 3 && setVisibleBtn(true);
+  }, []);
+
   const moveToLeft = () => {
-    flicking.current.prev();
+    flicking.current.prev(300);
   };
 
   const moveToRight = () => {
-    flicking.current.next();
+    flicking.current.next(300);
   };
 
   const handleOpen = (event: MouseEvent) => {
@@ -56,27 +55,32 @@ const CompanyImgSlider = ({ images }: any) => {
 
   const flickingContainer = {
     width: "100%",
-    height: "14rem",
+    height: "16rem",
   };
 
   const classes = useStyles();
 
   return (
     <>
-      <ControlBtns>
-        <LeftBtn onClick={moveToLeft} />
-        <RightBtn onClick={moveToRight} />
-      </ControlBtns>
+      {visibleBtn ? (
+        ""
+      ) : (
+        <ControlBtns>
+          <LeftBtn onClick={moveToLeft} />
+          <RightBtn onClick={moveToRight} />
+        </ControlBtns>
+      )}
 
       <SliderBox>
         <Flicking
           className="flicking flicking1"
-          gap={24}
+          gap={15}
           lastIndex={4}
           bound={true}
           style={flickingContainer}
           ref={flicking}
           zIndex={0}
+          isConstantSize={true}
         >
           {images.map((item: string, idx: number) => {
             return (
@@ -117,7 +121,7 @@ const SliderBox = styled.div`
 `;
 
 const SliderImgWrapper = styled.div`
-  width: 21rem;
+  width: 26rem;
   height: 100%;
 
   img {

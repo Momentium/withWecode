@@ -1,21 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import LikeBtn from "../../common/button/iconBtn/LikeBtn";
 import Title from "./Title";
 
 const Card = ({ data, name, background }: any) => {
   const { title, image, label, description, service, shortDescriotion } = data;
-  const [likeStatus, setLikeStatus] = useState<any>(false);
-  const [likeImg, setLikeImg] = useState<JSX.Element>(
-    <img alt="logo" src="/images/icons/heart.png" />
-  );
-
-  // 백엔드 좋아요 API 나오면 수정할예정
-  const handleLikeBtn = () => {
-    setLikeStatus(!likeStatus);
-    likeStatus
-      ? setLikeImg(<img src="/images/icons/heart_fill.png" />)
-      : setLikeImg(<img src="/images/icons/heart.png" />);
-  };
+  const [like, setLike] = useState<boolean>(data.like);
 
   const cardImage = {
     backgroundImage: `url(${image})`,
@@ -24,12 +14,16 @@ const Card = ({ data, name, background }: any) => {
     backgroundPosition: "center",
   };
 
+  const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
+    setLike(!like);
+  };
+
   return (
     <Wrapper className={name}>
       <Image style={cardImage} className={name}>
-        <LikeBtn onClick={handleLikeBtn} className={name}>
-          {likeImg}
-        </LikeBtn>
+        <div className="likebtnWrap">
+          <LikeBtn isLike={like} clickLike={clickLike} />
+        </div>
       </Image>
       <Title title={title} />
       {service ? (
@@ -78,25 +72,17 @@ const Wrapper = styled.div`
   }
 `;
 
-const LikeBtn = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 2.5rem;
-  height: 3rem;
-  right: 1px;
-  cursor: pointer;
-
-  &.startupList {
-    top: 1px;
-  }
-`;
-
 const Image = styled.div`
   width: 14.875rem;
   height: 10.375rem;
-  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+
+  .likebtnWrap {
+    position: absolute;
+    right: 1%;
+    top: 2%;
+  }
 
   &.issueStartup {
     position: relative;
