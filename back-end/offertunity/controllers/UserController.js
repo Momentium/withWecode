@@ -1,3 +1,5 @@
+console.log("location: UserController")
+
 require("dotenv").config();
 const { AUTH_TOKEN_SALT } = process.env
 const bcrypt = require('bcryptjs')
@@ -37,7 +39,37 @@ const signIn = errorWrapper(async(req, res) => {
     res.status(200).json({ message: 'login success!', token })
 })
 
+const showMemberInfo = errorWrapper(async(req, res) => {
+    const { id: userId } = req.foundUser
+    const userInfo = await UserService.findUserInfo({ id: userId })
+    res.status(200).json({ userInfo })
+
+})
+
+const addMemberInfo = errorWrapper(async(req, res) => {
+    const { id: userId } = req.foundUser
+    const requestedFields = req.body
+    const profile_picture = req.file? req.file.location : null;
+    const addInfo = await UserService.updateInfo({ userId, requestedFields, profile_picture })
+    res.status(201).json({
+        message: 'information successfully added'
+    })
+})
+
+const deleteMemberInfo = errorWrapper(async(req, res) => {
+    const { id: userId } = req.foundUser
+    const deleteMemberInfo = await UserService.deleteMemberInfo({ id: userId})
+    res.status(201).json({
+        message: 'user successfully deleted'
+    })
+    
+})
+
+
 module.exports = {
     signIn,
     signUp,
+    showMemberInfo,
+    addMemberInfo,
+    deleteMemberInfo
 }

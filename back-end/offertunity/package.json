@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "node ./bin/www",
     "serve": "nodemon ./bin/www"
   },
   "dependencies": {
     "@prisma/client": "^2.14.0",
     "assert": "^2.0.0",
+    "aws-amplify": "^3.3.14",
     "aws-sdk": "^2.831.0",
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",

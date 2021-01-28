@@ -1,3 +1,4 @@
+console.log('location: app')
 require("dotenv").config();
 const { COOKIE_SECRET } = process.env
 
@@ -32,4 +33,5 @@ app.use((err, req, res, next) => {
     console.error(err)
     res.status(statusCode || 500).json({ message })
 })
+
 module.exports = app;
