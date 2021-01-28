@@ -31,7 +31,7 @@ const App:React.FC<RouteComponentProps<any>> = ({ location }) => {
           {/* Route 들어갈 자리 */}
           <Route exact path="/" component={Main} />
           <Route path="/project" component={ProjectPage} />
-          <Route path="/list" component={StartupList} />
+          <Route path="/startup" component={StartupList} />
           <Route path="/auth/:name" component={Auth} />
           <Route path="/details" component={StartupDetails} />
         </StAppCont>
