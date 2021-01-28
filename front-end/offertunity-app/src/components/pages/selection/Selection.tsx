@@ -1,9 +1,10 @@
 import React, { MouseEvent, useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import Title from "./Title";
 import Tabs from "./Tabs";
 import Cards from "./Cards";
-import axios from "axios";
+import MoreBtn from 'components/common/button/iconBtn/MoreBtn';
 
 const Selection = () => {
   const [companyData, setCompanyData] = useState<any[]>([]);
@@ -37,7 +38,12 @@ const Selection = () => {
 
   return (
     <Selections>
-      <Title title={"스타트업 셀렉션"} />
+      <StTopCont>
+        {/* <Title title={"스타트업 셀렉션"} /> */}
+        <StTitle>스타트업 셀렉션</StTitle>
+
+        <MoreBtn txt={'더 많은 스타트업 보기'} toLink={'/startup'}/>
+      </StTopCont>
       <Tabs handleClickTab={handleClickTab} />
       <CardContainer>
         {cardList.filter((el: JSX.Element, idx: number) => view[idx])}
@@ -50,6 +56,17 @@ export default Selection;
 
 const Selections = styled.section`
   ${({ theme }) => theme.conWidth}
+`;
+
+const StTopCont = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StTitle = styled.span`
+  font-size:1.68rem;
+  font-weight:bold;
+  
 `;
 
 const CardContainer = styled.div`
