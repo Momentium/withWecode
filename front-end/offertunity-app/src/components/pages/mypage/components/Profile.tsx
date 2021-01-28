@@ -16,7 +16,7 @@ const Profile: React.FC<Props> = ({ data }) => {
             alt="프로필사진"
           />
         </span>
-        <p>{data.name}</p>
+        <p>Mat</p>
       </Img>
       <Text>
         <Box className="box">

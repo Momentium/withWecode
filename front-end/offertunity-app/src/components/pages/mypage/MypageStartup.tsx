@@ -18,6 +18,8 @@ const MypageStartup: React.FC = () => {
     axios.get("/data/mypageStartup.json").then((res) => {
       setProfileData(res.data.data.profile);
     });
+    //const name = profileData;
+    console.log(profileData);
   };
 
   return (
