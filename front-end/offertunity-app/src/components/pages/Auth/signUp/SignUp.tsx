@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
-import Header from "../components/Header"
 import MainTxt from "../components/MainTxt";
 import Naver from "../logoIcons/Naver"
 import Kakao from "../logoIcons/Kakao"
@@ -12,7 +11,6 @@ import Question from "../components/Question"
 const SignUp:React.FC = () => {
   return (
     <>
-    <Header />
     <Wrap>
       <Bg>
         <MainTxt 
@@ -46,7 +44,7 @@ const SignUp:React.FC = () => {
 export default SignUp;
 
 const Wrap= styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   display:flex;
   justify-content:space-between;
   align-items:center;

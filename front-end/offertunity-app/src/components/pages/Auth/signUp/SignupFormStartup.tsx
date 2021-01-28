@@ -35,7 +35,7 @@ const SignupFormStartup:React.FC = () => {
 export default SignupFormStartup;
 
 const Wrap= styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   display:flex;
   justify-content:space-between;
   padding-top:10rem;
