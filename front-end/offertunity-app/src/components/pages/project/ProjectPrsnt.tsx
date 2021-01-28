@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import * as St from 'components/styles/styledComp';
 import LikeBtn from 'components/common/button/iconBtn/LikeBtn';
@@ -11,7 +12,7 @@ const ProjectPrsnt:React.FC<any> = ({ data, tags, like, clickLike }) => {
 
       <StContentsCont>
         <div className="up-wrap">
-          <div className="name">{data.name}</div>
+          <StNameCont className="name" to={`/project/detail/${data.id}`}>{data.name}</StNameCont>
           <div className="iconBtn-cont">
             <LikeBtn isLike={like} clickLike={clickLike}/>
             <ShareBtn/>
@@ -82,13 +83,6 @@ const StContentsCont = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 
-  /* * {
-    text-align: left;
-    letter-spacing: 0px;
-    color: #000000;
-    opacity: 1;
-  } */
-
   .up-wrap {
     width: 100%;
     margin-bottom: 16px;
@@ -98,12 +92,6 @@ const StContentsCont = styled.div`
     align-items: flex-start;
 
     font: normal normal bold 21px/32px Spoqa Han Sans Neo;
-
-    .name {
-      flex: 7;
-
-      word-break: keep-all;
-    }
 
     .iconBtn-cont {
       flex: 3;
@@ -143,6 +131,14 @@ const StContentsCont = styled.div`
   .bot-wrap {
     margin-top: 32px;
     display: flex;
+  }
+`;
+
+const StNameCont = styled(Link)`
+  .name {
+    flex: 7;
+
+    word-break: keep-all;
   }
 `;
 

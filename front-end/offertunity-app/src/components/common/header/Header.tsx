@@ -146,7 +146,7 @@ const StLinkWrap = styled.div<{ name: string; curPage: string }>`
   }
 
   ${(props) =>
-    props.name === props.curPage &&
+    props.curPage.includes(props.name) &&
     css`
       * {
         animation: colorChangeNav 0.2s forwards;
