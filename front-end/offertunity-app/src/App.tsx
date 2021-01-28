@@ -8,56 +8,55 @@ import ProjectPage from "./components/pages/project/ProjectPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
-import Auth from "./components/pages/Auth/Auth";
+import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
 import StartupDetails from "./components/pages/startupDetails/StartupDetails";
 import MypageStartup from "./components/pages/mypage/MypageStartup";
+import PartnerList from "components/pages/partnerList/PartnerList";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [HH, setHH] = useState<number | undefined>(60);
   // useEffect(() => {
-    // console.log(location.pathname)
+  // console.log(location.pathname)
   // }, []);
 
   const [curPage, setCurPage] = useState<string>("");
   useEffect(() => {
     setCurPage(location.pathname);
-  }, [location])
-          
+  }, [location]);
+
   return (
     <ThemeProvider theme={theme}>
-      
-        {/* Header 들어갈 자리 */}
-        <Header />
-        {
-         !curPage.includes("auth")  &&
-          <>
-            <Banner />
-          </>
-        }
-        <StAppCont headerHeight={HH}>
-          {/* Route 들어갈 자리 */}
-          <Route exact path="/" component={Main} />
-          <Route path="/project" component={ProjectPage} />
-          <Route path="/list" component={StartupList} />
-          <Route path="/auth/:name" component={Auth} />
-          <Route path="/details" component={StartupDetails} />
-        </StAppCont>
-         {/* Footer 들어갈 자리 */}
-        {
-           !curPage.includes("auth")  &&
-          <>
-            <Newsletter />
-            <Footer />
-          </>
-        }
-        
+      {/* Header 들어갈 자리 */}
+      <Header />
+      {!curPage.includes("auth") && (
+        <>
+          <Banner />
+        </>
+      )}
+      <StAppCont headerHeight={HH}>
+        {/* Route 들어갈 자리 */}
+        <Route exact path="/" component={Main} />
+        <Route path="/project" component={ProjectPage} />
+        <Route path="/list" component={StartupList} />
+        <Route path="/partner" component={PartnerList} />
+        {/* <Route path="/partner/:id" component={PartnerList} /> */}
+        <Route path="/auth/:name" component={Auth} />
+        <Route path="/details" component={StartupDetails} />
+      </StAppCont>
+      {/* Footer 들어갈 자리 */}
+      {!curPage.includes("auth") && (
+        <>
+          <Newsletter />
+          <Footer />
+        </>
+      )}
     </ThemeProvider>
   );
 };
 export default withRouter(App);
 
-// const StAppCont = styled.div<{ headerHeight: number | undefined }>`
-//   /* margin-top: ${(props) => `${props.headerHeight}px`}; */
-//   margin-top: 7.5em;
-// `;
+const StAppCont = styled.div<{ headerHeight: number | undefined }>`
+  /* margin-top: ${(props) => `${props.headerHeight}px`}; */
+  margin-top: 7.5em;
+`;
