@@ -22,6 +22,8 @@ const PaginationCmp = ({ onChange, page, itemsPerPage, totalLength }: any) => {
   const classes = useStyles();
   const noOfPages = Math.ceil(totalLength / itemsPerPage);
 
+  console.log(totalLength);
+
   return (
     <Box component="span">
       <Pagination

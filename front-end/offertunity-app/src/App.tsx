@@ -9,18 +9,19 @@ import ProjectDetail from "./components/pages/project/detail/ProjectDetailPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
-import Auth from "./components/pages/Auth/Auth";
+import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
 import StartupDetails from "./components/pages/startupDetails/StartupDetails";
 import MypageStartup from "./components/pages/mypage/MypageStartup";
+import PartnerList from "components/pages/partnerList/PartnerList";
 
-const App:React.FC<RouteComponentProps<any>> = ({ location }) => {
+const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
   const headerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setHeadMargin(headerRef.current?.clientHeight);
   }, []);
-    
+
   return (
     <ThemeProvider theme={{...theme, ...location}}>
       
@@ -38,24 +39,25 @@ const App:React.FC<RouteComponentProps<any>> = ({ location }) => {
               <Route path="/project/detail/:id" component={ProjectDetail}/>
               <Route path="/project" component={ProjectPage}/>
           </Switch>
-          <Route path="/startup" component={StartupList} />
+          <Route path="/list" component={StartupList} />
           <Route path="/auth/:name" component={Auth} />
           <Route path="/details" component={StartupDetails} />
+          <Route path="/partner" component={PartnerList} />
+          {/* <Route path="/partner/:id" component={PartnerList} /> */}
         </StAppCont>
 
-         {/* Footer 들어갈 자리 */}
-        { !location.pathname.includes("auth") &&
-          <>
-            <Newsletter />
-            <Footer />
-          </>
-        }
-        
+      {/* Footer 들어갈 자리 */}
+      {!location.pathname.includes("auth") && (
+        <>
+          <Newsletter />
+          <Footer />
+        </>
+      )}
     </ThemeProvider>
   );
 };
 export default withRouter(App);
 
-const StAppCont = styled.div<{headMargin: number | undefined}>`
-  margin-top: ${props => `${props.headMargin}px`};
+const StAppCont = styled.div<{ headMargin: number | undefined }>`
+  margin-top: ${(props) => `${props.headMargin}px`};
 `;

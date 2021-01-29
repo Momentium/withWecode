@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import Slider from "react-slick";
 import BannerCard from "./BannerCard";
 import styled from "styled-components";
 
 export default function SimpleSlider() {
   const [banner, setBanner] = useState([]);
+
+  const getUrl = () => {
+    const partnerList = window.location.pathname.includes("/partner/list");
+    if (partnerList) {
+      return "/data/partnerBanner.json";
+    } else {
+      return "/data/mainBanner.json";
+    }
+  };
+
   useEffect(() => {
-    axios.get("/data/mainBanner.json")
-    .then((res) => {
+    axios.get(getUrl()).then((res) => {
       const _resData = res.data;
       setBanner(_resData.bannerCon);
     });
-  }, []);
+  }, [banner]);
 
   function SamplePrevArrow(props: any) {
     const { className, style, onClick } = props;
@@ -82,7 +91,7 @@ export default function SimpleSlider() {
           return (
             <div>
               <h3>
-                <BannerCard data={bannercon} />
+                <BannerCard data={bannercon} />ㅁ
               </h3>
             </div>
           );
