@@ -15,7 +15,7 @@ const PartnerList = () => {
     const LIMIT = 12;
     axios
       .get(
-        `http://localhost:3001/data/partnerData/offset=${page}&limit=${LIMIT}.json`
+        `http://localhost:3000/data/partnerData/offset=${page}&limit=${LIMIT}.json`
       )
       .then((res) => {
         setPartnerList(res.data.data);

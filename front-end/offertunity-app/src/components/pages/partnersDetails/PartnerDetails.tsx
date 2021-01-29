@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import MoveBar from "../../common/detail/MoveBar";
-import CompanyCard from "../../common/detail/card/Card";
-import CompanyDescription from "../../common/detail/description/Description";
+import CompanyCard from "./compontents/PartnerCard";
+import CompanyDescription from "./compontents/PartnerDescription";
 
 const PartnerDetails = () => {
   const [partnerData, setPartnerData] = useState();
@@ -14,6 +14,7 @@ const PartnerDetails = () => {
       setPartnerData(_data);
     });
   }, []);
+
   return (
     <DetailBox>
       <MoveBar data={partnerData} />

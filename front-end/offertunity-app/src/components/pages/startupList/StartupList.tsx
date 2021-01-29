@@ -17,7 +17,7 @@ const StartupList = () => {
   useEffect(() => {
     const LIMIT = 16;
     axios
-      .get(`http://localhost:3001/data/offset=${page}&limit=${LIMIT}.json`)
+      .get(`http://localhost:3000/data/offset=${page}&limit=${LIMIT}.json`)
       .then((res) => {
         setStartupList(res.data.data);
       });
@@ -28,7 +28,7 @@ const StartupList = () => {
     axios.get(`data/startupList.json`).then((res) => {
       setTotalLength(res.data.data.length);
     });
-  });
+  }, []);
 
   const handleClickPage = (event: any, value: any) => {
     setPage(value);

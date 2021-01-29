@@ -32,7 +32,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
     <ThemeProvider theme={{ ...theme, ...location }}>
       {/* Header 들어갈 자리 */}
       <Header ref={headerRef} />
-      <StAppCont headMargin={headMargin}>
+      <StAppCont className="app" headMargin={headMargin}>
         {!location.pathname.includes("auth") &&
           !location.pathname.includes("detail") && <Banner />}
 
@@ -41,12 +41,12 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         <Switch>
           <Route path="/project/detail/:id" component={ProjectDetail} />
           <Route path="/project" component={ProjectPage} />
+          <Route path="/startup" component={StartupList} />
+          <Route path="/startup/detail" component={StartupDetails} />
+          <Route path="/partner" component={PartnerDetails} />
+          <Route path="/partner/detail/:id" component={PartnerDetails} />
         </Switch>
-        <Route path="/startup" component={StartupList} />
         <Route path="/auth/:name" component={Auth} />
-        <Route path="/startup/:id" component={StartupDetails} />
-        <Route path="/partner" component={PartnerList} />
-        <Route path="/partner/:id" component={PartnerDetails} />
       </StAppCont>
 
       {/* Footer 들어갈 자리 */}

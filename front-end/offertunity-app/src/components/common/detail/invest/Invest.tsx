@@ -1,49 +1,29 @@
 import React from "react";
 import styled from "styled-components";
-import Title from "../../../common/title/Title";
+import Title from "../../title/Title";
 
-const CompanyInvestInfo = ({ data }: any) => {
-  const {
-    attractInvestment,
-    candiateInvestPrice,
-    candidateInvestYear,
-    currInvestYear,
-  } = data;
-
-  const infoContainerData = [
-    {
-      title: "현재 투자 단계",
-      content: currInvestYear,
-    },
-    {
-      title: "희망 투자 단계",
-      content: candidateInvestYear.join(","),
-    },
-    {
-      title: "희망 투자 유치 금액",
-      content: candiateInvestPrice,
-    },
-  ];
-
+const Invest = ({ data }: any) => {
+  const { attractInvestment, infoContainerData, containerTitle } = data;
   return (
     <InvestBox>
-      <Title title={"투자정보"} />
+      <Title title={"투자 정보"} />
       <InvestInfoBox>
-        {infoContainerData.map((item: any, idx: number) => {
-          return (
-            <InfoWrapper key={idx}>
-              <h1>{item.title}</h1>
-              <span>{item.content}</span>
-            </InfoWrapper>
-          );
-        })}
+        {infoContainerData &&
+          infoContainerData.map((item: any, idx: number) => {
+            return (
+              <InfoWrapper key={idx}>
+                <h1>{item.title}</h1>
+                <span>{item.content}</span>
+              </InfoWrapper>
+            );
+          })}
       </InvestInfoBox>
       <InvestHistory>
         {attractInvestment.map((item: any, idx: number) => {
           return (
             <HistoryWrapper className="wrapper" key={idx}>
               <div className="titleBox">
-                <p className="title">{"투자 유치 이력"}</p>
+                <p className="title">{containerTitle}</p>
               </div>
               <div className="contentBox">
                 <div className="box">
@@ -75,7 +55,7 @@ const CompanyInvestInfo = ({ data }: any) => {
   );
 };
 
-export default CompanyInvestInfo;
+export default Invest;
 
 const InvestBox = styled.section`
   display: flex;

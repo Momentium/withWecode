@@ -3,10 +3,6 @@ import styled from "styled-components";
 import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
 
-interface Props {
-  data: any;
-}
-
 const CompanyCard = ({ data, detailInfo }: any) => {
   const { title, titleImage, logo, label, like, homepage } = data;
 

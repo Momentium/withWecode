@@ -22,12 +22,6 @@ const Startup = ({ data, itemsPerPage, page }: any) => {
     <StartupBox>
       <StCont className="filter-cont">
         <Title title={"스타트업"} />
-        <RightBox>
-          <Search onKeyPress={onKeyPress} onChange={onChange} />
-          <SelectBtn curPage={"project"} category={"date"} />
-          <SelectBtn curPage={"project"} category={"support"} />
-          <SelectBtn curPage={"project"} category={"establish"} />
-        </RightBox>
       </StCont>
       <CardList
         data={data}
