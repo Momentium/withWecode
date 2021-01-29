@@ -76,8 +76,9 @@ const StSection = styled.div`
   top: 0;
 
   background: white;
-  width: 100vw;
-  padding: 0 20rem;
+  width: 80rem;
+  padding: 0 320px;
+  box-sizing: content-box;
 `;
 
 const HeaderCon = styled.header`

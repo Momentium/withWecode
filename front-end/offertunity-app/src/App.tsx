@@ -26,7 +26,7 @@ const App:React.FC<RouteComponentProps<any>> = ({ location }) => {
       
         {/* Header 들어갈 자리 */}
         <Header ref={headerRef}/>
-        <StAppCont headMargin={headMargin}>
+        <StAppCont className="app" headMargin={headMargin}>
           { !location.pathname.includes("auth") && 
             !location.pathname.includes("detail") && 
             <Banner /> 
