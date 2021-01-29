@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import MoreBtn from 'components/common/button/iconBtn/MoreBtn';
 
 const backgroundImage = {
   backgroundImage: `url(/images/newsletter/newspaperx2.png)`,
@@ -18,6 +19,7 @@ const Newsletter = ({ data }: any) => {
         </div>
         <div className="bottom">
           <span>무료</span>&nbsp;구독 신청하기
+          <MoreBtn txt={''} toLink={'/'}/>
         </div>
       </InnerBox>
     </Box>
@@ -30,7 +32,7 @@ const Box = styled.div`
   width: 100%;
   height: 31.25rem;
   margin-top: 7.5rem;
-  cursor: pointer;
+  /* cursor: pointer; */
 `;
 
 const InnerBox = styled.div`

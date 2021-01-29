@@ -26,14 +26,14 @@ const MoveBar = ({ data }: any) => {
           <Link to="/">홈 &nbsp;</Link>
           &gt; &nbsp;
           <Link to="/list">스타트업 &nbsp;</Link>
-          &gt; &nbsp;{data.title}
+          {/* &gt; &nbsp;{data.title} */}
         </>
       ) : (
         <>
           <Link to="/">홈 &nbsp;</Link>
           &gt; &nbsp;
           <Link to="/partner">지원/투자 파트너스 &nbsp;</Link>
-          &gt; &nbsp;{data.title}
+          {/* &gt; &nbsp;{data.title} */}
         </>
       )}
     </InformationCompany>

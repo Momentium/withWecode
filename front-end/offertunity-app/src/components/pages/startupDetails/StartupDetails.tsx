@@ -41,5 +41,5 @@ const StartupDetails = () => {
 export default StartupDetails;
 
 const DetailBox = styled.main`
-  ${({ theme }) => theme.ConWidth}
+  ${({ theme }) => theme.conWidth}
 `;

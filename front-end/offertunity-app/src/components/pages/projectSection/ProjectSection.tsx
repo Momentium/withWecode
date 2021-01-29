@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import ProgressingProject from "./ProgressingProject";
 import NewProject from "./NewProject";
-import MoreProject from "./MoreProject";
+// import MoreProject from "./MoreProject";
+import MoreBtn from 'components/common/button/iconBtn/MoreBtn';
 
 const ProjectSection = () => {
   return (
@@ -11,7 +12,7 @@ const ProjectSection = () => {
         <Progress>
           <Title>
             진행 중인 지원사업
-            <MoreProject />
+            <MoreBtn txt={'더보기'} toLink={'/project'}/>
           </Title>
           <ProgressingProject />
         </Progress>
@@ -19,7 +20,7 @@ const ProjectSection = () => {
         <New>
           <Title>
             새로운 지원사업
-            <MoreProject />
+            <MoreBtn txt={'더보기'} toLink={'/project'}/>
           </Title>
           <NewProject />
         </New>

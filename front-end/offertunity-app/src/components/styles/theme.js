@@ -5,7 +5,8 @@ const conWidth = css`
   /* width: 100vw;
   padding: 0 20rem; */
   width: 80rem;
-  margin: 0 auto;
+  margin: 0 320px;
+  /* margin: 0 80rem; */
 `;
 
 const title = css`

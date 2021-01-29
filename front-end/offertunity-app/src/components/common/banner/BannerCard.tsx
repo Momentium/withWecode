@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 const BannerCard = ({ data }: any) => {
-  const { img, script, title } = data;
+  const { img, script, title, bottomTitle } = data;
   return (
     <BannerWrap>
       <img src={img} alt={script} />
       <TxtWrap>
         <p>{script}</p>
         <span>{title}</span>
+        <br />
+        <span>{bottomTitle}</span>
       </TxtWrap>
     </BannerWrap>
   );
@@ -31,7 +33,7 @@ const TxtWrap = styled.div`
   top: 23.75rem;
   left: 20rem;
   display: inline-block;
-  width: 20rem;
+  width: 28rem;
   color: #fff;
   p {
     font-size: 1rem;
@@ -39,5 +41,6 @@ const TxtWrap = styled.div`
   }
   span {
     font-size: 3rem;
+    font-weight: bold;
   }
 `;
