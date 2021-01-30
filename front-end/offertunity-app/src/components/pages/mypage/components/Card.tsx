@@ -14,7 +14,7 @@ const Card: React.FC<Props> = ({ data, key, index }) => {
     setLike(false);
   };
   return (
-    <Wrap style={{ display: like ? "inline-block" : "none" }}>
+    <Wrap style={{ display: like ? "inline-block" : "none" }} key={index}>
       <LikeBtn onClick={likeIt}>
         <img src="/images/icons/heart_fill.png" alt="좋아요" />
       </LikeBtn>
