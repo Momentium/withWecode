@@ -5,23 +5,25 @@ import Profile from "./components/Profile";
 import WorkStation from "./components/WorkStation";
 import Box from "./components/Box";
 import Level from "./components/Level";
-import Interested from "./components/Interested";
+import Card from "./components/Card";
 
 const MypageStartup: React.FC = () => {
   const [profileData, setProfileData] = useState({});
   const [successData, setSuccessData] = useState();
   const [interestData, setInterestData] = useState();
   const [irData, setIrData] = useState();
+  const [cardData, setCardData] = useState([]);
 
   useEffect(() => {
     getProfileData();
     getSuccessData();
     getInterestData();
     getIrData();
+    getCardData();
   }, []);
 
   const getProfileData = () => {
-    axios.get("/data/mypageStartup.json").then((res) => {
+    axios.get("/data/mypageStartupProfile.json").then((res) => {
       setProfileData(res.data.data.profile);
     });
   };
@@ -42,6 +44,13 @@ const MypageStartup: React.FC = () => {
     });
   };
 
+  const getCardData = () => {
+    axios.get("/data/mypageInterestList.json").then((res) => {
+      setCardData(res.data.data);
+    });
+  };
+  console.log(cardData);
+
   return (
     <>
       <Wrap>
@@ -59,9 +68,12 @@ const MypageStartup: React.FC = () => {
           <Level />
         </Center>
       </Wrap>
-
       <Title>내가 관심있는 스타트업</Title>
-      <Interested />
+      <Intertest>
+        {cardData.map((el: any, idx: number) => {
+          return <Card data={el} key={idx} index={idx} />;
+        })}
+      </Intertest>
     </>
   );
 };
@@ -97,4 +109,8 @@ const Title = styled.p`
   padding: 7.5rem 0 3.5rem 0;
   font-size: 1.75rem;
   font-weight: bold;
+`;
+
+const Intertest = styled.div`
+  ${({ theme }) => theme.conWidth};
 `;

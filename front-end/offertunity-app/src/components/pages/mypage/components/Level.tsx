@@ -12,6 +12,9 @@ const Level: React.FC = () => {
     });
   }, []);
 
+  const classTrue = document.getElementsByClassName("true");
+  const numberOfClassTrue = (classTrue.length * 100) / 6;
+
   return (
     <Wrap>
       <Title>
@@ -20,8 +23,8 @@ const Level: React.FC = () => {
           마이 스타트업 정보 관리 <i className="fas fa-chevron-right" />
         </span>
       </Title>
-      <ProgressBar />
-      <BtnWrap>
+      <ProgressBar success={numberOfClassTrue} />
+      <BtnWrap id="number">
         {checked.map((el: any, idx: number) => {
           return <CheckBtn data={el} key={idx} index={idx} />;
         })}
@@ -50,6 +53,7 @@ const Title = styled.div`
     font-size: 0.9rem;
     color: #3b24eb;
     border-bottom: 1px solid #3b24eb;
+    cursor: pointer;
     i {
       color: #00000029;
       margin-left: 1rem;

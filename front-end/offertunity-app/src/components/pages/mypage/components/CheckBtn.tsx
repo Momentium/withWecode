@@ -8,11 +8,19 @@ type Props = {
 };
 
 const CheckBtn: React.FC<Props> = ({ data, key, index }) => {
-  console.log(data.name);
   const { name, check } = data;
+
   return (
-    <Btn key={index}>
-      <i className="far fa-circle" />
+    <Btn
+      className={check && "true"}
+      key={index}
+      style={{ backgroundColor: check && "#C3BDF4", color: check && "#fff" }}
+    >
+      {check ? (
+        <i className="fas fa-check-circle" style={{ color: "#5541ED" }} />
+      ) : (
+        <i className="far fa-circle" />
+      )}
       {name}
     </Btn>
   );

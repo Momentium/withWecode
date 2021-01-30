@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "logo": "/images/mypage/logo.png",
+      "title": "매트",
+      "sub": "당근 마켓 중고거래 어플",
+      "info": "the label of the parent button that controls the accordion expansion.the label of the parent button that controls the accordion expansion."
+    },
+    {
+      "logo": "/images/mypage/logo.png",
+      "title": "패트",
+      "sub": "당근 마켓 중고거래 어플",
+      "info": "the nested action will be included inthe label of the parent button that controls the accordion expansion."
+    },
+    {
+      "logo": "/images/mypage/logo.png",
+      "title": "신밧드",
+      "sub": "당근 마켓 중고거래 어플",
+      "info": "the label of the parent button that controls the accordion expansion."
+    },
+    {
+      "logo": "/images/mypage/logo.png",
+      "title": "피터",
+      "sub": "당근 마켓 중고거래 어플",
+      "info": "the nested action will be included inthe label of the parent button that controls the accordion expansion."
+    },
+    {
+      "logo": "/images/mypage/logo.png",
+      "title": "잭잭",
+      "sub": "당근 마켓 중고거래 어플",
+      "info": "the label of the parent button that controls the accordion expansion.the label of the parent button that controls the accordion expansion.the label of the parent button that controls the accordion expansion.the label of the parent button that controls the accordion expansion."
+    },
+    {
+      "logo": "/images/mypage/logo.png",
+      "title": "라일라",
+      "sub": "당근 마켓 중고거래 어플",
+      "info": "the nested action will be included inthe label of the parent button that controls the accordion expansion."
+    }
+  ]
+}

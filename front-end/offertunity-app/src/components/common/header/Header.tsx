@@ -98,6 +98,7 @@ const StSection = styled.div`
   background: white;
   width: 100vw;
   padding: 0 20rem;
+  border-bottom: 1px solid #00000029;
 `;
 
 const HeaderCon = styled.header`
