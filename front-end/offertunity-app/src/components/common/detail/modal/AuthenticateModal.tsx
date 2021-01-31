@@ -1,15 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-const AuthenticateModal = () => {
+const AuthenticateModal = ({ text }: any) => {
   return (
     <Content>
       <Image>
         <img src="/images/startupDetail/modal.png" />
       </Image>
-      <Description>
-        IR 요청은 휴대 전화가 인증된 파트너 회원만 가능합니다.
-      </Description>
+      <Description>{text}</Description>
     </Content>
   );
 };

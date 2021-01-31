@@ -29,11 +29,11 @@ const StartupDetails = () => {
       <MoveBar data={companyData} />
       {companyData && (
         <>
-          <CompanyCard data={companyData} />
+          <CompanyCard data={companyData} type={"startup"} />
           <CompanyDescription data={companyData} />
         </>
       )}
-      <IRBtn boxStyle={boxStyle} />
+      <IRBtn boxStyle={boxStyle} type={"startup"} />
     </DetailBox>
   );
 };

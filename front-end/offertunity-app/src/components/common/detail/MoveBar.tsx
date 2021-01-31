@@ -6,6 +6,8 @@ const MoveBar = ({ data }: any) => {
   const [prevPage, setPrevPage] = useState("");
   const [currPage, setCurrPage] = useState<boolean>();
 
+  console.log(data);
+
   useEffect(() => {
     if (window.location.pathname.includes("/partner")) {
       setPrevPage("지원/투자 파트너스");
@@ -15,25 +17,22 @@ const MoveBar = ({ data }: any) => {
       setCurrPage(true);
     }
   }, []);
+
   return (
     <InformationCompany>
-      {/* <Link to="/">홈 &nbsp;</Link>
-      &gt; &nbsp;
-      <Link to="/list">스타트업 &nbsp;</Link>
-      &gt; &nbsp;오퍼튜니티 */}
       {currPage ? (
         <>
           <Link to="/">홈 &nbsp;</Link>
           &gt; &nbsp;
           <Link to="/list">스타트업 &nbsp;</Link>
-          {/* &gt; &nbsp;{data.title} */}
+          &gt; &nbsp;{data?.title}
         </>
       ) : (
         <>
           <Link to="/">홈 &nbsp;</Link>
           &gt; &nbsp;
           <Link to="/partner">지원/투자 파트너스 &nbsp;</Link>
-          {/* &gt; &nbsp;{data.title} */}
+          &gt; &nbsp;{data?.title}
         </>
       )}
     </InformationCompany>

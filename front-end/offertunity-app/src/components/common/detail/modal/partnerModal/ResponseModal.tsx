@@ -4,12 +4,13 @@ import styled from "styled-components";
 const ResponseModal = ({ title }: any) => {
   return (
     <Content>
-      <Image>
-        <img src="/images/startupDetail/donemodal.png" />
-      </Image>
       <Description>
-        IR 자료 요청이 완료되었습니다.
-        <span>(주){title}에 소중한 기회를 제공해주셔서 감사합니다.</span>
+        <p>{title}</p>
+        <span>
+          IR 자료 전송을 완료했습니다.
+          <br />
+          검토 결과에 따라 이메일로 안내해드리겠습니다.
+        </span>
       </Description>
     </Content>
   );
@@ -18,6 +19,7 @@ const ResponseModal = ({ title }: any) => {
 export default ResponseModal;
 
 const Content = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -27,23 +29,19 @@ const Description = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-weight: bold;
-  font-size: 21px;
-  margin-bottom: 24px;
+  margin-top: 79px;
+  margin-bottom: 56px;
+
+  p {
+    margin-bottom: 56px;
+    font-size: 36px;
+    font-weight: bold;
+  }
 
   span {
     font-size: 15px;
     margin-top: 8px;
     font-weight: normal;
-  }
-`;
-
-const Image = styled.div`
-  width: 225px;
-  height: 230px;
-
-  img {
-    width: 100%;
-    height: 100%;
+    text-align: center;
   }
 `;

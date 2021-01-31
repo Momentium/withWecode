@@ -4,6 +4,15 @@ import styled from "styled-components";
 import MoveBar from "../../common/detail/MoveBar";
 import CompanyCard from "./compontents/PartnerCard";
 import CompanyDescription from "./compontents/PartnerDescription";
+import IRBtn from "../../common/detail/buttons/IRButton";
+
+const boxStyle = {
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  marginTop: "10rem",
+  marginBottom: "7.5rem",
+};
 
 const PartnerDetails = () => {
   const [partnerData, setPartnerData] = useState();
@@ -20,10 +29,11 @@ const PartnerDetails = () => {
       <MoveBar data={partnerData} />
       {partnerData && (
         <>
-          <CompanyCard data={partnerData} />
+          <CompanyCard data={partnerData} type={"partner"} />
           <CompanyDescription data={partnerData} />
         </>
       )}
+      <IRBtn boxStyle={boxStyle} type={"partner"} />
     </DetailBox>
   );
 };
