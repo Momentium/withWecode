@@ -8,7 +8,9 @@ const PartnerModal = ({ goToMypage, title, onClick }: any) => {
   const [checkPhoneNumber, setCheckPhoneNumber] = useState(false);
   const [currentModal, setCurrentModal] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState<Boolean>(false);
+  const [selectData, setSelectData] = useState<object>();
 
+  // 핸드폰 인증 확인해야합니다.
   // useEffect(() => {
   //   if (!checkPhoneNumber) {
   //     setCurrentModal(2);
@@ -19,9 +21,14 @@ const PartnerModal = ({ goToMypage, title, onClick }: any) => {
     setBtnDisabled(btnDisabled);
   };
 
-  const handleRequest = (data: any) => {
+  const handleRequest = (data: object) => {
+    setSelectData(data);
+  };
+
+  const handlingRequestData = () => {
     /* axios 자료 전달 */
-    console.log(data);
+    console.log(selectData);
+    setCurrentModal(1);
   };
 
   const modalControl = () => {
@@ -31,7 +38,7 @@ const PartnerModal = ({ goToMypage, title, onClick }: any) => {
           <RequestModal
             title={title}
             onChange={handleChange}
-            onClick={handleRequest}
+            handleRequest={handleRequest}
           />
         );
       case 1:
@@ -53,7 +60,7 @@ const PartnerModal = ({ goToMypage, title, onClick }: any) => {
         return (
           <>
             {btnDisabled ? (
-              <Button className="yes" onClick={handleRequest}>
+              <Button className="yes" onClick={handlingRequestData}>
                 IR 자료 보내기
               </Button>
             ) : (
@@ -100,8 +107,8 @@ const Buttons = styled.div`
 `;
 
 const Button = styled.button`
-  width: 232px;
-  height: 48px;
+  width: 14.5rem;
+  height: 3rem;
   background-color: #5541ed;
   border-radius: 3px;
   color: white;
@@ -114,7 +121,7 @@ const Button = styled.button`
   }
 
   &.yes {
-    margin-right: 24px;
+    margin-right: 1.5rem;
   }
 
   &.disabled {

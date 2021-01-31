@@ -3,16 +3,27 @@ import styled from "styled-components";
 
 const AuthenticateModal = ({ text }: any) => {
   return (
-    <Content>
-      <Image>
-        <img src="/images/startupDetail/modal.png" />
-      </Image>
-      <Description>{text}</Description>
-    </Content>
+    <>
+      <Title>IR 자료 전달</Title>
+      <Content>
+        <Image>
+          <img src="/images/startupDetail/modal.png" />
+        </Image>
+        <Description>{text}</Description>
+      </Content>
+    </>
   );
 };
 
 export default AuthenticateModal;
+
+const Title = styled.div`
+  width: 100%;
+  left: 0;
+  color: #5b5b5b;
+  font-size: 1.313rem;
+  font-weight: bold;
+`;
 
 const Content = styled.div`
   display: flex;
@@ -22,13 +33,13 @@ const Content = styled.div`
 
 const Description = styled.div`
   font-weight: bold;
-  font-size: 21px;
-  margin-bottom: 30px;
+  font-size: 1.313rem;
+  margin-bottom: 1.875rem;
 `;
 
 const Image = styled.div`
-  width: 225px;
-  height: 230px;
+  width: 14.063rem;
+  height: 14.375rem;
 
   img {
     width: 100%;

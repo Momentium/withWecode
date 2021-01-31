@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import StartupModal from "./startupModal/StartupModal";
 import PartnerModal from "./partnerModal/PartnerModal";
@@ -21,7 +21,6 @@ const Modal = ({ onClick, title, type }: any) => {
     <ModalBox>
       <CloseBtn onClick={onClick} />
       <Box>
-        <Title>IR 자료 요청</Title>
         <Content>
           {type === "startup" ? (
             <StartupModal
@@ -46,10 +45,10 @@ export default Modal;
 
 const ModalBox = styled.div`
   position: absolute;
-  width: 960px;
+  width: 60rem;
   top: 50%;
   left: 50%;
-  padding: 64px 80px;
+  padding: 4rem 5rem;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -58,8 +57,8 @@ const ModalBox = styled.div`
 
 const CloseBtn = styled.div`
   position: absolute;
-  width: 17px;
-  height: 17px;
+  width: 1.063rem;
+  height: 1.063rem;
   right: 3%;
   top: 5%;
   background-image: url(/images/startupDetail/close.png);
@@ -69,13 +68,6 @@ const CloseBtn = styled.div`
 const Box = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Title = styled.div`
-  position: absolute;
-  color: #5b5b5b;
-  font-size: 21px;
-  font-weight: bold;
 `;
 
 const Content = styled.div`

@@ -66,6 +66,7 @@ const StartupModal = ({ goToMypage, title, onClick }: any) => {
 
   return (
     <>
+      <Title>IR 자료 요청</Title>
       {modalControl()}
       <Buttons>{ModalBtnControl()}</Buttons>
     </>
@@ -73,25 +74,33 @@ const StartupModal = ({ goToMypage, title, onClick }: any) => {
 };
 export default StartupModal;
 
+const Title = styled.div`
+  width: 100%;
+  left: 0;
+  color: #5b5b5b;
+  font-size: 1.313rem;
+  font-weight: bold;
+`;
+
 const Buttons = styled.div`
   display: flex;
 `;
 
 const Button = styled.button`
-  width: 232px;
-  height: 48px;
-  background: #5541ed 0% 0% no-repeat padding-box;
-  border-radius: 3px;
+  width: 14.5rem;
+  height: 3rem;
+  border-radius: 0.188rem;
   color: white;
+  background-color: #5541ed;
   cursor: pointer;
 
   &.no {
-    background: #ffffff 0% 0% no-repeat padding-box;
     border: 1px solid #5142e4;
     color: #5142e4;
+    background-color: #ffffff;
   }
 
   &.yes {
-    margin-right: 24px;
+    margin-right: 1.5rem;
   }
 `;

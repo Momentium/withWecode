@@ -28,19 +28,19 @@ const Description = styled.div`
   align-items: center;
   flex-direction: column;
   font-weight: bold;
-  font-size: 21px;
-  margin-bottom: 24px;
+  font-size: 1.313rem;
+  margin-bottom: 1.5rem;
 
   span {
-    font-size: 15px;
-    margin-top: 8px;
+    font-size: 0.938rem;
+    margin-top: 0.5rem;
     font-weight: normal;
   }
 `;
 
 const Image = styled.div`
-  width: 225px;
-  height: 230px;
+  width: 14.063rem;
+  height: 14.375rem;
 
   img {
     width: 100%;
