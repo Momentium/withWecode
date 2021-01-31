@@ -51,6 +51,7 @@ const StartupList = () => {
         page={page}
         itemsPerPage={itemsPerPage}
         totalLength={totalLength}
+        currPage={"startup"}
       />
     </StartupCompanyList>
   );

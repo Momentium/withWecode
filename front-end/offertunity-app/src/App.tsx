@@ -34,16 +34,16 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
       <Header ref={headerRef} />
       <StAppCont className="app" headMargin={headMargin}>
         {!location.pathname.includes("auth") &&
-          !location.pathname.includes("partner") && <Banner />}
+          !location.pathname.includes("detail") && <Banner />}
 
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
         <Switch>
           <Route path="/project/detail/:id" component={ProjectDetail} />
           <Route path="/project" component={ProjectPage} />
-          <Route path="/startup" component={StartupDetails} />
-          <Route path="/startup/detail" component={StartupDetails} />
-          <Route path="/partner" component={PartnerDetails} />
+          <Route path="/startup" component={StartupList} />
+          <Route path="/startup/detail/:id" component={StartupDetails} />
+          <Route path="/partner" component={PartnerList} />
           <Route path="/partner/detail/:id" component={PartnerDetails} />
         </Switch>
         <Route path="/auth/:name" component={Auth} />
