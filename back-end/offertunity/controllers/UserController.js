@@ -1,5 +1,3 @@
-console.log("location: UserController")
-
 require("dotenv").config();
 const { AUTH_TOKEN_SALT } = process.env
 const bcrypt = require('bcryptjs')
@@ -12,7 +10,12 @@ const signUp = errorWrapper(async(req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     const foundUser = await UserService.findUser({ email })
-    if (foundUser) errorGenerator({ statusCode: 409, message: 'duplicated' })
+    if (foundUser) {
+        errorGenerator({ statusCode: 409, message: 'duplicated' })
+        res.status(409).json({
+            message: 'duplicated'        
+        })
+    }
 
     const createdUser = await UserService.createUser({
         email,
@@ -39,6 +42,8 @@ const signIn = errorWrapper(async(req, res) => {
     res.status(200).json({ message: 'login success!', token })
 })
 
+
+
 const showMemberInfo = errorWrapper(async(req, res) => {
     const { id: userId } = req.foundUser
     const userInfo = await UserService.findUserInfo({ id: userId })
@@ -56,13 +61,12 @@ const addMemberInfo = errorWrapper(async(req, res) => {
     })
 })
 
-const deleteMemberInfo = errorWrapper(async(req, res) => {
+const deleteMember = errorWrapper(async(req, res) => {
     const { id: userId } = req.foundUser
-    const deleteMemberInfo = await UserService.deleteMemberInfo({ id: userId})
+    const deleteMemberInfo = await UserService.deleteMember({ id: userId})
     res.status(201).json({
         message: 'user successfully deleted'
     })
-    
 })
 
 
@@ -71,5 +75,5 @@ module.exports = {
     signUp,
     showMemberInfo,
     addMemberInfo,
-    deleteMemberInfo
+    deleteMember
 }

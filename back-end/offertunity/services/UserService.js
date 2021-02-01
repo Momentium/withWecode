@@ -2,6 +2,15 @@ console.log('location: UserService')
 const { signup_methods } = require('../prisma')
 const prisma = require('../prisma')
 
+const findCompany = (field) => {
+    const [uniqueKey] = Object.keys(field)
+
+    const isKeyId = uniqueKey === 'id'
+    const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
+
+    return prisma.companies.findUnique({ where: {[uniqueKey]: value}})
+}
+
 const createUser = (fields) => {
     return prisma.users.create({ data: fields })
 }
@@ -41,7 +50,7 @@ const updateInfo = (async (fields) => {
         })
     })
 
-const deleteMemberInfo = (field) => {
+const deleteMember = (field) => {
     const [uniqueKey] = Object.keys(field)
     const isKeyId = uniqueKey === 'id'
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
@@ -54,11 +63,12 @@ const deleteMemberInfo = (field) => {
 }
 
 module.exports = {
+    findCompany,
     createUser,
     findUser,
     findUserType,
     findUserInfo,
     updateInfo,
-    deleteMemberInfo
+    deleteMember
 }
 
