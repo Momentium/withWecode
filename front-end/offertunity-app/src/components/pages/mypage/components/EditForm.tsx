@@ -31,6 +31,10 @@ const EditForm = () => {
         </Input>
         <button>인증하기</button>
       </Phone>
+      <BtnWrap>
+        <SaveBtn>프로필저장</SaveBtn>
+        <CancleBtn>취소</CancleBtn>
+      </BtnWrap>
     </Wrap>
   );
 };
@@ -38,11 +42,8 @@ const EditForm = () => {
 export default EditForm;
 
 const Wrap = styled.div``;
-const mb2 = styled.div`
-  margin-bottom: 2rem;
-`;
 
-const ID = styled(mb2)`
+const ID = styled.div`
   display: flex;
 `;
 
@@ -67,10 +68,11 @@ const Box = styled.div`
 
 const Title = styled.p`
   margin-bottom: 0.9rem;
+  margin-top: 2rem;
   font-size: 0.9rem;
 `;
 
-const Pw = styled(mb2)`
+const Pw = styled.div`
   button {
     width: 15.5rem;
     height: 2.5rem;
@@ -83,8 +85,8 @@ const Pw = styled(mb2)`
   }
 `;
 
-const Name = styled(mb2)``;
-const Phone = styled(mb2)`
+const Name = styled.div``;
+const Phone = styled.div`
   button {
     margin-left: 1.5rem;
     width: 6rem;
@@ -97,7 +99,7 @@ const Phone = styled(mb2)`
   }
 `;
 
-const Input = styled(mb2)`
+const Input = styled.div`
   display: inline-block;
   input {
     padding: 0.5rem 1rem;
@@ -111,4 +113,25 @@ const Input = styled(mb2)`
       color: #000;
     }
   }
+`;
+
+const BtnWrap = styled.div``;
+const Btn = styled.button`
+  margin-top: 2rem;
+  width: 16rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+`;
+
+const SaveBtn = styled(Btn)`
+  margin-right: 4.5rem;
+  background: #1a2536;
+  color: #fff;
+`;
+const CancleBtn = styled(Btn)`
+  border: 1px solid #1a2536;
+  color: #1a2536;
 `;

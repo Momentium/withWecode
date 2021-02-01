@@ -18,7 +18,14 @@ const EditProfile = () => {
   return (
     <Img>
       <span>
-        <img src={previewURL} alt="프로필사진" />
+        {previewURL ? (
+          <img src={previewURL} alt="프로필사진" />
+        ) : (
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
+            alt="프로필사진"
+          />
+        )}
       </span>
       <label>
         프로필 사진등록
