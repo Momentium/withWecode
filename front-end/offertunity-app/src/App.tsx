@@ -28,8 +28,8 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
     setHeadMargin(headerRef.current?.clientHeight);
   }, []);
   useEffect(() => {
-    window.scrollTo(0,0);
-  }, [location])
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <ThemeProvider theme={{ ...theme, ...location }}>
