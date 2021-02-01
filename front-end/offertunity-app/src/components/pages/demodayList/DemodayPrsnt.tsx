@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import * as St from "components/styles/styledComp";
 import LikeBtn from "components/common/button/iconBtn/LikeBtn";
 import ShareBtn from "components/common/button/iconBtn/ShareBtn";
 
-const DemodayPrsnt: React.FC<any> = ({ data, tags, like }) => {
+const DemodayPrsnt: React.FC<any> = ({ data, tags }) => {
   return (
     <StPjtWrap>
-      <StImgWrap imgUrl={data.img} />
+      <Link to={`/project/detail/${data.id}`}>
+        <StImgWrap imgUrl={data.img} />
+      </Link>
 
       <StContentsCont>
         <div className="up-wrap">
@@ -20,23 +22,25 @@ const DemodayPrsnt: React.FC<any> = ({ data, tags, like }) => {
         </div>
       </StContentsCont>
 
-      <StInfoCont>
-        <div className="table">
-          <div className="tableWrapper">
-            <div className="title">주최</div>
-            <div className="content">{data.host}</div>
+      <Link to={`/project/detail/${data.id}`}>
+        <StInfoCont>
+          <div className="table">
+            <div className="tableWrapper">
+              <div className="title">주최</div>
+              <div className="content">{data.host}</div>
+            </div>
+            <div className="tableWrapper">
+              <div className="title">참가팀</div>
+              <div className="content">{data.teams}</div>
+            </div>
+            <div className="tableWrapper">
+              <div className="title">진행일</div>
+              <div className="content">{data.progressDate}</div>
+            </div>
+            <div className="tableWrapper tagsWrapper">{tags}</div>
           </div>
-          <div className="tableWrapper">
-            <div className="title">참가팀</div>
-            <div className="content">{data.teams}</div>
-          </div>
-          <div className="tableWrapper">
-            <div className="title">진행일</div>
-            <div className="content">{data.progressDate}</div>
-          </div>
-          <div className="tableWrapper tagsWrapper">{tags}</div>
-        </div>
-      </StInfoCont>
+        </StInfoCont>
+      </Link>
     </StPjtWrap>
   );
 };
@@ -55,6 +59,7 @@ const StPjtWrap = styled(St.FlexDiv)`
 
 const StImgWrap = styled.div<{ imgUrl: string | undefined }>`
   width: 19.438em;
+  height: 12.938rem;
 
   background-image: url(${(props) => props.imgUrl});
   background-size: cover;
@@ -66,7 +71,8 @@ const StContentsCont = styled.div`
 
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: space-around;
+  overflow:hidden;
 
   .up-wrap {
     width: 100%;
@@ -77,38 +83,21 @@ const StContentsCont = styled.div`
     align-items: flex-start;
 
     font: normal normal bold 21px/32px Spoqa Han Sans Neo;
-
-    .iconBtn-cont {
-      flex: 3;
-
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      & > div {
-        margin-left: 24px;
-      }
     }
   }
 
   .mid-wrap {
     font: normal normal normal 15px/20px Spoqa Han Sans Neo;
 
-    display: flex;
-    align-items: center;
-
     p {
+      padding-bottom: 30px;
       width: 100%;
-
       overflow: hidden;
       text-overflow: ellipsis;
-
       white-space: normal;
       text-align: left;
       word-wrap: break-word;
       display: -webkit-box;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
     }
   }
 
@@ -128,6 +117,7 @@ const StNameCont = styled(Link)`
 
 const StInfoCont = styled(St.FlexDiv)`
   width: 284px;
+  height: 12.938rem;
   display: flex;
   justify-content: flex-start;
   padding-left: 32px;
@@ -159,12 +149,11 @@ const StInfoCont = styled(St.FlexDiv)`
     height: 100%;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: space-around;
 
     .tableWrapper {
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
     }
 
     .tagsWrapper {

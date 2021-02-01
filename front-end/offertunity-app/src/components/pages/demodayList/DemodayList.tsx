@@ -16,13 +16,13 @@ const DemodayList = () => {
     });
   }, []);
 
-  console.log(pjts);
+  console.log(pjts.length < 10);
 
   return (
     <>
       <St.Section>{pjts.slice(0, 5)}</St.Section>
 
-      <BeltBanner curPage={"projectPage"} />
+      {pjts.length < 10 ? null : <BeltBanner curPage={"projectPage"} />}
 
       <St.Section>{pjts.slice(5)}</St.Section>
     </>
