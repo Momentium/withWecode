@@ -14,7 +14,7 @@ export const FlexColDiv = styled.div`
 `;
 
 export const Section = styled.div`
-  ${({ theme }) => theme.ConWidth}
+  ${({ theme }) => theme.conWidth}
 `;
 
 export const SectionTitle = styled.h1`

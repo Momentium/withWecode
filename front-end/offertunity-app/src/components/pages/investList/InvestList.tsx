@@ -20,7 +20,7 @@ const InvestList = () => {
 export default InvestList;
 
 const Wrap = styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   margin-bottom:5.8rem;
 `
 

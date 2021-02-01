@@ -1,50 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { isTemplateExpression } from "typescript";
-import Labels from "../../common/label/Labels";
-import Buttons from "./Buttons";
+import Labels from "../../../common/label/Labels";
+import Buttons from "../buttons/Buttons";
 
 interface Props {
   data: any;
-  clickLike: any;
 }
 
-const CompanyCard: React.FC<Props> = ({ data, clickLike }) => {
-  const {
-    title,
-    titleImage,
-    logo,
-    label,
-    like,
-    ceo,
-    birth,
-    field,
-    technique,
-    homepage,
-  } = data;
-
-  const detailInfo = [
-    {
-      title: "대표자명",
-      content: ceo,
-    },
-    {
-      title: "설립일",
-      content: birth,
-    },
-    {
-      title: "산업분야",
-      content: field.join(","),
-    },
-    {
-      title: "활용기술",
-      content: technique.join(","),
-    },
-    {
-      title: "홈페이지",
-      content: homepage,
-    },
-  ];
+const CompanyCard = ({ data, detailInfo }: any) => {
+  const { title, titleImage, logo, label, like, homepage } = data;
 
   const backgroundImage = {
     backgroundImage: `url(${titleImage})`,
@@ -91,7 +55,7 @@ const CompanyCard: React.FC<Props> = ({ data, clickLike }) => {
             <Labels label={label} detailName={"detailLabels"} />
           </RightBox>
         </DetailInfo>
-        <Buttons like={like} clickLike={clickLike} />
+        <Buttons data={like} />
       </CompanyInfo>
     </CardBox>
   );

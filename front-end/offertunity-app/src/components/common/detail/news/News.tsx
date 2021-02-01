@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import { isTemplateExpression } from "typescript";
 import Title from "../../title/Title";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const News = ({ data }: any) => {
   const [postsToShow, setPostsToShow] = useState([]);
+  const [puse, setPuse] = useState(false);
   const postsPerPage = 1;
 
   const loopWithSlice = useCallback(
@@ -16,7 +17,7 @@ const News = ({ data }: any) => {
     [data]
   );
 
-  const test = (start: number, end: number) => {
+  const handleLoadMore = (start: number, end: number) => {
     const slicePosts = data.slice(start, end);
     setPostsToShow(postsToShow.concat(slicePosts));
   };
@@ -26,7 +27,13 @@ const News = ({ data }: any) => {
   }, [loopWithSlice]);
 
   const handleShowMorePosts = () => {
-    test(postsToShow.length, data.length);
+    if (!puse) {
+      handleLoadMore(postsToShow.length, data.length);
+      setPuse(true);
+    } else if (puse) {
+      loopWithSlice(0, 3);
+      setPuse(false);
+    }
   };
 
   return (
@@ -49,7 +56,11 @@ const News = ({ data }: any) => {
           );
         })}
       </NewsContainer>
-      <LoadMoreBtn onClick={handleShowMorePosts}>Load more</LoadMoreBtn>
+      <BtnContainer>
+        <LoadMoreBtn onClick={handleShowMorePosts}>
+          {!puse ? "더보기" : "접기"}
+        </LoadMoreBtn>
+      </BtnContainer>
     </>
   );
 };
@@ -70,6 +81,7 @@ const NewsWrapper = styled.div`
   padding: 3rem 3.5rem 3rem 3.5rem;
   border: 1px solid #d9d9d9;
   border-radius: 6px;
+  cursor: pointer;
 
   .imageBox {
     width: 14.813rem;
@@ -100,7 +112,25 @@ const NewsSource = styled.div`
   float: right;
 `;
 
+const BtnContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.25rem;
+`;
+
 const LoadMoreBtn = styled.div`
-  width: 300px;
-  height: 100px;
+  display: inline-block;
+  padding: 0.625rem 1.563rem;
+  transition: all 0.3s ease;
+  border: 2px solid #5541ed;
+  color: #5541ed;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: #5541ed;
+    color: #fff;
+  }
 `;

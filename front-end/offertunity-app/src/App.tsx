@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter,
-  Route,
-  withRouter,
-  RouteComponentProps,
-} from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Route, withRouter, RouteComponentProps } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import Header from "./components/common/header/Header";
 import Banner from "./components/common/banner/Banner";
@@ -13,41 +8,37 @@ import ProjectPage from "./components/pages/project/ProjectPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
+import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
 import StartupDetails from "./components/pages/startupDetails/StartupDetails";
-import Auth from "./components/pages/Auth/Auth";
+import MypageStartup from "./components/pages/mypage/MypageStartup";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
-  const [HH, setHH] = useState<number | undefined>(60);
+  const [headMargin, setHeadMargin] = useState<number | undefined>(0);
+  const headerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    console.log(location.pathname);
+    setHeadMargin(headerRef.current?.clientHeight);
   }, []);
 
-  const Reject = location.pathname.includes("/Auth");
-
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={{ ...theme, ...location }}>
       {/* Header 들어갈 자리 */}
-      {!Reject && (
-        <>
-          <Header />
-          <Banner />
-        </>
-      )}
-      <Route path="/Auth/:name" component={Auth} />
-      <StAppCont headerHeight={HH}>
+      <Header ref={headerRef} />
+      <StAppCont headMargin={headMargin}>
+        {!location.pathname.includes("auth") && <Banner />}
+        {!location.pathname.includes("MypageStartup") && <Banner />}
+
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
         <Route path="/project" component={ProjectPage} />
-        <Route path="/details" component={StartupDetails} />
-
-        {/* Footer 들어갈 자리 */}
-        <Newsletter />
-        <Footer />
         <Route path="/list" component={StartupList} />
+        <Route path="/auth/:name" component={Auth} />
+        <Route path="/details" component={StartupDetails} />
+        <Route path="/MypageStartup" component={MypageStartup} />
       </StAppCont>
+
       {/* Footer 들어갈 자리 */}
-      {!Reject && (
+      {!location.pathname.includes("auth") && (
         <>
           <Newsletter />
           <Footer />
@@ -56,10 +47,8 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
     </ThemeProvider>
   );
 };
-
 export default withRouter(App);
 
-const StAppCont = styled.div<{ headerHeight: number | undefined }>`
-  /* margin-top: ${(props) => `${props.headerHeight}px`}; */
-  margin-top: 7.5em;
+const StAppCont = styled.div<{ headMargin: number | undefined }>`
+  margin-top: ${(props) => `${props.headMargin}px`};
 `;

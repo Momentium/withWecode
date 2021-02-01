@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
-import NewCard from './NewCard'
+import NewCard from './NewCard';
 
 const NewProject = () => {
 
   const [newProject,setNewProject] = useState([]);
 
   useEffect(()=>{
-    fetch("/data/newProject.json")
-    .then(res => res.json())
-    .then(res=>{
-      setNewProject(res.new);
+    axios.get("/data/newProject.json")
+    .then(res => {
+      const _resData = res.data
+      setNewProject(_resData.new);
     })
   },[])
 

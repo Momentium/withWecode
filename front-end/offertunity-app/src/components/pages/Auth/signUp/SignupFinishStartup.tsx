@@ -25,7 +25,7 @@ const SignupFinishStartup = () => {
 export default SignupFinishStartup;
 
 const Wrap= styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   padding:19rem 0 19rem 12rem;
 
   button{

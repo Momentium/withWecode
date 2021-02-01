@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "name": "회원가입 완료",
+      "check": false
+    },
+    {
+      "name": "사업계획서 등록",
+      "check": false
+    },
+    {
+      "name": "휴대전화 인증",
+      "check": false
+    },
+    {
+      "name": "스타트업 기본정보 등록",
+      "check": true
+    },
+    {
+      "name": "IR 자료 등록",
+      "check": true
+    },
+    {
+      "name": "기타 서류 등록",
+      "check": true
+    }
+  ]
+}

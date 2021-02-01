@@ -1,30 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Title from "../../common/title/Title";
-import CompanyImgSlider from "./CompanyImgSlider";
-import CompanyTeamInfo from "./CompanyTeamInfo";
-import CompanyInvestInfo from "./CompanyInvestInfo";
-import CompanyNews from "./CompanyNews";
+import Title from "../../../common/title/Title";
+import CompanyImgSlider from "../portfolio/Portfolio";
+import CompanyTeamInfo from "../team/Team";
+import CompanyInvestInfo from "../../../pages/startupDetails/components/CompanyInvestInfo";
+import CompanyNews from "../news/News";
 
-const CompanyDescription = ({ data }: any) => {
-  const {
-    introduce,
-    itemIntroduce,
-    images,
-    investInfo,
-    teamIntroduce,
-    news,
-  } = data;
-  const [introduceDatas, setIntroduceDatas] = useState([
-    {
-      title: "스타트업 소개",
-      description: introduce,
-    },
-    {
-      title: "아이템 소개",
-      description: itemIntroduce,
-    },
-  ]);
+const CompanyDescription = ({ data, introduceDatas }: any) => {
+  const { images, investInfo, teamIntroduce, news } = data;
 
   return (
     <>
