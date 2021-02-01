@@ -76,9 +76,11 @@ const StSection = styled.div`
   top: 0;
 
   background: white;
-  width: 80rem;
+  /* width: 80rem;
   padding: 0 320px;
-  box-sizing: content-box;
+  box-sizing: content-box; */
+
+  width: 100vw;
 `;
 
 const HeaderCon = styled.header`
@@ -90,8 +92,10 @@ const HeaderCon = styled.header`
   };
   align-items: center;
 
-  width: 100%;
+  /* width: 100%; */
+  width: 80rem;
   height: 4.37rem;
+  margin: 0 auto;
   background: #fff;
   text-align: center;
 `;

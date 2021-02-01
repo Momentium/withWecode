@@ -91,7 +91,7 @@ export default function SimpleSlider() {
           return (
             <div>
               <h3>
-                <BannerCard data={bannercon} />ㅁ
+                <BannerCard data={bannercon} />
               </h3>
             </div>
           );
