@@ -10,9 +10,9 @@ const ProjectPage = () => {
         <StCont className="upper-cont">
           <St.SectionTitle>진행중인 지원사업</St.SectionTitle>
           <StCont className="filter-cont">
-            <SelectBtn curPage={"project"} category={"date"}/>
+            {/* <SelectBtn curPage={"project"} category={"date"}/>
             <SelectBtn curPage={"project"} category={"support"}/>
-            <SelectBtn curPage={"project"} category={"establish"}/>
+            <SelectBtn curPage={"project"} category={"establish"}/> */}
           </StCont>
         </StCont>
       </St.Section>

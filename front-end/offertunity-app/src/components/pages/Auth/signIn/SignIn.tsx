@@ -9,7 +9,6 @@ import Kakao from "../logoIcons/Kakao";
 import Facebook from "../logoIcons/Facebook";
 import Or from "../components/Or";
 import Question from "../components/Question";
-import Header from "../components/Header";
 
 const SignIn: React.FC = () => {
   const history = useHistory();
@@ -59,7 +58,6 @@ const SignIn: React.FC = () => {
 
   return (
     <>
-      <Header />
       <Wrap>
         <Bg>
           <MainTxt
@@ -116,11 +114,11 @@ const SignIn: React.FC = () => {
 export default SignIn;
 
 const Wrap = styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12.3rem 0;
+  padding-top: 10rem;
 `;
 
 const Con = styled.div`
@@ -198,7 +196,7 @@ const InputBox = styled.div`
 
 const FindAccount = styled.div`
   margin-top: 1.5rem;
-  display: inline-block;
+  margin-left: 8.7rem;
   width: 20rem;
   font-size: 0.8rem;
   color: #898989;

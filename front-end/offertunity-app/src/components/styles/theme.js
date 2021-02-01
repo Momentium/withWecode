@@ -1,12 +1,14 @@
 import styled, { css } from "styled-components";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core";
 
-const ConWidth = css`
+const conWidth = css`
   width: 80rem;
   margin: 0 auto;
+  /* margin: 0 320px; */
+  /* padding: 0 20rem; */
 `;
 
-const Title = css`
+const title = css`
   font-size: 1.68rem;
 `;
 
@@ -62,8 +64,7 @@ const theme = createMuiTheme({
   colors,
   paddings,
   margins,
-  ConWidth,
-  Title,
+  conWidth,
 });
 
 export default theme;

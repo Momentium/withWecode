@@ -30,7 +30,7 @@ const SignupFormPartner:React.FC = () => {
 export default SignupFormPartner;
 
 const Wrap= styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   display:flex;
   justify-content:space-between;
   padding-top:10rem;

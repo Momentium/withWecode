@@ -1,16 +1,18 @@
 import React from 'react';
-import styled from 'styled-components'
-import AutoSlider from './AutoSlider'
+import styled from 'styled-components';
+import AutoSlider from './AutoSlider';
+import MoreBtn from 'components/common/button/iconBtn/MoreBtn';
 
 const InvestList = () => {
   return (
     <div style={{position: 'relative',marginBottom:"12.8rem",marginTop:'12rem'}}>
       <Wrap>
-      <Title>투자기관 리스트</Title>
-      <More>
-        더 많은 투자기관 보기
-        <img src="images/investList/arrow.png" alt=""/>
-      </More>
+        <Title>투자기관 리스트</Title>
+        <MoreBtn txt={'더 많은 투자기관 보기'} toLink={'/invest'}/>
+        {/* <More>
+          더 많은 투자기관 보기
+          <img src="images/investList/arrow.png" alt=""/>
+        </More> */}
       </Wrap>
       <AutoSlider />
     </div>
@@ -20,8 +22,11 @@ const InvestList = () => {
 export default InvestList;
 
 const Wrap = styled.section`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   margin-bottom:5.8rem;
+
+  display: flex;
+  justify-content: space-between;
 `
 
 const Title = styled.span`

@@ -14,7 +14,7 @@ export const FlexColDiv = styled.div`
 `;
 
 export const Section = styled.div`
-  ${({ theme }) => theme.ConWidth}
+  ${({ theme }) => theme.conWidth}
 `;
 
 export const SectionTitle = styled.h1`
@@ -24,6 +24,7 @@ export const SectionTitle = styled.h1`
 `;
 
 export const Tag = styled.div`
+  display: inline-block;
   margin-right:0.37rem;
   padding:0.3rem;
   font-size:0.68rem;

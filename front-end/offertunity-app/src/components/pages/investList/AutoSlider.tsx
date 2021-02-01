@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Slider from "react-slick";
 
 function SamplePrevArrow(props:any) {
@@ -85,10 +86,10 @@ export default function SimpleSlider() {
 
   const [invList,setInvestList] = useState([]);
   useEffect(() => {
-    fetch("/data/investList.json")
-    .then((res) =>res.json())
+    axios.get("/data/investList.json")
     .then((res) =>{
-      setInvestList(res.invest)
+      const _resData = res.data
+      setInvestList(_resData.invest)
     })
   },[])
 

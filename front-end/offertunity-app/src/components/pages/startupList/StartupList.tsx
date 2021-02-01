@@ -28,7 +28,7 @@ const StartupList = () => {
     axios.get(`data/startupList.json`).then((res) => {
       setTotalLength(res.data.data.length);
     });
-  });
+  }, []);
 
   const handleClickPage = (event: any, value: any) => {
     setPage(value);
@@ -51,6 +51,7 @@ const StartupList = () => {
         page={page}
         itemsPerPage={itemsPerPage}
         totalLength={totalLength}
+        currPage={"startup"}
       />
     </StartupCompanyList>
   );
