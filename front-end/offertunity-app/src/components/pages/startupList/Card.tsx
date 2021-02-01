@@ -39,7 +39,7 @@ const Card = ({ data, name, background }: any) => {
       <Description>{description}</Description>
       <LabelWrapper>
         {label.map((element: any, idx: number) => (
-          <Label>{element}</Label>
+          <Label key={idx}>{element}</Label>
         ))}
       </LabelWrapper>
     </Wrapper>

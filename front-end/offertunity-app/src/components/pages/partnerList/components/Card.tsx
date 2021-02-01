@@ -5,7 +5,7 @@ import styled from "styled-components";
 const Card = ({ data }: any) => {
   return data.map((item: any, idx: number) => {
     return (
-      <Link to={`/partner/${item.id}`}>
+      <Link to={`/partner/${item.id}`} key={idx}>
         <CardBox key={idx}>
           <ImageContainer>
             <img alt="로고" src={item.iamge} />

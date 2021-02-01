@@ -22,13 +22,13 @@ const Content = styled.div`
 
 const Description = styled.div`
   font-weight: bold;
-  font-size: 21px;
-  margin-bottom: 30px;
+  font-size: 1.313rem;
+  margin-bottom: 1.875rem;
 `;
 
 const Image = styled.div`
-  width: 225px;
-  height: 230px;
+  width: 14.063rem;
+  height: 14.375rem;
 
   img {
     width: 100%;

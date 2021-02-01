@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Title from "../../../common/title/Title";
 import CompanyImgSlider from "../portfolio/Portfolio";
 import CompanyTeamInfo from "../team/Team";
-import CompanyInvestInfo from "../../../pages/startupDetails/components/CompanyInvestInfo";
+import CompanyInvestInfo from "../invest/Invest";
 import CompanyNews from "../news/News";
 
 const CompanyDescription = ({ data, introduceDatas }: any) => {

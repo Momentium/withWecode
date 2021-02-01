@@ -40,6 +40,7 @@ const PartnerList = () => {
           page={page}
           itemsPerPage={itemsPerPage}
           totalLength={totalLength}
+          currPage={"partner"}
         />
       </PaginationBox>
     </PartnerListCon>

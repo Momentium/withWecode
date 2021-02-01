@@ -21,7 +21,7 @@ export default function SimpleSlider() {
       const _resData = res.data;
       setBanner(_resData.bannerCon);
     });
-  }, [banner]);
+  }, []);
 
   function SamplePrevArrow(props: any) {
     const { className, style, onClick } = props;
