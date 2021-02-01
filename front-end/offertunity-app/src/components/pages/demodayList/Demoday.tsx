@@ -12,6 +12,6 @@ const Demoday: React.FC<any> = ({ data }) => {
     );
   }, []);
 
-  return <DemodayPrsnt data={data} tags={tags} clickLike={clickLike} />;
+  return <DemodayPrsnt data={data} tags={tags} />;
 };
 export default Demoday;

@@ -19,19 +19,23 @@ const LikeBtn:React.FC<Props> = ({ isLike, clickLike }) => {
         isLike ?
         <LikeSvg/>
         :
-        <div style={{position:"relative"}}>
+        <div style={{position:"relative", }}>
           <UnLikeSvg/>
-          <div className="abs" style={{position:"absolute", top: 0}}>
+          <div className="abs" style={{position:"absolute", top: 0, }}>
             <LikeSvg/>
           </div>
         </div>
       }
     </StBtnWrap>
-  )
+  );
 };
 export default LikeBtn;
 
 const StBtnWrap = styled.div<{isLike: boolean, prevLike: boolean}>`
+  * {
+    display: flex;
+  }
+
   svg {
     width: 32px;
     height: 32px;
@@ -51,5 +55,4 @@ const StBtnWrap = styled.div<{isLike: boolean, prevLike: boolean}>`
     from { opacity: 0; }
     to{ opacity: 1; }
   }
-
 `;

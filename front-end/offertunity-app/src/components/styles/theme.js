@@ -1,12 +1,11 @@
 import styled, { css } from "styled-components";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core";
 
 const conWidth = css`
-  /* width: 100vw;
-  padding: 0 20rem; */
   width: 80rem;
-  margin: 0 320px;
-  /* margin: 0 80rem; */
+  margin: 0 auto;
+  /* margin: 0 320px; */
+  /* padding: 0 20rem; */
 `;
 
 const title = css`

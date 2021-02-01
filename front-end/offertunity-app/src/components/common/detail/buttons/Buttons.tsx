@@ -8,7 +8,7 @@ const boxStyle = {
   marginRight: "3.531rem",
 };
 
-const Buttons = ({ data }: any) => {
+const Buttons = ({ data, title, type }: any) => {
   const [like, setLike] = useState<boolean>(data);
 
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -17,7 +17,7 @@ const Buttons = ({ data }: any) => {
 
   return (
     <BtnBox>
-      <IRBtn boxStyle={boxStyle} />
+      <IRBtn boxStyle={boxStyle} title={title} type={type} />
       <ShareAndLike>
         <span>
           <LikeBtn isLike={like} clickLike={clickLike} />

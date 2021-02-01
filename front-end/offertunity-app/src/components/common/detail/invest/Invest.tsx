@@ -1,49 +1,60 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import Title from "../../../common/title/Title";
+import Title from "../../title/Title";
 
-const CompanyInvestInfo = ({ data }: any) => {
-  const {
-    attractInvestment,
-    candiateInvestPrice,
-    candidateInvestYear,
-    currInvestYear,
-  } = data;
+const Invest = ({ data }: any) => {
+  const { attractInvestment, infoContainerData, containerTitle } = data;
+  const [postsToShow, setPostsToShow] = useState([]);
+  const [toggle, setToggle] = useState(false);
 
-  const infoContainerData = [
-    {
-      title: "현재 투자 단계",
-      content: currInvestYear,
+  // 더보기 버튼 관련 함수들....
+  const loopWithSlice = useCallback(
+    (start: number, end: number) => {
+      const slicedPosts = attractInvestment.slice(start, end);
+      setPostsToShow(slicedPosts);
     },
-    {
-      title: "희망 투자 단계",
-      content: candidateInvestYear.join(","),
-    },
-    {
-      title: "희망 투자 유치 금액",
-      content: candiateInvestPrice,
-    },
-  ];
+    [attractInvestment]
+  );
+
+  const handleLoadMore = (start: number, end: number) => {
+    const slicePosts = attractInvestment.slice(start, end);
+    setPostsToShow(postsToShow.concat(slicePosts));
+  };
+
+  const handleShowMorePosts = () => {
+    if (!toggle) {
+      handleLoadMore(postsToShow.length, attractInvestment.length);
+      setToggle(true);
+    } else if (toggle) {
+      loopWithSlice(0, 3);
+      setToggle(false);
+    }
+  };
+
+  useEffect(() => {
+    loopWithSlice(0, 3);
+  }, [loopWithSlice]);
 
   return (
     <InvestBox>
-      <Title title={"투자정보"} />
+      <Title title={"투자 정보"} />
       <InvestInfoBox>
-        {infoContainerData.map((item: any, idx: number) => {
-          return (
-            <InfoWrapper key={idx}>
-              <h1>{item.title}</h1>
-              <span>{item.content}</span>
-            </InfoWrapper>
-          );
-        })}
+        {infoContainerData &&
+          infoContainerData.map((item: any, idx: number) => {
+            return (
+              <InfoWrapper key={idx}>
+                <h1>{item.title}</h1>
+                <span>{item.content}</span>
+              </InfoWrapper>
+            );
+          })}
       </InvestInfoBox>
       <InvestHistory>
-        {attractInvestment.map((item: any, idx: number) => {
+        {postsToShow.map((item: any, idx: number) => {
           return (
             <HistoryWrapper className="wrapper" key={idx}>
               <div className="titleBox">
-                <p className="title">{"투자 유치 이력"}</p>
+                <p className="title">{containerTitle}</p>
               </div>
               <div className="contentBox">
                 <div className="box">
@@ -66,16 +77,23 @@ const CompanyInvestInfo = ({ data }: any) => {
                   <span>시트 투자</span>
                 </div>
               </div>
-              <hr className="investHr" />
+              <hr />
             </HistoryWrapper>
           );
         })}
+        {attractInvestment.length >= 4 && (
+          <BtnContainer>
+            <LoadMoreBtn onClick={handleShowMorePosts}>
+              {!toggle ? "더보기" : "접기"}
+            </LoadMoreBtn>
+          </BtnContainer>
+        )}
       </InvestHistory>
     </InvestBox>
   );
 };
 
-export default CompanyInvestInfo;
+export default Invest;
 
 const InvestBox = styled.section`
   display: flex;
@@ -98,6 +116,7 @@ const InfoWrapper = styled.div`
   height: 8.75rem;
   border: 1px solid #d8d8d8;
   border-radius: 6px;
+
   &:not(:last-child) {
     margin-right: 1.531rem;
   }
@@ -118,17 +137,17 @@ const InvestHistory = styled.div`
 `;
 
 const HistoryWrapper = styled.div`
+  &:last-child hr {
+    display: none;
+  }
+
   .title {
     margin-bottom: 1.5rem;
     font-size: ${({ theme }) => theme.fontSizes.lg};
     font-weight: bold;
   }
 
-  &:last-child .investHr {
-    display: none;
-  }
-
-  .investHr {
+  hr {
     margin: 3rem 0rem;
   }
 
@@ -169,5 +188,28 @@ const HistoryWrapper = styled.div`
         color: #5541ed;
       }
     }
+  }
+`;
+
+const BtnContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+`;
+
+const LoadMoreBtn = styled.div`
+  display: inline-block;
+  padding: 0.625rem 1.563rem;
+  transition: all 0.3s ease;
+  border: 2px solid #5541ed;
+  color: #5541ed;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: #5541ed;
+    color: #fff;
   }
 `;

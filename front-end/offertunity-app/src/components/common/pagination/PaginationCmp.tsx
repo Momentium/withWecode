@@ -18,25 +18,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PaginationCmp = ({ onChange, page, itemsPerPage, totalLength }: any) => {
+const PaginationCmp = ({
+  onChange,
+  page,
+  itemsPerPage,
+  totalLength,
+  currPage,
+}: any) => {
   const classes = useStyles();
   const noOfPages = Math.ceil(totalLength / itemsPerPage);
 
-  console.log(totalLength);
+  console.log(page);
 
   return (
-    <Box component="span">
-      <Pagination
-        count={noOfPages}
-        page={page}
-        onChange={onChange}
-        defaultPage={1}
-        size="large"
-        showFirstButton
-        showLastButton
-        classes={{ ul: classes.ul }}
-      />
-    </Box>
+    <>
+      {(currPage === "partner" && totalLength > 12) ||
+      (currPage === "startup" && totalLength > 16) ? (
+        <Box component="span">
+          <Pagination
+            count={noOfPages}
+            page={page}
+            onChange={onChange}
+            defaultPage={1}
+            size="large"
+            showFirstButton
+            showLastButton
+            classes={{ ul: classes.ul }}
+          />
+        </Box>
+      ) : null}
+    </>
   );
 };
 

@@ -10,7 +10,7 @@ import Header from "./components/common/header/Header";
 import Banner from "./components/common/banner/Banner";
 import Main from "./components/pages/main/Main";
 import ProjectPage from "./components/pages/project/ProjectPage";
-import ProjectDetail from "./components/pages/project/detail/ProjectDetailPage";
+import ProjectDetail from "./components/pages/project/ProjectDetailPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
@@ -19,7 +19,8 @@ import StartupList from "./components/pages/startupList/StartupList";
 import StartupDetails from "./components/pages/startupDetails/StartupDetails";
 import MypageStartup from "./components/pages/mypage/MypageStartup";
 import PartnerList from "components/pages/partnerList/PartnerList";
-import DemodayList from "./components/pages/demodayList/DemodayPage";
+import DemodayPage from "./components/pages/demodayList/DemodayPage";
+import PartnerDetails from "./components/pages/partnersDetails/PartnerDetails";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
@@ -27,6 +28,9 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   useEffect(() => {
     setHeadMargin(headerRef.current?.clientHeight);
   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <ThemeProvider theme={{ ...theme, ...location }}>
@@ -41,13 +45,13 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         <Switch>
           <Route path="/project/detail/:id" component={ProjectDetail} />
           <Route path="/project" component={ProjectPage} />
+          <Route path="/startup/detail/:id" component={StartupDetails} />
+          <Route path="/startup" component={StartupList} />
+          <Route path="/partner/detail/:id" component={PartnerDetails} />
+          <Route path="/partner" component={PartnerList} />
+          <Route path="/demo" component={DemodayPage} />
         </Switch>
-        <Route path="/list" component={StartupList} />
         <Route path="/auth/:name" component={Auth} />
-        <Route path="/details" component={StartupDetails} />
-        <Route path="/partner" component={PartnerList} />
-        {/* <Route path="/partner/:id" component={PartnerList} /> */}
-        <Route path="/demo" component={DemodayPage} />
       </StAppCont>
 
       {/* Footer 들어갈 자리 */}

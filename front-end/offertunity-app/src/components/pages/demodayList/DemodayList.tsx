@@ -16,6 +16,8 @@ const DemodayList = () => {
     });
   }, []);
 
+  console.log(pjts);
+
   return (
     <>
       <St.Section>{pjts.slice(0, 5)}</St.Section>

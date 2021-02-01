@@ -4,7 +4,7 @@ import * as St from "components/styles/styledComp";
 import LikeBtn from "components/common/button/iconBtn/LikeBtn";
 import ShareBtn from "components/common/button/iconBtn/ShareBtn";
 
-const DemodayPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
+const DemodayPrsnt: React.FC<any> = ({ data, tags, like }) => {
   return (
     <StPjtWrap>
       <StImgWrap imgUrl={data.img} />
@@ -14,38 +14,28 @@ const DemodayPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
           <StNameCont className="name" to={`/project/detail/${data.id}`}>
             {data.name}
           </StNameCont>
-          <div className="iconBtn-cont">
-            <LikeBtn isLike={like} clickLike={clickLike} />
-            <ShareBtn />
-          </div>
         </div>
         <div className="mid-wrap">
           <p>{data.explain}</p>
         </div>
-        <div className="bot-wrap">{tags}</div>
       </StContentsCont>
 
       <StInfoCont>
-        <StInfoTable>
-          <tbody>
-            <tr>
-              <th>주최</th>
-              <td>{data.host}</td>
-            </tr>
-            <tr>
-              <th>지원분야</th>
-              <td>{data.field}</td>
-            </tr>
-            <tr>
-              <th>지원대상</th>
-              <td>{data.target}</td>
-            </tr>
-            <tr>
-              <th>마감일</th>
-              <td>{data.deadline}</td>
-            </tr>
-          </tbody>
-        </StInfoTable>
+        <div className="table">
+          <div className="tableWrapper">
+            <div className="title">주최</div>
+            <div className="content">{data.host}</div>
+          </div>
+          <div className="tableWrapper">
+            <div className="title">참가팀</div>
+            <div className="content">{data.teams}</div>
+          </div>
+          <div className="tableWrapper">
+            <div className="title">진행일</div>
+            <div className="content">{data.progressDate}</div>
+          </div>
+          <div className="tableWrapper tagsWrapper">{tags}</div>
+        </div>
       </StInfoCont>
     </StPjtWrap>
   );
@@ -76,7 +66,6 @@ const StContentsCont = styled.div`
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: flex-start;
 
   .up-wrap {
@@ -138,27 +127,48 @@ const StNameCont = styled(Link)`
 `;
 
 const StInfoCont = styled(St.FlexDiv)`
+  width: 284px;
   display: flex;
   justify-content: flex-start;
-
   padding-left: 32px;
   border-left: dotted 2px #cccccc;
-`;
 
-const StInfoTable = styled.table`
-  th,
-  td {
+  .title,
+  .content {
     text-align: left;
     font-size: 18px/20px;
   }
 
-  th {
+  .title {
+    width: 74px;
     white-space: nowrap;
     font-weight: bold;
-    padding: 8px 32px 8px 0;
   }
 
-  td {
+  .content {
     width: 8.813em;
+  }
+
+  .tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .table {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .tableWrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .tagsWrapper {
+      flex-wrap: wrap;
+    }
   }
 `;

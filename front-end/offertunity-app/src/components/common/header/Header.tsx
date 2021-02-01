@@ -1,71 +1,91 @@
 import React, { useState } from "react";
-import { Link, RouteComponentProps, } from "react-router-dom";
-import withRouterAndRef from 'api/withRouterAndRef';
+import { Link, RouteComponentProps } from "react-router-dom";
+import withRouterAndRef from "api/withRouterAndRef";
 import styled, { css } from "styled-components";
 import * as St from "components/styles/styledComp";
 import { SearchSvg, UnSearchSvg } from "assets/icons/SearchSvg";
 
-const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(({ location }, ref) => {
-  // const { location } = props
-  const [focus, setFocus] = useState<boolean>(false);
-  const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
-    setFocus(!focus);
-  };
+const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
+  ({ location }, ref) => {
+    // const { location } = props
+    const [focus, setFocus] = useState<boolean>(false);
+    const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+      setFocus(!focus);
+    };
 
-  return (
-    <StSection ref={ref}>
-      <HeaderCon>
-        <StLogoWrap>
-          <Link to="/">
-            <img src="/images/header/logo.png" alt="로고" />
-          </Link>
-        </StLogoWrap>
+    return (
+      <StSection ref={ref}>
+        <HeaderCon>
+          <StLogoWrap>
+            <Link to="/">
+              <img src="/images/header/logo.png" alt="로고" />
+            </Link>
+          </StLogoWrap>
 
-        { !location.pathname.includes('auth') &&
-          <>
-            <StNavCont>
-              <StLinkWrap name="project" curPage={location.pathname?.substring(1)}>
-                <Link to="/project">지원사업</Link>
-              </StLinkWrap>
-              <StLinkWrap name="startup" curPage={location.pathname?.substring(1)}>
-                <Link to="/startup">스타트업</Link>
-              </StLinkWrap>
-              <StLinkWrap name="invest" curPage={location.pathname?.substring(1)}>
-                <Link to="/invest">투자기관</Link>
-              </StLinkWrap>
-              <StLinkWrap name="demo" curPage={location.pathname?.substring(1)}>
-                <Link to="/demo">온라인 데모데이</Link>
-              </StLinkWrap>
-              <StLinkWrap name="team" curPage={location.pathname?.substring(1)}>
-                <Link to="/team">팀빌딩</Link>
-              </StLinkWrap>
-            </StNavCont>
+          {!location.pathname.includes("auth") && (
+            <>
+              <StNavCont>
+                <StLinkWrap
+                  name="project"
+                  curPage={location.pathname?.substring(1)}
+                >
+                  <Link to="/project">지원사업</Link>
+                </StLinkWrap>
+                <StLinkWrap
+                  name="startup"
+                  curPage={location.pathname?.substring(1)}
+                >
+                  <Link to="/startup">스타트업</Link>
+                </StLinkWrap>
+                <StLinkWrap
+                  name="invest"
+                  curPage={location.pathname?.substring(1)}
+                >
+                  <Link to="/partner">투자기관</Link>
+                </StLinkWrap>
+                <StLinkWrap
+                  name="demo"
+                  curPage={location.pathname?.substring(1)}
+                >
+                  <Link to="/demo">온라인 데모데이</Link>
+                </StLinkWrap>
+                <StLinkWrap
+                  name="team"
+                  curPage={location.pathname?.substring(1)}
+                >
+                  <Link to="/team">팀빌딩</Link>
+                </StLinkWrap>
+              </StNavCont>
 
-            <StSearchWrap focus={focus} onFocus={handleFocus} onBlur={handleFocus}>
-              <div className="rel">
-                <UnSearchSvg />
-                <div className="abs">
-                  <SearchSvg />
+              <StSearchWrap
+                focus={focus}
+                onFocus={handleFocus}
+                onBlur={handleFocus}
+              >
+                <div className="rel">
+                  <UnSearchSvg />
+                  <div className="abs">
+                    <SearchSvg />
+                  </div>
                 </div>
-              </div>
-              <input type="text" />
-            </StSearchWrap>
+                <input type="text" />
+              </StSearchWrap>
 
-            <Auth>
-              <Link to="/auth/signIn">
-                <p>로그인</p>
-              </Link>
-              <Link to="/auth/signUp">
-                <p>회원가입</p>
-              </Link>
-            </Auth>
-          </>
-        }
-
-      </HeaderCon>
-    </StSection>
-  );
-});
+              <Auth>
+                <Link to="/auth/signIn">
+                  <p>로그인</p>
+                </Link>
+                <Link to="/auth/signUp">
+                  <p>회원가입</p>
+                </Link>
+              </Auth>
+            </>
+          )}
+        </HeaderCon>
+      </StSection>
+    );
+  }
+);
 
 export default withRouterAndRef(Header);
 
@@ -76,29 +96,30 @@ const StSection = styled.div`
   top: 0;
 
   background: white;
-  width: 80rem;
+  /* width: 80rem;
   padding: 0 320px;
-  box-sizing: content-box;
+  box-sizing: content-box; */
+
+  width: 100vw;
 `;
 
 const HeaderCon = styled.header`
   display: flex;
-  justify-content: ${({theme}) => theme.pathname.includes('auth') ? 
-    "flex-start"
-    :
-    "space-between"
-  };
+  justify-content: ${({ theme }) =>
+    theme.pathname.includes("auth") ? "flex-start" : "space-between"};
   align-items: center;
 
-  width: 100%;
+  /* width: 100%; */
+  width: 80rem;
   height: 4.37rem;
+  margin: 0 auto;
   background: #fff;
   text-align: center;
 `;
 
 const StLogoWrap = styled(St.FlexDiv)`
   display: flex;
-  flex: ${({theme}) => !theme.pathname.includes('auth') && 1 };
+  flex: ${({ theme }) => !theme.pathname.includes("auth") && 1};
 
   img {
     width: 10.25rem;
