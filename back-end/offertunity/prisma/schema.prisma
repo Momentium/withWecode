@@ -305,7 +305,7 @@ model projects {
   contact              String?
   is_opened            Int
   hit                  Int
-  created_at           DateTime?
+  created_at           DateTime?              @default(now())
   updated_at           DateTime?
   deleted_at           DateTime?
   companies            companies?             @relation(fields: [host], references: [id])
