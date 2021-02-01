@@ -1,4 +1,6 @@
 const s3 = require('./s3')
+const makeQueryOption = require('./makeQueryOption')
+
 const dayjs = require('dayjs')
 
 const upsertConnection = (name, oldValue, newValue) => {
@@ -43,5 +45,6 @@ module.exports = {
     upsertConnection,
     typeChecker,
     lengthChecker,
-    dateForm
+    dateForm,
+    makeQueryOption
 }

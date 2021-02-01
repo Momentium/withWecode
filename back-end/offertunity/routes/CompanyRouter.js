@@ -14,7 +14,7 @@ router.post(
         {name: 'startupImages', maxCount: 5},
         {name: 'memberImages', maxCount: 100},
     ]),
-    CompanyController.startupInfoTempSave
+    CompanyController.tempSaveStartupInfo
 )
 
 router.post(
@@ -27,8 +27,8 @@ router.post(
         {name: 'startupImages', maxCount: 5},
         {name: 'memberImages', maxCount: 100},
     ]),
-    CompanyController.startupInfoTempSave,
-    CompanyController.startupInfoSave
+    CompanyController.tempSaveStartupInfo,
+    CompanyController.saveStartupInfo
 )
 
 router.post(
@@ -37,7 +37,7 @@ router.post(
     upload.fields([
         {name: 'logoImg', maxCount: 1}
     ]),
-    CompanyController.startupProjectSubmitSave
+    CompanyController.saveStartupSubmitInfo
 )
 
 // partner info
@@ -49,7 +49,7 @@ router.post(
         {name: 'portfolioImages', maxCount: 5},
         {name: 'memberImages', maxCount: 100},
     ]),
-    CompanyController.partnerInfoTempSave
+    CompanyController.tempSavePartnerInfo
 )
 
 router.post(
@@ -61,8 +61,19 @@ router.post(
         {name: 'portfolioImages', maxCount: 5},
         {name: 'memberImages', maxCount: 100},
     ]),
-    CompanyController.partnerInfoTempSave,
-    CompanyController.partnerInfoSave
+    CompanyController.tempSavePartnerInfo,
+    CompanyController.savePartnerInfo
+)
+
+router.get(
+    '/list/startup',
+    validateToken,
+    CompanyController.getStartups
+)
+
+router.get(
+    '/list/partner',
+    CompanyController.getPartners
 )
 
 module.exports = router
