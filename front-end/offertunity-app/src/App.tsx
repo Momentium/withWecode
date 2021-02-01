@@ -28,8 +28,8 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
     setHeadMargin(headerRef.current?.clientHeight);
   }, []);
   useEffect(() => {
-    window.scrollTo(0,0);
-  }, [location])
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <ThemeProvider theme={{ ...theme, ...location }}>
@@ -44,10 +44,10 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         <Switch>
           <Route path="/project/detail/:id" component={ProjectDetail} />
           <Route path="/project" component={ProjectPage} />
-          <Route path="/startup" component={StartupList} />
           <Route path="/startup/detail/:id" component={StartupDetails} />
-          <Route path="/partner" component={PartnerList} />
+          <Route path="/startup" component={StartupList} />
           <Route path="/partner/detail/:id" component={PartnerDetails} />
+          <Route path="/partner" component={PartnerList} />
         </Switch>
         <Route path="/auth/:name" component={Auth} />
       </StAppCont>

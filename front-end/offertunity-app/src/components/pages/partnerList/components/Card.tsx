@@ -8,10 +8,10 @@ const Card = ({ data }: any) => {
       <Link to={`/partner/${item.id}`} key={idx}>
         <CardBox key={idx}>
           <ImageContainer>
-            <img alt="로고" src={item.iamge} />
+            <img alt="로고" src={item.logo_img} />
           </ImageContainer>
           <CompanyTitle>
-            <span>{item.title}</span>
+            <span>{item.name}</span>
           </CompanyTitle>
           <CompanyDescription>
             <p>{item.description}</p>

@@ -9,23 +9,38 @@ const PartnerList = () => {
   const [partnerList, setPartnerList] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalLength, setTotalLength] = useState(0);
-  const itemsPerPage = 12;
+  const itemsPerPage = 1;
+  const LIMIT = 1;
 
   useEffect(() => {
-    const LIMIT = 12;
+    getData();
+  }, [page]);
+
+  useEffect(() => {
+    getLength();
+  }, []);
+
+  const getData = () => {
     axios
       .get(
-        `http://localhost:3000/data/partnerData/offset=${page}&limit=${LIMIT}.json`
+        `http://10.0.1.44:3000/companies/list/partner?offset=${page}&limit=${LIMIT}`
       )
       .then((res) => {
-        setPartnerList(res.data.data);
-        setTotalLength(res.data.data.length);
+        setPartnerList(res.data.companies);
       });
-  }, [page]);
+  };
+
+  const getLength = () => {
+    axios.get(`http://10.0.1.44:3000/companies/list/partner`).then((res) => {
+      setTotalLength(res.data.companies.length);
+    });
+  };
 
   const handleClickPage = (event: any, value: any) => {
     setPage(value);
   };
+
+  console.log(partnerList);
 
   return (
     <PartnerListCon>
