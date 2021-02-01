@@ -226,7 +226,7 @@ model participants {
 
 model partners {
   id                    Int                    @id @default(autoincrement())
-  company_id            Int
+  company_id            Int                    @unique
   interst_technology_id Int?
   invested_total_id     Int?
   invested_counts       Int?
@@ -248,8 +248,8 @@ model partner_likes {
   is_liked                                            Int
   created_at                                          DateTime
   updated_at                                          DateTime
-  companies_companiesTopartner_likes_company_liked_id companies @relation("companiesTopartner_likes_company_liked_id", fields: [company_liked_id], references: [id])
-  companies_companiesTopartner_likes_company_likes_id companies @relation("companiesTopartner_likes_company_likes_id", fields: [company_likes_id], references: [id])
+  company_liked companies @relation("companiesTopartner_likes_company_liked_id", fields: [company_liked_id], references: [id])
+  company_likes companies @relation("companiesTopartner_likes_company_likes_id", fields: [company_likes_id], references: [id])
 
   @@index([company_liked_id], name: "FK_partner_likes_company_liked_id_companies_id")
   @@index([company_likes_id], name: "FK_partner_likes_company_likes_id_companies_id")

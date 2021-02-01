@@ -1,9 +1,9 @@
-const { upsertConnection } = require('../utils')
+const { upsertConnection, makeQueryOption } = require('../utils')
 const prisma = require('../prisma')
 
-const createCompany = (async (user_id, companyFields) => {
+const createCompany = (async (userId, companyFields) => {
     const companyInfo = await prisma.companies.create({ data: companyFields })
-    await prisma.users.update({where: {id: user_id}, data: {companies: {connect: {id: companyInfo.id}}}})
+    await prisma.users.update({where: {id: userId}, data: {companies: {connect: {id: companyInfo.id}}}})
     return companyInfo
 })
 
@@ -22,8 +22,7 @@ const updateCompany = (async (companyId, companyFields) => {
 
 const createCompanyDetail = (async (companyId, table, fields) => {
     fields.companies = {connect: {id: companyId}}
-    const startupInfo = await prisma[table].create({ data: fields })
-    return startupInfo
+    return await prisma[table].create({ data: fields })
 })
 
 const readCompanyDetail = (async (table, companyId) => {
@@ -31,7 +30,7 @@ const readCompanyDetail = (async (table, companyId) => {
 })
 
 const updateStartup = (async (companyId, startupFields) => {
-    const startupInfo = await readStartup(companyId)
+    const startupInfo = await readCompanyDetail('startups', companyId)
     const updatedStartupInfo = await prisma.startups.update({
         where: {id: startupInfo.id},
         data:
@@ -47,12 +46,13 @@ const updateStartup = (async (companyId, startupFields) => {
 })
 
 const updatePartner = (async (companyId, partnerFields) => {
-    const partnerInfo = await readStartup(companyId)
-    const updatedStartupInfo = await prisma.startups.update({
-        where: {id: startupInfo.id},
+    const partnerInfo = await readCompanyDetail('partners', companyId)
+    console.log(partnerInfo)
+    const updatedStartupInfo = await prisma.partners.update({
+        where: {id: partnerInfo.id},
         data:
         {
-            ...startupFields,
+            ...partnerFields,
             ...upsertConnection('technologies', partnerInfo.core_technology_id, partnerFields.technologies),
             ...upsertConnection('investment_funds', partnerInfo.investment_fund_id, partnerFields.investment_funds),
         }
@@ -111,6 +111,37 @@ const saveInfo = (async (companyId) => {
     })
 })
 
+const ARTICLES_DEFAULT_OFFSET = 0
+const ARTICLES_DEFAULT_LIMIT = 5
+
+const findStartups = (query) => {
+    const { offset, limit, ...fields } = query
+    const where = makeQueryOption(fields)
+  
+    return prisma.companies.findMany({
+        include: {
+            startups: true,
+        },
+        where,
+        skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+        take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+    })
+}
+
+const findPartners = (query) => {
+    const { offset, limit, ...fields } = query
+    const where = makeQueryOption(fields)
+  
+    return prisma.companies.findMany({
+        include: {
+            partners: true,
+        },
+        where,
+        skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+        take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+    })
+}
+
 module.exports = {
     createCompany,
     updateCompany,
@@ -126,5 +157,7 @@ module.exports = {
     deleteWishInvestmentSeries,
     createRelatedInfo,
     deleteRelatedInfo,
-    saveInfo
+    saveInfo,
+    findStartups,
+    findPartners
 }
