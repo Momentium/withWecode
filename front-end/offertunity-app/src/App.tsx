@@ -13,7 +13,7 @@ import ProjectPage from "./components/pages/project/ProjectPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
-import Auth from "./components/pages/Auth/Auth";
+import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
