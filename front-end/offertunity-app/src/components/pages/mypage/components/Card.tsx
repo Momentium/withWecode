@@ -39,6 +39,7 @@ const Wrap = styled.div`
   border: 1px solid #c6c6c6;
   margin: 0 1rem 1rem 0;
   text-align: center;
+  cursor: pointer;
 `;
 
 const Logo = styled.div`
@@ -66,6 +67,7 @@ const Sub = styled.p`
 `;
 
 const Info = styled.p`
+  display: flex;
   font-size: 0.9rem;
   line-height: 1.3rem;
 `;

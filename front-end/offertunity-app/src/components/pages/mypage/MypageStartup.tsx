@@ -49,7 +49,6 @@ const MypageStartup: React.FC = () => {
       setCardData(res.data.data);
     });
   };
-  console.log(cardData);
 
   return (
     <>
