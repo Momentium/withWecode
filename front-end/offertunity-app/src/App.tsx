@@ -5,7 +5,7 @@ import Header from "./components/common/header/Header";
 import Banner from "./components/common/banner/Banner";
 import Main from "./components/pages/main/Main";
 import ProjectPage from "./components/pages/project/ProjectPage";
-import ProjectDetail from "./components/pages/project/detail/ProjectDetailPage";
+import ProjectDetail from "./components/pages/project/ProjectDetailPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
@@ -21,9 +21,12 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   useEffect(() => {
     setHeadMargin(headerRef.current?.clientHeight);
   }, []);
+  useEffect(() => {
+    window.scrollTo(0,0);
+  }, [location])
 
   return (
-    <ThemeProvider theme={{...theme, ...location}}>
+    <ThemeProvider theme={{...theme, ...location, headMargin}}>
       
         {/* Header 들어갈 자리 */}
         <Header ref={headerRef}/>
