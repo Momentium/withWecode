@@ -19,7 +19,7 @@ const PartnerDetails = () => {
 
   useEffect(() => {
     axios.get("/data/partnerData/partnerDetails.json").then((res) => {
-      const _data = res.data.data;
+      const _data = res.data.company;
       setPartnerData(_data);
     });
   }, []);

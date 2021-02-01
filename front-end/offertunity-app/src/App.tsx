@@ -41,10 +41,10 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         <Switch>
           <Route path="/project/detail/:id" component={ProjectDetail} />
           <Route path="/project" component={ProjectPage} />
-          <Route path="/startup" component={StartupList} />
           <Route path="/startup/detail/:id" component={StartupDetails} />
-          <Route path="/partner" component={PartnerList} />
+          <Route path="/startup" component={StartupList} />
           <Route path="/partner/detail/:id" component={PartnerDetails} />
+          <Route path="/partner" component={PartnerDetails} />
         </Switch>
         <Route path="/auth/:name" component={Auth} />
       </StAppCont>

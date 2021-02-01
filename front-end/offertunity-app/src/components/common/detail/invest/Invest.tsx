@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Title from "../../title/Title";
 
 const Invest = ({ data }: any) => {
-  const { attractInvestment, infoContainerData, containerTitle } = data;
+  const { infoContainerData, containerTitle } = data;
+  const attractInvestment = data.invested_to;
   const [postsToShow, setPostsToShow] = useState([]);
   const [toggle, setToggle] = useState(false);
 
@@ -39,15 +40,16 @@ const Invest = ({ data }: any) => {
     <InvestBox>
       <Title title={"투자 정보"} />
       <InvestInfoBox>
-        {infoContainerData &&
-          infoContainerData.map((item: any, idx: number) => {
-            return (
-              <InfoWrapper key={idx}>
-                <h1>{item.title}</h1>
-                <span>{item.content}</span>
-              </InfoWrapper>
-            );
-          })}
+        {infoContainerData
+          ? infoContainerData.map((item: any, idx: number) => {
+              return (
+                <InfoWrapper key={idx}>
+                  <h1>{item.title}</h1>
+                  <span>{item.content}</span>
+                </InfoWrapper>
+              );
+            })
+          : null}
       </InvestInfoBox>
       <InvestHistory>
         {postsToShow.map((item: any, idx: number) => {
@@ -62,15 +64,15 @@ const Invest = ({ data }: any) => {
                     투자 일자 <span>{item.date}</span>
                   </p>
                   <p className="subTitle">
-                    투자 금액 <span>{item.price}</span>
+                    투자 금액 <span>{item.invested_fund}</span>
                   </p>
                 </div>
                 <div className="box">
                   <p className="subTitle">
-                    투자 기관 <span>{item.organization}</span>
+                    투자 기관 <span>{item.invested_startup}</span>
                   </p>
                   <p className="subTitle">
-                    투자 금액 <span>{item.value}</span>
+                    기업 가치 <span>{item.corporate_value}</span>
                   </p>
                 </div>
                 <div className="investBtn">
