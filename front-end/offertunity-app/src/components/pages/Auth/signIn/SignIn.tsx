@@ -19,12 +19,14 @@ const SignIn:React.FC = () => {
 
   const SIGNIN =()=>{
     const {email,password} = inputs
-    axios.post(" http://10.0.1.29:3000/users/signin",{
+    axios.post(`${process.env.REACT_APP_URL}/users/signin`,{
       email:email,
       password:password
     })
     .then(function(response){
       alert("로그인 성공")
+      console.log(response.data)
+      sessionStorage.setItem("token", response.data.token)
     })
     .catch(function(error){
       alert("로그인 실패")

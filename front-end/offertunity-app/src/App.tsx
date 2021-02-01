@@ -20,6 +20,7 @@ import StartupDetails from "./components/pages/startupDetails/StartupDetails";
 import MypageStartup from "./components/pages/mypage/MypageStartup";
 import PartnerList from "components/pages/partnerList/PartnerList";
 import PartnerDetails from "./components/pages/partnersDetails/PartnerDetails";
+import WSPage from "./components/pages/workstation/WSPage";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
@@ -37,25 +38,31 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
       <Header ref={headerRef} />
       <StAppCont className="app" headMargin={headMargin}>
         {!location.pathname.includes("auth") &&
-          !location.pathname.includes("detail") && <Banner />}
+         !location.pathname.includes("detail") && 
+         !location.pathname.includes("workstation") &&
+         <Banner />}
 
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
         <Switch>
           <Route path="/project/detail/:id" component={ProjectDetail} />
           <Route path="/project" component={ProjectPage} />
-          <Route path="/startup" component={StartupList} />
           <Route path="/startup/detail/:id" component={StartupDetails} />
-          <Route path="/partner" component={PartnerList} />
+          <Route path="/startup" component={StartupList} />
           <Route path="/partner/detail/:id" component={PartnerDetails} />
+          <Route path="/partner" component={PartnerList} />
         </Switch>
+        <Route path="/workstation" component={WSPage} />
         <Route path="/auth/:name" component={Auth} />
       </StAppCont>
 
       {/* Footer 들어갈 자리 */}
       {!location.pathname.includes("auth") && (
         <>
-          <Newsletter />
+          {
+            !location.pathname.includes("workstation") &&
+            <Newsletter />
+          }
           <Footer />
         </>
       )}
