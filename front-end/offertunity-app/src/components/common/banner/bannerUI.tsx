@@ -17,7 +17,7 @@ export default function SimpleSlider() {
   };
 
   useEffect(() => {
-    axios.get(getUrl()).then((res) => {
+    axios.get("/data/mainBanner.json").then((res) => {
       const _resData = res.data;
       setBanner(_resData.bannerCon);
     });
