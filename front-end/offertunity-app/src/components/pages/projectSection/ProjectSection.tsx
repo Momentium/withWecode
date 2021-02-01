@@ -25,7 +25,7 @@ const ProjectSection = () => {
           <NewProject />
         </New>
       </Project>
-      <img src="/projectImg/coronabanner.png" alt="코로나 19 맟춤형 지원사업" />
+      <img src="/images/coronabanner.png" alt="코로나 19 맟춤형 지원사업" />
     </ProjectCon>
   );
 };

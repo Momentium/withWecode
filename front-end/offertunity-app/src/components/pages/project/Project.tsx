@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import * as St from 'components/styles/styledComp';
-import ProjectPrsnt from './ProjectPrsnt';
+import ProjectOverview from './ProjectOverview';
 
-const Project:React.FC<any> = ({ data, }) => {
+const Project:React.FC<any> = ({ data, page }) => {
   const [tags, setTags] = useState<JSX.Element[]>([]);
   const [like, setLike] = useState<boolean>(data.like);
 
   useEffect(() => {
-    setTags(data.tag.map((el:string, idx:number) => 
+    setTags(data.tag?.map((el:string, idx:number) => 
       <St.Tag key={idx}>{el}</St.Tag>
     ));
   }, []);
@@ -18,8 +17,9 @@ const Project:React.FC<any> = ({ data, }) => {
   }
 
   return (
-    <ProjectPrsnt 
-      data={data} 
+    <ProjectOverview 
+      page={page}
+      data={data}
       tags={tags}
       like={like}
       clickLike={clickLike}

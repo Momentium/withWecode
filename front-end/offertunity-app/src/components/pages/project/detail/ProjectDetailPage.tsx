@@ -14,11 +14,13 @@ const ProjectDetailPage: React.FC<any> = ({ match }) => {
   const [checkFile, setCheckFile] = useState<any | null>();
 
   useEffect(() => {
-    axios.get("/data/projectData.json").then((res) => {
+    axios.get("/data/projectData/overview.json").then((res) => {
       const _resData = res.data[match.params.id];
       setData(_resData);
     });
   }, []);
+
+  console.log(data);
 
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
     setLike(!like);
