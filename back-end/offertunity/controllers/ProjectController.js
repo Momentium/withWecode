@@ -48,7 +48,7 @@ const updateOneProject = errorWrapper(async(req, res) => {
       errorGenerator({ statusCode: 403, message: 'unauthorized' })
 
     const projectAction = await ProjectService.updateProject({projectId, requestedFields, project_picture, due_date})
-    await ProjectService.resetChoices({ projectAction })
+    await ProjectService.resetChoices({ projectAction})
     for (len = 0; len< required_documents.length; len++) {
         await ProjectService.createRelatedDoc({required_documents, projectAction})
     }    
