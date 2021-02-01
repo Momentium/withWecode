@@ -1,31 +1,28 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import * as St from 'components/styles/styledComp';
-import LikeBtn from 'components/common/button/iconBtn/LikeBtn';
-import ShareBtn from 'components/common/button/iconBtn/ShareBtn';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import * as St from "components/styles/styledComp";
+import LikeBtn from "components/common/button/iconBtn/LikeBtn";
+import ShareBtn from "components/common/button/iconBtn/ShareBtn";
 
-const ProjectPrsnt:React.FC<any> = ({ data, tags, like, clickLike }) => {
+const ProjectPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
   return (
     <StPjtWrap>
-
-      <StImgWrap imgUrl={data.img}/>
+      <StImgWrap imgUrl={data.img} />
 
       <StContentsCont>
         <div className="up-wrap">
-          <StNameCont className="name" to={`/project/detail/${data.id}`}>{data.name}</StNameCont>
+          <StNameCont className="name" to={`/project/detail/${data.id}`}>
+            {data.name}
+          </StNameCont>
           <div className="iconBtn-cont">
-            <LikeBtn isLike={like} clickLike={clickLike}/>
-            <ShareBtn/>
+            <LikeBtn isLike={like} clickLike={clickLike} />
+            <ShareBtn />
           </div>
         </div>
         <div className="mid-wrap">
-          <p>
-            {data.explain}
-          </p>
+          <p>{data.explain}</p>
         </div>
-        <div className="bot-wrap">
-          {tags}
-        </div>
+        <div className="bot-wrap">{tags}</div>
       </StContentsCont>
 
       <StInfoCont>
@@ -50,7 +47,6 @@ const ProjectPrsnt:React.FC<any> = ({ data, tags, like, clickLike }) => {
           </tbody>
         </StInfoTable>
       </StInfoCont>
-
     </StPjtWrap>
   );
 };
@@ -62,15 +58,15 @@ const StPjtWrap = styled(St.FlexDiv)`
   height: 12.938em;
   margin-bottom: 40px;
 
-  & > div{
+  & > div {
     height: 100%;
   }
 `;
 
-const StImgWrap = styled.div<{imgUrl:string|undefined}>`
+const StImgWrap = styled.div<{ imgUrl: string | undefined }>`
   width: 19.438em;
 
-  background-image: url(${props => props.imgUrl});
+  background-image: url(${(props) => props.imgUrl});
   background-size: cover;
 `;
 
@@ -104,26 +100,25 @@ const StContentsCont = styled.div`
         margin-left: 24px;
       }
     }
-
   }
 
   .mid-wrap {
     font: normal normal normal 15px/20px Spoqa Han Sans Neo;
-    
+
     display: flex;
     align-items: center;
 
     p {
       width: 100%;
 
-      overflow: hidden; 
+      overflow: hidden;
       text-overflow: ellipsis;
 
-      white-space: normal; 
-      text-align: left; 
-      word-wrap: break-word; 
-      display: -webkit-box; 
-      -webkit-line-clamp: 4; 
+      white-space: normal;
+      text-align: left;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
     }
   }
@@ -151,11 +146,12 @@ const StInfoCont = styled(St.FlexDiv)`
 `;
 
 const StInfoTable = styled.table`
-  th, td {
+  th,
+  td {
     text-align: left;
     font-size: 18px/20px;
   }
-  
+
   th {
     white-space: nowrap;
     font-weight: bold;
