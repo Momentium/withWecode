@@ -128,6 +128,11 @@ model document_types {
   required_documents required_documents[]
 }
 
+model eligibilities {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
 model email_auth {
   email       String @unique
   auth_number String @unique
@@ -265,7 +270,7 @@ model phone_auth {
 model project_images {
   id         Int      @id @default(autoincrement())
   project_id Int
-  img_url    String
+  img_url    String?
   projects   projects @relation(fields: [project_id], references: [id])
 
   @@index([project_id], name: "FK_project_images_project_id_projects_id")
@@ -292,7 +297,7 @@ model projects {
   host                 Int?
   due_date             DateTime?
   sector_id            Int?
-  eligibility          String?
+  eligibility          Int?
   outline              String?
   detail               String?
   application_method   String?
@@ -302,8 +307,10 @@ model projects {
   hit                  Int
   created_at           DateTime?
   updated_at           DateTime?
+  deleted_at           DateTime?
   companies            companies?             @relation(fields: [host], references: [id])
   sectors              sectors?               @relation(fields: [sector_id], references: [id])
+  eligibilities        eligibilities?         @relation(fields: [eligibility], references: [id])
   applicants           applicants[]
   project_images       project_images[]
   project_likes        project_likes[]

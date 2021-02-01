@@ -1,3 +1,4 @@
+
 const s3 = require('./s3')
 const makeQueryOption = require('./makeQueryOption')
 
@@ -40,11 +41,36 @@ const lengthChecker = (...data) => {
 const dateForm = async (dateInfo) => {
   return await dayjs(dateInfo).toDate()
 }
+<<<<<<< HEAD
 
 module.exports = {
+=======
+
+const dayjs = require("dayjs")
+
+const dateForm = async (dateInfo) => {
+  return await dayjs(dateInfo).toDate()
+}
+
+const forloop = (target) => {
+  for (x=0; x < target.length; x++) return { create : { document_types: { connect: { id: Number(target[x]) } } } }}
+
+
+
+module.exports = {
+<<<<<<< HEAD
+  s3,
+  dateForm,
+  forloop
+=======
+>>>>>>> feature/projectCRUD
     upsertConnection,
     typeChecker,
     lengthChecker,
     dateForm,
     makeQueryOption
+<<<<<<< HEAD
+=======
+>>>>>>> back-end
+>>>>>>> feature/projectCRUD
 }

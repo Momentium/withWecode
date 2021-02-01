@@ -7,4 +7,12 @@ router.post(
     InitialController.InitialDataSetting
     )
 
+<<<<<<< HEAD
 module.exports = router
+=======
+<<<<<<< HEAD
+module.exports = router
+=======
+module.exports = router
+>>>>>>> back-end
+>>>>>>> feature/projectCRUD
