@@ -54,7 +54,7 @@ const showMemberInfo = errorWrapper(async(req, res) => {
 const addMemberInfo = errorWrapper(async(req, res) => {
     const { id: userId } = req.foundUser
     const requestedFields = req.body
-    const profile_picture = req.file? req.file.location : null;
+    const profile_picture = req.file ? req.file.location : null;
     const addInfo = await UserService.updateInfo({ userId, requestedFields, profile_picture })
     res.status(201).json({
         message: 'information successfully added'
