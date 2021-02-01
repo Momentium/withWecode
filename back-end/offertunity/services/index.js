@@ -1,9 +1,12 @@
 const UserService = require('./UserService')
-const ProjectService = require('./ProjectService')
+const CompanyService = require('./CompanyService')
 const InitialService = require('./InitialService')
+const AuthService = require('./AuthService')
+
 
 module.exports = {
-  UserService,
-  ProjectService,
-  InitialService
+    UserService,
+    CompanyService,
+    InitialService,
+    AuthService
 }

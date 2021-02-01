@@ -50,9 +50,9 @@ router.get('/naver/callback', function (req, res, next) {
 router.get('/google', passport.authenticate('google'));
 
 router.get('/google/callback', passport.authenticate('google', {
-  failureRedirect: '/users',
+    failureRedirect: '/users',
 }), (req, res) => {
-  res.redirect('/users/signin');
+    res.redirect('/users/signin');
 });
 
 //kakao
