@@ -24,14 +24,16 @@ var server = http.createServer(app);
 /**
  * host name
  */
-const hostname = '10.0.1.44';
+//const hostname = '10.0.1.44';
 
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, hostname);
+//server.listen(port, hostname);
+server.listen(port);
+
 server.on('error', onError);
 server.on('listening', onListening);
 

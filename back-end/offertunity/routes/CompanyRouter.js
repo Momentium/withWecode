@@ -72,8 +72,19 @@ router.get(
 )
 
 router.get(
+    '/startup/:companyId',
+    CompanyController.getOnestartup
+)
+
+router.get(
     '/list/partner',
     CompanyController.getPartners
 )
+
+router.get(
+    '/partner/:companyId',
+    CompanyController.getOnePartner
+)
+
 
 module.exports = router
