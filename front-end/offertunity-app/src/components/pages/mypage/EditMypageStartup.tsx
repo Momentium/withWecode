@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import EditProfile from "./components/EditProfile";
 import EditForm from "./components/EditForm";
+import WorkStation from "./components/WorkStation";
 
 const EditMypageStartup = () => {
   return (
@@ -15,6 +16,7 @@ const EditMypageStartup = () => {
           <EditProfile />
           <EditForm />
         </Box>
+        <WorkStation />
       </Center>
     </Wrap>
   );

@@ -15,6 +15,8 @@ const EditProfile = () => {
     reader.readAsDataURL(file);
   };
 
+  const handleButton = (event: any) => {};
+
   return (
     <Img>
       <span>
@@ -22,12 +24,14 @@ const EditProfile = () => {
       </span>
       <label>
         <input
+          id="upload"
           type="file"
           accept="image/jpg,image/png,image/jpeg,image/gif"
-          placeholder="프로필 사진 등록"
           onChange={handleImg}
         />
       </label>
+
+      <button onClick={handleButton}>프로필 사진 등록</button>
     </Img>
   );
 };
@@ -48,5 +52,8 @@ const Img = styled.div`
       width: 100%;
       height: 100%;
     }
+  }
+  input {
+    margin-top: 2.5rem;
   }
 `;

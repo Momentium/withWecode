@@ -29,6 +29,7 @@ const EditForm = () => {
         <Input>
           <input type="text" placeholder="010-1234-5678" />
         </Input>
+        <button>인증하기</button>
       </Phone>
     </Wrap>
   );
@@ -37,8 +38,11 @@ const EditForm = () => {
 export default EditForm;
 
 const Wrap = styled.div``;
+const mb2 = styled.div`
+  margin-bottom: 2rem;
+`;
 
-const ID = styled.div`
+const ID = styled(mb2)`
   display: flex;
 `;
 
@@ -66,7 +70,7 @@ const Title = styled.p`
   font-size: 0.9rem;
 `;
 
-const Pw = styled.div`
+const Pw = styled(mb2)`
   button {
     width: 15.5rem;
     height: 2.5rem;
@@ -75,13 +79,26 @@ const Pw = styled.div`
     border-radius: 0.3rem;
     font-size: 0.9rem;
     font-weight: bold;
+    cursor: pointer;
   }
 `;
 
-const Name = styled.div``;
-const Phone = styled.div``;
+const Name = styled(mb2)``;
+const Phone = styled(mb2)`
+  button {
+    margin-left: 1.5rem;
+    width: 6rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    font-size: 0.9rem;
+    background: #eeedf8;
+    border-radius: 0.3rem;
+    cursor: pointer;
+  }
+`;
 
-const Input = styled.div`
+const Input = styled(mb2)`
+  display: inline-block;
   input {
     padding: 0.5rem 1rem;
     width: 18.88rem;
