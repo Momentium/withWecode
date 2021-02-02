@@ -37,20 +37,12 @@ CREATE TABLE `companies` (
     `type_id` INT,
     `name` VARCHAR(191),
     `logo_img` VARCHAR(191),
-<<<<<<< HEAD:back-end/offertunity/prisma/migrations/20210201012114_setup/migration.sql
     `established_date` DATE,
-=======
-    `established_date` DATETIME(3),
->>>>>>> back-end:back-end/offertunity/prisma/migrations/20210128075317_offertunity/migration.sql
     `homepage` VARCHAR(191),
     `description` VARCHAR(191),
     `team_intro` VARCHAR(191),
     `member_count` INT,
     `is_saved` BOOLEAN NOT NULL DEFAULT false,
-<<<<<<< HEAD:back-end/offertunity/prisma/migrations/20210201012114_setup/migration.sql
-=======
-    `user_typesId` INT,
->>>>>>> back-end:back-end/offertunity/prisma/migrations/20210128075317_offertunity/migration.sql
 INDEX `FK_companies_type_id_company_types_id`(`type_id`),
 
     PRIMARY KEY (`id`)
@@ -150,11 +142,7 @@ CREATE TABLE `invested_to` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `partner_id` INT NOT NULL,
     `date` DATETIME(3) NOT NULL,
-<<<<<<< HEAD:back-end/offertunity/prisma/migrations/20210201012114_setup/migration.sql
     `invested_startup` VARCHAR(191) NOT NULL,
-=======
-    `startup_name` VARCHAR(191) NOT NULL,
->>>>>>> back-end:back-end/offertunity/prisma/migrations/20210128075317_offertunity/migration.sql
     `invested_fund_id` INT NOT NULL,
     `corporate_value` INT NOT NULL,
     `series_id` INT NOT NULL,
@@ -230,10 +218,7 @@ CREATE TABLE `partners` (
     `interst_technology_id` INT,
     `invested_total_id` INT,
     `invested_counts` INT,
-<<<<<<< HEAD:back-end/offertunity/prisma/migrations/20210201012114_setup/migration.sql
 UNIQUE INDEX `partners.company_id_unique`(`company_id`),
-=======
->>>>>>> back-end:back-end/offertunity/prisma/migrations/20210128075317_offertunity/migration.sql
 INDEX `FK_partners_company_id_companies_id`(`company_id`),
 INDEX `FK_partners_interst_technology_id_technologies_id`(`interst_technology_id`),
 INDEX `FK_partners_invested_total_id_investment_funds_id`(`invested_total_id`),
@@ -244,13 +229,13 @@ INDEX `FK_partners_invested_total_id_investment_funds_id`(`invested_total_id`),
 -- CreateTable
 CREATE TABLE `partner_likes` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `company_likes_id` INT NOT NULL,
-    `company_liked_id` INT NOT NULL,
+    `user_id` INT NOT NULL,
+    `company_id` INT NOT NULL,
     `is_liked` INT NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NOT NULL,
-INDEX `FK_partner_likes_company_liked_id_companies_id`(`company_liked_id`),
-INDEX `FK_partner_likes_company_likes_id_companies_id`(`company_likes_id`),
+INDEX `FK_partner_likes_company_liked_id_companies_id`(`user_id`),
+INDEX `FK_partner_likes_company_likes_id_companies_id`(`company_id`),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -277,12 +262,13 @@ INDEX `FK_project_images_project_id_projects_id`(`project_id`),
 -- CreateTable
 CREATE TABLE `project_likes` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `comapny_id` INT NOT NULL,
+    `user_id` INT NOT NULL,
     `project_id` INT NOT NULL,
     `is_liked` INT NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NOT NULL,
-INDEX `FK_project_likes_comapny_id_companies_id`(`comapny_id`),
+    `companiesId` INT,
+INDEX `FK_project_likes_user_id_companies_id`(`user_id`),
 INDEX `FK_project_likes_project_id_projects_id`(`project_id`),
 
     PRIMARY KEY (`id`)
@@ -531,12 +517,6 @@ ALTER TABLE `applicants` ADD FOREIGN KEY (`project_id`) REFERENCES `projects`(`i
 
 -- AddForeignKey
 ALTER TABLE `companies` ADD FOREIGN KEY (`type_id`) REFERENCES `company_types`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-<<<<<<< HEAD:back-end/offertunity/prisma/migrations/20210201012114_setup/migration.sql
-=======
-
--- AddForeignKey
-ALTER TABLE `companies` ADD FOREIGN KEY (`user_typesId`) REFERENCES `user_types`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
->>>>>>> back-end:back-end/offertunity/prisma/migrations/20210128075317_offertunity/migration.sql
 
 -- AddForeignKey
 ALTER TABLE `company_documents` ADD FOREIGN KEY (`company_id`) REFERENCES `companies`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -558,12 +538,6 @@ ALTER TABLE `invested_from` ADD FOREIGN KEY (`series_id`) REFERENCES `investment
 
 -- AddForeignKey
 ALTER TABLE `invested_from` ADD FOREIGN KEY (`invested_fund_id`) REFERENCES `investment_funds`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-<<<<<<< HEAD:back-end/offertunity/prisma/migrations/20210201012114_setup/migration.sql
-=======
-
--- AddForeignKey
-ALTER TABLE `invested_from` ADD FOREIGN KEY (`startup_id`) REFERENCES `startups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
->>>>>>> back-end:back-end/offertunity/prisma/migrations/20210128075317_offertunity/migration.sql
 
 -- AddForeignKey
 ALTER TABLE `invested_from` ADD FOREIGN KEY (`startup_id`) REFERENCES `startups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -575,15 +549,12 @@ ALTER TABLE `invested_to` ADD FOREIGN KEY (`series_id`) REFERENCES `investment_s
 ALTER TABLE `invested_to` ADD FOREIGN KEY (`invested_fund_id`) REFERENCES `investment_funds`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-<<<<<<< HEAD:back-end/offertunity/prisma/migrations/20210201012114_setup/migration.sql
 ALTER TABLE `invested_to` ADD FOREIGN KEY (`partner_id`) REFERENCES `partners`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `invested_to` ADD FOREIGN KEY (`companiesId`) REFERENCES `companies`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-=======
->>>>>>> back-end:back-end/offertunity/prisma/migrations/20210128075317_offertunity/migration.sql
 ALTER TABLE `investment_portfolio` ADD FOREIGN KEY (`partner_id`) REFERENCES `partners`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -614,19 +585,22 @@ ALTER TABLE `partners` ADD FOREIGN KEY (`interst_technology_id`) REFERENCES `tec
 ALTER TABLE `partners` ADD FOREIGN KEY (`invested_total_id`) REFERENCES `investment_funds`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `partner_likes` ADD FOREIGN KEY (`company_liked_id`) REFERENCES `companies`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `partner_likes` ADD FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `partner_likes` ADD FOREIGN KEY (`company_likes_id`) REFERENCES `companies`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `partner_likes` ADD FOREIGN KEY (`company_id`) REFERENCES `companies`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `project_images` ADD FOREIGN KEY (`project_id`) REFERENCES `projects`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `project_likes` ADD FOREIGN KEY (`comapny_id`) REFERENCES `companies`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `project_likes` ADD FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `project_likes` ADD FOREIGN KEY (`project_id`) REFERENCES `projects`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `project_likes` ADD FOREIGN KEY (`companiesId`) REFERENCES `companies`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `projects` ADD FOREIGN KEY (`host`) REFERENCES `companies`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

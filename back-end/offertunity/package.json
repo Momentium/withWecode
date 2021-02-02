@@ -7,7 +7,7 @@
     "serve": "nodemon ./bin/www"
   },
   "dependencies": {
-    "@prisma/client": "^2.14.0",
+    "@prisma/client": "^2.15.0",
     "assert": "^2.0.0",
     "aws-amplify": "^3.3.14",
     "aws-sdk": "^2.831.0",
