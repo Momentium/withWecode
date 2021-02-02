@@ -10,7 +10,7 @@ import Header from "./components/common/header/Header";
 import Banner from "./components/common/banner/Banner";
 import Main from "./components/pages/main/Main";
 import ProjectPage from "./components/pages/project/ProjectPage";
-import ProjectDetail from "./components/pages/project/ProjectDetailPage";
+import ProjectDetailPage from "./components/pages/project/ProjectDetailPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
@@ -46,7 +46,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
         <Switch>
-          <Route path="/project/detail/:id" component={ProjectDetail} />
+          <Route path="/project/detail/:id" component={ProjectDetailPage} />
           <Route path="/project" component={ProjectPage} />
           <Route path="/startup/detail/:id" component={StartupDetails} />
           <Route path="/startup" component={StartupList} />
