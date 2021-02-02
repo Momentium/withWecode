@@ -4,7 +4,13 @@ const { AUTH_TOKEN_SALT } = process.env
 const jwt = require('jsonwebtoken')
 
 const validateToken = errorWrapper(async(req, res, next) => {
-    const [bearer, token] = req.headers.authorization.split(' ')
+    console.log(req.headers)
+    let token
+    if (req.headers.authorization.includes(' ')) {
+        [bearer, token] = req.headers.authorization.split(' ')
+    } else {
+        token = req.headers.authorization
+    }
     const { id } = jwt.verify(token, AUTH_TOKEN_SALT)
     const foundUser = await UserService.findUser({ id })
     if (!foundUser) errorGenerator({ statusCode: 404, message: 'user not found' })

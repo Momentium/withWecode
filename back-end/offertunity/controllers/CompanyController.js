@@ -543,6 +543,16 @@ const getStartups = errorWrapper(async (req, res) => {
 const getOnestartup = errorWrapper(async (req, res) => {
     const { companyId } = req.params
     const company = await CompanyService.findStartup( {id: companyId} )
+    company.startups[0].sector = company.startups[0].sector_id ? await CompanyService.findInfoName('sectors', company.startups[0].sector_id) : null
+    company.startups[0].core_technology = company.startups[0].core_technology_id ? await CompanyService.findInfoName('technologies', company.startups[0].core_technology_id) : null
+    company.startups[0].investment_series = company.startups[0].investment_series_id ? await CompanyService.findInfoName('investment_series', company.startups[0].investment_series_id) : null
+    company.startups[0].investment_fund = company.startups[0].investment_fund_id ? await CompanyService.findInfoName('investment_funds', company.startups[0].investment_fund_id) : null
+    company.startups[0].service_type = company.startups[0].service_type_id ? await CompanyService.findInfoName('service_types', company.startups[0].service_type_id) : null
+    company.startups[0].business_type = company.startups[0].business_type_id ? await CompanyService.findInfoName('business_types', company.startups[0].business_type_id) : null
+    for (len = 0; len<company.startups[0].invested_from.length; len++) {
+        company.startups[0].invested_from[len].invested_fund = await CompanyService.findInfoName('investment_funds', company.startups[0].invested_from[len].invested_fund_id)
+        company.startups[0].invested_from[len].series = await CompanyService.findInfoName('investment_series', company.startups[0].invested_from[len].series_id)
+    }
     res.status(200).json({company})
 })
 
@@ -587,7 +597,8 @@ const likeCompany = errorWrapper(async (req, res) => {
 
     const like = await LikeService.like(object, where, data)
     await res.status(201).json({
-        message: 'company like info temporary saved'
+        message: 'Company Like Updated',
+        result: like.is_liked
     })
 })
 

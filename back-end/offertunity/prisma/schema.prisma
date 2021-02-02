@@ -282,7 +282,7 @@ model project_likes {
   is_liked   Boolean
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
-  users      users @relation(fields: [user_id], references: [id])
+  users      users     @relation(fields: [user_id], references: [id])
   projects   projects  @relation(fields: [project_id], references: [id])
 
   @@index([user_id], name: "FK_project_likes_user_id_companies_id")

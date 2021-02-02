@@ -12,10 +12,10 @@ router.post(
     )
 
 // project like
-// router.post(
-//     '/project/:partnerId',
-//     validateToken,
-//     ProjectController.likeProject
-// )
+router.post(
+    '/project/:partnerId',
+    validateToken,
+    ProjectController.likeProject
+)
 
 module.exports = router
