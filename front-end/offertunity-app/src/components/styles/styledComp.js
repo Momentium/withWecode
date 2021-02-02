@@ -18,7 +18,7 @@ export const Section = styled.div`
 `;
 
 export const SectionTitle = styled.h1`
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.titleSize};
 `;
