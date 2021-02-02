@@ -15,18 +15,18 @@ import SignupFinishPartner from "./signUp/SignupFinishPartner";
 const Auth = () => {
   return (
     <Switch>
-      <Route path="/Auth/SignIn" component={SignIn} />
-      <Route path="/Auth/FindId" component={FindId} />
-      <Route path="/Auth/FindPw" component={FindPw} />
-      <Route path="/Auth/FindIdResult" component={FindIdResult} />
-      <Route path="/Auth/FindIdAgain" component={FindIdAgain} />
+      <Route path="/auth/SignIn" component={SignIn} />
+      <Route path="/auth/FindId" component={FindId} />
+      <Route path="/auth/FindPw" component={FindPw} />
+      <Route path="/auth/FindIdResult" component={FindIdResult} />
+      <Route path="/auth/FindIdAgain" component={FindIdAgain} />
 
-      <Route path="/Auth/SignUp" component={SignUp} />
-      <Route path="/Auth/SignupSelectmember" component={SignupSelectmember} />
-      <Route path="/Auth/SignupFormStartup" component={SignupFormStartup} />
-      <Route path="/Auth/SignupFormPartner" component={SignupFormPartner} />
-      <Route path="/Auth/SignupFinishStartup" component={SignupFinishStartup} />
-      <Route path="/Auth/SignupFinishPartner" component={SignupFinishPartner} />
+      <Route path="/auth/SignUp" component={SignUp} />
+      <Route path="/auth/SignupSelectmember" component={SignupSelectmember} />
+      <Route path="/auth/SignupFormStartup" component={SignupFormStartup} />
+      <Route path="/auth/SignupFormPartner" component={SignupFormPartner} />
+      <Route path="/auth/SignupFinishStartup" component={SignupFinishStartup} />
+      <Route path="/auth/SignupFinishPartner" component={SignupFinishPartner} />
     </Switch>
   );
 };

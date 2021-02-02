@@ -1,0 +1,13 @@
+{
+  "data": {
+    "profile": {
+      "name": "Mat",
+      "profile_picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuxUTL6JRSyW63O0dNiXSjLDHgdKf3K1DFNQ&usqp=CAU",
+      "phone_number": "010-1234-5678",
+      "email": "aaaa@naver.com",
+      "route": "1",
+      "typeId": "1",
+      "belong": "마이 스타트업을 입력해 주세요"
+    }
+  }
+}

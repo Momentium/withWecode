@@ -54,10 +54,10 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
       });
 
     if (typeId === "2") {
-      history.push("/Auth/SignupFinishPartner");
+      history.push("/auth/SignupFinishPartner");
     }
     if (typeId === "1") {
-      history.push("/Auth/SignupFinishStartup");
+      history.push("/auth/SignupFinishStartup");
     }
   };
 
