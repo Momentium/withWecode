@@ -17,7 +17,6 @@ import theme from "./components/styles/theme";
 import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
 import StartupDetails from "./components/pages/startupDetails/StartupDetails";
-import MypageStartup from "./components/pages/mypage/MypageStartup";
 import PartnerList from "components/pages/partnerList/PartnerList";
 import PartnerDetails from "./components/pages/partnersDetails/PartnerDetails";
 
@@ -36,7 +35,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
       {/* Header 들어갈 자리 */}
       <Header ref={headerRef} />
       <StAppCont className="app" headMargin={headMargin}>
-        {!location.pathname.includes("auth") &&
+        {!location.pathname.includes("Auth") &&
           !location.pathname.includes("detail") && <Banner />}
 
         {/* Route 들어갈 자리 */}
@@ -49,11 +48,11 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/partner" component={PartnerList} />
           <Route path="/partner/detail/:id" component={PartnerDetails} />
         </Switch>
-        <Route path="/auth/:name" component={Auth} />
+        <Route path="/Auth/:name" component={Auth} />
       </StAppCont>
 
       {/* Footer 들어갈 자리 */}
-      {!location.pathname.includes("auth") && (
+      {!location.pathname.includes("Auth") && (
         <>
           <Newsletter />
           <Footer />
