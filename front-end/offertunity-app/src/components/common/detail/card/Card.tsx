@@ -3,11 +3,7 @@ import styled from "styled-components";
 import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
 
-interface Props {
-  data: any;
-}
-
-const CompanyCard = ({ data, detailInfo }: any) => {
+const CompanyCard = ({ data, detailInfo, type }: any) => {
   const { title, titleImage, logo, label, like, homepage } = data;
 
   const backgroundImage = {
@@ -55,7 +51,7 @@ const CompanyCard = ({ data, detailInfo }: any) => {
             <Labels label={label} detailName={"detailLabels"} />
           </RightBox>
         </DetailInfo>
-        <Buttons data={like} />
+        <Buttons data={like} title={title} type={type} />
       </CompanyInfo>
     </CardBox>
   );

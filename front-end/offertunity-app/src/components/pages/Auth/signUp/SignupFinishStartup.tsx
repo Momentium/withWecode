@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Header from "../components/Header";
+
 import MainTxt from "../components/MainTxt";
 
 const SignupFinishStartup = () => {
   return (
     <>
-      <Header />
       <Wrap>
         <MainTxt
           subtitle="예비 창업가부터 유니콘 스타트업까지"

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../components/Header";
+
 import styled from "styled-components";
 import InputBox from "../components/InputBox";
 import MainTxt from "../components/MainTxt";
@@ -9,7 +9,6 @@ import Button from "../components/Button";
 const SignupFormStartup: React.FC = () => {
   return (
     <>
-      <Header />
       <Wrap>
         <TxtWrap>
           <MainTxt

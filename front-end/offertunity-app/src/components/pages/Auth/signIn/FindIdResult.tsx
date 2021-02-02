@@ -1,13 +1,12 @@
 import React from "react";
 import * as reactRouterDom from "react-router-dom";
 import styled from "styled-components";
-import Header from "../components/Header";
+
 import Tab from "../components/Tab";
 
 const FindIdResult = () => {
   return (
     <>
-      <Header />
       <Tab />
       <Con>
         <Wrap>

@@ -8,11 +8,11 @@ const ProjectList = () => {
   const [pjts, setPjts] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
-    axios.get('data/projectData.json')
+    axios.get('data/projectData/overview.json')
     .then((res) => {
       const _resData = res.data;
       setPjts(_resData.map((el:{}, idx:number) => 
-        <Project key={idx} data={el}/>
+        <Project key={idx} data={el} page={"list"}/>
       ));
     })
   }, []);

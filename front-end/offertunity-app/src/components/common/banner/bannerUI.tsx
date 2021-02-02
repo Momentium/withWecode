@@ -6,8 +6,18 @@ import styled from "styled-components";
 
 export default function SimpleSlider() {
   const [banner, setBanner] = useState([]);
+
+  const getUrl = () => {
+    const partnerList = window.location.pathname.includes("/partner/list");
+    if (partnerList) {
+      return "/data/partnerBanner.json";
+    } else {
+      return "/data/mainBanner.json";
+    }
+  };
+
   useEffect(() => {
-    axios.get("/data/mainBanner.json").then((res) => {
+    axios.get(getUrl()).then((res) => {
       const _resData = res.data;
       setBanner(_resData.bannerCon);
     });

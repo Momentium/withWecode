@@ -1,11 +1,10 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import SignIn from "./signIn/SignIn";
 import FindId from "./signIn/FindId";
 import FindIdResult from "./signIn/FindIdResult";
 import FindIdAgain from "./signIn/FindIdAgain";
 import FindPw from "./signIn/FindPw";
-
 import SignUp from "./signUp/SignUp";
 import SignupSelectmember from "./signUp/SignupSelectmember";
 import SignupFormStartup from "./signUp/SignupFormStartup";

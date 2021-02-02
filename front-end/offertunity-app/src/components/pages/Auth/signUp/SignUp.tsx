@@ -9,6 +9,10 @@ import Or from "../components/Or";
 import Question from "../components/Question";
 
 const SignUp: React.FC = () => {
+  const handleGOOGLE = () => {
+    window.location.href = "http://10.0.1.29:3000/users/google";
+  };
+
   return (
     <>
       <Wrap>
@@ -20,7 +24,7 @@ const SignUp: React.FC = () => {
           />
         </Bg>
         <Con>
-          <BtnGoogle>구글로 회원가입</BtnGoogle>
+          <BtnGoogle onClick={handleGOOGLE}>구글로 회원가입</BtnGoogle>
           <Icon>
             <Naver />
             <Kakao />
@@ -46,7 +50,7 @@ const Wrap = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15rem 0;
+  padding-top: 10rem;
 `;
 
 const Con = styled.div`

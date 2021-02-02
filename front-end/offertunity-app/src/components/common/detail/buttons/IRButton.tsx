@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "../modal/Modal";
 
-const Buttons = ({ boxStyle }: any) => {
+const Buttons = ({ boxStyle, title, type }: any) => {
   const [visible, setVisible] = useState(false);
   const [btnInvisible, setBtnInvisible] = useState(false);
 
@@ -27,7 +27,7 @@ const Buttons = ({ boxStyle }: any) => {
       </BtnBox>
       {visible && (
         <ModalContainer>
-          <Modal onClick={handleModal} />
+          <Modal onClick={handleModal} title={title} type={type} />
         </ModalContainer>
       )}
     </>

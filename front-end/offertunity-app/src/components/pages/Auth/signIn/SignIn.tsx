@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import MainTxt from "../components/MainTxt";
 import Naver from "../logoIcons/Naver";
@@ -10,6 +11,7 @@ import Or from "../components/Or";
 import Question from "../components/Question";
 
 const SignIn: React.FC = () => {
+  const history = useHistory();
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -25,6 +27,8 @@ const SignIn: React.FC = () => {
       })
       .then(function (response) {
         alert("로그인 성공");
+        sessionStorage.setItem("token", response.data.token);
+        window.location.href = "/";
       })
       .catch(function (error) {
         alert("로그인 실패");
@@ -47,6 +51,10 @@ const SignIn: React.FC = () => {
       ...inputs,
       password: value,
     });
+  };
+
+  const handleGOOGLE = () => {
+    window.location.href = "http://10.0.1.29:3000/users/google";
   };
 
   return (
@@ -86,7 +94,9 @@ const SignIn: React.FC = () => {
           </FindAccount>
           <BtnEmail onClick={SIGNIN}>로그인</BtnEmail>
           <Or />
-          <BtnGoogle>Google 계정 로그인</BtnGoogle>
+
+          <BtnGoogle onClick={handleGOOGLE}>Google 계정 로그인</BtnGoogle>
+
           <Icon>
             <Naver />
             <Kakao />
@@ -111,7 +121,7 @@ const Wrap = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12.3rem 0;
+  padding-top: 10rem;
 `;
 
 const Con = styled.div`
@@ -189,7 +199,7 @@ const InputBox = styled.div`
 
 const FindAccount = styled.div`
   margin-top: 1.5rem;
-  display: inline-block;
+  margin-left: 8.7rem;
   width: 20rem;
   font-size: 0.8rem;
   color: #898989;

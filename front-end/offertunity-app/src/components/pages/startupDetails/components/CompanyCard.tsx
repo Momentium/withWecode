@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "../../../common/detail/card/Card";
 
-const CompanyCard = ({ data }: any) => {
+const CompanyCard = ({ data, type }: any) => {
   const { ceo, birth, field, technique, homepage } = data;
 
   const detailInfo = [
@@ -27,7 +27,7 @@ const CompanyCard = ({ data }: any) => {
     },
   ];
 
-  return <Card data={data} detailInfo={detailInfo} />;
+  return <Card data={data} detailInfo={detailInfo} type={type} />;
 };
 
 export default CompanyCard;

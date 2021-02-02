@@ -41,7 +41,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                   name="invest"
                   curPage={location.pathname?.substring(1)}
                 >
-                  <Link to="/invest">투자기관</Link>
+                  <Link to="/partner">투자기관</Link>
                 </StLinkWrap>
                 <StLinkWrap
                   name="demo"
@@ -96,7 +96,12 @@ const StSection = styled.div`
   top: 0;
 
   background: white;
+  /* width: 80rem;
+  padding: 0 320px;
+  box-sizing: content-box; */
+
   width: 100vw;
+
   padding: 0 20rem;
   border-bottom: 1px solid #00000029;
 `;
@@ -107,8 +112,10 @@ const HeaderCon = styled.header`
     theme.pathname.includes("auth") ? "flex-start" : "space-between"};
   align-items: center;
 
-  width: 100%;
+  /* width: 100%; */
+  width: 80rem;
   height: 4.37rem;
+  margin: 0 auto;
   background: #fff;
   text-align: center;
 `;
@@ -164,7 +171,7 @@ const StLinkWrap = styled.div<{ name: string; curPage: string }>`
   }
 
   ${(props) =>
-    props.name === props.curPage &&
+    props.curPage.includes(props.name) &&
     css`
       * {
         animation: colorChangeNav 0.2s forwards;

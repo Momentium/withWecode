@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Header from "../components/Header";
+
 import Tab from "../components/Tab";
 import Question from "../components/Question";
 import FinaAccountMainTxt from "../components/FinaAccountMainTxt";
@@ -12,7 +12,6 @@ const FindPw = () => {
   console.log(modal);
   return (
     <>
-      <Header />
       <Tab />
       <Con>
         <Wrap>
