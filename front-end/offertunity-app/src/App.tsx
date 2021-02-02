@@ -27,7 +27,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
       <Header ref={headerRef} />
       <StAppCont headMargin={headMargin}>
         {!location.pathname.includes("Auth") && <Banner />}
-        {!location.pathname.includes("EditMypageStartup") && <Banner />}
+        {!location.pathname.includes("MypageStartup") && <Banner />}
 
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />

@@ -4,6 +4,7 @@ import ModalWrap from "./ModalWithdrawal";
 
 const EditProfile = () => {
   const [previewURL, setpreviewURL] = useState("");
+  const [Modal, setModal] = useState(false);
 
   const handleImg = (event: any) => {
     event.preventDefault();
@@ -38,11 +39,15 @@ const EditProfile = () => {
         />
       </Label>
       <Notion>*권장 사이즈 : 400x400</Notion>
-      <Button>
+      <Button
+        onClick={() => {
+          setModal(!Modal);
+        }}
+      >
         <p>회원탈퇴</p>
         <i className="fas fa-chevron-right" />
       </Button>
-      <ModalWrap />
+      {Modal && <ModalWrap />}
     </Img>
   );
 };
@@ -52,7 +57,7 @@ export default EditProfile;
 const Img = styled.div`
   position: relative;
   width: 20%;
-  margin: 0 10.5rem 0 10.06rem;
+  margin: 3rem 10.5rem 0 10.06rem;
   text-align: center;
   span {
     display: inline-block;

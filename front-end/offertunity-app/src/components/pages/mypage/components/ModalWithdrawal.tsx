@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const ModalWithdrawal = () => {
+  const [Modal, setModal] = useState(true);
   return (
-    <ModalWrap>
+    <ModalWrap style={{ display: Modal ? "inline-block" : "none" }}>
       <Box>
         <H1>회원 탈퇴를 하면 모든 데이터가 사라집니다.</H1>
         <InputBox>
-          <p>비밀번호 입력</p>
+          <p>비밀번호를 입력해주세요.</p>
           <input type="text" placeholder="비밀호를 입력해주세요." />
         </InputBox>
-        {/* <Button>
+        <Button
+          onClick={() => {
+            setModal(false);
+          }}
+        >
           <Submit>확인</Submit>
           <Cancel>취소</Cancel>
-        </Button> */}
+        </Button>
       </Box>
     </ModalWrap>
   );
@@ -36,8 +41,7 @@ const Box = styled.div`
   left: 20%;
   width: 60rem;
   height: 30rem;
-  padding-left: 8rem;
-  text-align: left;
+  text-align: center;
   background: #fff;
   background-image: url("/images/signUp/modalBg.svg");
   background-repeat: no-repeat;
@@ -48,35 +52,40 @@ const Box = styled.div`
 
 const H1 = styled.p`
   text-align: center;
-  padding: 3rem 8rem 4.375rem 0;
+  padding: 5rem 0 4.375rem 0;
   font-size: 1.31rem;
   font-weight: bold;
 `;
 
 const InputBox = styled.div`
+  display: inline-block;
+  margin-top: 2rem;
+  text-align: left;
   p {
-    font-size: 0.8rem;
-    color: #898989;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #000;
   }
   input {
     padding: 0.5rem 1rem;
-    width: 18.88rem;
-    height: 2.5rem;
-    border: 1px solid #c2bdf0;
+    width: 25rem;
+    height: 3rem;
+    border: 1px solid #1a2536;
     border-radius: 0.3rem;
     &::placeholder {
-      font-weight: bold;
       font-size: 0.9rem;
-      color: #000;
+      color: #898989;
     }
   }
 `;
 
-const Button = styled.div``;
+const Button = styled.div`
+  margin-top: 6rem;
+`;
 
 const Btn = styled.button`
-  margin-top: 2rem;
-  width: 16rem;
+  width: 10rem;
   height: 2.8rem;
   line-height: 2.8rem;
   border-radius: 0.3rem;

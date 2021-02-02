@@ -1,7 +1,42 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import ModalChangePw from "./ModalChangePw";
 
 const EditForm = () => {
+  const [Modal, setModal] = useState(false);
+  const [inputs, setInputs] = useState({
+    name: "",
+    phoneNumber: "",
+  });
+  const { name, phoneNumber } = inputs;
+
+  const handleName = (event: any) => {
+    event.preventDefault();
+    setInputs({
+      ...inputs,
+      name: event.target.value,
+    });
+  };
+
+  const handlePhonenumber = (event: any) => {
+    event.preventDefault();
+
+    setInputs({
+      ...inputs,
+      phoneNumber: event.target.value,
+    });
+  };
+
+  const validatePhoneNumber = () => {
+    const regPhone = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+    if (!regPhone.test(phoneNumber)) {
+      alert("휴대전화번호 형식에 맞지 않는 번호 입니다");
+    }
+  };
+
+  const BtnTrue = name.length > 2;
+
   return (
     <Wrap>
       <ID>
@@ -16,25 +51,40 @@ const EditForm = () => {
       </ID>
       <Pw>
         <Title>비밀번호</Title>
-        <button>비밀번호 변경</button>
+        <button
+          onClick={() => {
+            setModal(!Modal);
+          }}
+        >
+          비밀번호 변경
+        </button>
       </Pw>
       <Name>
         <Title>이름</Title>
         <Input>
-          <input type="text" placeholder="MAT" />
+          <input type="text" placeholder="MAT" onChange={handleName} />
         </Input>
       </Name>
       <Phone>
         <Title>휴대 전화 번호</Title>
         <Input>
-          <input type="text" placeholder="010-1234-5678" />
+          <input
+            type="text"
+            placeholder="010-1234-5678"
+            onChange={handlePhonenumber}
+          />
         </Input>
-        <button>인증하기</button>
+        <button onClick={validatePhoneNumber}>인증하기</button>
       </Phone>
       <BtnWrap>
-        <SaveBtn>프로필저장</SaveBtn>
-        <CancleBtn>취소</CancleBtn>
+        <SaveBtn style={{ background: BtnTrue ? "#1a2536" : "#ccc" }}>
+          프로필저장
+        </SaveBtn>
+        <Link to="/MypageStartup">
+          <CancleBtn>취소</CancleBtn>
+        </Link>
       </BtnWrap>
+      {Modal && <ModalChangePw />}
     </Wrap>
   );
 };
@@ -128,7 +178,6 @@ const Btn = styled.button`
 
 const SaveBtn = styled(Btn)`
   margin-right: 4.5rem;
-  background: #1a2536;
   color: #fff;
 `;
 const CancleBtn = styled(Btn)`

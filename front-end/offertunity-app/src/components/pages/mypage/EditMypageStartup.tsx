@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import EditProfile from "./components/EditProfile";
 import EditForm from "./components/EditForm";
@@ -9,7 +10,9 @@ const EditMypageStartup = () => {
     <Wrap>
       <Center>
         <Station>
-          홈 <i className="fas fa-chevron-right" /> 마이페이지
+          <Link to="/">홈 </Link>
+          <i className="fas fa-chevron-right" />
+          <Link to="/MypageStartup"> 마이페이지</Link>
           <i className="fas fa-chevron-right" /> 프로필 수정
         </Station>
         <Box>
@@ -36,6 +39,7 @@ const Center = styled.div`
 const Station = styled.div`
   padding: 2.5rem 0 4.063rem 0;
   font-size: 0.937rem;
+  cursor: pointer;
   i {
     margin: 0 0.5rem;
   }
