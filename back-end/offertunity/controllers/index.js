@@ -1,11 +1,13 @@
-const UserController = require('./UserController')
-const CompanyController = require('./CompanyController')
-const InitialController = require('./InitialController')
-const AuthController = require('./AuthController')
+const UserController = require("./UserController");
+const CompanyController = require("./CompanyController");
+const InitialController = require("./InitialController");
+const AuthController = require("./AuthController");
+const ProjectController = require("./ProjectController");
 
 module.exports = {
-    UserController,
-    CompanyController,
-    InitialController,
-    AuthController
-}
+  UserController,
+  CompanyController,
+  InitialController,
+  AuthController,
+  ProjectController,
+};
