@@ -7,7 +7,7 @@ const EditForm = () => {
       <ID>
         <Static className="id">
           <Title>아이디</Title>
-          <Box>mat@naver.com</Box>
+          <Box>mat @ naver.com</Box>
         </Static>
         <Static className="user">
           <Title>회원구분</Title>

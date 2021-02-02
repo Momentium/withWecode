@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+// import ModalWrap from "./ModalWithdrawal";
 
 const EditProfile = () => {
   const [previewURL, setpreviewURL] = useState("");
@@ -27,7 +28,7 @@ const EditProfile = () => {
           />
         )}
       </span>
-      <label>
+      <Label>
         프로필 사진등록
         <input
           id="upload"
@@ -35,11 +36,13 @@ const EditProfile = () => {
           accept="image/jpg,image/png,image/jpeg,image/gif"
           onChange={handleImg}
         />
-      </label>
-      <button>
+      </Label>
+      <Notion>*권장 사이즈 : 400x400</Notion>
+      <Button>
         <p>회원탈퇴</p>
         <i className="fas fa-chevron-right" />
-      </button>
+      </Button>
+      {/* <ModalWrap /> */}
     </Img>
   );
 };
@@ -62,36 +65,45 @@ const Img = styled.div`
       height: 100%;
     }
   }
+`;
+
+const Button = styled.button`
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  color: #898989;
+  cursor: pointer;
+  p {
+    display: inline-block;
+    border-bottom: 1px solid #898989;
+  }
+  i {
+    margin-left: 0.5rem;
+  }
+`;
+
+const Notion = styled.p`
+  margin-top: 6rem;
+  font-size: 0.8rem;
+  color: #898989;
+`;
+
+const Label = styled.label`
+  position: absolute;
+  top: 14rem;
+  left: 2rem;
+  width: 11.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border: 1px solid #1a2536;
+  border-radius: 24px;
+  font-weight: bold;
+  cursor: pointer;
+
   input {
     position: absolute;
     top: 14rem;
     left: 2rem;
     margin-top: 2.5rem;
     z-index: -8;
-  }
-  label {
-    position: absolute;
-    top: 14rem;
-    left: 2rem;
-    width: 11.5rem;
-    height: 2.5rem;
-    line-height: 2.5rem;
-    border: 1px solid #1a2536;
-    border-radius: 24px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  button {
-    margin-top: 7rem;
-    font-size: 0.8rem;
-    color: #898989;
-    cursor: pointer;
-    p {
-      display: inline-block;
-      border-bottom: 1px solid #898989;
-    }
-    i {
-      margin-left: 0.5rem;
-    }
   }
 `;
