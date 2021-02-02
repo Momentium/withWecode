@@ -1,7 +1,7 @@
 const DEFAULT_QUERY_OPTION = {
-  deleted_at: null,
   is_saved: true
   // status: 'PUBLISHED',
+  // deleted_at: null,
 }
 
 const getQueryOption = (key, value) => {

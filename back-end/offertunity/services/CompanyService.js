@@ -148,15 +148,15 @@ const findStartup = (field) => {
     })
 }
 
-const findPartners = (query) => {
+const findPartners = async (query) => {
     const { offset, limit, ...fields } = query
     const where = makeQueryOption(fields)
     where.type_id = 2
 
     const ARTICLES_DEFAULT_OFFSET = 0
-    const ARTICLES_DEFAULT_LIMIT = 5
+    const ARTICLES_DEFAULT_LIMIT = 12
   
-    return prisma.companies.findMany({
+    const companies = await prisma.companies.findMany({
         include: {
             partners: true,
         },
@@ -164,6 +164,11 @@ const findPartners = (query) => {
         skip: Number(offset)-1 || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     })
+    const num = (await prisma.companies.findMany({
+        where
+    })).length
+
+    return [companies, num]
 }
 
 const findPartner = (field) => {
@@ -196,7 +201,7 @@ const imageLengthChecker = async (table, where) => {
 
 const findInfoName = async (table, id) => {
     const info = await prisma[table].findUnique({
-        where: {id}
+        where: { id }
     })
     return info.name
 }
