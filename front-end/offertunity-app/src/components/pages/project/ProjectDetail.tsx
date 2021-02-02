@@ -3,7 +3,34 @@ import styled, { css, ThemeContext } from "styled-components";
 import * as St from "components/styles/styledComp";
 
 const ProjectDetail: React.FC<any> = ({ data }) => {
+  const [curScroll, setCurScroll] = useState<string>("guide");
+  // const [curPos, setCurPos] = useState<number>(window.scrollY);
+  const [onFix, setOnFix] = useState<boolean>(false);
+  const [initY, setInitY] = useState<number|undefined>(0);
   const tabContRef = useRef<HTMLDivElement>(null);
+  const theme = useContext(ThemeContext);
+  
+  const clickTab = (e: any) => {
+    const _curTarget = e.currentTarget.className.split(" ");
+    setCurScroll(_curTarget[_curTarget.length - 1]);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    console.log(tabContRef.current?.getBoundingClientRect().y, window.scrollY)
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // console.log(initY)
+  }, [initY])
+
+  const handleScroll = (e:Event) => {
+    e.stopPropagation();
+  };
 
   return (
     <StDetailCont>
@@ -64,6 +91,8 @@ const ProjectDetail: React.FC<any> = ({ data }) => {
         <St.SectionTitle>제출서류</St.SectionTitle>
         <St.SectionTitle>유의사항</St.SectionTitle>
         <St.SectionTitle>문의처</St.SectionTitle>
+
+
       </StContentCont>
     </StDetailCont>
   );
@@ -71,7 +100,7 @@ const ProjectDetail: React.FC<any> = ({ data }) => {
 export default ProjectDetail;
 
 const StDetailCont = styled.div`
-  /* margin-top: 84px; */
+  margin-top: 84px;
   background-color: white;
 `;
 
