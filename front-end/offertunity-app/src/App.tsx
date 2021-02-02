@@ -17,7 +17,6 @@ import theme from "./components/styles/theme";
 import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
 import StartupDetails from "./components/pages/startupDetails/StartupDetails";
-import MypageStartup from "./components/pages/mypage/MypageStartup";
 import PartnerList from "components/pages/partnerList/PartnerList";
 import PartnerDetails from "./components/pages/partnersDetails/PartnerDetails";
 import WSPage from "./components/pages/workstation/WSPage";
@@ -29,14 +28,15 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
     setHeadMargin(headerRef.current?.clientHeight);
   }, []);
   useEffect(() => {
-    window.scrollTo(0,0);
-  }, [location])
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <ThemeProvider theme={{ ...theme, ...location }}>
       {/* Header 들어갈 자리 */}
       <Header ref={headerRef} />
       <StAppCont className="app" headMargin={headMargin}>
+
         {!location.pathname.includes("auth") &&
          !location.pathname.includes("detail") && 
          !location.pathname.includes("workstation") &&
@@ -52,12 +52,14 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/partner/detail/:id" component={PartnerDetails} />
           <Route path="/partner" component={PartnerList} />
         </Switch>
+
         <Route path="/workstation" component={WSPage} />
         <Route path="/auth/:name" component={Auth} />
+
       </StAppCont>
 
       {/* Footer 들어갈 자리 */}
-      {!location.pathname.includes("auth") && (
+      {!location.pathname.includes("Auth") && (
         <>
           {
             !location.pathname.includes("workstation") &&
