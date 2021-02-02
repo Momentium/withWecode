@@ -23,7 +23,7 @@ const CompanyTeamInfo = ({ data }: any) => {
       <Title title={"팀소개"} />
       <ShortInfo>
         <MiniTitle title={"한 줄 소개"} />
-        <span>{data.description}</span>
+        <span>{data.team_intro}</span>
       </ShortInfo>
       <div className="bottomBox">
         <TeamCount>

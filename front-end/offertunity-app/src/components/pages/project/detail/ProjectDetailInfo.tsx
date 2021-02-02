@@ -105,13 +105,13 @@ const DetailInfoCont = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 120px;
+  margin-top: 7.5rem;
 `;
 
 const Title = styled.div`
-  margin-bottom: 48px;
+  margin-bottom: 3rem;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 1.75rem;
 `;
 
 const PjInformation = styled.div`
@@ -123,7 +123,7 @@ const Content = styled.div`
   background-color: #fbfaff;
   p {
     width: 70%;
-    padding: 50px 0px;
+    padding: 3.125rem 0;
     margin: 0 auto;
   }
 `;
@@ -131,18 +131,18 @@ const Content = styled.div`
 const PjContents = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 172px;
+  margin-top: 10.75rem;
 `;
 
 const Description = styled.div`
-  width: 643px;
+  width: 40.188rem;
 `;
 
 const PjRequest = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 172px;
+  margin-top: 10.75rem;
 `;
 
 const GridContainer = styled.div`
@@ -160,13 +160,13 @@ const GridContainer = styled.div`
     border: 1px solid #d8d8d8;
     color: white;
     background-color: #9f9f9f;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: bold;
   }
 
   .content {
     width: 80%;
-    padding: 20px 60px;
+    padding: 1.25rem 3.75rem;
     background-color: #f9f8fa;
     border: 1px solid #d8d8d8;
     letter-spacing: 0.2px;
@@ -176,19 +176,19 @@ const GridContainer = styled.div`
 const PjSummaryInfo = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 160px;
+  margin-top: 10rem;
 
   .information {
     display: flex;
     align-items: center;
-    padding: 48px 0px;
+    padding: 3rem 0;
     border-top: 2px solid #cdcdcd;
 
     .title {
-      width: 130px;
-      margin-right: 95px;
-      padding-left: 30px;
-      font-size: 25px;
+      width: 8.125rem;
+      margin-right: 5.938rem;
+      padding-left: 1.875rem;
+      font-size: 1.563rem;
       font-weight: bold;
     }
   }

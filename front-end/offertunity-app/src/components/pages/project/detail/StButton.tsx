@@ -8,12 +8,12 @@ const StButton = () => {
 export default StButton;
 
 const StButtonWrap = styled.button`
-  width: 300px;
-  height: 56px;
+  width: 18.75rem;
+  height: 3.5rem;
   background: #5541ed;
   border-radius: 5px;
   color: white;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: bold;
   cursor: pointer;
 `;

@@ -62,11 +62,11 @@ const StOverviewCont = styled.div`
   justify-content: space-between;
 
   img {
-    width: 672px;
+    width: 42rem;
   }
 
   & > div {
-    width: 568px;
+    width: 35.5rem;
   }
 `;
 
@@ -77,18 +77,18 @@ const StRightCont = styled.div`
   justify-content: space-between;
 
   .name {
-    font-size: 28px;
+    font-size: 1.75rem;
     font-weight: bold;
   }
   .explain {
-    font-size: 18px;
-    margin: 24px 0;
+    font-size: 1.125ren;
+    margin: 1.5ren 0;
     line-height: 2rem;
   }
 
   hr {
     width: 100%;
-    margin-bottom: 25px;
+    margin-bottom: 1.563rem;
   }
 `;
 
@@ -103,20 +103,20 @@ const StInfoTable = styled.table`
   th,
   td {
     text-align: left;
-    font-size: 18px/20px;
+    font-size: 1.125rem/1.25rem;
   }
 
   th {
     white-space: nowrap;
     font-weight: bold;
-    padding: 8px 60px 8px 0;
+    padding: 0.5rem 3.75rem 0.5rem 0;
   }
 
   td {
     width: 8.813em;
   }
 
-  margin-bottom: 44px;
+  margin-bottom: 2.75rem;
 `;
 
 const StInfoTag = styled.div`

@@ -51,7 +51,7 @@ const CompanyCard = ({ data, detailInfo, type }: any) => {
             {/* <Labels label={label} detailName={"detailLabels"} /> */}
           </RightBox>
         </DetailInfo>
-        <Buttons data={like} title={name} type={type} />
+        <Buttons data={like} title={name} type={type} companyId={data.id} />
       </CompanyInfo>
     </CardBox>
   );

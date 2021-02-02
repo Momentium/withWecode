@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 import LikeBtn from "../../../common/button/iconBtn/LikeBtn";
@@ -8,10 +9,24 @@ const boxStyle = {
   marginRight: "3.531rem",
 };
 
-const Buttons = ({ data, title, type }: any) => {
+// {
+//   headers: {
+//     'Authorization': sessionStorage.React::DevTools::lastSelection
+//   }
+// }
+
+const Buttons = ({ data, title, type, companyId }: any) => {
   const [like, setLike] = useState<boolean>(data);
 
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
+    axios
+      .post(`http://10.0.1.44:3000/likes/company/${companyId}`, {
+        params: {
+          companyId: companyId,
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
     setLike(!like);
   };
 

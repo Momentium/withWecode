@@ -20,8 +20,6 @@ const ProjectDetailPage: React.FC<any> = ({ match }) => {
     });
   }, []);
 
-  console.log(data);
-
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
     setLike(!like);
   };
@@ -67,5 +65,5 @@ const ProjectDetailPageCont = styled(St.Section)`
 const ProjectRequestBtn = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 121px;
+  margin-top: 7.563rem;
 `;

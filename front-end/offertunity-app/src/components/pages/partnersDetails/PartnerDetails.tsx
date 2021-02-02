@@ -18,7 +18,7 @@ const PartnerDetails = () => {
   const [partnerData, setPartnerData] = useState();
 
   useEffect(() => {
-    axios.get("/data/partnerData/partnerDetails.json").then((res) => {
+    axios.get("http://10.0.1.44:3000/companies/partner/1").then((res) => {
       const _data = res.data.company;
       setPartnerData(_data);
     });

@@ -66,13 +66,13 @@ export default ProjectSubmit;
 const ProjectSubmitCont = styled.div`
   ${({ theme }) => theme.flexColumn}
   width: 100%;
-  margin-top: 120px;
+  margin-top: 7.5rem;
 `;
 
 const TextArea = styled.textarea`
-  height: 312px;
+  height: 19.5rem;
   border: 1px solid #d4d1d8;
-  padding: 24px;
+  padding: 1.5rem;
   resize: none;
 
   &:focus {
@@ -81,32 +81,32 @@ const TextArea = styled.textarea`
 `;
 
 const Title = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 1.75rem;
 `;
 
 const PjSummary = styled.div`
   ${({ theme }) => theme.flexColumn}
-  margin-bottom: 48px;
+  margin-bottom: 3rem;
 `;
 
 const NoticeMsg = styled.span`
-  margin-bottom: 24px;
-  font-size: 18px;
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
   color: #9f9f9f;
 `;
 
 const CurrText = styled.p`
-  margin-top: 16px;
-  font-size: 18px;
+  margin-top: 1rem;
+  font-size: 1.125rem;
   text-align: right;
   color: #5b5b5b;
 `;
 
 const PjBizModel = styled.div`
   ${({ theme }) => theme.flexColumn}
-  margin-bottom: 48px;
+  margin-bottom: 3rem;
 `;
 
 const PjSubmitDocu = styled.div`
@@ -117,21 +117,21 @@ const FileUplaodBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 88px;
-  margin-bottom: 16px;
-  padding: 0px 40px;
+  height: 5.5rem;
+  margin-bottom: 1rem;
+  padding: 0 2.5rem;
   background-color: #fbfaff;
 
   span {
-    font-size: 21px;
+    font-size: 1.313rem;
     font-weight: bold;
   }
 `;
 
 const FileBox = styled.div`
   .inputfile {
-    width: 0.1px;
-    height: 0.1px;
+    width: 0.006rem;
+    height: 0.006rem;
     opacity: 0;
     overflow: hidden;
     position: absolute;
@@ -140,8 +140,8 @@ const FileBox = styled.div`
 
   .inputfile + label {
     display: inline-block;
-    padding: 10px 17px;
-    border-radius: 24px;
+    padding: 0.625rem 1.063rem;
+    border-radius: 1.5rem;
     font-size: 0.8em;
     font-weight: 700;
     color: white;
