@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
-import { Button, Zoom, Collapse } from '@material-ui/core';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Zoom, Collapse } from '@material-ui/core';
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
 
-const SelectBtn:React.FC<any> = ({ mode, width, curVal, changeVal }) => {
+const SelectBtn:React.FC<any> = ({ cName, mode, width, curVal, changeVal }) => {
   const [isOpen, setOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    
-  }, [])
 
   const handleOpen = () => {
     setOpen(!isOpen);
@@ -20,8 +16,8 @@ const SelectBtn:React.FC<any> = ({ mode, width, curVal, changeVal }) => {
 
   return (
     <StBtnCont>
-      <div style={{position: "relative", marginBottom: '2px'}}>
-      <StBtnWrap style={{visibility:"hidden"}} width={width} isOpen={isOpen}></StBtnWrap>
+      <div style={{position: "relative"}}>
+      <StBtnWrap style={{visibility:"hidden"}} width={width} isOpen={isOpen}>&nbsp;</StBtnWrap>
       <StBtnWrap style={{position: "absolute", top: 0, left: 0, zIndex: 10 }} width={width} isOpen={isOpen} onClick={handleOpen}>
         {curVal}
         <StSvgWrap>
@@ -32,14 +28,14 @@ const SelectBtn:React.FC<any> = ({ mode, width, curVal, changeVal }) => {
       </StBtnWrap>
       </div>
       <div style={{position: "relative"}}>
-        <div style={{position: 'absolute', top: 0, left: 0, zIndex: 13}}>
+        <div style={{position: 'absolute', top: 2, left: 0, zIndex: 13}}>
           <Collapse in={isOpen}>
             <StListCont width={width}>
               {
                 (selectData as any)[mode].map((el: string, idx: number) => 
                   curVal !== el && 
                   <StListWrap key={idx} 
-                    className={mode}
+                    className={cName}
                     onClick={handleSelect}
                   >
                   {el}</StListWrap>
@@ -57,7 +53,6 @@ export default SelectBtn;
 const StBtnCont = styled.div`
   display: flex;
   flex-direction: column;
-
   font-size: 18px;
 `;
 
@@ -139,5 +134,14 @@ const selectData = {
     "2억원 - 5억원",
     "6억원 이상"
   ],
-
+  corp: [
+    "개인",
+    "법인"
+  ],
+  employees: [
+    "1 - 10명",
+    "11 - 20명",
+    "21 - 30명",
+    "31명 이상"
+  ],
 }
