@@ -20,13 +20,13 @@ const FindId = () => {
           </p>
           <input type="text" placeholder="이메일 계정을 입력해주세요" />
           <Buttons>
-            <Link to="/Auth/FindIdAgain">
-              {/* 아이디가 있는 경우는  /Auth/FindIdResult 로 이동 */}
+            <Link to="/auth/FindIdAgain">
+              {/* 아이디가 있는 경우는  /auth/FindIdResult 로 이동 */}
               <ChkBtn>확인</ChkBtn>
             </Link>
             <CancleBtn>취소</CancleBtn>
           </Buttons>
-          <Link to="/Auth/SignUp">
+          <Link to="/auth/SignUp">
             <Question
               ask="아직 OFFERTUNITY 회원이 아니신가요?"
               button="회원가입"

@@ -17,7 +17,7 @@ const SignupFormPartner: React.FC = () => {
             subtitletwo="지원사업과 투자 유치 기회를 만날 수 있습니다."
             title="파트너 회원가입"
           />
-          <Link to="/Auth/SignupSelectmember">
+          <Link to="/auth/SignupSelectmember">
             <Button txt="다른 회원 선택하기" />
           </Link>
         </TxtWrap>

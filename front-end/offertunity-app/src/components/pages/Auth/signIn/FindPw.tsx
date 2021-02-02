@@ -32,7 +32,7 @@ const FindPw = () => {
             </ChkBtn>
             <CancleBtn>취소</CancleBtn>
           </Buttons>
-          <Link to="/Auth/SignUp">
+          <Link to="/auth/SignUp">
             <Question
               ask="아직 OFFERTUNITY 회원이 아니신가요?"
               button="회원가입"

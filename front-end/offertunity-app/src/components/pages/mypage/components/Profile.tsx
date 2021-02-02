@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 type Props = {
@@ -30,7 +31,9 @@ const Profile: React.FC<Props> = ({ data }) => {
             <span>회원 구분</span>
             <p>스타트업 회원</p>
           </Info>
-          <BtnOne>프로필 수정</BtnOne>
+          <Link to="/EditMypageStartup">
+            <BtnOne>프로필 수정</BtnOne>
+          </Link>
         </Box>
         <Box>
           <Info>
