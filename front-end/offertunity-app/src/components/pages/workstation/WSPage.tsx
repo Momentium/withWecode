@@ -4,6 +4,7 @@ import * as St from "components/styles/styledComp";
 import GuideBar from './GuideBar';
 import MyStartup from './startup/myStartup/MyStartup';
 import SupportPjt from './startup/supportPjt/SupportPjt';
+import AdminIRReq from './common/AdminIRReq';
 
 const WSPage = () => {
   const [curTab, setCurTab] = useState<string>("마이 스타트업")
@@ -40,7 +41,7 @@ const WSPage = () => {
 
       {curTab === '마이 스타트업' && <MyStartup/>}
       {curTab === '지원사업 프로젝트' && <SupportPjt/>}
-      {curTab === 'IR 자료 요청 관리' && <></>}
+      {curTab === 'IR 자료 요청 관리' && <AdminIRReq/>}
       {curTab === 'IR 자료 및 지원서류 관리' && <></>}
 
     </StWSCont>

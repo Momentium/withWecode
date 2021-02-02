@@ -54,7 +54,7 @@ const ViewPjt:React.FC<any> = ({ handleSubmit }) => {
     <StCont>
       <StLogoCont>
         {/* <img src="" alt=""/> */}
-        <div className="img-wrap"></div>
+        <div className="img-wrap">이미지를 등록해 주세요</div>
         <StBtn onClick={handleSubmit}>제출 정보 편집</StBtn>
       </StLogoCont>
 
@@ -142,12 +142,17 @@ const StLogoCont = styled.div`
   align-items: center;
 
   .img-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #898989;
+
     width: 200px;
     height: 200px;
 
     border-radius: 50%;
 
-    background: gray;
+    background: #f2f2f2;
 
     margin: 48px 0;
   }
