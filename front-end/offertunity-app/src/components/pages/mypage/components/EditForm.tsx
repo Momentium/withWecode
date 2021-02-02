@@ -3,19 +3,25 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ModalChangePw from "./ModalChangePw";
 
-const EditForm = () => {
+type Props = {
+  data: any;
+};
+
+const EditForm: React.FC<Props> = ({ data }) => {
+  console.log(data);
   const [Modal, setModal] = useState(false);
   const [inputs, setInputs] = useState({
-    name: "",
+    nameInput: "",
     phoneNumber: "",
   });
-  const { name, phoneNumber } = inputs;
+  const { nameInput, phoneNumber } = inputs;
+  const { email, name, phone_number } = data;
 
   const handleName = (event: any) => {
     event.preventDefault();
     setInputs({
       ...inputs,
-      name: event.target.value,
+      nameInput: event.target.value,
     });
   };
 
@@ -35,14 +41,14 @@ const EditForm = () => {
     }
   };
 
-  const BtnTrue = name.length > 2;
+  const BtnTrue = nameInput.length > 2;
 
   return (
     <Wrap>
       <ID>
         <Static className="id">
           <Title>아이디</Title>
-          <Box>mat @ naver.com</Box>
+          <Box>{email}</Box>
         </Static>
         <Static className="user">
           <Title>회원구분</Title>
@@ -62,7 +68,7 @@ const EditForm = () => {
       <Name>
         <Title>이름</Title>
         <Input>
-          <input type="text" placeholder="MAT" onChange={handleName} />
+          <input type="text" placeholder={name} onChange={handleName} />
         </Input>
       </Name>
       <Phone>
@@ -70,7 +76,7 @@ const EditForm = () => {
         <Input>
           <input
             type="text"
-            placeholder="010-1234-5678"
+            placeholder={phone_number}
             onChange={handlePhonenumber}
           />
         </Input>

@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
+
 import styled from "styled-components";
 
 const Naver = () => {
+  // useEffect(() => {
+  //   handleNAVER();
+  // }, []);
+
   const handleNAVER = () => {
-    window.location.href = "http://10.0.1.29:3000/users/naver";
+    //axios.get("http://10.0.1.29:3000/auths/naver");
+    window.location.href = "http://10.0.1.29:3000/auths/naver";
   };
 
   return <NaverBtn onClick={handleNAVER}>네이버</NaverBtn>;

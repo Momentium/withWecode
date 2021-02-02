@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import EditProfile from "./components/EditProfile";
+import EditProfileImg from "./components/EditProfileImg";
 import EditForm from "./components/EditForm";
 import WorkStation from "./components/WorkStation";
 
-const EditMypageStartup = () => {
+const EditMypageStartup: React.FC = () => {
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    axios
+      .get("http://10.0.1.29:3000/users/mypage", {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setData(res.data.userInfo);
+      });
+  }, []);
+
   return (
     <Wrap>
       <Center>
@@ -16,8 +31,8 @@ const EditMypageStartup = () => {
           <i className="fas fa-chevron-right" /> 프로필 수정
         </Station>
         <Box>
-          <EditProfile />
-          <EditForm />
+          <EditProfileImg data={data} />
+          <EditForm data={data} />
         </Box>
         <WorkStation />
       </Center>

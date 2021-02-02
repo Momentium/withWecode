@@ -24,9 +24,15 @@ const MypageStartup: React.FC = () => {
   }, []);
 
   const getProfileData = () => {
-    axios.get("/data/mypageStartupProfile.json").then((res) => {
-      setProfileData(res.data.data.profile);
-    });
+    axios
+      .get("http://10.0.1.29:3000/users/mypage", {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setProfileData(res.data.userInfo);
+      });
   };
 
   const getSuccessData = () => {

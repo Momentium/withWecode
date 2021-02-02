@@ -1,34 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import ModalWrap from "./ModalWithdrawal";
 
-const EditProfile = () => {
+type Props = {
+  data: any;
+};
+
+const EditProfileImg: React.FC<Props> = ({ data }) => {
   const [previewURL, setpreviewURL] = useState("");
   const [Modal, setModal] = useState(false);
+  const { profile_picture } = data;
+
+  // useEffect(() => {
+  //   SEND_IMG();
+  // }, []);
+
+  // const SEND_IMG = () => {
+  //   axios.post("http://10.0.1.29:3000/users/mypage", {
+  //     headers: {
+  //       Authorization: `token ${sessionStorage.getItem("token")}`,
+  //     },
+  //     profile_picture: previewURL,
+  //   });
+  // };
+  //
+  //
 
   const handleImg = (event: any) => {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
-
     reader.onload = (event: any) => {
       setpreviewURL(event.target.result);
     };
     reader.readAsDataURL(file);
   };
 
+  let ProfileImg = null;
+  if (!profile_picture && !previewURL) {
+    ProfileImg = (
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
+        alt="프로필사진"
+      />
+    );
+  }
+  if (!profile_picture && previewURL) {
+    ProfileImg = <img src={previewURL} alt="프로필사진" />;
+  }
+  if (profile_picture) {
+    ProfileImg = <img src={profile_picture} alt="프로필사진" />;
+  }
+
   return (
     <Img>
-      <span>
-        {previewURL ? (
-          <img src={previewURL} alt="프로필사진" />
-        ) : (
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
-            alt="프로필사진"
-          />
-        )}
-      </span>
+      {/* <button onClick={SEND_IMG}>사진전송</button> */}
+      <span>{ProfileImg}</span>
       <Label>
         프로필 사진등록
         <input
@@ -52,7 +80,7 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default EditProfileImg;
 
 const Img = styled.div`
   position: relative;
