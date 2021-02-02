@@ -93,7 +93,9 @@ const SignIn: React.FC = () => {
           </FindAccount>
           <BtnEmail onClick={SIGNIN}>로그인</BtnEmail>
           <Or />
+
           <BtnGoogle onClick={handleGOOGLE}>Google 계정 로그인</BtnGoogle>
+
           <Icon>
             <Naver />
             <Kakao />
