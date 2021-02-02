@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-// import ModalWrap from "./ModalWithdrawal";
+import ModalWrap from "./ModalWithdrawal";
 
 const EditProfile = () => {
   const [previewURL, setpreviewURL] = useState("");
@@ -42,7 +42,7 @@ const EditProfile = () => {
         <p>회원탈퇴</p>
         <i className="fas fa-chevron-right" />
       </Button>
-      {/* <ModalWrap /> */}
+      <ModalWrap />
     </Img>
   );
 };
