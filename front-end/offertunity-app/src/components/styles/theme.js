@@ -8,9 +8,9 @@ const conWidth = css`
   /* padding: 0 20rem; */
 `;
 
-const title = css`
-  font-size: 1.68rem;
-`;
+// const title = css`
+//   font-size: 1.68rem;
+// `;
 
 const calcRem = (size) => `${size / 16}rem`;
 
