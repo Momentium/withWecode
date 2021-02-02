@@ -5,14 +5,14 @@ const { validateToken } = require('../middlewares')
 const { CompanyController, ProjectController } = require('../controllers')
 
 // company like
-router.post(
+router.get(
     '/company/:companyId',
     validateToken,
     CompanyController.likeCompany
     )
 
 // project like
-router.post(
+router.get(
     '/project/:partnerId',
     validateToken,
     ProjectController.likeProject
