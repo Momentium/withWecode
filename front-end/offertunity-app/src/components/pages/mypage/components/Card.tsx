@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-const Card = () => {
+type Props = {
+  data: any;
+  key: number;
+  index: number;
+};
+const Card: React.FC<Props> = ({ data, key, index }) => {
+  const [like, setLike] = useState(true);
+  const { logo, title, sub, info } = data;
+
+  const likeIt = () => {
+    setLike(false);
+  };
   return (
-    <Wrap>
-      <LikeBtn>
-        <img src="/images/mypage/likeBtn.png" alt="좋아요" />
+    <Wrap style={{ display: like ? "inline-block" : "none" }} key={index}>
+      <LikeBtn onClick={likeIt}>
+        <img src="/images/icons/heart_fill.png" alt="좋아요" />
       </LikeBtn>
       <Logo>
-        <img src="/images/mypage/logo.png" alt="로고" />
+        <img src={logo} alt="로고" />
       </Logo>
       <Text>
-        <Title>히든트랙</Title>
-        <Info>당근 마켓 중고거래 어플</Info>
-        <Sub>
-          In order to put an action such as a Checkbox or a button inside of the
-          AccordionSummary, you need to stop the propagation of the focus and
-          click events to prevent the accordion from expanding/collapsing when
-          using the action. You should also provide an aria-label for the
-          action, otherwise the label of the nested action will be included in
-          the label of the parent button that controls the accordion expansion.
-        </Sub>
+        <Title>{title}</Title>
+        <Sub>{sub}</Sub>
+        <Info>{info}</Info>
       </Text>
     </Wrap>
   );
@@ -30,15 +34,12 @@ export default Card;
 
 const Wrap = styled.div`
   position: relative;
-  display: inline-block;
   width: 25.3rem;
   height: 36.44rem;
   border: 1px solid #c6c6c6;
-  margin: 0 2rem 2rem 0;
+  margin: 0 1rem 1rem 0;
   text-align: center;
-  &:nth-child(3n) {
-    margin-right: 0;
-  }
+  cursor: pointer;
 `;
 
 const Logo = styled.div`
@@ -59,13 +60,14 @@ const Title = styled.p`
   font-weight: bold;
 `;
 
-const Info = styled.p`
-  margin: 2rem 0 1.3rem 0;
+const Sub = styled.p`
+  padding: 2rem 0 1.3rem 0;
   font-size: 0.9rem;
   font-weight: bold;
 `;
 
-const Sub = styled.p`
+const Info = styled.p`
+  display: flex;
   font-size: 0.9rem;
   line-height: 1.3rem;
 `;

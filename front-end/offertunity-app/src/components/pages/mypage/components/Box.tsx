@@ -1,14 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 
-const Box = () => {
+type Props = {
+  success: any;
+  interest: any;
+  ir: any;
+};
+
+const Box: React.FC<Props> = ({ success, interest, ir }) => {
   return (
     <Wrap>
       <Text>
-        <p>마이 스타트업 완성률</p>
-        <span>50%</span>
+        <p>
+          {success && "마이 스타트업 완성률"}
+          {interest && "관심 지원사업"}
+          {ir && "IR 자료 요청 건"}
+        </p>
+        {success && <span>{success}%</span>}
+        {interest && <span>{interest}개</span>}
+        {ir && <span>{ir}회</span>}
       </Text>
-      <Button>마이 스타트업 정보 관리</Button>
+      <div>
+        <Button>
+          {success && "마이 스타트업 정보 관리"}
+          {interest && "지원 사업 관리"}
+          {ir && "IR자료 요청/검토 현황"}
+        </Button>
+      </div>
     </Wrap>
   );
 };

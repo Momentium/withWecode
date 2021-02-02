@@ -1,11 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 
-const CheckBtn = () => {
+type Props = {
+  data: any;
+  key: number;
+  index: number;
+};
+
+const CheckBtn: React.FC<Props> = ({ data, key, index }) => {
+  const { name, check } = data;
+
   return (
-    <Btn>
-      <i className="far fa-circle" />
-      회원가입 완료
+    <Btn
+      className={check && "true"}
+      key={index}
+      style={{ backgroundColor: check && "#C3BDF4", color: check && "#fff" }}
+    >
+      {check ? (
+        <i className="fas fa-check-circle" style={{ color: "#5541ED" }} />
+      ) : (
+        <i className="far fa-circle" />
+      )}
+      {name}
     </Btn>
   );
 };
@@ -30,7 +46,6 @@ const Btn = styled.div`
     color: #c2bdf0;
     font-size: 1.5rem;
   }
-
   &:nth-child(3n) {
     margin-right: 0;
   }
