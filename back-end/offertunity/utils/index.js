@@ -43,9 +43,10 @@ const dateForm = async (dateInfo) => {
 };
 
 module.exports = {
+  s3,
+  dateForm,
   upsertConnection,
   typeChecker,
   lengthChecker,
-  dateForm,
   makeQueryOption,
 };
