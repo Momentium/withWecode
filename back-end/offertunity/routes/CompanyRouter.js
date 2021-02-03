@@ -13,6 +13,17 @@ router.get(
 )
 
 router.post(
+    '/info/startup/basic/temp',
+    validateToken,
+    upload.fields([
+        {name: 'logoImg', maxCount: 1}, 
+        {name: 'thumbnail', maxCount: 1}, 
+    ]),
+    CompanyController.tempSaveStartupBasicInfo
+)
+
+
+router.post(
     '/info/startup/temp',
     validateToken,
     upload.fields([
@@ -60,8 +71,15 @@ router.post(
 )
 
 // partner info
+// ====== 생성 필요 ========
+// router.get(
+//     '/info/partner',
+//     validateToken,
+//     CompanyController.getPartnerInfo
+// )
+
 router.post(
-    '/info/partner',
+    '/info/partner/temp',
     validateToken,
     upload.fields([
         {name: 'logoImg', maxCount: 1},
@@ -84,6 +102,39 @@ router.post(
     CompanyController.savePartnerInfo
 )
 
+// general
+router.delete(
+    '/del/member/:memberId',
+    validateToken,
+    CompanyController.deleteMember
+)
+
+router.delete(
+    '/del/investedfrom/:investedFromId',
+    validateToken,
+    CompanyController.deleteInvestFrom
+)
+
+router.delete(
+    '/del/investedto/:investeToId',
+    validateToken,
+    CompanyController.deleteInvestTo
+)
+
+router.delete(
+    '/del/image/:imageId',
+    validateToken,
+    CompanyController.deleteImage
+)
+
+router.delete(
+    '/del/news/:newsId',
+    validateToken,
+    CompanyController.deleteNews
+)
+
+
+// startup 정보 조회
 router.get(
     '/list/startup',
     checkLogIn,
@@ -96,6 +147,7 @@ router.get(
     CompanyController.getOnestartup
 )
 
+// partner 정보 조회
 router.get(
     '/list/partner',
     checkLogIn,

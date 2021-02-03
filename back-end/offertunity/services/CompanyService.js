@@ -206,6 +206,19 @@ const findInfoName = async (table, id) => {
     return info.name
 }
 
+const readRelatedInfo = (table, id) => {
+    return prisma[table].findUnique({
+        where: {id}
+    })
+}
+
+const getRelatedInfoId = async (table, name) => {
+    const data = await prisma[table].findFirst({
+        where: {name}
+    })
+    return data.id
+}
+
 module.exports = {
     createCompany,
     updateCompany,
@@ -227,5 +240,7 @@ module.exports = {
     findPartner,
     findStartup,
     imageLengthChecker,
-    findInfoName
+    findInfoName,
+    readRelatedInfo,
+    getRelatedInfoId
 }
