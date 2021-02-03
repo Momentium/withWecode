@@ -32,6 +32,6 @@ import ProgressingCard from './ProgressingCard'
 export default ProgressingProject;
 
 const Progessing =styled.div`
-  display: inline-block;
-  
+  display: flex;
+  flex-wrap: wrap;
 `;

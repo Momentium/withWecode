@@ -33,7 +33,7 @@ export default ProgressingCard;
 const Card =styled.li`
   display: inline-block;
   margin: 0 1.62rem 1.5rem 0;
-  width:16.5rem;
+  width: 16rem;
   cursor: pointer;
   img{
     width: 100%;
