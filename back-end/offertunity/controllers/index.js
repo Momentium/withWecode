@@ -3,6 +3,7 @@ const CompanyController = require("./CompanyController");
 const AuthController = require("./AuthController");
 const ProjectController = require("./ProjectController");
 const InitialController = require("./InitialController");
+const ApplyController = require("./ApplyController")
 
 module.exports = {
   UserController,
@@ -10,4 +11,5 @@ module.exports = {
   AuthController,
   ProjectController,
   InitialController,
+  ApplyController
 };

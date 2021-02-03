@@ -2,7 +2,7 @@
 CREATE TABLE `answers` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `content` VARCHAR(191) NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
     `question_id` INT NOT NULL,
 INDEX `FK_answers_question_id_questions_id`(`question_id`),
@@ -15,7 +15,9 @@ CREATE TABLE `applicants` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `company_id` INT NOT NULL,
     `project_id` INT NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `business_brief` VARCHAR(191),
+    `business_model` VARCHAR(191),
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 INDEX `FK_applicants_company_id_companies_id`(`company_id`),
 INDEX `FK_applicants_project_id_projects_id`(`project_id`),
 
@@ -112,6 +114,14 @@ UNIQUE INDEX `document_types.name_unique`(`name`),
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `eligibilities` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `email_auth` (
     `email` VARCHAR(191) NOT NULL,
     `auth_number` VARCHAR(191) NOT NULL,
@@ -146,7 +156,6 @@ CREATE TABLE `invested_to` (
     `invested_fund_id` INT NOT NULL,
     `corporate_value` INT NOT NULL,
     `series_id` INT NOT NULL,
-    `companiesId` INT,
 INDEX `FK_invested_to_partner_id_companies_id`(`partner_id`),
 INDEX `FK_invested_to_series_id_investment_series_id`(`series_id`),
 INDEX `FK_invested_from_invested_fund_investment_funds_id`(`invested_fund_id`),
@@ -189,7 +198,7 @@ CREATE TABLE `IR_requests` (
     `document_id` INT,
     `is_checked` INT NOT NULL,
     `from_partner` INT NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
     `companiesId` INT,
 INDEX `FK_IR_requests_document_id_company_documents_id`(`document_id`),
@@ -231,8 +240,8 @@ CREATE TABLE `partner_likes` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT NOT NULL,
     `company_id` INT NOT NULL,
-    `is_liked` INT NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `is_liked` BOOLEAN NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 INDEX `FK_partner_likes_company_liked_id_companies_id`(`user_id`),
 INDEX `FK_partner_likes_company_likes_id_companies_id`(`company_id`),
@@ -253,7 +262,7 @@ CREATE TABLE `phone_auth` (
 CREATE TABLE `project_images` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `project_id` INT NOT NULL,
-    `img_url` VARCHAR(191) NOT NULL,
+    `img_url` VARCHAR(191),
 INDEX `FK_project_images_project_id_projects_id`(`project_id`),
 
     PRIMARY KEY (`id`)
@@ -264,8 +273,8 @@ CREATE TABLE `project_likes` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT NOT NULL,
     `project_id` INT NOT NULL,
-    `is_liked` INT NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `is_liked` BOOLEAN NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
     `companiesId` INT,
 INDEX `FK_project_likes_user_id_companies_id`(`user_id`),
@@ -282,7 +291,7 @@ CREATE TABLE `projects` (
     `host` INT,
     `due_date` DATETIME(3),
     `sector_id` INT,
-    `eligibility` VARCHAR(191),
+    `eligibility` INT,
     `outline` VARCHAR(191),
     `detail` VARCHAR(191),
     `application_method` VARCHAR(191),
@@ -290,8 +299,10 @@ CREATE TABLE `projects` (
     `contact` VARCHAR(191),
     `is_opened` INT NOT NULL,
     `hit` INT NOT NULL,
-    `created_at` DATETIME(3),
+    `is_saved` BOOLEAN NOT NULL DEFAULT false,
+    `created_at` DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3),
+    `deleted_at` DATETIME(3),
 INDEX `FK_projects_host_companies_id`(`host`),
 INDEX `FK_projects_sector_id_sectors_id`(`sector_id`),
 
@@ -319,7 +330,7 @@ CREATE TABLE `recent_views_project` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `project_id` INT NOT NULL,
     `company_id` INT NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 INDEX `FK_recent_views_project_company_id_companies_id`(`company_id`),
 INDEX `FK_recent_views_project_project_id_projects_id`(`project_id`),
@@ -423,8 +434,8 @@ CREATE TABLE `startup_likes` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT NOT NULL,
     `company_id` INT NOT NULL,
-    `is_liked` INT NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `is_liked` BOOLEAN NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 INDEX `FK_startup_likes_company_id_companies_id`(`company_id`),
 INDEX `FK_startup_likes_user_id_users_id`(`user_id`),
@@ -499,7 +510,7 @@ CREATE TABLE `votes` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT NOT NULL,
     `participants_id` INT NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 INDEX `FK_votes_participants_id_participants_id`(`participants_id`),
 INDEX `FK_votes_user_id_users_id`(`user_id`),
 
@@ -550,9 +561,6 @@ ALTER TABLE `invested_to` ADD FOREIGN KEY (`invested_fund_id`) REFERENCES `inves
 
 -- AddForeignKey
 ALTER TABLE `invested_to` ADD FOREIGN KEY (`partner_id`) REFERENCES `partners`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `invested_to` ADD FOREIGN KEY (`companiesId`) REFERENCES `companies`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `investment_portfolio` ADD FOREIGN KEY (`partner_id`) REFERENCES `partners`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -607,6 +615,9 @@ ALTER TABLE `projects` ADD FOREIGN KEY (`host`) REFERENCES `companies`(`id`) ON 
 
 -- AddForeignKey
 ALTER TABLE `projects` ADD FOREIGN KEY (`sector_id`) REFERENCES `sectors`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `projects` ADD FOREIGN KEY (`eligibility`) REFERENCES `eligibilities`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `questions` ADD FOREIGN KEY (`company_id`) REFERENCES `companies`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
