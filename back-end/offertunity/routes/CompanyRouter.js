@@ -9,10 +9,10 @@ router.post(
     '/info/startup',
     validateToken,
     upload.fields([
-        {name: 'logoImg', maxCount: 1}, 
-        {name: 'thumbnail', maxCount: 1}, 
-        {name: 'startupImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'thumbnail', maxCount: 1 },
+        { name: 'startupImages', maxCount: 5 },
+        { name: 'memberImages', maxCount: 100 },
     ]),
     CompanyController.startupInfoTempSave
 )
@@ -22,10 +22,10 @@ router.post(
     validateToken,
     save,
     upload.fields([
-        {name: 'logoImg', maxCount: 1}, 
-        {name: 'thumbnail', maxCount: 1}, 
-        {name: 'startupImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'thumbnail', maxCount: 1 },
+        { name: 'startupImages', maxCount: 5 },
+        { name: 'memberImages', maxCount: 100 },
     ]),
     CompanyController.startupInfoTempSave,
     CompanyController.startupInfoSave
@@ -35,7 +35,7 @@ router.post(
     '/project_info/startup',
     validateToken,
     upload.fields([
-        {name: 'logoImg', maxCount: 1}
+        { name: 'logoImg', maxCount: 1 }
     ]),
     CompanyController.startupProjectSubmitSave
 )
@@ -45,9 +45,9 @@ router.post(
     '/info/partner',
     validateToken,
     upload.fields([
-        {name: 'logoImg', maxCount: 1},
-        {name: 'portfolioImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'portfolioImages', maxCount: 5 },
+        { name: 'memberImages', maxCount: 100 },
     ]),
     CompanyController.partnerInfoTempSave
 )
@@ -57,12 +57,48 @@ router.post(
     validateToken,
     save,
     upload.fields([
-        {name: 'logoImg', maxCount: 1},
-        {name: 'portfolioImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'portfolioImages', maxCount: 5 },
+        { name: 'memberImages', maxCount: 100 },
     ]),
     CompanyController.partnerInfoTempSave,
     CompanyController.partnerInfoSave
+)
+
+// IR_count
+router.get(
+    '/IR_count/:companyId',
+    CompanyController.startupIRCount
+)
+
+//startup doc
+
+router.post(
+    "/registerdoc",
+    validateToken,
+    upload.single('startupDoc'),
+    CompanyController.uploadStartupDoc,
+)
+
+router.get(
+    "/:companyId/doc/:docTypeId",
+    validateToken,
+    CompanyController.readStartupDoc,
+
+)
+
+router.get(
+    "/download/:companyId/:docTypeId",
+    validateToken,
+    CompanyController.downloadStartupDoc,
+
+)
+
+router.delete(
+    "/company/:companyId/doc/:docTypeId",
+    validateToken,
+    CompanyController.deleteStartupDoc,
+
 )
 
 module.exports = router

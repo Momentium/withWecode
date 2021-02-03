@@ -9,23 +9,8 @@ router.post(
     AuthController.email
 )
 
-router.get(
+router.post(
     '/emailconfirm',
-    // body('email').isEmail(),
-    // body('authNum'),
     AuthController.emailVerification
 )
-
-// router.post(
-//     '/phone',
-//     body('phone').isEmail(),
-//     AuthController.phoneNumber,
-// )
-
-
-// router.post(
-//     "/certifications",
-//     AuthController.phoneNumber
-// )
-
 module.exports = router;

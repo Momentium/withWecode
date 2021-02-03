@@ -8,8 +8,8 @@ const email = errorWrapper(async(req, res) => {
     const authNum = await Math.random().toString().substr(2, 6);
 
     let transporter = await nodemailer.createTransport({
-        service: 'gmail',
-        host: 'smtp.gmail.com',
+        service: 'naver',
+        host: 'smtp.naver.com',
         port: 587,
         secure: false,
         auth: {
@@ -48,60 +48,7 @@ const emailVerification = errorWrapper(async(req, res) => {
     res.status(200).json({ message: 'VerificationCode Confirmed!' })
 });
 
-
-
-
-// const emailVerification = errorWrapper(async(req, res) => {
-//     const { authNum, email } = req.body
-//     const foundCode = await AuthService.emailVerificationCodeCheck({ authNum, email })
-//     if (!foundCode) errorGenerator({ statusCode: 400, message: 'client input invalid' })
-//     const { id, authNum } = foundCode
-//     const isValidPassword = await bcrypt.compare(inputPassword, hashedPassword)
-//     if (!isValidPassword) errorGenerator({ statusCode: 400, message: 'client input invalid' })
-
-//     res.status(200).json({ message: 'VerificationCode Confirmed!' })
-// })
-
-
-// const phoneNumber = async(request, response) => {
-// const { imp_uid } = request.body; // request의 body에서 imp_uid 추출
-// try {
-//     // 인증 토큰 발급 받기
-//     /* ...중략... */
-//     // imp_uid로 인증 정보 조회
-//     /* ...중략... */
-//     const certificationsInfo = getCertifications.data.response; // 조회한 인증 정보
-//     // unique_key: 개인식별 고유 키, unique_in_site: 사이트 별 개인식별 고유 키
-//     const { unique_key, unique_in_site, name, gender, birth } = certificationsInfo;
-//     ...
-//     // 연령 제한 로직
-//     if(new Date(birth).getFullYear() <= 1999) {
-//             // 연령 만족
-//         } else {
-//             // 연령 미달
-//         }
-//         ...
-//         // 1인 1계정 허용 로직
-//         // DB에서 unique_key 조회 후 가입여부 검사
-//     Users.find({ certificationKey: unique_key })
-//         .then((user) => {
-//             if (!user) {
-//                 // 신규 고객
-//             } else {
-//                 // 이미 가입된 고객
-//             }
-//         });
-// } catch (e) {
-//     console.error(e);
-// }
-// });
-
-
-
-
 module.exports = {
     email,
     emailVerification,
-    // phoneNumber,
-    // phoneNumberVerificatiton.
 }

@@ -81,6 +81,4 @@ router.delete(
     UserController.deleteMemberInfo
 )
 
-
-
 module.exports = router
