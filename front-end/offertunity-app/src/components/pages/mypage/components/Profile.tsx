@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 type Props = {
@@ -6,14 +7,39 @@ type Props = {
 };
 
 const Profile: React.FC<Props> = ({ data }) => {
-  const { name, profile_picture, email, route, belong } = data;
+  const {
+    name,
+    profile_picture,
+    email,
+    signup_method_id,
+    company_id,
+    phone_number,
+    type_id
+  } = data;
+  console.log(data);
 
+  let profileImg = null;
+  if (!profile_picture) {
+    profileImg = (
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
+        alt="프로필사진"
+      />
+    );
+  } else {
+    profileImg = <img src={profile_picture} alt="프로필사진" />;
+  }
+
+  let typeId= null;
+  if(type_id === 2 ){
+    typeId =  <p>파트너 회원</p>
+  }else if (type_id === 1){
+    typeId = <p>스타트업 회원</p>
+  }
   return (
     <Wrap>
       <Img>
-        <span>
-          <img src={profile_picture} alt="프로필사진" />
-        </span>
+        <span>{profileImg}</span>
         <p>{name}</p>
       </Img>
       <Text>
@@ -24,22 +50,24 @@ const Profile: React.FC<Props> = ({ data }) => {
           </Info>
           <Info>
             <span>가입경로</span>
-            <p>{route === "1" && "이메일"}로 가입하기 회원</p>
+            <p>{signup_method_id === 1 && "이메일"}로 가입하기 회원</p>
           </Info>
           <Info>
             <span>회원 구분</span>
-            <p>스타트업 회원</p>
+            {typeId}
           </Info>
-          <BtnOne>프로필 수정</BtnOne>
+          <Link to="/EditMypageStartup">
+            <BtnOne>프로필 수정</BtnOne>
+          </Link>
         </Box>
         <Box>
           <Info>
             <span>휴대 전화 번호</span>
-            <p>010-9511-3975</p>
+            <p>{phone_number ? phone_number : "000-0000-0000"}</p>
           </Info>
           <Info>
             <span>소속 스타트업</span>
-            <p>{belong}</p>
+            <p>{company_id ? company_id : "MOMENTIUM"}</p>
           </Info>
           <BtnTwo>마이 스타트업 관리</BtnTwo>
         </Box>

@@ -10,4 +10,6 @@ export default Title;
 const SectionTitle = styled.div`
   font-size: 1.25rem;
   font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 16px;
 `;

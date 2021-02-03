@@ -10,7 +10,7 @@
     },
     {
       "name": "휴대전화 인증",
-      "check": false
+      "check": true
     },
     {
       "name": "스타트업 기본정보 등록",

@@ -1,15 +1,15 @@
 {
   "invest":[
-    {"img":"images/investList/investList1.png"},
-    {"img":"images/investList/investList2.png"},
-    {"img":"images/investList/investList3.png"},
-    {"img":"images/investList/investList4.png"},
-    {"img":"images/investList/investList5.png"},
-    {"img":"images/investList/investList6.png"},
-    {"img":"images/investList/investList7.png"},
-    {"img":"images/investList/investList8.png"},
-    {"img":"images/investList/investList9.png"},
-    {"img":"images/investList/investList10.png"},
-    {"img":"images/investList/investList11.png"}
+    {"img":"images/investList/investlist1.png"},
+    {"img":"images/investList/investlist2.png"},
+    {"img":"images/investList/investlist3.png"},
+    {"img":"images/investList/investlist4.png"},
+    {"img":"images/investList/investlist5.png"},
+    {"img":"images/investList/investlist6.png"},
+    {"img":"images/investList/investlist7.png"},
+    {"img":"images/investList/investlist8.png"},
+    {"img":"images/investList/investlist9.png"},
+    {"img":"images/investList/investlist10.png"},
+    {"img":"images/investList/investlist11.png"}
   ]
 }

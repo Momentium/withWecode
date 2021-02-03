@@ -8,7 +8,7 @@ const NewProject = () => {
   const [newProject,setNewProject] = useState([]);
 
   useEffect(()=>{
-    axios.get("/data/newProject.json")
+    axios.get("/data/newproject.json")
     .then(res => {
       const _resData = res.data
       setNewProject(_resData.new);

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Header from "../components/Header";
+
 import InputBox from "../components/InputBox";
 import MainTxt from "../components/MainTxt";
 import Button from "../components/Button";
@@ -9,7 +9,6 @@ import Button from "../components/Button";
 const SignupFormPartner: React.FC = () => {
   return (
     <>
-      <Header />
       <Wrap>
         <TxtWrap>
           <MainTxt
@@ -17,7 +16,7 @@ const SignupFormPartner: React.FC = () => {
             subtitletwo="지원사업과 투자 유치 기회를 만날 수 있습니다."
             title="파트너 회원가입"
           />
-          <Link to="/Auth/SignupSelectmember">
+          <Link to="/auth/SignupSelectmember">
             <Button txt="다른 회원 선택하기" />
           </Link>
         </TxtWrap>

@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Header from "../components/Header";
+
 import Tab from "../components/Tab";
 import Question from "../components/Question";
 import FinaAccountMainTxt from "../components/FinaAccountMainTxt";
 
 const FindId = () => {
+  const [email, setEmail] = useState("");
+
+  const handleInputValue = (event: any) => {
+    setEmail(event.target.value);
+  };
+
   return (
     <>
-      <Header />
       <Tab />
       <Con>
         <Wrap>
@@ -20,13 +25,13 @@ const FindId = () => {
           </p>
           <input type="text" placeholder="이메일 계정을 입력해주세요" />
           <Buttons>
-            <Link to="/Auth/FindIdAgain">
-              {/* 아이디가 있는 경우는  /Auth/FindIdResult 로 이동 */}
+            <Link to="/auth/FindIdAgain">
+              {/* 아이디가 있는 경우는  /auth/FindIdResult 로 이동 */}
               <ChkBtn>확인</ChkBtn>
             </Link>
             <CancleBtn>취소</CancleBtn>
           </Buttons>
-          <Link to="/Auth/SignUp">
+          <Link to="/auth/SignUp">
             <Question
               ask="아직 OFFERTUNITY 회원이 아니신가요?"
               button="회원가입"

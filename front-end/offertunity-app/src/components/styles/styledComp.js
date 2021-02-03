@@ -18,12 +18,13 @@ export const Section = styled.div`
 `;
 
 export const SectionTitle = styled.h1`
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.titleSize};
 `;
 
 export const Tag = styled.div`
+  display: inline-block;
   margin-right:0.37rem;
   padding:0.3rem;
   font-size:0.68rem;

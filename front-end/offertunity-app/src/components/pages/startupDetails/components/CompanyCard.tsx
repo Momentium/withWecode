@@ -1,33 +1,33 @@
 import React from "react";
 import Card from "../../../common/detail/card/Card";
 
-const CompanyCard = ({ data }: any) => {
-  const { ceo, birth, field, technique, homepage } = data;
-
+const CompanyCard = ({ data, type }: any) => {
   const detailInfo = [
     {
       title: "대표자명",
-      content: ceo,
+      content: data.startups[0].rep,
     },
     {
       title: "설립일",
-      content: birth,
+      content: data.established_date.slice(0, 10),
     },
     {
       title: "산업분야",
-      content: field.join(","),
+      content: data.startups[0].sector,
     },
     {
       title: "활용기술",
-      content: technique.join(","),
+      content: data.startups[0].core_technology,
     },
     {
       title: "홈페이지",
-      content: homepage,
+      content: data.homepage,
     },
   ];
 
-  return <Card data={data} detailInfo={detailInfo} />;
+  console.log(data.startups[0].sector);
+
+  return <Card data={data} detailInfo={detailInfo} type={type} />;
 };
 
 export default CompanyCard;

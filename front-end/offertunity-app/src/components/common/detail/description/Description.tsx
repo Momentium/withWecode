@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import Title from "../../../common/title/Title";
 import CompanyImgSlider from "../portfolio/Portfolio";
 import CompanyTeamInfo from "../team/Team";
-import CompanyInvestInfo from "../../../pages/startupDetails/components/CompanyInvestInfo";
+import CompanyInvestInfo from "../invest/Invest";
 import CompanyNews from "../news/News";
 
 const CompanyDescription = ({ data, introduceDatas }: any) => {
-  const { images, investInfo, teamIntroduce, news } = data;
+  const [news, setNews] = useState();
+
+  useEffect(() => {
+    axios
+      .get("/data/partnerData/newsData.json")
+      .then((res) => setNews(res.data.data));
+  }, []);
 
   return (
     <>
@@ -22,10 +29,10 @@ const CompanyDescription = ({ data, introduceDatas }: any) => {
           );
         })}
       </CompanyInformation>
-      <CompanyImgSlider images={images} />
-      <CompanyInvestInfo data={investInfo} />
-      <CompanyTeamInfo data={teamIntroduce} />
-      <CompanyNews data={news} />
+      {/* <CompanyImgSlider images={images} /> */}
+      {/* <CompanyInvestInfo data={data.partners[0]} /> */}
+      <CompanyTeamInfo data={data} />
+      {news && <CompanyNews data={news} />}
     </>
   );
 };

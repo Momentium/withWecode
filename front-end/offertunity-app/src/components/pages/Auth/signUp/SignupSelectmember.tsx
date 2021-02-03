@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Header from "../components/Header";
+
 import Box from "../components/Box";
 
 const SignupSelectmember: React.FC = () => {
   return (
     <>
-      <Header />
       <Wrap>
         <Startup>
-          <Link to="/Auth/SignupFormStartup">
+          <Link to="/auth/SignupFormStartup">
             <Box
               SubtitleOne="지원사업부터 투자유치 까지"
               SubtitleTwo="기회를 찾고 있다면?"
@@ -20,7 +19,7 @@ const SignupSelectmember: React.FC = () => {
           </Link>
         </Startup>
         <Partner>
-          <Link to="/Auth/SignupFormPartner">
+          <Link to="/auth/SignupFormPartner">
             <Box
               SubtitleOne="성장 가능성과 실행력을 가진"
               SubtitleTwo="좋은 스타트업을 찾고 있다면?"

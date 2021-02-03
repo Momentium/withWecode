@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Header from "../components/Header";
+
 import Tab from "../components/Tab";
 import Question from "../components/Question";
 import FinaAccountMainTxt from "../components/FinaAccountMainTxt";
@@ -12,7 +12,6 @@ const FindPw = () => {
   console.log(modal);
   return (
     <>
-      <Header />
       <Tab />
       <Con>
         <Wrap>
@@ -32,7 +31,7 @@ const FindPw = () => {
             </ChkBtn>
             <CancleBtn>취소</CancleBtn>
           </Buttons>
-          <Link to="/Auth/SignUp">
+          <Link to="/auth/SignUp">
             <Question
               ask="아직 OFFERTUNITY 회원이 아니신가요?"
               button="회원가입"

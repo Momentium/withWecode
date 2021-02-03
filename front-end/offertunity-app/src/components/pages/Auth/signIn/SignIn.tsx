@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import MainTxt from "../components/MainTxt";
 import Naver from "../logoIcons/Naver";
@@ -8,28 +9,44 @@ import Kakao from "../logoIcons/Kakao";
 import Facebook from "../logoIcons/Facebook";
 import Or from "../components/Or";
 import Question from "../components/Question";
-
 const SignIn: React.FC = () => {
+  const history = useHistory();
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
-
   const SIGNIN = () => {
     const { email, password } = inputs;
     axios
-      .post(" http://10.0.1.29:3000/users/signin", {
+      .post(`${process.env.REACT_APP_URL}/users/signin`, {
         email: email,
         password: password,
       })
       .then(function (response) {
         alert("로그인 성공");
+        
+        console.log(response.data.foundUser)
+        const _resData = response.data.foundUser;
+      
+        const _userInfo:{} = {
+          id: _resData.id,
+          email: _resData.email,
+          name: _resData.name,
+          type_id: _resData.type_id,
+        }
+        
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("userInfo", JSON.stringify(_userInfo));
+        
+        console.log(JSON.parse(String(sessionStorage.getItem("userInfo"))))
+        window.location.href = "/";
+       
+     
       })
       .catch(function (error) {
         alert("로그인 실패");
       });
   };
-
   const handleEmail = (event: any) => {
     event.preventDefault();
     const { value } = event.target;
@@ -38,7 +55,6 @@ const SignIn: React.FC = () => {
       email: value,
     });
   };
-
   const handlePw = (event: any) => {
     event.preventDefault();
     const { value } = event.target;
@@ -47,7 +63,9 @@ const SignIn: React.FC = () => {
       password: value,
     });
   };
-
+  const handleGOOGLE = () => {
+    window.location.href = "http://10.0.1.29:3000/users/google";
+  };
   return (
     <>
       <Wrap>
@@ -79,19 +97,19 @@ const SignIn: React.FC = () => {
               <input type="checkbox" />
               아이디 저장
             </label>
-            <Link to="/Auth/FindId">
+            <Link to="/auth/FindId">
               <button>아이디 / 비밀번호 찾기</button>
             </Link>
           </FindAccount>
           <BtnEmail onClick={SIGNIN}>로그인</BtnEmail>
           <Or />
-          <BtnGoogle>Google 계정 로그인</BtnGoogle>
+          <BtnGoogle onClick={handleGOOGLE}>Google 계정 로그인</BtnGoogle>
           <Icon>
             <Naver />
             <Kakao />
             <Facebook />
           </Icon>
-          <Link to="/Auth/SignUp">
+          <Link to="/auth/SignUp">
             <Question
               ask="아직 OFFERTUNITY 회원이 아니신가요?"
               button="회원가입"
@@ -102,23 +120,19 @@ const SignIn: React.FC = () => {
     </>
   );
 };
-
 export default SignIn;
-
 const Wrap = styled.section`
   ${({ theme }) => theme.conWidth};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12.3rem 0;
+  padding-top: 10rem;
 `;
-
 const Con = styled.div`
   display: inline-block;
   width: 50%;
   text-align: center;
 `;
-
 const Btn = styled.button`
   padding: 0.9rem 0;
   width: 20rem;
@@ -126,7 +140,6 @@ const Btn = styled.button`
   font-size: 0.9rem;
   cursor: pointer;
 `;
-
 const BtnGoogle = styled(Btn)`
   margin-top: 2.18rem;
   color: #5b5b5b;
@@ -136,17 +149,14 @@ const BtnGoogle = styled(Btn)`
   background-repeat: no-repeat;
   background-position: 1rem;
 `;
-
 const BtnEmail = styled(Btn)`
   margin: 1.5rem 0 2.18rem 0;
   color: #fff;
   background-color: #5541ed;
 `;
-
 const Icon = styled.div`
   margin: 2rem 0 1rem 0;
 `;
-
 const Bg = styled.div`
   width: 44rem;
   height: 29rem;
@@ -161,12 +171,10 @@ const Bg = styled.div`
     font-size: 2rem;
   }
 `;
-
 const H2 = styled.p`
   font-size: 2.25rem;
   font-weight: bold;
 `;
-
 const InputBox = styled.div`
   display: inline-block;
   width: 20rem;
@@ -185,10 +193,9 @@ const InputBox = styled.div`
     }
   }
 `;
-
 const FindAccount = styled.div`
   margin-top: 1.5rem;
-  display: inline-block;
+  margin-left: 8.7rem;
   width: 20rem;
   font-size: 0.8rem;
   color: #898989;

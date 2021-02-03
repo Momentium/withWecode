@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
  ${reset}
 * {
   box-sizing: border-box;
-
+  
   font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -165,5 +165,13 @@ button {
     outline:none;
   }
 }
+
+input:focus,
+textarea:focus {
+  transition: all 0.3s ease;
+  outline: none;
+  border: 1px solid #5541ED;
+}
+
 `;
 export default GlobalStyle;

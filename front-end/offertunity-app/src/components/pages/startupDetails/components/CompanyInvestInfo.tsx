@@ -6,7 +6,7 @@ const CompanyInvestInfo = ({ data }: any) => {
   const {
     attractInvestment,
     candiateInvestPrice,
-    candidateInverstYear,
+    candidateInvestYear,
     currInvestYear,
   } = data;
 
@@ -17,7 +17,7 @@ const CompanyInvestInfo = ({ data }: any) => {
     },
     {
       title: "희망 투자 단계",
-      content: candidateInverstYear.join(","),
+      content: candidateInvestYear.join(","),
     },
     {
       title: "희망 투자 유치 금액",

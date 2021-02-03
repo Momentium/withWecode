@@ -16,6 +16,10 @@ const ShareBtn = () => {
 export default ShareBtn;
 
 const StBtnWrap = styled.div`
+  * {
+    display: flex;
+  }
+
   svg {
     width: 30px;
     height: 30px;

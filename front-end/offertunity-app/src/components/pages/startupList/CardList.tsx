@@ -1,26 +1,38 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Card from "./Card";
 
-const CardList = ({
-  list,
-  data,
-  name,
-  boxName,
-  itemsPerPage,
-  page,
-  background,
-}: any) => {
+const CardList = ({ list, data, name, boxName, background }: any) => {
   return (
     <Container className={boxName}>
       {list &&
         list.map((data: any, idx: number) => (
-          <Card data={data} key={idx} name={name} background={background} />
+          <Link to={`/startup/detail/${data.id}`}>
+            <Card
+              data={data}
+              key={idx}
+              name={name}
+              background={background}
+              service={true}
+            />
+          </Link>
         ))}
-      {data &&
-        data.map((item: any) => {
-          return <Card data={item} name={name} background={background} />;
-        })}
+      <CardBottom>
+        {data &&
+          data.map((item: any, idx: number) => {
+            return (
+              <Link to={`/startup/detail/${item.id}`}>
+                <Card
+                  data={item}
+                  key={idx}
+                  name={name}
+                  background={background}
+                />
+              </Link>
+            );
+          })}{" "}
+      </CardBottom>
     </Container>
   );
 };
@@ -41,4 +53,10 @@ const Container = styled.div`
   &.startupBox {
     flex-wrap: wrap;
   }
+`;
+
+const CardBottom = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
 `;

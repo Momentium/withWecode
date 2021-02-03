@@ -5,7 +5,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const News = ({ data }: any) => {
   const [postsToShow, setPostsToShow] = useState([]);
-  const [puse, setPuse] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const postsPerPage = 1;
 
   const loopWithSlice = useCallback(
@@ -27,12 +27,12 @@ const News = ({ data }: any) => {
   }, [loopWithSlice]);
 
   const handleShowMorePosts = () => {
-    if (!puse) {
+    if (!toggle) {
       handleLoadMore(postsToShow.length, data.length);
-      setPuse(true);
-    } else if (puse) {
+      setToggle(true);
+    } else if (toggle) {
       loopWithSlice(0, 3);
-      setPuse(false);
+      setToggle(false);
     }
   };
 
@@ -56,11 +56,13 @@ const News = ({ data }: any) => {
           );
         })}
       </NewsContainer>
-      <BtnContainer>
-        <LoadMoreBtn onClick={handleShowMorePosts}>
-          {!puse ? "더보기" : "접기"}
-        </LoadMoreBtn>
-      </BtnContainer>
+      {data.length >= 4 && (
+        <BtnContainer>
+          <LoadMoreBtn onClick={handleShowMorePosts}>
+            {!toggle ? "더보기" : "접기"}
+          </LoadMoreBtn>
+        </BtnContainer>
+      )}
     </>
   );
 };

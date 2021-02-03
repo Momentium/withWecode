@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import Profile from "./components/Profile";
@@ -23,9 +24,15 @@ const MypageStartup: React.FC = () => {
   }, []);
 
   const getProfileData = () => {
-    axios.get("/data/mypageStartupProfile.json").then((res) => {
-      setProfileData(res.data.data.profile);
-    });
+    axios
+      .get("http://10.0.1.29:3000/users/mypage", {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setProfileData(res.data.userInfo);
+      });
   };
 
   const getSuccessData = () => {
@@ -49,14 +56,14 @@ const MypageStartup: React.FC = () => {
       setCardData(res.data.data);
     });
   };
-  console.log(cardData);
 
   return (
     <>
       <Wrap>
         <Center>
           <Station>
-            홈 <i className="fas fa-chevron-right" /> 마이페이지
+            <Link to="/">홈</Link> <i className="fas fa-chevron-right" />{" "}
+            마이페이지
           </Station>
           <Profile data={profileData} />
           <WorkStation />
@@ -93,6 +100,7 @@ const Center = styled.div`
 const Station = styled.div`
   padding: 2.5rem 0 4.063rem 0;
   font-size: 0.937rem;
+  cursor: pointer;
   i {
     margin: 0 0.5rem;
   }

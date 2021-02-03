@@ -2,13 +2,22 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "../modal/Modal";
 
-const Buttons = ({ boxStyle }: any) => {
+const Buttons = ({ boxStyle, title, type }: any) => {
   const [visible, setVisible] = useState(false);
   const [btnInvisible, setBtnInvisible] = useState(false);
+  const [text, setText] = useState("");
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    if (!sessionStorage.getItem("token")) {
       setBtnInvisible(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (type === "startup") {
+      setText("IR 자료 요청하기");
+    } else if (type === "partner") {
+      setText("IR자료 검토 요청");
     }
   }, []);
 
@@ -20,14 +29,14 @@ const Buttons = ({ boxStyle }: any) => {
     <>
       <BtnBox style={boxStyle}>
         {btnInvisible ? (
-          <Btn className="disabled">IR 자료 요청하기</Btn>
+          <Btn className="disabled">{text}</Btn>
         ) : (
-          <Btn onClick={handleModal}>IR 자료 요청하기</Btn>
+          <Btn onClick={handleModal}>{text}</Btn>
         )}
       </BtnBox>
       {visible && (
         <ModalContainer>
-          <Modal onClick={handleModal} />
+          <Modal onClick={handleModal} title={title} type={type} />
         </ModalContainer>
       )}
     </>
