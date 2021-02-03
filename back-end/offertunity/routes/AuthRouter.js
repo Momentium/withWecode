@@ -29,6 +29,9 @@ router.get("/naver", AuthController.naver.get);
 router.get("/naver/callback", AuthController.naver.callback.get);
 
 //google
+// router.get("/google", AuthController.google.get);
+// router.get("/google/callback", AuthController.google.callback.get);
+
 
 // router.get("/google", passport.authenticate("google"));
 
@@ -43,6 +46,10 @@ router.get("/naver/callback", AuthController.naver.callback.get);
 // );
 
 //kakao
+
+router.get("/kakao", AuthController.kakao.get);
+router.get("/kakao/callback", AuthController.kakao.callback.get);
+
 
 // router.get("/kakao", passport.authenticate("kakao"));
 

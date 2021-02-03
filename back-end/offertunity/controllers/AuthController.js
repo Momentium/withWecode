@@ -108,11 +108,13 @@ const socialLoginResponse = (req, res, err, user) => {
     if (err) {
       res.send(err);
     }
-    const token = jwt.sign({ id: user.social_id }, process.env.JWT_SECRET);
+    const {id} = user;
+    const token = jwt.sign({id}, process.env.AUTH_TOKEN_SALT);
     console.log("usertoken: ", token);
     return res.status(200).json({ userToken: token, success: true });
   });
 };
+
 
 module.exports = {
   naver: {
@@ -122,6 +124,30 @@ module.exports = {
     callback: {
       get: (req, res, next) => {
         passport.authenticate("naver", (err, user) =>
+          socialLoginResponse(req, res, err, user)
+        )(req, res, next);
+      },
+    },
+  },
+  google: {
+    get: (req, res, next) => {
+      passport.authenticate("google")(req, res, next);
+    },
+    callback: {
+      get: (req, res, next) => {
+        passport.authenticate("google", (err, user) =>
+          socialLoginResponse(req, res, err, user)
+        )(req, res, next);
+      },
+    },
+  },
+  kakao: {
+    get: (req, res, next) => {
+      passport.authenticate("kakao")(req, res, next);
+    },
+    callback: {
+      get: (req, res, next) => {
+        passport.authenticate("kakao", (err, user) =>
           socialLoginResponse(req, res, err, user)
         )(req, res, next);
       },

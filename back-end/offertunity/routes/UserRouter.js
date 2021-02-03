@@ -12,6 +12,8 @@ const { validateToken } = require("../middlewares");
 
 router.options("/signup", cors());
 router.options("/signin", cors());
+router.options("/mypage", cors());
+
 
 //email
 
@@ -37,15 +39,16 @@ router.post(
 
 //mypage
 
-router.get("/mypage", validateToken, UserController.showMemberInfo);
+router.get("/mypage", cors(), validateToken, UserController.showMemberInfo);
 
 router.post(
   "/mypage",
+  cors(), 
   validateToken,
   upload.single("profile_picture"),
   UserController.addMemberInfo
 );
 
-router.delete("/mypage", validateToken, UserController.deleteMember);
+router.delete("/mypage", cors(), validateToken, UserController.deleteMember);
 
 module.exports = router;
