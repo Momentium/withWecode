@@ -20,25 +20,26 @@ const findProjects = (query) => {
 };
 
 const findOneProject = (field) => {
-  const [uniqueKey] = Object.keys(field);
-  const isKeyId = uniqueKey === "id";
-  const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
-  return prisma.projects.findUnique({ 
-    where: { [uniqueKey]: value },
- });
+    const [uniqueKey] = Object.keys(field);
+    const isKeyId = uniqueKey === "id";
+    const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
+    return prisma.projects.findUnique({
+        where: {
+            [uniqueKey]: value },
+    });
 
- 
+
 };
 
-const resetChoices = async (field) => {
-  const { projectAction } = field;
-  return await prisma.required_documents.deleteMany({
-    where: {
-      projects: {
-        id: Number(projectAction.id),
-      },
-    },
-  });
+const resetChoices = async(field) => {
+    const { projectAction } = field;
+    return await prisma.required_documents.deleteMany({
+        where: {
+            projects: {
+                id: Number(projectAction.id),
+            },
+        },
+    });
 };
 
 const createRelatedDoc = async(fields) => {
