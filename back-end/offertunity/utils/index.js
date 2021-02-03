@@ -39,7 +39,7 @@ const lengthChecker = (...data) => {
 };
 
 const dateForm = async (dateInfo) => {
-  return await dayjs(dateInfo).toDate();
+  return new Date(dateInfo)
 };
 
 module.exports = {
