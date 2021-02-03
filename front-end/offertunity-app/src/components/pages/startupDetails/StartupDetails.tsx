@@ -14,26 +14,38 @@ const boxStyle = {
   marginBottom: "7.5rem",
 };
 
-const StartupDetails = () => {
+const StartupDetails = ({ match }: any) => {
   const [companyData, setCompanyData] = useState();
+  const [isLogin, setIsLogin] = useState<boolean>();
 
   useEffect(() => {
-    axios.get("/data/startupDetail.json").then((res) => {
-      const data = res.data.data;
-      setCompanyData(data);
-    });
+    sessionStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
+  }, []);
+
+  useEffect(() => {
+    const _resId = match.params.id;
+    axios
+      .get(`http://10.0.1.44:3000/companies/startup/${_resId}`)
+      .then((res) => {
+        const _data = res.data.company;
+        setCompanyData(_data);
+      });
   }, []);
 
   return (
     <DetailBox>
       <MoveBar data={companyData} />
       {companyData && (
+        <CompanyCard data={companyData} type={"startup"} isLogin={isLogin} />
+      )}
+      {/* <CompanyDescription data={companyData} /> */}
+      {/* companyData && (
         <>
-          <CompanyCard data={companyData} type={"startup"} />
+          <CompanyCard data={companyData} type={"startup"} isLogin={isLogin} />
           <CompanyDescription data={companyData} />
         </>
       )}
-      <IRBtn boxStyle={boxStyle} type={"startup"} />
+      <IRBtn boxStyle={boxStyle} type={"startup"} />  */}
     </DetailBox>
   );
 };

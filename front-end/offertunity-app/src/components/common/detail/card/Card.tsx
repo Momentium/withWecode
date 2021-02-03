@@ -4,10 +4,8 @@ import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
 
 const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
-  const { name, logo_img, label, homepage } = data;
-
   const backgroundImage = {
-    backgroundImage: `url(${logo_img})`,
+    backgroundImage: `url(${data.logo_img})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     backgroundPosition: "center",
@@ -22,7 +20,7 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
       <CompanyImg style={backgroundImage} />
       <CompanyInfo>
         <Title>
-          <span>{name}</span>
+          <span>{data.name}</span>
         </Title>
         <Hr />
         <DetailInfo>
@@ -32,7 +30,7 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
                 <Wrapper key={idx}>
                   <span className="title">{item.title}</span>
                   <div>
-                    {item.content === homepage ? (
+                    {item.content === data.homepage ? (
                       <span
                         className="url"
                         onClick={(url) => handleUrlClick(item.content)}
@@ -51,13 +49,13 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
             {/* <Labels label={label} detailName={"detailLabels"} /> */}
           </RightBox>
         </DetailInfo>
-        <Buttons
+        {/* <Buttons
           data={data.partners[0].is_liked}
-          title={name}
+          title={data.name}
           type={type}
           companyId={data.id}
           isLogin={isLogin}
-        />
+        /> */}
       </CompanyInfo>
     </CardBox>
   );
