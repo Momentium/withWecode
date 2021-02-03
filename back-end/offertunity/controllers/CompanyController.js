@@ -69,13 +69,13 @@ const getStartupInfo = errorWrapper(async (req, res) => {
         body.name = company.name;
         body.rep  = company.startups[0].rep;
         body.establishedDate = company.established_date;
-        body.sector = await CompanyService.findInfoName('sectors', company.startups[0].sector_id);
-        body.coreTechnology = await CompanyService.findInfoName('technologies', company.startups[0].core_technology_id);
+        body.sector = company.startups[0].sector_id ? await CompanyService.findInfoName('sectors', company.startups[0].sector_id) : null;
+        body.coreTechnology = company.startups[0].core_technology_id ? await CompanyService.findInfoName('technologies', company.startups[0].core_technology_id) : null;
         body.homepage = company.homepage;
         body.description = company.description;
         body.itemDescription = company.startups[0].item_description;
         if (company.startups[0].investment_series_id && !(company.startups[0].wish_investment_series === []) && company.startups[0].investment_fund_id ) {
-            body.investmentSeries = await CompanyService.findInfoName('investment_series', company.startups[0].investment_series_id);
+            body.investmentSeries = company.startups[0].investment_series_id ? await CompanyService.findInfoName('investment_series', company.startups[0].investment_series_id) : null;
             body.wishInvestmentSeriesIds = [];
             for (len = 0; len < company.startups[0].wish_investment_series.length; len++) {
                 body.wishInvestmentSeriesIds.push(await CompanyService.findInfoName('investment_series', company.startups[0].wish_investment_series[len].investment_series_id))
@@ -661,8 +661,14 @@ const getPartners = errorWrapper(async (req, res) => {
 const getOnePartner = errorWrapper(async (req, res) => {
     const { companyId } = req.params
     const company = await CompanyService.findPartner( {id: companyId} )
-    company.partners[0].interst_technology = company.partners[0].interst_technology_id ? await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id) : null
-    company.partners[0].investment_total = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id)
+    console.log(company)
+
+    if ('interst_technology_id' in Object.keys(company.partners[0])) {
+        company.partners[0].interst_technology = await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id)
+    }
+    if ('invested_total_id' in Object.keys(company.partners[0])) {
+        company.partners[0].investment_total = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id)
+    }
     for (len = 0; len<company.partners[0].invested_to.length; len++) {
         company.partners[0].invested_to[len].invested_fund = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_to[len].invested_fund_id)
         company.partners[0].invested_to[len].series = await CompanyService.findInfoName('investment_series', company.partners[0].invested_to[len].series_id)
