@@ -3,7 +3,7 @@ const { AUTH_TOKEN_SALT } = process.env
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { dateForm } = require('../utils')
-const { ProjectService, UserService } = require('../services')
+const { ProjectService, UserService, LikeService } = require('../services')
 const { errorWrapper, errorGenerator } = require('../errors')
 
 
@@ -80,8 +80,25 @@ const deleteOneProject = errorWrapper(async(req, res) => {
     if ((userInfofromToken.company_id == companyIdfromProject) || (userInfofromToken.type_id == 3)){
         await ProjectService.deleteProject(projectId)
         res.status(201).json({ message: 'information successfully deleted'})
-    }else errorGenerator({ statusCode: 403, message: 'unauthorized' })
+    } else errorGenerator({ statusCode: 403, message: 'unauthorized' })
+})
 
+const likeProject = errorWrapper(async (req, res) => {
+    const { projectId } = req.params
+    const userId = req.foundUser.id
+    const where = {
+        user_id: Number(userId),
+        company_id: Number(projectId)
+    }
+    const data = {
+        users: {connect: {id: Number(userId)}},
+        companies: {connect: {id: Number(projectId)}},
+    }
+    const like = await LikeService.like('project_likes', where, data)
+    res.status(201).json({
+        message: 'Project Like Updated',
+        result: like.is_liked
+    })
 })
 
 module.exports = {
@@ -90,5 +107,6 @@ module.exports = {
     postOneProject,
     updateOneProject,
     openOneProject,
-    deleteOneProject
+    deleteOneProject,
+    likeProject
 }

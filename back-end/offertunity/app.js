@@ -1,17 +1,19 @@
 require("dotenv").config();
-const { COOKIE_SECRET } = process.env;
-const forloop = require("./utils");
-const express = require("express");
-const routes = require("./routes");
-const logger = require("morgan")("dev");
-const passport = require("passport");
-const session = require("express-session");
-const passportConfig = require("./passport");
-const app = express();
+const { COOKIE_SECRET } = process.env
+
+const express = require('express')
+const cors = require('cors')
+const routes = require('./routes')
+const logger = require('morgan')('dev')
+const passport = require('passport')
+const session = require('express-session')
+const passportConfig = require('./passport')
+const app = express()
 passportConfig(passport);
 
-app.use(express.json());
-app.use(logger);
+app.use(cors())
+app.use(express.json())
+app.use(logger)
 
 app.use(
   session({

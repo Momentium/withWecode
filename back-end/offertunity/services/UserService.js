@@ -1,4 +1,3 @@
-console.log("location: UserService");
 const { signup_methods } = require("../prisma");
 const prisma = require("../prisma");
 

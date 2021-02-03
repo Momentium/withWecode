@@ -1,12 +1,31 @@
 const express = require('express')
 const router = express.Router()
 const upload = require('../utils/s3')
-const { validateToken, save } = require('../middlewares')
+const { validateToken, save, checkLogIn } = require('../middlewares')
 const { CompanyController } = require('../controllers')
 
 // startup info
-router.post(
+
+router.get(
     '/info/startup',
+    validateToken,
+    CompanyController.getStartupInfo
+)
+
+router.post(
+    '/info/startup/temp',
+    validateToken,
+    upload.fields([
+        {name: 'logoImg', maxCount: 1}, 
+        {name: 'thumbnail', maxCount: 1}, 
+        {name: 'startupImages', maxCount: 5},
+        {name: 'memberImages', maxCount: 100},
+    ]),
+    CompanyController.tempSaveStartupInfo
+)
+
+router.post(
+    '/info/startup/save',
     validateToken,
     upload.fields([
         {name: 'logoImg', maxCount: 1}, 
@@ -67,13 +86,27 @@ router.post(
 
 router.get(
     '/list/startup',
-    validateToken,
+    checkLogIn,
     CompanyController.getStartups
 )
 
 router.get(
+    '/startup/:companyId',
+    checkLogIn,
+    CompanyController.getOnestartup
+)
+
+router.get(
     '/list/partner',
+    checkLogIn,
     CompanyController.getPartners
 )
+
+router.get(
+    '/partner/:companyId',
+    checkLogIn,
+    CompanyController.getOnePartner
+)
+
 
 module.exports = router

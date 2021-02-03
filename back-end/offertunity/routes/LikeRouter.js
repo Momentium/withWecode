@@ -4,22 +4,15 @@ const router = express.Router()
 const { validateToken } = require('../middlewares')
 const { CompanyController, ProjectController } = require('../controllers')
 
-// startup like
-router.post(
-    '/startup/:companyId',
+// company like
+router.get(
+    '/company/:companyId',
     validateToken,
-    CompanyController.likeStartup
-    )
-
-// partner like
-router.post(
-    '/partner/:companyId',
-    validateToken,
-    CompanyController.likePartner
+    CompanyController.likeCompany
     )
 
 // project like
-router.post(
+router.get(
     '/project/:partnerId',
     validateToken,
     ProjectController.likeProject

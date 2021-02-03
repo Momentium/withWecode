@@ -8,7 +8,6 @@ const createCompany = (async (userId, companyFields) => {
 })
 
 const readCompany = (async (companyId) => {
-    console.log(await prisma.companies.findUnique( {where: {id: companyId}} ))
     return await prisma.companies.findUnique( {where: {id: companyId}} )
 })
 
@@ -47,7 +46,6 @@ const updateStartup = (async (companyId, startupFields) => {
 
 const updatePartner = (async (companyId, partnerFields) => {
     const partnerInfo = await readCompanyDetail('partners', companyId)
-    console.log(partnerInfo)
     const updatedStartupInfo = await prisma.partners.update({
         where: {id: partnerInfo.id},
         data:
@@ -104,7 +102,6 @@ const deleteRelatedInfo = (async (table, id) => {
 })
 
 const saveInfo = (async (companyId) => {
-    console.log('hoi')
     await prisma.companies.update({
         where: {id: companyId},
         data: {is_saved: true}
@@ -117,29 +114,96 @@ const ARTICLES_DEFAULT_LIMIT = 5
 const findStartups = (query) => {
     const { offset, limit, ...fields } = query
     const where = makeQueryOption(fields)
+    where.type_id = 1
   
     return prisma.companies.findMany({
         include: {
             startups: true,
         },
         where,
-        skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+        skip: Number(offset)-1 || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     })
 }
 
-const findPartners = (query) => {
+const findStartup = (field) => {
+    const [uniqueKey] = Object.keys(field)
+
+    const isKeyId = uniqueKey === 'id'
+    const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
+
+    return prisma.companies.findUnique({
+        where: { [uniqueKey]: value },
+        include: {
+            startups: {
+                include: {
+                    startup_images: true,
+                    invested_from: true,
+                    wish_investment_series: true
+                }
+            },
+            company_news: true,
+            company_members: true
+        }
+    })
+}
+
+const findPartners = async (query) => {
     const { offset, limit, ...fields } = query
     const where = makeQueryOption(fields)
+    where.type_id = 2
+
+    const ARTICLES_DEFAULT_OFFSET = 0
+    const ARTICLES_DEFAULT_LIMIT = 12
   
-    return prisma.companies.findMany({
+    const companies = await prisma.companies.findMany({
         include: {
             partners: true,
         },
         where,
-        skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+        skip: Number(offset)-1 || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     })
+    const num = (await prisma.companies.findMany({
+        where
+    })).length
+
+    return [companies, num]
+}
+
+const findPartner = (field) => {
+    const [uniqueKey] = Object.keys(field)
+
+    const isKeyId = uniqueKey === 'id'
+    const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
+
+    return prisma.companies.findUnique({
+        where: { [uniqueKey]: value },
+        include: {
+            partners: {
+                include: {
+                    investment_portfolio: true,
+                    invested_to: true,
+                }
+            },
+            company_news: true,
+            company_members: true
+        }
+    })
+}
+
+const imageLengthChecker = async (table, where) => {
+    const images = await prisma[table].findMany({
+        where
+    })
+    return images.length
+}
+
+const findInfoName = async (table, id) => {
+    const info = await prisma[table].findUnique({
+        where: { id }
+    })
+    return info.name
 }
 
 module.exports = {
@@ -159,5 +223,9 @@ module.exports = {
     deleteRelatedInfo,
     saveInfo,
     findStartups,
-    findPartners
+    findPartners,
+    findPartner,
+    findStartup,
+    imageLengthChecker,
+    findInfoName
 }

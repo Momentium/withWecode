@@ -1,23 +1,81 @@
-const { CompanyService, LikeService } = require('../services')
-const dayjs = require('dayjs')
+const { CompanyService, UserService, LikeService } = require('../services')
+
 const { typeChecker, lengthChecker, dateForm } = require('../utils')
 const { errorWrapper, errorGenerator } = require('../errors');
+
+const getStartupInfo = errorWrapper(async (req, res) => {
+    if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: 'this user is not startup user'})
+    const body = {}
+    if (req.foundUser.company_id) {
+        const companyId = req.foundUser.company_id;
+        const company = await CompanyService.findStartup( {id: companyId} );
+
+        console.log(company)
+
+        body.name = company.name;
+        body.rep  = company.startups[0].rep;
+        body.establishedDate = company.established_date;
+        body.sectorId = company.startups[0].sector_id;
+        body.coreTechnologyId = company.startups[0].core_technology_id;
+        body.homepage = company.homepage;
+        body.description = company.description;
+        body.itemDescription = company.startups[0].item_description;
+        if (company.startups[0].investment_series_id && !(company.startups[0].wish_investment_series === []) && company.startups[0].investment_fund_id ) {
+            body.investmentSeriesId = company.startups[0].investment_series_id;
+            body.wishInvestmentSeriesIds = [];
+            for (len = 0; len < company.startups[0].wish_investment_series.length; len++) {
+                body.wishInvestmentSeriesIds.push(company.startups[0].wish_investment_series[len].investment_series_id)
+                console.log(body.wishInvestmentSeriesIds)
+            };
+            body.investmentFundId = company.startups[0].investment_fund_id;
+        };
+        body.teamIntro = company.team_intro;
+        body.memberCount = company.member_count;
+        body.members = company.company_members
+        // if (!(company.company_members === [])) {
+        //     body.memberId = []
+        //     body.memberInfoNames = []
+        //     body.memberInfoPositions = []
+        //     body.memberImages = []
+        //     for (len = 0; len < company.company_members.length; len++) {
+        //         body.memberId.push(company.company_members[len].id);
+        //         body.memberInfoNames.push(company.company_members[len].name);
+        //         body.memberInfoPositions.push(company.company_members[len].position);
+        //         body.memberImages.push(company.company_members[len].img);
+        //     }
+        // };
+        body.news = company.company_news
+        // if (!(company.company_news === [])) {
+        //     body.companyNewsURLs = []
+        //     for (len = 0; len < company.company_news.length; len++) {
+        //         body.companyNewsURLs.push(company.company_news[len].URL)
+        //     }
+        // };
+        body.investedFrom = company.startups[0].invested_from
+        body.images = company.startups[0].startup_images
+    } else if (!req.foundUser.company_id) {
+    }
+
+    await res.status(201).json({
+        message: 'startup info saved',
+        body
+    })
+})
 
 
 const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: 'this user is not startup user'})
-
-    const { name, rep, establishedDate, sectorId, coreTechnologyId, homepage, description, itemDescription, investmentSeriesId, wishInvestmentSeriesIds, investmentFundId, teamIntro, memberCount, memberInfoNames, memberDeleteIds, memberInfoPositions, companyNewsURLs, companyNewsDeleteIds, logoImgURL, startupImagesDeleteIds, investedDates, investedInstitutions, investedFunds, investedValues, investedSeries, investedDeleteIds, thumbnailURL } = req.body
+    const { name, rep, establishedDate, sectorId, coreTechnologyId, homepage, description, itemDescription, investmentSeriesId, wishInvestmentSeriesIds, investmentFundId, teamIntro, memberCount, memberInfoNames, memberInfoPositions, memberDeleteIds, companyNewsURLs, companyNewsDeleteIds, startupImagesDeleteIds, investedDates, investedInstitutions, investedFunds, investedValues, investedSeries, investedDeleteIds } = req.body
     const { logoImg, startupImages, memberImages, thumbnail } = req.files
-
+    
     const companyFields = {
         name,
-        logo_img: logoImg ? logoImg[0].location : logoImgURL ? logoImgURL : null,
+        logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
         established_date: await dateForm(establishedDate),
         homepage,
         description,
         team_intro: teamIntro,
-        member_count: Number(memberCount),
+        member_count: memberCount ? Number(memberCount) : null,
         company_types: { connect: { id: 1 } }
     }
     const startup_connect = {
@@ -29,7 +87,7 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     const startup_field = {
         rep,
         item_description: itemDescription,
-        thumbnail: thumbnail ? thumbnail[0].location : thumbnailURL ? thumbnailURL : null,
+        thumbnail: thumbnail ? thumbnail[0].location : req.body.thumbnail ? req.body.thumbnail : null,
     }
 
     Object.keys(companyFields).forEach(key => companyFields[key] === undefined ? companyFields[key] = null : {});
@@ -49,18 +107,6 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
         startupInfo = await CompanyService.updateStartup(companyInfo.id, startupFields);
     };
 
-    // startup 이미지 추가
-    if (startupImages) {
-        for (len = 0; len < startupImages.length; len++) {
-            await CompanyService.createRelatedInfo('startup_images',
-                data = {
-                    startups: { connect: { id: startupInfo.id } },
-                    img_url: startupImages[len].location
-                }
-            )
-        }
-    }
-
     // startup 이미지 삭제
     if (startupImagesDeleteIds) {
         if (typeof startupImagesDeleteIds === 'string') {
@@ -73,6 +119,19 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
                     await CompanyService.deleteRelatedInfo('startup_images', Number(startupImagesDeleteIds[len]))
                 }
             };
+        }
+    }
+
+    // startup 이미지 추가
+    if (startupImages) {
+        if ((await CompanyService.imageLengthChecker('startup_images', {startup_id: startupInfo.id}) + startupImages.length) > 5) errorGenerator({statusCode: 400, message: 'Images Limitation Exceeded'})
+        for (len = 0; len < startupImages.length; len++) {
+            await CompanyService.createRelatedInfo('startup_images',
+                data = {
+                    startups: { connect: { id: startupInfo.id } },
+                    img_url: startupImages[len].location
+                }
+            )
         }
     }
 
@@ -129,7 +188,6 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
                 )
             } else if (existData.length === 0) {
                 for (len = 0; len < wishInvestmentSeriesIds.length; len++) {
-                    console.log(Number(wishInvestmentSeriesIds[len]))
                     await CompanyService.createWishInvestmentSeries(
                         data = {
                             startups: { connect: { id: startupInfo.id } },
@@ -154,10 +212,9 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
             })
         } else if (lengthChecker(investedDates, investedInstitutions, investedFunds, investedValues, investedSeries)) {
             for (len = 0; len < investedDates.length; len++) {
-                const datemodified = await dayjs(investedDates[len]).toDate()
                 await CompanyService.createRelatedInfo('invested_from', data = {
                     startups: { connect: { id: startupInfo.id } },
-                    date: await dateForm(investedDates),
+                    date: await dateForm(investedDates[len]),
                     invested_institution: investedInstitutions[len],
                     investment_funds: { connect: { id: Number(investedFunds[len]) } },
                     corporate_value: Number(investedValues[len]),
@@ -261,7 +318,8 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
 });
 
 const saveStartupInfo = errorWrapper(async (req, res) => {
-    const companyId = req.foundUser.company_id
+    const user = await UserService.findUserInfo({id : req.foundUser.id})
+    const companyId = user.company_id
 
     const company = await CompanyService.readCompany(companyId)
     const startup = await CompanyService.readCompanyDetail('startups', companyId)
@@ -284,7 +342,7 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
 
     const company_fields = {
         name,
-        logo_img: logoImg ? logoImg[0].location : logoImgURL ? logoImgURL : null,
+        logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
         homepage,
         team_intro: teamIntro,
         member_count: memberCount,
@@ -326,16 +384,20 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
 const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
     if (req.foundUser.type_id === 1) errorGenerator({statusCode: 400, message: 'this user is not partner user'})
     const { name, establishedDate, investedCounts, totalInvestedId, interedtedTechnologyId, homepage, description, investedDates, investedStartups, investedFunds, investedValues, investedSeries, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs, portfolioImagesDeleteIds, investedDeleteIds, memberDeleteIds, companyNewsDeleteIds } = req.body
-    const { logoImg, portfolioImages, memberImages } = req.files
+    let { logoImg, portfolioImages, memberImages } = req.files
+
+    if (!logoImg) {
+        let { logoImg } = req.body
+    }
 
     const companyFields = {
         name,
-        logo_img: logoImg ? logoImg[0].location : logoImgURL ? logoImgURL : null,
+        logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
         established_date: await dateForm(establishedDate),
         homepage,
         description,
         team_intro: teamIntro,
-        member_count: Number(memberCount),
+        member_count: memberCount ? Number(memberCount) : null,
         company_types: {connect: {id: 2}}
 
     }
@@ -404,10 +466,9 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
             })
         } else if (lengthChecker(investedDates, investedStartups, investedFunds, investedValues, investedSeries)) {
             for (len = 0; len < investedDates.length; len++) {
-                const datemodified = await dayjs(investedDates[len]).toDate()
                 await CompanyService.createRelatedInfo('invested_to', data = {
                     partners : {connect: {id: partnerInfo.id}},
-                    date: await dateForm(investedDates),
+                    date: await dateForm(investedDates[len]),
                     invested_startup: investedStartups[len],
                     investment_funds: { connect: { id: Number(investedFunds[len]) } },
                     corporate_value: Number(investedValues[len]),
@@ -513,19 +574,11 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
 })
 
 const savePartnerInfo = errorWrapper(async (req, res) => {
-    const companyId = req.foundUser.company_id
+    const user = await UserService.findUserInfo({id : req.foundUser.id})
+    const companyId = user.company_id
 
     const company = await CompanyService.readCompany(companyId)
     const partner = await CompanyService.readCompanyDetail('partners', companyId)
-
-    console.log(company)
-    console.log(partner)
-
-    console.log(company.name)
-    console.log(company.description)
-    console.log(company.logo_img)
-    console.log(partner.invested_counts)
-    console.log(partner.interst_technology_id)
 
     if ( company === null ) errorGenerator({statusCode: 400, message: 'unidentified company data'})
     if ( partner === null ) errorGenerator({statusCode: 400, message: 'unidentified partner data'})
@@ -539,56 +592,100 @@ const savePartnerInfo = errorWrapper(async (req, res) => {
 })
 
 const getStartups = errorWrapper(async (req, res) => {
-    const companies = await CompanyService.findStartups(req.query)
-    res.status(200).json({ companies })
+    const [companies, num] = await CompanyService.findStartups(req.query)
+    if (req.loggedIn) {
+        for (len=0; len<companies.length; len++) {
+            const liked = await LikeService.findIsLiked('startup_likes', req.foundUser.id, companies[len].id)
+            companies[len].startups[0].is_liked = liked ? liked.is_liked : false
+        } 
+    } else if (!req.loggedIn) {
+        for (len=0; len<companies.length; len++) {
+            companies[len].startups[0].is_liked = false
+        }
+    }
+    res.status(200).json({ companies, num })
+})
+
+const getOnestartup = errorWrapper(async (req, res) => {
+    const { companyId } = req.params
+    const company = await CompanyService.findStartup( {id: companyId} )
+    company.startups[0].sector = company.startups[0].sector_id ? await CompanyService.findInfoName('sectors', company.startups[0].sector_id) : null
+    company.startups[0].core_technology = company.startups[0].core_technology_id ? await CompanyService.findInfoName('technologies', company.startups[0].core_technology_id) : null
+    company.startups[0].investment_series = company.startups[0].investment_series_id ? await CompanyService.findInfoName('investment_series', company.startups[0].investment_series_id) : null
+    company.startups[0].investment_fund = company.startups[0].investment_fund_id ? await CompanyService.findInfoName('investment_funds', company.startups[0].investment_fund_id) : null
+    company.startups[0].service_type = company.startups[0].service_type_id ? await CompanyService.findInfoName('service_types', company.startups[0].service_type_id) : null
+    company.startups[0].business_type = company.startups[0].business_type_id ? await CompanyService.findInfoName('business_types', company.startups[0].business_type_id) : null
+    for (len = 0; len<company.startups[0].invested_from.length; len++) {
+        company.startups[0].invested_from[len].invested_fund = await CompanyService.findInfoName('investment_funds', company.startups[0].invested_from[len].invested_fund_id)
+        company.startups[0].invested_from[len].series = await CompanyService.findInfoName('investment_series', company.startups[0].invested_from[len].series_id)
+    }
+
+    if (req.loggedIn) {
+        Liked = await LikeService.findIsLiked('startup_likes', req.foundUser.id, companyId)
+        company.startups[0].is_liked = Liked ? Liked.is_liked : false
+    } else if (!req.loggedIn) {
+        company.startups[0].is_liked = false
+    }
+
+    res.status(200).json({company})
 })
 
 const getPartners = errorWrapper(async (req, res) => {
-    const companies = await CompanyService.findPartners(req.query)
-    res.status(200).json( {companies} )
+    const [companies, num] = await CompanyService.findPartners(req.query)
+    res.status(200).json({ companies, num })
 })
 
-const likeStartup = errorWrapper(async (req, res) => {
+const getOnePartner = errorWrapper(async (req, res) => {
+    const { companyId } = req.params
+    const company = await CompanyService.findPartner( {id: companyId} )
+    company.partners[0].interst_technology = company.partners[0].interst_technology_id ? await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id) : null
+    company.partners[0].investment_total = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id)
+    for (len = 0; len<company.partners[0].invested_to.length; len++) {
+        company.partners[0].invested_to[len].invested_fund = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_to[len].invested_fund_id)
+        company.partners[0].invested_to[len].series = await CompanyService.findInfoName('investment_series', company.partners[0].invested_to[len].series_id)
+    }
+
+    if (req.loggedIn) {
+        const liked = await LikeService.findIsLiked('partner_likes', req.foundUser.id, companyId)
+        company.partners[0].is_liked = liked ? liked.is_liked : false
+    } else if (!req.loggedIn) {
+        company.partners[0].is_liked = false
+    }
+
+    res.status(200).json({company})
+})
+
+const likeCompany = errorWrapper(async (req, res) => {
     const { companyId } = req.params
     const userId = req.foundUser.id
-
-    where = {
-        user_id: userId,
-        company_id: companyId
+    const where = {
+        user_id: Number(userId),
+        company_id: Number(companyId)
     }
-    data = {
-        users: {connect: {id: userId}},
-        companies: {connect: {id: companyId}},
+    const data = {
+        users: {connect: {id: Number(userId)}},
+        companies: {connect: {id: Number(companyId)}},
+    }
+    const { type_id } = await CompanyService.readCompany(Number(companyId))    
+    let object
+
+    if (type_id === 1) {
+        object = 'startup_likes'
+    } else if (type_id === 2) {
+        if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: "partner user can't like other partners"})
+        object = 'partner_likes'
     }
 
-    if ((await LikeService.likeChecker('startup_likes', where))[0].is_liked) {
-        data.is_liked = false
-    } else {
-        data.is_liked = true
-    }
-
-    const like = await LikeService.Like('startup_likes', req.foundUser.id, companyId, data)
+    const like = await LikeService.like(object, where, data)
     await res.status(201).json({
-        message: 'startup info temporary saved'
+        message: 'Company Like Updated',
+        result: like.is_liked
     })
 })
 
-// const likePartner = errorWrapper(async (req, res) => {
-//     const { companyId } = req.params
-//     if 
-
-//     const data = {
-//         company_liked: {connect: {id: req.foundUser.company_id}},
-//         company_likes: {connect: {id: companyId}},
-//         is_liked : true
-//     }
-
-// })
-
-
-
 
 module.exports = {
+    getStartupInfo,
     tempSaveStartupInfo,
     saveStartupInfo,
     saveStartupSubmitInfo,
@@ -596,6 +693,7 @@ module.exports = {
     savePartnerInfo,
     getStartups,
     getPartners,
-    likeStartup
-    // likePartner
+    likeCompany,
+    getOnePartner,
+    getOnestartup
 }

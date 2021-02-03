@@ -44,12 +44,15 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "kakao",
     "naver",
   ]);
+<<<<<<< HEAD
   await InitialService.createDatas("technologies", [
     "블록체인",
     "AI",
     "플랫폼",
     "임베디드",
   ]);
+=======
+>>>>>>> back-end
   await InitialService.createDatas("eligibilities", [
     "업력 무관",
     "3년 미만",
