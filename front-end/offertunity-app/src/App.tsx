@@ -10,7 +10,7 @@ import Header from "./components/common/header/Header";
 import Banner from "./components/common/banner/Banner";
 import Main from "./components/pages/main/Main";
 import ProjectPage from "./components/pages/project/ProjectPage";
-import ProjectDetailPage from "./components/pages/project/ProjectDetailPage";
+import ProjectDetailPage from "./components/pages/project/detail/ProjectDetailPage";
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
@@ -40,6 +40,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
       <StAppCont className="app" headMargin={headMargin}>
         {!location.pathname.includes("auth") &&
           !location.pathname.includes("detail") &&
+          !location.pathname.includes("workstation") &&
           !location.pathname.includes("workstation") &&
           !location.pathname.includes("Mypage") && <Banner />}
 

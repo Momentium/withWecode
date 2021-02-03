@@ -9,17 +9,9 @@ interface Props {
 
 const LikeBtn: React.FC<Props> = ({ isLike, clickLike }) => {
   const [prevLike, setPrevLike] = useState<boolean>(isLike);
-  const handleMout = () => {
-    setPrevLike(!isLike);
-  };
 
   return (
-    <StBtnWrap
-      isLike={isLike}
-      prevLike={prevLike}
-      onClick={clickLike}
-      onMouseOut={handleMout}
-    >
+    <StBtnWrap isLike={isLike} prevLike={prevLike} onClick={clickLike}>
       {isLike ? (
         <LikeSvg />
       ) : (

@@ -3,21 +3,19 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Card from "./Card";
 
-const CardList = ({
-  list,
-  data,
-  name,
-  boxName,
-  itemsPerPage,
-  page,
-  background,
-}: any) => {
+const CardList = ({ list, data, name, boxName, background }: any) => {
   return (
     <Container className={boxName}>
       {list &&
         list.map((data: any, idx: number) => (
           <Link to={`/startup/detail/${data.id}`}>
-            <Card data={data} key={idx} name={name} background={background} />
+            <Card
+              data={data}
+              key={idx}
+              name={name}
+              background={background}
+              service={true}
+            />
           </Link>
         ))}
       <CardBottom>
