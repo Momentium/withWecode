@@ -13,7 +13,7 @@ import BtnSet from "./BtnSet";
 interface BasicState {
   name: string;
   rep: string;
-  establishedDate: Date;
+  establishedDate: string;
   sector: string;
   coreTechnology: string;
   homepage: string;
@@ -27,7 +27,7 @@ const MyStartup = () => {
   const [basicInfo, setBasicInfo] = useState<BasicState>({
     name: "",
     rep: "",
-    establishedDate: new Date(),
+    establishedDate: new Date().toISOString().substring(0, 10),
     sector: "플랫폼",
     coreTechnology: "블록체인",
     homepage: "",
@@ -43,8 +43,8 @@ const MyStartup = () => {
       })
       .then((res) => {
         const _resData = res.data.body;
-        console.log(basicInfo.establishedDate.toUTCString())
         console.log(_resData)
+
         if (Object.keys(_resData).length === 0) {
           console.log("body is empty");
         } else {
@@ -55,7 +55,7 @@ const MyStartup = () => {
             ...{
               name: _resData.name,
               rep: _resData.rep,
-              establishedDate: _resData.establishedDate.split("T")[0],
+              establishedDate: new Date(_resData.establishedDate).toISOString().substring(0, 10),
               sector: _resData.sector ? _resData.sector : "플랫폼",
               coreTechnology: _resData.coreTechnology ? _resData.coreTechnology : "블록체인",
               homepage: _resData.homepage ? _resData.homepage : "",
@@ -67,6 +67,7 @@ const MyStartup = () => {
       })
       .catch((err) => {
         alert(`데이터 전송에 실패했습니다.\n ${err}`)
+        
       })
   }, []);
 
