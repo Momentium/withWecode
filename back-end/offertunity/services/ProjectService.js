@@ -24,13 +24,15 @@ const findOneProject = (field) => {
 
     const isKeyId = uniqueKey === "id";
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
+    return prisma.projects.findUnique({
+        where: {
+            [uniqueKey]: value },
+    });
 
-    return prisma.projects.findUnique({ where: {
-            [uniqueKey]: value } });
+
 };
 
 const resetChoices = async(field) => {
-    console.log("sdfsdf");
     const { projectAction } = field;
     return await prisma.required_documents.deleteMany({
         where: {
