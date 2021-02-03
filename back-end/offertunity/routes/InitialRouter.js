@@ -1,10 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const { InitialController } = require('../controllers')
+const express = require("express");
+const router = express.Router();
+const { InitialController } = require("../controllers");
 
-router.post(
-    '/data',
-    InitialController.InitialDataSetting
-    )
+router.post("/data", InitialController.InitialDataSetting);
 
-module.exports = router
+module.exports = router;

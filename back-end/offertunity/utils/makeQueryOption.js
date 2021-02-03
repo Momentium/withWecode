@@ -7,16 +7,19 @@ const DEFAULT_QUERY_OPTION = {
 const getQueryOption = (key, value) => {
     const mapper = {
         user_id: {
-            [key]: Number(value) },
+            [key]: Number(value)
+        },
         comments: {
-            [key]: { some: { body: { contains: value } } } },
+            [key]: { some: { body: { contains: value } } }
+        },
     }
 
     const matched = mapper[key]
     if (matched) return matched
 
     return {
-        [key]: { contains: value } }
+        [key]: { contains: value }
+    }
 }
 
 const entriesAndMap = (fields, cb) => Object.entries(fields).map(cb)

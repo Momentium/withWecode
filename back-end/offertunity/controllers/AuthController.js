@@ -1,6 +1,8 @@
 require("dotenv").config();
-const nodemailer = require('nodemailer');
-const { AuthService } = require('../services')
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
+const nodemailer = require("nodemailer");
+const { AuthService } = require("../services");
 const { errorWrapper, errorGenerator } = require("../errors");
 
 const email = errorWrapper(async(req, res) => {
@@ -39,16 +41,78 @@ const email = errorWrapper(async(req, res) => {
     })
 });
 
-
 const emailVerification = errorWrapper(async(req, res) => {
-    const { authNum, email } = req.body
-    console.log("check: ", { authNum, email })
-    const foundCode = await AuthService.emailVerificationCodeCheck({ authNum, email })
-    if (!foundCode) errorGenerator({ message: 'invalidVerificationCode', statusCode: 403 })
-    res.status(200).json({ message: 'VerificationCode Confirmed!' })
+    const { authNum, email } = req.body;
+    console.log("check: ", { authNum, email });
+    const foundCode = await AuthService.emailVerificationCodeCheck({
+        authNum,
+        email,
+    });
+    if (!foundCode)
+        errorGenerator({ message: "invalidVerificationCode", statusCode: 403 });
+    res.status(200).json({ message: "VerificationCode Confirmed!" });
 });
 
+const socialLoginResponse = (req, res, err, user) => {
+    if (err) {
+        return res.status(400);
+    }
+    if (!user) {
+        return res.status(200).json({
+            success: false,
+        });
+    }
+    req.login(user, { session: false }, (err) => {
+        if (err) {
+            res.send(err);
+        }
+        const { id } = user;
+        const token = jwt.sign({ id }, process.env.AUTH_TOKEN_SALT);
+        console.log("usertoken: ", token);
+        return res.status(200).json({ userToken: token, success: true });
+    });
+};
+
+
 module.exports = {
+    naver: {
+        get: (req, res, next) => {
+            passport.authenticate("naver")(req, res, next);
+        },
+        callback: {
+            get: (req, res, next) => {
+                passport.authenticate("naver", (err, user) =>
+                    socialLoginResponse(req, res, err, user)
+                )(req, res, next);
+            },
+        },
+    },
+    google: {
+        get: (req, res, next) => {
+            passport.authenticate("google")(req, res, next);
+        },
+        callback: {
+            get: (req, res, next) => {
+                passport.authenticate("google", (err, user) =>
+                    socialLoginResponse(req, res, err, user)
+                )(req, res, next);
+            },
+        },
+    },
+    kakao: {
+        get: (req, res, next) => {
+            passport.authenticate("kakao")(req, res, next);
+        },
+        callback: {
+            get: (req, res, next) => {
+                passport.authenticate("kakao", (err, user) =>
+                    socialLoginResponse(req, res, err, user)
+                )(req, res, next);
+            },
+        },
+    },
     email,
     emailVerification,
-}
+    // phoneNumber,
+    // phoneNumberVerificatiton.
+};

@@ -1,14 +1,13 @@
-const { upsertConnection } = require('../utils')
+const { upsertConnection, makeQueryOption } = require('../utils')
 const prisma = require('../prisma')
 
-const createCompany = (async(user_id, companyFields) => {
+const createCompany = (async(userId, companyFields) => {
     const companyInfo = await prisma.companies.create({ data: companyFields })
-    await prisma.users.update({ where: { id: user_id }, data: { companies: { connect: { id: companyInfo.id } } } })
+    await prisma.users.update({ where: { id: userId }, data: { companies: { connect: { id: companyInfo.id } } } })
     return companyInfo
 })
 
 const readCompany = (async(companyId) => {
-    console.log(await prisma.companies.findUnique({ where: { id: companyId } }))
     return await prisma.companies.findUnique({ where: { id: companyId } })
 })
 
@@ -22,8 +21,7 @@ const updateCompany = (async(companyId, companyFields) => {
 
 const createCompanyDetail = (async(companyId, table, fields) => {
     fields.companies = { connect: { id: companyId } }
-    const startupInfo = await prisma[table].create({ data: fields })
-    return startupInfo
+    return await prisma[table].create({ data: fields })
 })
 
 const readCompanyDetail = (async(table, companyId) => {
@@ -31,7 +29,7 @@ const readCompanyDetail = (async(table, companyId) => {
 })
 
 const updateStartup = (async(companyId, startupFields) => {
-    const startupInfo = await readStartup(companyId)
+    const startupInfo = await readCompanyDetail('startups', companyId)
     const updatedStartupInfo = await prisma.startups.update({
         where: { id: startupInfo.id },
         data: {
@@ -46,11 +44,11 @@ const updateStartup = (async(companyId, startupFields) => {
 })
 
 const updatePartner = (async(companyId, partnerFields) => {
-    const partnerInfo = await readStartup(companyId)
-    const updatedStartupInfo = await prisma.startups.update({
-        where: { id: startupInfo.id },
+    const partnerInfo = await readCompanyDetail('partners', companyId)
+    const updatedStartupInfo = await prisma.partners.update({
+        where: { id: partnerInfo.id },
         data: {
-            ...startupFields,
+            ...partnerFields,
             ...upsertConnection('technologies', partnerInfo.core_technology_id, partnerFields.technologies),
             ...upsertConnection('investment_funds', partnerInfo.investment_fund_id, partnerFields.investment_funds),
         }
@@ -102,34 +100,169 @@ const deleteRelatedInfo = (async(table, id) => {
 })
 
 const saveInfo = (async(companyId) => {
-    console.log('hoi')
     await prisma.companies.update({
         where: { id: companyId },
         data: { is_saved: true }
     })
 })
 
+const findStartups = async(query) => {
+    const { offset, limit, ...fields } = query
+    const where = makeQueryOption(fields)
+    where.type_id = 1
 
-// IR 자료 등록현황
-// IR 자료 등록의 주체는 스타트업만 가능
+    const ARTICLES_DEFAULT_OFFSET = 0
+    const ARTICLES_DEFAULT_LIMIT = 16
+
+    const companies = await prisma.companies.findMany({
+        include: {
+            startups: true,
+        },
+        where,
+        skip: ((Number(offset) - 1) * Number(limit)) || ARTICLES_DEFAULT_OFFSET,
+        take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+    })
+    const num = (await prisma.companies.findMany({
+        where
+    })).length
+
+    for (len = 0; len < companies.length; len++) {
+        companies[len].tag = []
+        if (companies[len].startups[0].sector_id) {
+            companies[len].tag.push(await findInfoName('sectors', companies[len].startups[0].sector_id))
+        }
+        if (companies[len].startups[0].core_technology_id) {
+            companies[len].tag.push(await findInfoName('technologies', companies[len].startups[0].core_technology_id))
+        }
+        if (companies[len].startups[0].investment_series_id) {
+            companies[len].tag.push(await findInfoName('investment_series', companies[len].startups[0].investment_series_id))
+        }
+        console.log(companies[len].tag)
+    }
+
+    return [companies, num]
+}
+
+
+const findStartup = async(field) => {
+    const [uniqueKey] = Object.keys(field)
+
+    const isKeyId = uniqueKey === 'id'
+    const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
+
+    const startup = await prisma.companies.findUnique({
+        where: {
+            [uniqueKey]: value
+        },
+        include: {
+            startups: {
+                include: {
+                    startup_images: true,
+                    invested_from: true,
+                    wish_investment_series: true
+                }
+            },
+            company_news: true,
+            company_members: true
+        }
+    })
+
+    startup.tag = []
+    if (startup.startups[0].sector_id) {
+        startup.tag.push(await findInfoName('sectors', startup.startups[0].sector_id))
+    }
+    if (startup.startups[0].core_technology_id) {
+        startup.tag.push(await findInfoName('technologies', startup.startups[0].core_technology_id))
+    }
+    if (startup.startups[0].investment_series_id) {
+        startup.tag.push(await findInfoName('investment_series', startup.startups[0].investment_series_id))
+    }
+    return startup
+
+}
+
+const findPartners = async(query) => {
+    const { offset, limit, ...fields } = query
+    const where = makeQueryOption(fields)
+    where.type_id = 2
+
+    const ARTICLES_DEFAULT_OFFSET = 0
+    const ARTICLES_DEFAULT_LIMIT = 12
+
+    const companies = await prisma.companies.findMany({
+        include: {
+            partners: true,
+        },
+        where,
+        skip: ((Number(offset) - 1) * Number(limit)) || ARTICLES_DEFAULT_OFFSET,
+        take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+    })
+    const num = (await prisma.companies.findMany({
+        where
+    })).length
+
+    return [companies, num]
+}
+
+const findPartner = (field) => {
+    const [uniqueKey] = Object.keys(field)
+
+    const isKeyId = uniqueKey === 'id'
+    const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
+
+    return prisma.companies.findUnique({
+        where: {
+            [uniqueKey]: value
+        },
+        include: {
+            partners: {
+                include: {
+                    investment_portfolio: true,
+                    invested_to: true,
+                }
+            },
+            company_news: true,
+            company_members: true
+        }
+    })
+}
+
+const imageLengthChecker = async(table, where) => {
+    const images = await prisma[table].findMany({
+        where
+    })
+    return images.length
+}
+
+const findInfoName = async(table, id) => {
+    const info = await prisma[table].findUnique({
+        where: { id }
+    })
+    return info.name
+}
+
+const readRelatedInfo = (table, id) => {
+    return prisma[table].findUnique({
+        where: { id }
+    })
+}
+
+const getRelatedInfoId = async(table, name) => {
+    const data = await prisma[table].findFirst({
+        where: { name }
+    })
+    return data.id
+}
+
 const irRegisteredCount = (async(field) => {
     companyId = Object.values(field)[0]
     return prisma.$queryRaw `select count(*) from company_documents where company_id = ${companyId} && type_id = 1;`
 })
 
-// 보낸 IR 자료 검토 요청
-// 파트너가 스타트업에게 요청한 것을 보낸 경우 + 요청과 상관없이 자발적으로 보낸 경우
-// 요청이와서 + 요청과 상관없이 보내기
-// document_id 가 존재한다 = 자료를 보냈다
-
 const irSentCount = (async(field) => {
     startupId = Object.values(field)[0]
     return prisma.$queryRaw `select count(*) from IR_requests where startup_id = ${startupId} && document_id is not null;`
 })
-
-
-// 받은 IR자료 요청 
-// 파트너가 스타트업에게 IR자료 요청했는데 아직 미확인 상황
 
 const irRequestedCount = (async(field) => {
     startupId = Object.values(field)[0]
@@ -142,7 +275,6 @@ const readByDocType = (async(fields) => {
     return await prisma.company_documents.findMany({ where: { comapny_id: companyId, type_id: docTypeId } })
 })
 
-// 문서 업로더
 const registerDoc = (async(fields) => {
     const { companyId, docTypeId, startupDoc } = fields
     console.log({ companyId, docTypeId, startupDoc })
@@ -183,13 +315,18 @@ module.exports = {
     createRelatedInfo,
     deleteRelatedInfo,
     saveInfo,
+    findStartups,
+    findPartners,
+    findPartner,
+    findStartup,
+    imageLengthChecker,
+    findInfoName,
+    readRelatedInfo,
+    getRelatedInfoId,
     irRegisteredCount,
     irSentCount,
     irRequestedCount,
-    // irListDetail,
     readByDocType,
     registerDoc,
-    // downloadDoc,
     deleteSDoc
-
 }

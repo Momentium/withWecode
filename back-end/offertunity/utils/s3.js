@@ -11,6 +11,11 @@ const { AWS_config_region, AWS_IDENTITYPOOLID } = process.env
 
 const bucket = 'offertunity'
 
+multer({
+    limits: { fieldSize: 25 * 1024 * 1024 }
+})
+
+
 AWS.config.update({
     region: AWS_config_region,
     credentials: new AWS.CognitoIdentityCredentials({

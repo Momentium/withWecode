@@ -9,7 +9,11 @@ router.get(
     '/company/:companyId',
     validateToken,
     CompanyController.likeCompany
+<<<<<<< HEAD
 )
+=======
+    )
+>>>>>>> back-end
 
 // project like
 router.get(
