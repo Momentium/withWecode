@@ -23,7 +23,8 @@ const BannerWrap = styled.div`
   width: 100%;
   height: 43.75rem;
   img {
-    min-width: 120rem;
+    width:100%;
+    min-width: 110rem;
     height: 100%;
   }
 `;
