@@ -108,31 +108,51 @@ const saveInfo = (async (companyId) => {
     })
 })
 
-const ARTICLES_DEFAULT_OFFSET = 0
-const ARTICLES_DEFAULT_LIMIT = 5
-
-const findStartups = (query) => {
+const findStartups = async (query) => {
     const { offset, limit, ...fields } = query
     const where = makeQueryOption(fields)
     where.type_id = 1
+
+    const ARTICLES_DEFAULT_OFFSET = 0
+    const ARTICLES_DEFAULT_LIMIT = 16
   
-    return prisma.companies.findMany({
+    const companies = await prisma.companies.findMany({
         include: {
             startups: true,
         },
         where,
-        skip: Number(offset)-1 || ARTICLES_DEFAULT_OFFSET,
+        skip: ((Number(offset)-1) * Number(limit)) || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     })
+    const num = (await prisma.companies.findMany({
+        where
+    })).length
+
+    for (len=0; len < companies.length; len++) {
+        companies[len].tag = []
+        if (companies[len].startups[0].sector_id) {
+            companies[len].tag.push(await findInfoName('sectors', companies[len].startups[0].sector_id))
+        }
+        if (companies[len].startups[0].core_technology_id) {
+            companies[len].tag.push(await findInfoName('technologies', companies[len].startups[0].core_technology_id))
+        }
+        if (companies[len].startups[0].investment_series_id) {
+            companies[len].tag.push(await findInfoName('investment_series', companies[len].startups[0].investment_series_id))
+        }
+        console.log(companies[len].tag)
+    }
+    
+    return [companies, num]
 }
 
-const findStartup = (field) => {
+
+const findStartup = async (field) => {
     const [uniqueKey] = Object.keys(field)
 
     const isKeyId = uniqueKey === 'id'
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
 
-    return prisma.companies.findUnique({
+    const startup = await prisma.companies.findUnique({
         where: { [uniqueKey]: value },
         include: {
             startups: {
@@ -146,6 +166,19 @@ const findStartup = (field) => {
             company_members: true
         }
     })
+
+    startup.tag = []
+    if (startup.startups[0].sector_id) {
+        startup.tag.push(await findInfoName('sectors', startup.startups[0].sector_id))
+    }
+    if (startup.startups[0].core_technology_id) {
+        startup.tag.push(await findInfoName('technologies', startup.startups[0].core_technology_id))
+    }
+    if (startup.startups[0].investment_series_id) {
+        startup.tag.push(await findInfoName('investment_series', startup.startups[0].investment_series_id))
+    }
+    return startup
+
 }
 
 const findPartners = async (query) => {
@@ -161,7 +194,7 @@ const findPartners = async (query) => {
             partners: true,
         },
         where,
-        skip: Number(offset)-1 || ARTICLES_DEFAULT_OFFSET,
+        skip: ((Number(offset)-1) * Number(limit)) || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     })
     const num = (await prisma.companies.findMany({
@@ -206,6 +239,19 @@ const findInfoName = async (table, id) => {
     return info.name
 }
 
+const readRelatedInfo = (table, id) => {
+    return prisma[table].findUnique({
+        where: {id}
+    })
+}
+
+const getRelatedInfoId = async (table, name) => {
+    const data = await prisma[table].findFirst({
+        where: {name}
+    })
+    return data.id
+}
+
 module.exports = {
     createCompany,
     updateCompany,
@@ -227,5 +273,7 @@ module.exports = {
     findPartner,
     findStartup,
     imageLengthChecker,
-    findInfoName
+    findInfoName,
+    readRelatedInfo,
+    getRelatedInfoId
 }

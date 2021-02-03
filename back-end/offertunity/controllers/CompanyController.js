@@ -3,6 +3,62 @@ const { CompanyService, UserService, LikeService } = require('../services')
 const { typeChecker, lengthChecker, dateForm } = require('../utils')
 const { errorWrapper, errorGenerator } = require('../errors');
 
+const deleteMember = errorWrapper(async (req,res) => {
+    const { memberId } = req.params
+    const member = await CompanyService.readRelatedInfo('company_members', Number(memberId))
+    if (!member) errorGenerator({statusCode:400, message: 'Unrecognized Member'})
+    if (req.foundUser.company_id === member.company_id) {
+        await CompanyService.deleteRelatedInfo('company_members', Number(memberId))
+        await res.status(201).json({
+            message: 'member deleted'
+        })
+    } else {
+        errorGenerator({statusCode: 400, message: 'this member is not belonged to this company'})
+    }
+})
+
+const deleteInvestFrom = errorWrapper(async (req,res) => {
+    if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: 'this user is not startup user'})
+    const { investedFromId } = req.params
+    CompanyService.deleteRelatedInfo('invested_from', Number(investedFromId))
+    await res.status(201).json({
+        message: 'investment info deleted'
+    })
+})
+
+const deleteInvestTo = errorWrapper(async (req,res) => {
+    if (req.foundUser.type_id === 1) errorGenerator({statusCode: 400, message: 'this user is not partner user'})
+    const { investedToId } = req.params
+    CompanyService.deleteRelatedInfo('invested_to', Number(investedToId))
+    await res.status(201).json({
+        message: 'investment info deleted'
+    })
+})
+
+const deleteImage = errorWrapper(async (req, res) => {
+    const { imageId } = req.params
+    if (req.foundUser.type_id === 1) {
+        CompanyService.deleteRelatedInfo('startup_images', Number(imageId))
+    } else if (req.foundUser.type_id === 2) {
+        CompanyService.deleteRelatedInfo('investment_portfolio', Number(imageId))
+    }
+})
+
+const deleteNews = errorWrapper(async (req, res) => {
+    const { newsId } = req.params
+    const news = await CompanyService.readRelatedInfo('company_news', Number(newsId))
+
+    if (req.foundUser.company_id === news.company_id) {
+        await CompanyService.deleteRelatedInfo('company_news', Number(memberId))
+        await res.status(201).json({
+            message: 'news deleted'
+        })
+    } else {
+        errorGenerator({statusCode: 400, message: 'this news is not belonged to this company'})
+    }
+})
+
+
 const getStartupInfo = errorWrapper(async (req, res) => {
     if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: 'this user is not startup user'})
     const body = {}
@@ -10,63 +66,102 @@ const getStartupInfo = errorWrapper(async (req, res) => {
         const companyId = req.foundUser.company_id;
         const company = await CompanyService.findStartup( {id: companyId} );
 
-        console.log(company)
-
         body.name = company.name;
         body.rep  = company.startups[0].rep;
         body.establishedDate = company.established_date;
-        body.sectorId = company.startups[0].sector_id;
-        body.coreTechnologyId = company.startups[0].core_technology_id;
+        body.sector = company.startups[0].sector_id ? await CompanyService.findInfoName('sectors', company.startups[0].sector_id) : null;
+        body.coreTechnology = company.startups[0].core_technology_id ? await CompanyService.findInfoName('technologies', company.startups[0].core_technology_id) : null;
         body.homepage = company.homepage;
         body.description = company.description;
         body.itemDescription = company.startups[0].item_description;
         if (company.startups[0].investment_series_id && !(company.startups[0].wish_investment_series === []) && company.startups[0].investment_fund_id ) {
-            body.investmentSeriesId = company.startups[0].investment_series_id;
+            body.investmentSeries = company.startups[0].investment_series_id ? await CompanyService.findInfoName('investment_series', company.startups[0].investment_series_id) : null;
             body.wishInvestmentSeriesIds = [];
             for (len = 0; len < company.startups[0].wish_investment_series.length; len++) {
-                body.wishInvestmentSeriesIds.push(company.startups[0].wish_investment_series[len].investment_series_id)
-                console.log(body.wishInvestmentSeriesIds)
+                body.wishInvestmentSeriesIds.push(await CompanyService.findInfoName('investment_series', company.startups[0].wish_investment_series[len].investment_series_id))
             };
-            body.investmentFundId = company.startups[0].investment_fund_id;
+            body.investmentFundId = await CompanyService.findInfoName('investment_funds', company.startups[0].investment_fund_id);
         };
         body.teamIntro = company.team_intro;
         body.memberCount = company.member_count;
         body.members = company.company_members
-        // if (!(company.company_members === [])) {
-        //     body.memberId = []
-        //     body.memberInfoNames = []
-        //     body.memberInfoPositions = []
-        //     body.memberImages = []
-        //     for (len = 0; len < company.company_members.length; len++) {
-        //         body.memberId.push(company.company_members[len].id);
-        //         body.memberInfoNames.push(company.company_members[len].name);
-        //         body.memberInfoPositions.push(company.company_members[len].position);
-        //         body.memberImages.push(company.company_members[len].img);
-        //     }
-        // };
         body.news = company.company_news
-        // if (!(company.company_news === [])) {
-        //     body.companyNewsURLs = []
-        //     for (len = 0; len < company.company_news.length; len++) {
-        //         body.companyNewsURLs.push(company.company_news[len].URL)
-        //     }
-        // };
         body.investedFrom = company.startups[0].invested_from
+        if (!body.investedFrom.length === 0) {
+            for (len=0; len<body.investedFrom.length; len++) {
+                body.investedFrom[len].invested_fund = await CompanyService.findInfoName('investment_funds', body.investedFrom[len].invested_fund_id);
+                body.investedFrom[len].investment_series = await CompanyService.findInfoName('investment_series', body.investedFrom[len].invested_series_id);
+            }
+        }
         body.images = company.startups[0].startup_images
+        body.logoImg = company.logo_img;
+        body.thumbnail = company.startups[0].thumbnail
     } else if (!req.foundUser.company_id) {
     }
 
     await res.status(201).json({
-        message: 'startup info saved',
+        message: 'startup info',
         body
     })
 })
 
+const tempSaveStartupBasicInfo = errorWrapper(async (req, res, next) => {
+    if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: 'this user is not startup user'})
+    const { name, rep, establishedDate, sector, coreTechnology, homepage } = req.body
+    const { logoImg, thumbnail } = req.files
+
+    const sectorId = sector ? await CompanyService.getRelatedInfoId('sectors', sector) : undefined
+    const coreTechnologyId = coreTechnology ? await CompanyService.getRelatedInfoId('technologies', coreTechnology) : undefined
+    
+    const companyFields = {
+        name,
+        logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
+        established_date: await dateForm(establishedDate),
+        homepage,
+        company_types: { connect: { id: 1 } }
+    }
+    const startup_connect = {
+        sectors: { connect: { id: Number(sectorId) } },
+        technologies: { connect: { id: Number(coreTechnologyId) } },
+    }
+    const startup_field = {
+        rep,
+        thumbnail: thumbnail ? thumbnail[0].location : req.body.thumbnail ? req.body.thumbnail : null,
+    }
+
+    Object.keys(companyFields).forEach(key => companyFields[key] === undefined ? companyFields[key] = null : {});
+    Object.keys(startup_connect).forEach(key => isNaN(startup_connect[key].connect.id) ? startup_connect[key] = undefined : {});
+    Object.keys(startup_field).forEach(key => startup_field[key] === undefined ? startup_field[key] = null : {});
+
+    const startupFields = {...startup_connect, ...startup_field }
+
+    if (!req.foundUser.company_id) {
+        const companyInfo = await CompanyService.createCompany(req.foundUser.id, companyFields);
+        await CompanyService.createCompanyDetail(companyInfo.id, 'startups', startupFields);
+    } else {
+        const companyInfo = await CompanyService.updateCompany(req.foundUser.company_id, companyFields);
+        await CompanyService.updateStartup(companyInfo.id, startupFields);
+    };
+
+    // save 기능 연결
+    if (req.companySave) {
+        next()
+    } else {
+        await res.status(201).json({
+            message: 'startup basic info temporary saved'
+        })
+    }
+});
 
 const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: 'this user is not startup user'})
-    const { name, rep, establishedDate, sectorId, coreTechnologyId, homepage, description, itemDescription, investmentSeriesId, wishInvestmentSeriesIds, investmentFundId, teamIntro, memberCount, memberInfoNames, memberInfoPositions, memberDeleteIds, companyNewsURLs, companyNewsDeleteIds, startupImagesDeleteIds, investedDates, investedInstitutions, investedFunds, investedValues, investedSeries, investedDeleteIds } = req.body
+    const { name, rep, establishedDate, sector, coreTechnology, homepage, description, itemDescription, investmentSeries, wishInvestmentSeries, investmentFund, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs, investedDates, investedInstitutions, investedFunds, investedValues, investedSeries } = req.body
     const { logoImg, startupImages, memberImages, thumbnail } = req.files
+
+    const sectorId = sector ? await CompanyService.getRelatedInfoId('sectors', sector) : undefined
+    const coreTechnologyId = coreTechnology ? await CompanyService.getRelatedInfoId('technologies', coreTechnology) : undefined
+    const investmentSeriesId = investmentSeries ? await CompanyService.getRelatedInfoId('investment_series', investmentSeries) : undefined
+    const investmentFundId = investmentFund ? await CompanyService.getRelatedInfoId('investment_funds', investmentFund) : undefined
     
     const companyFields = {
         name,
@@ -79,10 +174,10 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
         company_types: { connect: { id: 1 } }
     }
     const startup_connect = {
-        sectors: { connect: { id: Number(sectorId) } },
-        technologies: { connect: { id: Number(coreTechnologyId) } },
-        investment_series: { connect: { id: Number(investmentSeriesId) } },
-        investment_funds: { connect: { id: Number(investmentFundId) } }
+        sectors: { connect: { id: sectorId } },
+        technologies: { connect: { id: coreTechnologyId } },
+        investment_series: { connect: { id: investmentSeriesId } },
+        investment_funds: { connect: { id: investmentFundId } }
     }
     const startup_field = {
         rep,
@@ -107,21 +202,6 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
         startupInfo = await CompanyService.updateStartup(companyInfo.id, startupFields);
     };
 
-    // startup 이미지 삭제
-    if (startupImagesDeleteIds) {
-        if (typeof startupImagesDeleteIds === 'string') {
-            if (await CompanyService.checkExistence('startup_images', data = { id: Number(startupImagesDeleteIds) })) {
-                await CompanyService.deleteRelatedInfo('startup_images', Number(startupImagesDeleteIds))
-            };
-        } else {
-            for (len = 0; len < startupImagesDeleteIds.length; len++) {
-                if (await CompanyService.checkExistence('startup_images', data = { id: Number(startupImagesDeleteIds[len]) })) {
-                    await CompanyService.deleteRelatedInfo('startup_images', Number(startupImagesDeleteIds[len]))
-                }
-            };
-        }
-    }
-
     // startup 이미지 추가
     if (startupImages) {
         if ((await CompanyService.imageLengthChecker('startup_images', {startup_id: startupInfo.id}) + startupImages.length) > 5) errorGenerator({statusCode: 400, message: 'Images Limitation Exceeded'})
@@ -136,29 +216,32 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     }
 
     // 희망 투자 단계 추가 및 삭제
-    if (wishInvestmentSeriesIds) {
-        if (typeof wishInvestmentSeriesIds === 'string') {
+    if (wishInvestmentSeries) {
+        if (typeof wishInvestmentSeries === 'string') {
             const existData = await CompanyService.checkWishInvestmentSeries(startupInfo.id)
             if (existData.length === 2) {
                 await CompanyService.deleteWishInvestmentSeries(existData[1].id);
+                const wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries)
                 await CompanyService.updateWishInvestmentSeries(
                     id = existData[0].id,
                     data = {
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesId } }
                     }
                 )
             } else if (existData.length === 1) {
+                const wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries)
                 await CompanyService.updateWishInvestmentSeries(
                     id = existData[0].id,
                     data = {
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesId } }
                     }
                 )
             } else if (existData.length === 0) {
+                const wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries)
                 await CompanyService.createWishInvestmentSeries(
                     data = {
                         startups: { connect: { id: startupInfo.id } },
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesId } }
                     }
                 )
             }
@@ -166,32 +249,36 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
             const existData = await CompanyService.checkWishInvestmentSeries(startupInfo.id)
             if (existData.length === 2) {
                 for (len = 0; len < wishInvestmentSeriesIds.length; len++) {
+                    let wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries[len])
                     await CompanyService.updateWishInvestmentSeries(
                         id = existData[len].id,
                         data = {
-                            investment_series: { connect: { id: Number(wishInvestmentSeriesIds[len]) } }
+                            investment_series: { connect: { id: wishInvestmentSeriesId } }
                         }
                     )
                 }
             } else if (existData.length === 1) {
+                const wishInvestmentSeriesIdFirst = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries[0])
+                const wishInvestmentSeriesIdSecond = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries[1])
                 await CompanyService.updateWishInvestmentSeries(
                     id = existData[0].id,
                     data = {
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds[0]) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesIdFirst } }
                     }
                 )
                 await CompanyService.createWishInvestmentSeries(
                     data = {
                         startups: { connect: { id: startupInfo.id } },
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds[1]) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesIdSecond } }
                     }
                 )
             } else if (existData.length === 0) {
                 for (len = 0; len < wishInvestmentSeriesIds.length; len++) {
+                    let wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries[len])
                     await CompanyService.createWishInvestmentSeries(
                         data = {
                             startups: { connect: { id: startupInfo.id } },
-                            investment_series: { connect: { id: Number(wishInvestmentSeriesIds[len]) } }
+                            investment_series: { connect: { id: wishInvestmentSeriesId } }
                         }
                     )
                 }
@@ -202,40 +289,29 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     // 투자 이력 추가
     if (investedDates && investedInstitutions && investedFunds && investedValues && investedSeries) {
         if (typeChecker(investedDates, investedInstitutions, investedFunds, investedValues, investedSeries) === 'string') {
+            const investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds)
+            const investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries)
             await CompanyService.createRelatedInfo('invested_from', data = {
                 startups: { connect: { id: startupInfo.id } },
                 date: await dateForm(investedDates),
                 invested_institution: investedInstitutions,
-                investment_funds: { connect: { id: Number(investedFunds) } },
+                investment_funds: { connect: { id: investedFundId } },
                 corporate_value: Number(investedValues),
-                investment_series: { connect: { id: Number(investedSeries) } }
+                investment_series: { connect: { id: Number(investedSeriesId) } }
             })
         } else if (lengthChecker(investedDates, investedInstitutions, investedFunds, investedValues, investedSeries)) {
             for (len = 0; len < investedDates.length; len++) {
+                let investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds[len])
+                let investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries[len])    
                 await CompanyService.createRelatedInfo('invested_from', data = {
                     startups: { connect: { id: startupInfo.id } },
                     date: await dateForm(investedDates[len]),
                     invested_institution: investedInstitutions[len],
-                    investment_funds: { connect: { id: Number(investedFunds[len]) } },
+                    investment_funds: { connect: { id: investedFundId } },
                     corporate_value: Number(investedValues[len]),
-                    investment_series: { connect: { id: Number(investedSeries[len]) } }
+                    investment_series: { connect: { id: investedSeriesId } }
                 })
             }
-        }
-    }
-
-    // 투자 이력 삭제
-    if (investedDeleteIds) {
-        if (typeof investedDeleteIds === 'string') {
-            if (await CompanyService.checkExistence('invested_from', data = { id: Number(investedDeleteIds) })) {
-                await CompanyService.deleteRelatedInfo('invested_from', Number(investedDeleteIds))
-            };
-        } else {
-            for (len = 0; len < investedDeleteIds.length; len++) {
-                if (await CompanyService.checkExistence('invested_from', data = { id: Number(investedDeleteIds[len]) })) {
-                    await CompanyService.deleteRelatedInfo('invested_from', Number(investedDeleteIds[len]))
-                }
-            };
         }
     }
 
@@ -259,22 +335,6 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
             }
         }
     }
-
-    // Team Memebr 삭제
-    if (memberDeleteIds) {
-        if (typeof memberDeleteIds === 'string') {
-            if (await CompanyService.checkExistence('company_members', data = { id: Number(memberDeleteIds) })) {
-                await CompanyService.deleteRelatedInfo('company_members', Number(memberDeleteIds))
-            };
-        } else {
-            for (len = 0; len < memberDeleteIds.length; len++) {
-                if (await CompanyService.checkExistence('company_members', data = { id: Number(memberDeleteIds[len]) })) {
-                    await CompanyService.deleteRelatedInfo('company_members', Number(memberDeleteIds[len]))
-                }
-            };
-        }
-    };
-
     // News URL 추가
     if (companyNewsURLs) {
         if (typeof companyNewsURLs === 'string') {
@@ -292,21 +352,6 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
         }
     }
 
-    // News URL 삭제
-    if (companyNewsDeleteIds) {
-        if (typeof companyNewsDeleteIds === 'string') {
-            if (await CompanyService.checkExistence('company_news', data = { id: Number(companyNewsDeleteIds) })) {
-                await CompanyService.deleteRelatedInfo('company_news', Number(companyNewsDeleteIds))
-            };
-        } else {
-            for (len = 0; len < companyNewsDeleteIds.length; len++) {
-                if (await CompanyService.checkExistence('company_news', data = { id: Number(companyNewsDeleteIds[len]) })) {
-                    await CompanyService.deleteRelatedInfo('company_news', Number(companyNewsDeleteIds[len]))
-                }
-            };
-        }
-    };
-
     // save 기능 연결
     if (req.companySave) {
         next()
@@ -316,6 +361,7 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
         })
     }
 });
+
 
 const saveStartupInfo = errorWrapper(async (req, res) => {
     const user = await UserService.findUserInfo({id : req.foundUser.id})
@@ -335,10 +381,16 @@ const saveStartupInfo = errorWrapper(async (req, res) => {
     })
 });
 
+
 const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: 'this user is not startup user'})
-    const { name, rep, address, sectorId, coreTechnologyId, businessTypeId, servcieTypeId, businessLicenseNum, email, memberCount, homepage, instagramUrl, facebookUrl, logoImgURL } = req.body
+    const { name, rep, address, sector, coreTechnology, businessType, servcieType, businessLicenseNum, email, memberCount, homepage, instagramUrl, facebookUrl, logoImgURL } = req.body
     const { logoImg } = req.files
+
+    const sectorId = sector ? await CompanyService.getRelatedInfoId('sectors', sector) : undefined
+    const coreTechnologyId = coreTechnology ? await CompanyService.getRelatedInfoId('technologies', coreTechnology) : undefined
+    const servcieTypeId = servcieType ? await CompanyService.getRelatedInfoId('service_types', servcieType) : undefined
+    const businessTypeId = businessType ? await CompanyService.getRelatedInfoId('business_types', businessType) : undefined
 
     const company_fields = {
         name,
@@ -380,6 +432,37 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
         message: 'startup project info saved'
     })
 })
+
+// ---------------------------------- Partner ------------------------------------
+const getPartnerInfo = errorWrapper(async (req, res) => {
+    if (req.foundUser.type_id === 1) errorGenerator({statusCode: 400, message: 'this user is not partner user'})
+    const body = {}
+    if (req.foundUser.company_id) {
+        const companyId = req.foundUser.company_id;
+        const company = await CompanyService.findPartner( {id: companyId} );
+
+        body.name = company.name;
+        body.logoImg = company.logo_img;
+        body.establishedDate = company.established_date;
+        body.investedCounts = company.partners[0].invested_counts;
+        body.totalInvested = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id);
+        body.interedtedTechnology = await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id);
+        body.homepage = company.homepage;
+        body.description = company.description;
+        body.teamIntro = company.team_intro;
+        body.memberCount = company.member_count;
+        body.members = company.company_members
+        body.news = company.company_news
+        body.investedFrom = company.partners[0].invested_from
+        body.portfolioImages = company.partners[0].investment_portfolio
+    } 
+
+    await res.status(201).json({
+        message: 'partner info',
+        body
+    })
+})
+
 
 const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
     if (req.foundUser.type_id === 1) errorGenerator({statusCode: 400, message: 'this user is not partner user'})
@@ -428,6 +511,7 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
 
     // portfolio 이미지 추가
     if (portfolioImages) {
+        if ((await CompanyService.imageLengthChecker('investment_portfolio', {partner_id: partnerInfo.id}) + portfolioImages.length) > 5) errorGenerator({statusCode: 400, message: 'Images Limitation Exceeded'})
         for (len = 0; len < portfolioImages.length; len++) {
             await CompanyService.createRelatedInfo('investment_portfolio',
                 data = {
@@ -435,21 +519,6 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
                     img_url: portfolioImages[len].location
                 }
             )
-        }
-    }
-
-    // portfolio 이미지 삭제
-    if (portfolioImagesDeleteIds) {
-        if (typeof portfolioImagesDeleteIds === 'string') {
-            if (await CompanyService.checkExistence('investment_portfolio', data = { id: Number(portfolioImagesDeleteIds) })) {
-                await CompanyService.deleteRelatedInfo('investment_portfolio', Number(portfolioImagesDeleteIds))
-            };
-        } else {
-            for (len = 0; len < portfolioImagesDeleteIds.length; len++) {
-                if (await CompanyService.checkExistence('investment_portfolio', data = { id: Number(portfolioImagesDeleteIds[len]) })) {
-                    await CompanyService.deleteRelatedInfo('investment_portfolio', Number(portfolioImagesDeleteIds[len]))
-                }
-            };
         }
     }
 
@@ -478,22 +547,6 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
         }
     }
 
-    // 투자 이력 삭제
-    if (investedDeleteIds) {
-        if (typeof investedDeleteIds === 'string') {
-            if (await CompanyService.checkExistence('invested_to', data = { id: Number(investedDeleteIds) })) {
-                await CompanyService.deleteRelatedInfo('invested_to', Number(investedDeleteIds))
-            };
-        } else {
-            for (len = 0; len < investedDeleteIds.length; len++) {
-                if (await CompanyService.checkExistence('invested_to', data = { id: Number(investedDeleteIds[len]) })) {
-                    await CompanyService.deleteRelatedInfo('invested_to', Number(investedDeleteIds[len]))
-                }
-            };
-        }
-    };
-
-
     // Team Memebr 추가
     if (memberInfoNames && memberInfoPositions && memberImages) {
         if (typeChecker(memberInfoNames, memberInfoPositions) === 'string' && memberImages.length === 1) {
@@ -515,22 +568,6 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
         }
     }
 
-    // Team Memebr 삭제
-    if (memberDeleteIds) {
-        if (typeof memberDeleteIds === 'string') {
-            if (await CompanyService.checkExistence('company_members', data = { id: Number(memberDeleteIds) })) {
-                await CompanyService.deleteRelatedInfo('company_members', Number(memberDeleteIds))
-            };
-        } else {
-            for (len = 0; len < memberDeleteIds.length; len++) {
-                if (await CompanyService.checkExistence('company_members', data = { id: Number(memberDeleteIds[len]) })) {
-                    await CompanyService.deleteRelatedInfo('company_members', Number(memberDeleteIds[len]))
-                }
-            };
-        }
-    };
-
-
     // News URL 추가
     if (companyNewsURLs) {
         if (typeof companyNewsURLs === 'string') {
@@ -548,21 +585,6 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
         }
     }
 
-    // News URL 삭제
-    if (companyNewsDeleteIds) {
-        if (typeof companyNewsDeleteIds === 'string') {
-            if (await CompanyService.checkExistence('company_news', data = { id: Number(companyNewsDeleteIds) })) {
-                await CompanyService.deleteRelatedInfo('company_news', Number(companyNewsDeleteIds))
-            };
-        } else {
-            for (len = 0; len < companyNewsDeleteIds.length; len++) {
-                if (await CompanyService.checkExistence('company_news', data = { id: Number(companyNewsDeleteIds[len]) })) {
-                    await CompanyService.deleteRelatedInfo('company_news', Number(companyNewsDeleteIds[len]))
-                }
-            };
-        }
-    };
-
     // save 기능 연결
     if (req.companySave) {
         next()
@@ -572,6 +594,7 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
         })
     }
 })
+
 
 const savePartnerInfo = errorWrapper(async (req, res) => {
     const user = await UserService.findUserInfo({id : req.foundUser.id})
@@ -638,8 +661,14 @@ const getPartners = errorWrapper(async (req, res) => {
 const getOnePartner = errorWrapper(async (req, res) => {
     const { companyId } = req.params
     const company = await CompanyService.findPartner( {id: companyId} )
-    company.partners[0].interst_technology = company.partners[0].interst_technology_id ? await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id) : null
-    company.partners[0].investment_total = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id)
+    console.log(company)
+
+    if ('interst_technology_id' in Object.keys(company.partners[0])) {
+        company.partners[0].interst_technology = await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id)
+    }
+    if ('invested_total_id' in Object.keys(company.partners[0])) {
+        company.partners[0].investment_total = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id)
+    }
     for (len = 0; len<company.partners[0].invested_to.length; len++) {
         company.partners[0].invested_to[len].invested_fund = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_to[len].invested_fund_id)
         company.partners[0].invested_to[len].series = await CompanyService.findInfoName('investment_series', company.partners[0].invested_to[len].series_id)
@@ -683,17 +712,23 @@ const likeCompany = errorWrapper(async (req, res) => {
     })
 })
 
-
 module.exports = {
     getStartupInfo,
     tempSaveStartupInfo,
+    tempSaveStartupBasicInfo,
     saveStartupInfo,
     saveStartupSubmitInfo,
+    getPartnerInfo,
     tempSavePartnerInfo,
     savePartnerInfo,
     getStartups,
     getPartners,
     likeCompany,
     getOnePartner,
-    getOnestartup
+    getOnestartup,
+    deleteMember,
+    deleteInvestFrom,
+    deleteInvestTo,
+    deleteImage,
+    deleteNews
 }
