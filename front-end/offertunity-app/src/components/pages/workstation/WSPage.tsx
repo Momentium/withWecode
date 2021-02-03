@@ -11,7 +11,7 @@ import PartnerPjt from './partner/supportPjt/PartnerPjt';
 
 const WSPage:React.FC<any> = ({ location }) => {
   // const [curUser, setCurUser] = useState<string>("partner");
-  const [curTab, setCurTab] = useState<string>("파트너 기관 관리");
+  const [curTab, setCurTab] = useState<string>("마이 스타트업");
 
   const clickTab = (e:any) => {
     const _curTarget = e.currentTarget.textContent;
@@ -27,7 +27,7 @@ const WSPage:React.FC<any> = ({ location }) => {
         <St.SectionTitle style={{margin: 0}}>워크 스테이션</St.SectionTitle>
         
         {
-          location.pathname?.includes('workstation') ?
+          !location.pathname?.includes('workstation') ?
           <>
             <StTabWrap 
             isChecked={curTab === "파트너 기관 관리"}
@@ -63,11 +63,10 @@ const WSPage:React.FC<any> = ({ location }) => {
 
       <GuideBar curTab={curTab}/>
 
-      {/* {curTab === '마이 스타트업' && <MyStartup/>}
+      {curTab === '마이 스타트업' && <MyStartup/>}
       {curTab === '지원사업 프로젝트' && <SupportPjt/>}
       {curTab === 'IR 자료 요청 관리' && <AdminIRReq/>}
-      {curTab === 'IR 자료 및 지원서류 관리' && <></>} */}
-
+      {curTab === 'IR 자료 및 지원서류 관리' && <></>}
       {curTab === '파트너 기관 관리' && <MyPartner/>}
       {curTab === '지원사업 관리' && <PartnerPjt/>}
 
