@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import RequestModal from "./ReuqestModal";
+import RequestModal from "./RequestModal";
 import ResponseModal from "./ResponseModal";
 import AuthenticateModal from "../AuthenticateModal";
 
@@ -10,9 +10,8 @@ const PartnerModal = ({ goToMypage, title, onClick }: any) => {
   const [btnDisabled, setBtnDisabled] = useState<Boolean>(false);
   const [selectData, setSelectData] = useState<object>();
 
-  // 핸드폰 인증 확인해야합니다.
   // useEffect(() => {
-  //   if (!checkPhoneNumber) {
+  //   if (!checkPhoneNumber || !sessionStorage.getItem("token")) {
   //     setCurrentModal(2);
   //   }
   // }, []);

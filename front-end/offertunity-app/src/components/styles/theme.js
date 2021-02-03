@@ -48,6 +48,11 @@ const colors = {
   white: "#FFFFFF",
 };
 
+const flexColumn = css`
+  display: flex;
+  flex-direction: column;
+`;
+
 const theme = createMuiTheme({
   props: {
     // Name of the component ⚛️
@@ -65,6 +70,7 @@ const theme = createMuiTheme({
   paddings,
   margins,
   conWidth,
+  flexColumn,
 });
 
 export default theme;
