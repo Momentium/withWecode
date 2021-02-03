@@ -26,7 +26,8 @@ const findOneProject = (field) => {
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
     return prisma.projects.findUnique({
         where: {
-            [uniqueKey]: value },
+            [uniqueKey]: value
+        },
     });
 
 
@@ -66,17 +67,11 @@ const createProject = async(fields) => {
         data: {
             ...requestedFields,
             companies: { connect: { id: Number(userInfofromToken.company_id) } },
-            eligibilities: requestedFields.eligibilities ?
-                { connect: { id: Number(requestedFields.eligibilities) } } :
-                undefined,
-            sectors: requestedFields.sectors ?
-                { connect: { id: Number(requestedFields.sectors) } } :
-                undefined,
+            eligibilities: requestedFields.eligibilities ? { connect: { id: Number(requestedFields.eligibilities) } } : undefined,
+            sectors: requestedFields.sectors ? { connect: { id: Number(requestedFields.sectors) } } : undefined,
             is_opened: 0,
             hit: 0,
-            project_images: project_picture ?
-                { create: [{ img_url: project_picture }] } :
-                undefined,
+            project_images: project_picture ? { create: [{ img_url: project_picture }] } : undefined,
             due_date,
         },
     });
@@ -92,15 +87,9 @@ const updateProject = async(fields) => {
         },
         data: {
             ...requestedFields,
-            eligibilities: requestedFields.eligibilities ?
-                { connect: { id: Number(requestedFields.eligibilities) } } :
-                undefined,
-            sectors: requestedFields.sectors ?
-                { connect: { id: Number(requestedFields.sectors) } } :
-                undefined,
-            project_images: project_picture ?
-                { create: [{ img_url: project_picture }] } :
-                undefined,
+            eligibilities: requestedFields.eligibilities ? { connect: { id: Number(requestedFields.eligibilities) } } : undefined,
+            sectors: requestedFields.sectors ? { connect: { id: Number(requestedFields.sectors) } } : undefined,
+            project_images: project_picture ? { create: [{ img_url: project_picture }] } : undefined,
             updated_at: new Date(),
             due_date,
         },
