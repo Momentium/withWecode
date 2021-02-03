@@ -4,6 +4,7 @@ const InitialService = require("./InitialService");
 const AuthService = require("./AuthService");
 const ProjectService = require("./ProjectService");
 const LikeService = require('./LikeService')
+const ApplyService = require('./ApplyService')
 
 module.exports = {
   UserService,
@@ -11,5 +12,6 @@ module.exports = {
   InitialService,
   AuthService,
   ProjectService,
-  LikeService
+  LikeService,
+  ApplyService
 };

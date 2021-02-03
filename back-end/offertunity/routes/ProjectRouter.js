@@ -1,4 +1,3 @@
-console.log('location: router/UserRouter')
 const express = require('express')
 const passport = require('passport')
 const router = express.Router()
@@ -10,13 +9,14 @@ router.options("/", cors());
 
 const { ProjectController } = require('../controllers')
 
-const { validateToken } = require('../middlewares')
+const { validateToken, checkLogIn } = require('../middlewares')
 
 router.get('/', cors(), ProjectController.getProjects)
-router.get('/:projectId', ProjectController.getOneProject)
+router.get('/:projectId', checkLogIn, ProjectController.getOneProject)
 router.post('/', validateToken, upload.single('project_picture'), ProjectController.postOneProject)
 router.put('/:projectId', validateToken, upload.single('project_picture'), ProjectController.updateOneProject)
 router.put('/publish/:projectId', validateToken, upload.single('project_picture'), ProjectController.openOneProject)
 router.delete('/:projectId', validateToken, ProjectController.deleteOneProject)
+
 
 module.exports = router

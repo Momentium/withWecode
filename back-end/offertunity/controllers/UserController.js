@@ -42,7 +42,7 @@ const signIn = errorWrapper(async (req, res) => {
   if (!isValidPassword)
     errorGenerator({ statusCode: 400, message: "client input invalid" });
   const token = jwt.sign({ id }, AUTH_TOKEN_SALT);
-  res.status(200).json({ message: "login success!", token });
+  res.status(200).json({ message: "login success!", token, foundUser});
 });
 
 const showMemberInfo = errorWrapper(async (req, res) => {
