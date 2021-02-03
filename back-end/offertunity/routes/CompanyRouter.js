@@ -38,18 +38,6 @@ router.post(
 router.post(
     '/info/startup/save',
     validateToken,
-    upload.fields([
-        {name: 'logoImg', maxCount: 1}, 
-        {name: 'thumbnail', maxCount: 1}, 
-        {name: 'startupImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
-    ]),
-    CompanyController.tempSaveStartupInfo
-)
-
-router.post(
-    '/info/startup/save',
-    validateToken,
     save,
     upload.fields([
         {name: 'logoImg', maxCount: 1}, 

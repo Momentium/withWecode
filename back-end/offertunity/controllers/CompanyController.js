@@ -161,9 +161,7 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     const sectorId = sector ? await CompanyService.getRelatedInfoId('sectors', sector) : undefined
     const coreTechnologyId = coreTechnology ? await CompanyService.getRelatedInfoId('technologies', coreTechnology) : undefined
     const investmentSeriesId = investmentSeries ? await CompanyService.getRelatedInfoId('investment_series', investmentSeries) : undefined
-    console.log('Series:', investmentSeriesId)
     const investmentFundId = investmentFund ? await CompanyService.getRelatedInfoId('investment_funds', investmentFund) : undefined
-    console.log('Fund:', investmentFundId)
     
     const companyFields = {
         name,

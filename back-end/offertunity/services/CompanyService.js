@@ -108,15 +108,15 @@ const saveInfo = (async (companyId) => {
     })
 })
 
-const ARTICLES_DEFAULT_OFFSET = 0
-const ARTICLES_DEFAULT_LIMIT = 5
-
-const findStartups = (query) => {
+const findStartups = async (query) => {
     const { offset, limit, ...fields } = query
     const where = makeQueryOption(fields)
     where.type_id = 1
+
+    const ARTICLES_DEFAULT_OFFSET = 0
+    const ARTICLES_DEFAULT_LIMIT = 16
   
-    return prisma.companies.findMany({
+    const companies = await prisma.companies.findMany({
         include: {
             startups: true,
         },
@@ -124,6 +124,11 @@ const findStartups = (query) => {
         skip: Number(offset)-1 || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     })
+    const num = (await prisma.companies.findMany({
+        where
+    })).length
+
+    return [companies, num]
 }
 
 const findStartup = (field) => {
