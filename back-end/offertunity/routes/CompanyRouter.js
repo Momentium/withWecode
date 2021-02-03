@@ -71,12 +71,11 @@ router.post(
 )
 
 // partner info
-// ====== 생성 필요 ========
-// router.get(
-//     '/info/partner',
-//     validateToken,
-//     CompanyController.getPartnerInfo
-// )
+router.get(
+    '/info/partner',
+    validateToken,
+    CompanyController.getPartnerInfo
+)
 
 router.post(
     '/info/partner/temp',
@@ -102,7 +101,7 @@ router.post(
     CompanyController.savePartnerInfo
 )
 
-// general
+// delete
 router.delete(
     '/del/member/:memberId',
     validateToken,

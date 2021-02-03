@@ -155,13 +155,15 @@ const tempSaveStartupBasicInfo = errorWrapper(async (req, res, next) => {
 
 const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: 'this user is not startup user'})
-    const { name, rep, establishedDate, sector, coreTechnology, homepage, description, itemDescription, investmentSeries, wishInvestmentSeriesIds, investmentFund, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs, companyNewsDeleteIds, startupImagesDeleteIds, investedDates, investedInstitutions, investedFunds, investedValues, investedSeries } = req.body
+    const { name, rep, establishedDate, sector, coreTechnology, homepage, description, itemDescription, investmentSeries, wishInvestmentSeries, investmentFund, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs, investedDates, investedInstitutions, investedFunds, investedValues, investedSeries } = req.body
     const { logoImg, startupImages, memberImages, thumbnail } = req.files
 
     const sectorId = sector ? await CompanyService.getRelatedInfoId('sectors', sector) : undefined
     const coreTechnologyId = coreTechnology ? await CompanyService.getRelatedInfoId('technologies', coreTechnology) : undefined
-    const investmentSeriesId = investmentSeries ? await CompanyService.getRelatedInfoId('investmentSeries', investmentSeries) : undefined
+    const investmentSeriesId = investmentSeries ? await CompanyService.getRelatedInfoId('investment_series', investmentSeries) : undefined
+    console.log('Series:', investmentSeriesId)
     const investmentFundId = investmentFund ? await CompanyService.getRelatedInfoId('investment_funds', investmentFund) : undefined
+    console.log('Fund:', investmentFundId)
     
     const companyFields = {
         name,
@@ -174,10 +176,10 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
         company_types: { connect: { id: 1 } }
     }
     const startup_connect = {
-        sectors: { connect: { id: Number(sectorId) } },
-        technologies: { connect: { id: Number(coreTechnologyId) } },
-        investment_series: { connect: { id: Number(investmentSeriesId) } },
-        investment_funds: { connect: { id: Number(investmentFundId) } }
+        sectors: { connect: { id: sectorId } },
+        technologies: { connect: { id: coreTechnologyId } },
+        investment_series: { connect: { id: investmentSeriesId } },
+        investment_funds: { connect: { id: investmentFundId } }
     }
     const startup_field = {
         rep,
@@ -216,29 +218,32 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     }
 
     // 희망 투자 단계 추가 및 삭제
-    if (wishInvestmentSeriesIds) {
-        if (typeof wishInvestmentSeriesIds === 'string') {
+    if (wishInvestmentSeries) {
+        if (typeof wishInvestmentSeries === 'string') {
             const existData = await CompanyService.checkWishInvestmentSeries(startupInfo.id)
             if (existData.length === 2) {
                 await CompanyService.deleteWishInvestmentSeries(existData[1].id);
+                const wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries)
                 await CompanyService.updateWishInvestmentSeries(
                     id = existData[0].id,
                     data = {
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesId } }
                     }
                 )
             } else if (existData.length === 1) {
+                const wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries)
                 await CompanyService.updateWishInvestmentSeries(
                     id = existData[0].id,
                     data = {
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesId } }
                     }
                 )
             } else if (existData.length === 0) {
+                const wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries)
                 await CompanyService.createWishInvestmentSeries(
                     data = {
                         startups: { connect: { id: startupInfo.id } },
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesId } }
                     }
                 )
             }
@@ -246,32 +251,36 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
             const existData = await CompanyService.checkWishInvestmentSeries(startupInfo.id)
             if (existData.length === 2) {
                 for (len = 0; len < wishInvestmentSeriesIds.length; len++) {
+                    let wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries[len])
                     await CompanyService.updateWishInvestmentSeries(
                         id = existData[len].id,
                         data = {
-                            investment_series: { connect: { id: Number(wishInvestmentSeriesIds[len]) } }
+                            investment_series: { connect: { id: wishInvestmentSeriesId } }
                         }
                     )
                 }
             } else if (existData.length === 1) {
+                const wishInvestmentSeriesIdFirst = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries[0])
+                const wishInvestmentSeriesIdSecond = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries[1])
                 await CompanyService.updateWishInvestmentSeries(
                     id = existData[0].id,
                     data = {
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds[0]) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesIdFirst } }
                     }
                 )
                 await CompanyService.createWishInvestmentSeries(
                     data = {
                         startups: { connect: { id: startupInfo.id } },
-                        investment_series: { connect: { id: Number(wishInvestmentSeriesIds[1]) } }
+                        investment_series: { connect: { id: wishInvestmentSeriesIdSecond } }
                     }
                 )
             } else if (existData.length === 0) {
                 for (len = 0; len < wishInvestmentSeriesIds.length; len++) {
+                    let wishInvestmentSeriesId = await CompanyService.getRelatedInfoId('investment_series', wishInvestmentSeries[len])
                     await CompanyService.createWishInvestmentSeries(
                         data = {
                             startups: { connect: { id: startupInfo.id } },
-                            investment_series: { connect: { id: Number(wishInvestmentSeriesIds[len]) } }
+                            investment_series: { connect: { id: wishInvestmentSeriesId } }
                         }
                     )
                 }
@@ -282,23 +291,27 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     // 투자 이력 추가
     if (investedDates && investedInstitutions && investedFunds && investedValues && investedSeries) {
         if (typeChecker(investedDates, investedInstitutions, investedFunds, investedValues, investedSeries) === 'string') {
+            const investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds)
+            const investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries)
             await CompanyService.createRelatedInfo('invested_from', data = {
                 startups: { connect: { id: startupInfo.id } },
                 date: await dateForm(investedDates),
                 invested_institution: investedInstitutions,
-                investment_funds: { connect: { id: Number(investedFunds) } },
+                investment_funds: { connect: { id: investedFundId } },
                 corporate_value: Number(investedValues),
-                investment_series: { connect: { id: Number(investedSeries) } }
+                investment_series: { connect: { id: Number(investedSeriesId) } }
             })
         } else if (lengthChecker(investedDates, investedInstitutions, investedFunds, investedValues, investedSeries)) {
             for (len = 0; len < investedDates.length; len++) {
+                let investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds[len])
+                let investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries[len])    
                 await CompanyService.createRelatedInfo('invested_from', data = {
                     startups: { connect: { id: startupInfo.id } },
                     date: await dateForm(investedDates[len]),
                     invested_institution: investedInstitutions[len],
-                    investment_funds: { connect: { id: Number(investedFunds[len]) } },
+                    investment_funds: { connect: { id: investedFundId } },
                     corporate_value: Number(investedValues[len]),
-                    investment_series: { connect: { id: Number(investedSeries[len]) } }
+                    investment_series: { connect: { id: investedSeriesId } }
                 })
             }
         }
@@ -444,8 +457,7 @@ const getPartnerInfo = errorWrapper(async (req, res) => {
         body.news = company.company_news
         body.investedFrom = company.partners[0].invested_from
         body.portfolioImages = company.partners[0].investment_portfolio
-    } else if (!req.foundUser.company_id) {
-    }
+    } 
 
     await res.status(201).json({
         message: 'partner info',
