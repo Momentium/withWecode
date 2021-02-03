@@ -5,6 +5,9 @@ import IntroForm from './IntroForm';
 import IntroImg from './IntroImg';
 import InvestDesire from './InvestDesire';
 import InvestHist from './InvestHist';
+import IntroTeam from './IntroTeam';
+import News from './News';
+import BtnSet from './BtnSet';
 
 interface BasicState {
   thumbnail: string;
@@ -44,6 +47,9 @@ const MyStartup = () => {
       <IntroImg/>
       <InvestDesire/>
       <InvestHist/>
+      <IntroTeam/>
+      <News/>
+      <BtnSet/>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import * as Mt from 'api/methods';
@@ -37,7 +37,6 @@ const BaseInfo:React.FC<any> = ({ submitBaseInfo }) => {
       case 'homepage':
         setHompage(_target.value);
         break;
-
     }
   }
 
@@ -309,7 +308,6 @@ const StFormWrap = styled.div`
       text-shadow: 0 0 1px red;
     }
   }
-  
 
   .name-guide {
     margin-left: 24px;

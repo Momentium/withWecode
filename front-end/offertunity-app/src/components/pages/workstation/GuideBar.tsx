@@ -59,7 +59,7 @@ const StCont = styled.span`
   line-height: 64px;
   padding: 0 72px;
   margin-top: 32px;
-  margin-bottom: 120px;
+  margin-bottom: 80px;
 
   background: #5541ED;
 

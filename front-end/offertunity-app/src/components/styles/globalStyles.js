@@ -165,10 +165,13 @@ button {
     outline:none;
   }
 }
-input:focus, textarea:focus {
+
+input:focus,
+textarea:focus {
   transition: all 0.3s ease;
   outline: none;
   border: 1px solid #5541ED;
 }
+
 `;
 export default GlobalStyle;
