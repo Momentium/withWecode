@@ -27,6 +27,7 @@ const PartnerList = () => {
       )
       .then((res) => {
         setPartnerList(res.data.companies);
+        setTotalLength(res.data.num);
       });
   };
 

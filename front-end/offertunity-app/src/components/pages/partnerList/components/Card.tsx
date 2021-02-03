@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Card = ({ data }: any) => {
+  console.log(data);
   return data.map((item: any, idx: number) => {
     return (
-      <Link to={`/partner/${item.id}`} key={idx}>
+      <Link to={`/partner/detail/${item.id}`} key={idx}>
         <CardBox key={idx}>
           <ImageContainer>
             <img alt="로고" src={item.logo_img} />

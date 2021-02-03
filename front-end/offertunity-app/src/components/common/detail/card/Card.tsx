@@ -3,13 +3,14 @@ import styled from "styled-components";
 import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
 
-const CompanyCard = ({ data, detailInfo, type }: any) => {
-  const { title, titleImage, logo, label, like, homepage } = data;
+const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
+  const { name, logo_img, label, homepage } = data;
 
   const backgroundImage = {
-    backgroundImage: `url(${titleImage})`,
+    backgroundImage: `url(${logo_img})`,
     backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
+    backgroundSize: "contain",
+    backgroundPosition: "center",
   };
 
   const handleUrlClick = (url: string) => {
@@ -21,8 +22,7 @@ const CompanyCard = ({ data, detailInfo, type }: any) => {
       <CompanyImg style={backgroundImage} />
       <CompanyInfo>
         <Title>
-          <img alt="로고" src={logo} />
-          <span>{title}</span>
+          <span>{name}</span>
         </Title>
         <Hr />
         <DetailInfo>
@@ -48,10 +48,16 @@ const CompanyCard = ({ data, detailInfo, type }: any) => {
             })}
           </LeftBox>
           <RightBox>
-            <Labels label={label} detailName={"detailLabels"} />
+            {/* <Labels label={label} detailName={"detailLabels"} /> */}
           </RightBox>
         </DetailInfo>
-        <Buttons data={like} title={title} type={type} />
+        <Buttons
+          data={data.partners[0].is_liked}
+          title={name}
+          type={type}
+          companyId={data.id}
+          isLogin={isLogin}
+        />
       </CompanyInfo>
     </CardBox>
   );
@@ -81,14 +87,13 @@ const Title = styled.div`
   display: flex;
   align-items: flex-end;
   span {
-    margin-left: 2rem;
     font-size: ${({ theme }) => theme.fontSizes.titleSize};
     font-weight: bold;
   }
 `;
 
 const Hr = styled.hr`
-  width: 100%;
+  width: 80%;
   margin: 1.5rem 0rem;
 `;
 
@@ -113,7 +118,7 @@ const Wrapper = styled.div`
   }
 
   div {
-    width: 9.813rem;
+    width: 15.813rem;
 
     span {
       &.url {
