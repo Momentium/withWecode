@@ -1,32 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import Profile from "./components/Profile";
 import WorkStation from "./components/WorkStation";
 import Box from "./components/Box";
 import Level from "./components/Level";
-import Interested from "./components/Interested";
+import Card from "./components/Card";
 
-const MypageStartup = () => {
+const MypageStartup: React.FC = () => {
+  const [profileData, setProfileData] = useState({});
+  const [successData, setSuccessData] = useState();
+  const [interestData, setInterestData] = useState();
+  const [irData, setIrData] = useState();
+  const [cardData, setCardData] = useState([]);
+
+  useEffect(() => {
+    getProfileData();
+    getSuccessData();
+    getInterestData();
+    getIrData();
+    getCardData();
+  }, []);
+
+  const getProfileData = () => {
+    axios
+      .get("http://10.0.1.29:3000/users/mypage", {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setProfileData(res.data.userInfo);
+      });
+  };
+
+  const getSuccessData = () => {
+    axios.get("/data/boxone.json").then((res) => {
+      setSuccessData(res.data.Percentage);
+    });
+  };
+  const getInterestData = () => {
+    axios.get("/data/boxtwo.json").then((res) => {
+      setInterestData(res.data.interestIn);
+    });
+  };
+  const getIrData = () => {
+    axios.get("/data/boxthree.json").then((res) => {
+      setIrData(res.data.ir);
+    });
+  };
+
+  const getCardData = () => {
+    axios.get("/data/mypageInterestList.json").then((res) => {
+      setCardData(res.data.data);
+    });
+  };
+
   return (
     <>
       <Wrap>
         <Center>
           <Station>
-            홈 <i className="fas fa-chevron-right" /> 마이페이지
+            <Link to="/">홈</Link> <i className="fas fa-chevron-right" />{" "}
+            마이페이지
           </Station>
-          <Profile />
+          <Profile data={profileData} />
           <WorkStation />
           <BoxWrap>
-            <Box />
-            <Box />
-            <Box />
+            <Box success={successData} interest={""} ir={""} />
+            <Box success={""} interest={interestData} ir={""} />
+            <Box success={""} interest={""} ir={irData} />
           </BoxWrap>
           <Level />
         </Center>
       </Wrap>
-
       <Title>내가 관심있는 스타트업</Title>
-      <Interested />
+      <Intertest>
+        {cardData.map((el: any, idx: number) => {
+          return <Card data={el} key={idx} index={idx} />;
+        })}
+      </Intertest>
     </>
   );
 };
@@ -39,13 +93,14 @@ const Wrap = styled.div`
   padding-bottom: 7.6rem;
 `;
 
-const Center = styled.section`
-  ${({ theme }) => theme.ConWidth};
+const Center = styled.div`
+  ${({ theme }) => theme.conWidth}
 `;
 
 const Station = styled.div`
   padding: 2.5rem 0 4.063rem 0;
   font-size: 0.937rem;
+  cursor: pointer;
   i {
     margin: 0 0.5rem;
   }
@@ -58,8 +113,12 @@ const BoxWrap = styled.div`
 `;
 
 const Title = styled.p`
-  ${({ theme }) => theme.ConWidth};
+  ${({ theme }) => theme.conWidth};
   padding: 7.5rem 0 3.5rem 0;
   font-size: 1.75rem;
   font-weight: bold;
+`;
+
+const Intertest = styled.div`
+  ${({ theme }) => theme.conWidth};
 `;

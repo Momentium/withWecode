@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const ProgressBar = () => {
+type Props = {
+  success: any;
+};
+
+const ProgressBar: React.FC<Props> = ({ success }) => {
   return (
     <Wrap>
       <Percentage>
@@ -10,7 +14,7 @@ const ProgressBar = () => {
         <span>100%</span>
       </Percentage>
       <Bar>
-        <span></span>
+        <span style={{ width: `${success}%` }}></span>
       </Bar>
     </Wrap>
   );
@@ -38,7 +42,6 @@ const Bar = styled.div`
   border-radius: 0.5rem;
   span {
     display: inline-block;
-    width: 30%;
     height: 100%;
     background: transparent linear-gradient(90deg, #c2bdf0 0%, #5541ed 100%) 0%
       0% no-repeat padding-box;

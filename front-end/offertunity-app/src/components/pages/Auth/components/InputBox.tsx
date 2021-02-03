@@ -48,17 +48,16 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
       })
       .then(function (response) {
         alert("회원가입 성공");
+        if (typeId === "2") {
+          history.push("/auth/SignupFinishPartner");
+        }
+        if (typeId === "1") {
+          history.push("/auth/SignupFinishStartup");
+        }
       })
       .catch(function (error) {
         alert("필수사항을 입력해 주세요");
       });
-
-    if (typeId === "2") {
-      history.push("/Auth/SignupFinishPartner");
-    }
-    if (typeId === "1") {
-      history.push("/Auth/SignupFinishStartup");
-    }
   };
 
   const handleEmail = (event: any) => {
@@ -72,9 +71,28 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
     });
   };
 
-  const handleModal = (event: any) => {
+  const handleModal = () => {
     setModal(!modal);
+    axios
+      .post("http://10.0.1.41:3000/auths/email", {
+        email: email,
+      })
+      .then(function (response) {
+        alert("에잇");
+      });
+
+    console.log(email);
   };
+
+  // const SendEmail = () => {
+  //   axios
+  //     .post(" http://127.0.0.1:3000/auths/email ", {
+  //       email: email,
+  //     })
+  //     .then(function (response) {
+  //       alert("이메일인증");
+  //     });
+  // };
 
   const handlePw = (event: any) => {
     event.preventDefault();

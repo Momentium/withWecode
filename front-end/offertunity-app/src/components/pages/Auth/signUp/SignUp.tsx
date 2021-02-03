@@ -31,8 +31,10 @@ const SignUp: React.FC = () => {
             <Facebook />
           </Icon>
           <Or />
-          <BtnEmail>이메일로 회원가입</BtnEmail>
-          <Link to="/Auth/SignIn">
+          <Link to="/auth/SignupSelectmember">
+            <BtnEmail>이메일로 회원가입</BtnEmail>
+          </Link>
+          <Link to="/auth/SignIn">
             <Question ask="이미 오퍼튜니티 회원이신가요?" button="로그인" />
           </Link>
         </Con>
