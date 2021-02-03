@@ -41,6 +41,21 @@ router.post(
 router.get("/mypage", cors(), validateToken, UserController.showMemberInfo);
 
 router.post(
+<<<<<<< HEAD
+    "/mypage",
+    validateToken,
+    upload.single('profile_picture'),
+    UserController.addMemberInfo,
+)
+
+router.delete(
+    "/mypage",
+    validateToken,
+    UserController.deleteMemberInfo
+)
+
+module.exports = router
+=======
   "/mypage",
   cors(), 
   validateToken,
@@ -51,3 +66,4 @@ router.post(
 router.delete("/mypage", cors(), validateToken, UserController.deleteMember);
 
 module.exports = router;
+>>>>>>> back-end

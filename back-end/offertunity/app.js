@@ -16,12 +16,12 @@ app.use(express.json())
 app.use(logger)
 
 app.use(
-  session({
-    secret: COOKIE_SECRET,
-    cookieSession: { maxAge: 60 * 60 * 1000 },
-    resave: true,
-    saveUninitialized: false,
-  })
+    session({
+        secret: COOKIE_SECRET,
+        cookieSession: { maxAge: 60 * 60 * 1000 },
+        resave: true,
+        saveUninitialized: false,
+    })
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -31,10 +31,12 @@ app.use(routes);
 // general error handler
 // express가 구현된 방식.. err, req, res, next를 받도록 함
 // error를 최종적으로 받는 부분
+
+
 app.use((err, req, res, next) => {
-  const { statusCode, message } = err;
-  console.error(err);
-  res.status(statusCode || 500).json({ message });
+    const { statusCode, message } = err;
+    console.error(err);
+    res.status(statusCode || 500).json({ message });
 });
 
 module.exports = app;

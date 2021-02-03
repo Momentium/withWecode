@@ -22,4 +22,4 @@ const checkLogIn = errorWrapper(async(req, res, next) => {
     next()
 })
 
-module.exports = checkLogIn 
+module.exports = checkLogIn

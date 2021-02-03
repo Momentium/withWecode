@@ -27,10 +27,10 @@ router.post(
     '/info/startup/temp',
     validateToken,
     upload.fields([
-        {name: 'logoImg', maxCount: 1}, 
-        {name: 'thumbnail', maxCount: 1}, 
-        {name: 'startupImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'thumbnail', maxCount: 1 },
+        { name: 'startupImages', maxCount: 5 },
+        { name: 'memberImages', maxCount: 100 },
     ]),
     CompanyController.tempSaveStartupInfo
 )
@@ -40,10 +40,10 @@ router.post(
     validateToken,
     save,
     upload.fields([
-        {name: 'logoImg', maxCount: 1}, 
-        {name: 'thumbnail', maxCount: 1}, 
-        {name: 'startupImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'thumbnail', maxCount: 1 },
+        { name: 'startupImages', maxCount: 5 },
+        { name: 'memberImages', maxCount: 100 },
     ]),
     CompanyController.tempSaveStartupInfo,
     CompanyController.saveStartupInfo
@@ -53,7 +53,7 @@ router.post(
     '/project_info/startup',
     validateToken,
     upload.fields([
-        {name: 'logoImg', maxCount: 1}
+        { name: 'logoImg', maxCount: 1 }
     ]),
     CompanyController.saveStartupSubmitInfo
 )
@@ -69,9 +69,9 @@ router.post(
     '/info/partner/temp',
     validateToken,
     upload.fields([
-        {name: 'logoImg', maxCount: 1},
-        {name: 'portfolioImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'portfolioImages', maxCount: 5 },
+        { name: 'memberImages', maxCount: 100 },
     ]),
     CompanyController.tempSavePartnerInfo
 )
@@ -81,9 +81,9 @@ router.post(
     validateToken,
     save,
     upload.fields([
-        {name: 'logoImg', maxCount: 1},
-        {name: 'portfolioImages', maxCount: 5},
-        {name: 'memberImages', maxCount: 100},
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'portfolioImages', maxCount: 5 },
+        { name: 'memberImages', maxCount: 100 },
     ]),
     CompanyController.tempSavePartnerInfo,
     CompanyController.savePartnerInfo
@@ -96,6 +96,45 @@ router.delete(
     CompanyController.deleteMember
 )
 
+<<<<<<< HEAD
+// IR_count
+router.get(
+    '/IR_count/:companyId',
+    CompanyController.startupIRCount
+)
+
+//startup doc
+
+router.post(
+    "/registerdoc",
+    validateToken,
+    upload.single('startupDoc'),
+    CompanyController.uploadStartupDoc,
+)
+
+router.get(
+    "/:companyId/doc/:docTypeId",
+    validateToken,
+    CompanyController.readStartupDoc,
+
+)
+
+router.get(
+    "/download/:companyId/:docTypeId",
+    validateToken,
+    CompanyController.downloadStartupDoc,
+
+)
+
+router.delete(
+    "/company/:companyId/doc/:docTypeId",
+    validateToken,
+    CompanyController.deleteStartupDoc,
+
+)
+
+module.exports = router
+=======
 router.delete(
     '/del/investedfrom/:investedFromId',
     validateToken,
@@ -149,3 +188,4 @@ router.get(
 
 
 module.exports = router
+>>>>>>> back-end

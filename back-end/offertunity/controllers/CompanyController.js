@@ -614,6 +614,59 @@ const savePartnerInfo = errorWrapper(async (req, res) => {
     })
 })
 
+<<<<<<< HEAD
+
+const startupIRCount = errorWrapper(async(req, res) => {
+    const { companyId } = req.params
+    const countingRegisteredIR = await CompanyService.irRegisteredCount({ id: companyId })
+    const countingSentIR = await CompanyService.irSentCount({ id: companyId })
+    const countingRequestedIR = await CompanyService.irRequestedCount({ id: companyId })
+    res.status(200).json({
+        countingRegisteredIR,
+        countingSentIR,
+        countingRequestedIR
+    })
+})
+
+
+const uploadStartupDoc = errorWrapper(async(req, res) => {
+    const { companyId, docTypeId } = req.body
+    const startupDoc = req.file ? req.file.location : null;
+    const addInfo = await CompanyService.registerDoc({ companyId, docTypeId, startupDoc })
+    res.status(201).json({
+        message: 'information successfully added',
+        addInfo
+    })
+})
+
+const downloadStartupDoc = errorWrapper(async(req, res) => {
+    const { companyId, docTypeId } = req.params
+    const fileKey = req.query['fileKey']
+    const fileStream = s3.getObject(options).createReadStream()
+    fileStream.pipe(res)
+
+    res.download(file)
+
+})
+
+const readStartupDoc = errorWrapper(async(req, res) => {
+    const { companyId, docTypeId } = req.params
+    const readStartupDoc = await CompanyService.readByDocType({ companyId, docTypeId })
+    res.status(200).json({
+        message: 'documents successfully read'
+
+    })
+})
+
+const deleteStartupDoc = errorWrapper(async(req, res) => {
+    const { docURL } = req.body
+    const { companyId, docTypeId } = req.params
+    const deleteStartupDoc = await CompanyService.deleteSDoc({ companyId, docTypeId, docURL })
+    res.status(204).json({
+        deleteStartupDoc,
+        message: 'document successfully deleted'
+
+=======
 const getStartups = errorWrapper(async (req, res) => {
     const [companies, num] = await CompanyService.findStartups(req.query)
     if (req.loggedIn) {
@@ -709,10 +762,23 @@ const likeCompany = errorWrapper(async (req, res) => {
     await res.status(201).json({
         message: 'Company Like Updated',
         result: like.is_liked
+>>>>>>> back-end
     })
 })
 
 module.exports = {
+<<<<<<< HEAD
+    startupInfoTempSave,
+    startupInfoSave,
+    startupProjectSubmitSave,
+    partnerInfoTempSave,
+    partnerInfoSave,
+    startupIRCount,
+    uploadStartupDoc,
+    downloadStartupDoc,
+    readStartupDoc,
+    deleteStartupDoc,
+=======
     getStartupInfo,
     tempSaveStartupInfo,
     tempSaveStartupBasicInfo,
@@ -731,4 +797,5 @@ module.exports = {
     deleteInvestTo,
     deleteImage,
     deleteNews
+>>>>>>> back-end
 }
