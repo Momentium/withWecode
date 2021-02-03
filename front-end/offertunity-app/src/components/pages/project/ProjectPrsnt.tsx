@@ -7,7 +7,9 @@ import ShareBtn from "components/common/button/iconBtn/ShareBtn";
 const ProjectPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
   return (
     <StPjtWrap>
-      <StImgWrap imgUrl={data.img} />
+      <StImgWrap
+        imgUrl={"https://t1.daumcdn.net/cfile/tistory/2207573D58CFDE2704"}
+      />
 
       <StContentsCont>
         <div className="up-wrap">
@@ -15,14 +17,14 @@ const ProjectPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
             {data.name}
           </StNameCont>
           <div className="iconBtn-cont">
-            <LikeBtn isLike={like} clickLike={clickLike} />
+            {/* <LikeBtn isLike={like} clickLike={clickLike} /> */}
             <ShareBtn />
           </div>
         </div>
         <div className="mid-wrap">
-          <p>{data.explain}</p>
+          <p>{data.introduction}</p>
         </div>
-        <div className="bot-wrap">{tags}</div>
+        {/* <div className="bot-wrap">{tags}</div> */}
       </StContentsCont>
 
       <StInfoCont>
@@ -38,11 +40,11 @@ const ProjectPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
             </tr>
             <tr>
               <th>지원대상</th>
-              <td>{data.target}</td>
+              <td>{data.eligibility}</td>
             </tr>
             <tr>
               <th>마감일</th>
-              <td>{data.deadline}</td>
+              <td>{data.deleted_at}</td>
             </tr>
           </tbody>
         </StInfoTable>

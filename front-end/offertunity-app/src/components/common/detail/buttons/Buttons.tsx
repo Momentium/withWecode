@@ -1,7 +1,7 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React, { useState } from "react";
 import styled from "styled-components";
-import LikeBtn from "../../../common/button/iconBtn/LikeBtn";
+import LikeBtn from "./LikeBtn";
 import ShareBtn from "../../../common/button/iconBtn/ShareBtn";
 import IRBtn from "./IRButton";
 
@@ -9,37 +9,55 @@ const boxStyle = {
   marginRight: "3.531rem",
 };
 
-// {
-//   headers: {
-//     'Authorization': sessionStorage.React::DevTools::lastSelection
-//   }
-// }
-
-const Buttons = ({ data, title, type, companyId }: any) => {
+const Buttons = ({ data, title, type, companyId, page, isLogin }: any) => {
   const [like, setLike] = useState<boolean>(data);
 
+  const getLikeData = () => {
+    if (isLogin) {
+      axios
+        .get(`http://10.0.1.44:3000/likes/company/${companyId}`, {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        })
+        .then((res) => setLike(res.data.result))
+        .catch((error) => console.log(error));
+    } else {
+      setLike(false);
+    }
+  };
+
+  useEffect(() => {
+    getLikeData();
+  }, []);
+
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
-    axios
-      .post(`http://10.0.1.44:3000/likes/company/${companyId}`, {
-        params: {
-          companyId: companyId,
-        },
-      })
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
-    setLike(!like);
+    e.preventDefault();
+    if (isLogin) {
+      getLikeData();
+    } else {
+      alert("로그인 진행해주세요");
+    }
   };
 
   return (
-    <BtnBox>
-      <IRBtn boxStyle={boxStyle} title={title} type={type} />
-      <ShareAndLike>
+    <>
+      {page === ("list" || "project" || "partner") ? (
         <span>
           <LikeBtn isLike={like} clickLike={clickLike} />
         </span>
-        <ShareBtn />
-      </ShareAndLike>
-    </BtnBox>
+      ) : (
+        <BtnBox>
+          <IRBtn boxStyle={boxStyle} title={title} type={type} />
+          <ShareAndLike>
+            <span>
+              <LikeBtn isLike={like} clickLike={clickLike} />
+            </span>
+            <ShareBtn />
+          </ShareAndLike>
+        </BtnBox>
+      )}
+    </>
   );
 };
 

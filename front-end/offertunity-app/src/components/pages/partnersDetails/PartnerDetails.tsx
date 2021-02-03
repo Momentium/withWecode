@@ -5,6 +5,7 @@ import MoveBar from "../../common/detail/MoveBar";
 import CompanyCard from "./compontents/PartnerCard";
 import CompanyDescription from "./compontents/PartnerDescription";
 import IRBtn from "../../common/detail/buttons/IRButton";
+import Buttons from "../../common/detail/buttons/Buttons";
 
 const boxStyle = {
   width: "100%",
@@ -14,14 +15,22 @@ const boxStyle = {
   marginBottom: "7.5rem",
 };
 
-const PartnerDetails = () => {
+const PartnerDetails = ({ match }: any) => {
   const [partnerData, setPartnerData] = useState();
+  const [isLogin, setIsLogin] = useState<boolean>();
 
   useEffect(() => {
-    axios.get("http://10.0.1.44:3000/companies/partner/1").then((res) => {
-      const _data = res.data.company;
-      setPartnerData(_data);
-    });
+    sessionStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
+  }, []);
+
+  useEffect(() => {
+    const _resId = match.params.id;
+    axios
+      .get(`http://10.0.1.44:3000/companies/partner/${_resId}`)
+      .then((res) => {
+        const _data = res.data.company;
+        setPartnerData(_data);
+      });
   }, []);
 
   return (
@@ -29,7 +38,7 @@ const PartnerDetails = () => {
       <MoveBar data={partnerData} />
       {partnerData && (
         <>
-          <CompanyCard data={partnerData} type={"partner"} />
+          <CompanyCard data={partnerData} type={"partner"} isLogin={isLogin} />
           <CompanyDescription data={partnerData} />
         </>
       )}

@@ -2,18 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import * as St from "components/styles/styledComp";
-import LikeBtn from "components/common/button/iconBtn/LikeBtn";
-import ShareBtn from "components/common/button/iconBtn/ShareBtn";
+import Buttons from "../../../common/detail/buttons/Buttons";
 import StButton from "./StButton";
+import ShareBtn from "components/common/button/iconBtn/ShareBtn";
 
 const ProjectCard: React.FC<any> = ({ data, like, clickLike }) => {
   const { tag } = data;
+  console.log(data);
   return (
     <StOverviewCont>
       <img src={`${data.img}`} alt="project-img" />
       <StRightCont>
         <div className="name">{data.name}</div>
-        <div className="explain">{data.explain}</div>
+        <div className="explain">{data.introduction}</div>
         <hr />
         <StInfoCont>
           <StInfoTable>
@@ -28,26 +29,25 @@ const ProjectCard: React.FC<any> = ({ data, like, clickLike }) => {
               </tr>
               <tr>
                 <th>지원대상</th>
-                <td>{data.target}</td>
+                <td>{data.eligibility}</td>
               </tr>
               <tr>
                 <th>마감일</th>
-                <td>{data.deadline}</td>
+                <td>{data.due_date}</td>
               </tr>
             </tbody>
           </StInfoTable>
           <StInfoTag>
-            <div className="bot-wrap">
+            {/* <div className="bot-wrap">
               {tag &&
                 tag.map((el: string, idx: number) => {
                   return <St.Tag key={idx}>{el}</St.Tag>;
                 })}
-            </div>
+            </div> */}
           </StInfoTag>
         </StInfoCont>
         <StBtnsCont>
           <StButton />
-          <LikeBtn isLike={like} clickLike={clickLike} />
           <ShareBtn />
         </StBtnsCont>
       </StRightCont>

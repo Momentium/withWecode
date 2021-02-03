@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
 
-const CompanyCard = ({ data, detailInfo, type }: any) => {
-  const { name, logo_img, label, like, homepage } = data;
+const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
+  const { name, logo_img, label, homepage } = data;
 
   const backgroundImage = {
     backgroundImage: `url(${logo_img})`,
@@ -51,7 +51,13 @@ const CompanyCard = ({ data, detailInfo, type }: any) => {
             {/* <Labels label={label} detailName={"detailLabels"} /> */}
           </RightBox>
         </DetailInfo>
-        <Buttons data={like} title={name} type={type} companyId={data.id} />
+        <Buttons
+          data={data.partners[0].is_liked}
+          title={name}
+          type={type}
+          companyId={data.id}
+          isLogin={isLogin}
+        />
       </CompanyInfo>
     </CardBox>
   );

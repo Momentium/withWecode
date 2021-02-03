@@ -32,6 +32,11 @@ const Invest = ({ data }: any) => {
     }
   };
 
+  const numberWithComma = (num: any) => {
+    console.log(num);
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   useEffect(() => {
     loopWithSlice(0, 3);
   }, [loopWithSlice]);
@@ -61,7 +66,7 @@ const Invest = ({ data }: any) => {
               <div className="contentBox">
                 <div className="box">
                   <p className="subTitle">
-                    투자 일자 <span>{item.date}</span>
+                    투자 일자 <span>{item.date.slice(0, 10)}</span>
                   </p>
                   <p className="subTitle">
                     투자 금액 <span>{item.invested_fund}</span>
@@ -72,7 +77,8 @@ const Invest = ({ data }: any) => {
                     투자 기관 <span>{item.invested_startup}</span>
                   </p>
                   <p className="subTitle">
-                    기업 가치 <span>{item.corporate_value}</span>
+                    기업 가치{" "}
+                    <span>{numberWithComma(item.corporate_value)}</span>
                   </p>
                 </div>
                 <div className="investBtn">

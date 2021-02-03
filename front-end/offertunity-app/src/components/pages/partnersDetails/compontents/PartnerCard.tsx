@@ -1,11 +1,11 @@
 import React from "react";
 import Card from "../../../common/detail/card/Card";
 
-const PartnerCard = ({ data, type }: any) => {
+const PartnerCard = ({ data, type, isLogin }: any) => {
   const detailInfo = [
     {
       title: "설립일",
-      content: data.established_date,
+      content: data.established_date.slice(0, 10),
     },
     {
       title: "투자 집행 건수",
@@ -25,7 +25,9 @@ const PartnerCard = ({ data, type }: any) => {
     },
   ];
 
-  return <Card data={data} detailInfo={detailInfo} type={type} />;
+  return (
+    <Card data={data} detailInfo={detailInfo} type={type} isLogin={isLogin} />
+  );
 };
 
 export default PartnerCard;

@@ -15,7 +15,7 @@ const CompanyDescription = ({ data, introduceDatas }: any) => {
       .get("/data/partnerData/newsData.json")
       .then((res) => setNews(res.data.data));
   }, []);
-  console.log(data.teamIntroduce);
+
   return (
     <>
       <CompanyInformation>
