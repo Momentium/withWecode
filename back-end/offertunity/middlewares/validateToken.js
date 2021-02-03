@@ -1,7 +1,7 @@
-const { errorWrapper, errorGenerator } = require('../errors')
-const { UserService } = require('../services')
-const { AUTH_TOKEN_SALT } = process.env
-const jwt = require('jsonwebtoken')
+const { errorWrapper, errorGenerator } = require("../errors");
+const { UserService } = require("../services");
+const { AUTH_TOKEN_SALT } = process.env;
+const jwt = require("jsonwebtoken");
 
 const validateToken = errorWrapper(async(req, res, next) => {
     let token

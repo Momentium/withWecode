@@ -44,6 +44,7 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "kakao",
     "naver",
   ]);
+
   await InitialService.createDatas("eligibilities", [
     "업력 무관",
     "3년 미만",
