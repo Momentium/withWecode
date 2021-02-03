@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ProgressBar from "./ProgressBar";
 import CheckBtn from "./CheckBtn";
+import axios from "axios";
 
-const Level = () => {
+const Level: React.FC = () => {
+  const [checked, setChecked] = useState([]);
+  useEffect(() => {
+    axios.get("/data/level.json").then((res) => {
+      setChecked(res.data.data);
+    });
+  }, []);
+
+  const classTrue = document.getElementsByClassName("true");
+  const numberOfClassTrue = (classTrue.length * 100) / 6;
+
   return (
     <Wrap>
       <Title>
@@ -12,14 +23,11 @@ const Level = () => {
           마이 스타트업 정보 관리 <i className="fas fa-chevron-right" />
         </span>
       </Title>
-      <ProgressBar />
-      <BtnWrap>
-        <CheckBtn />
-        <CheckBtn />
-        <CheckBtn />
-        <CheckBtn />
-        <CheckBtn />
-        <CheckBtn />
+      <ProgressBar success={numberOfClassTrue} />
+      <BtnWrap id="number">
+        {checked.map((el: any, idx: number) => {
+          return <CheckBtn data={el} key={idx} index={idx} />;
+        })}
       </BtnWrap>
     </Wrap>
   );
@@ -45,6 +53,7 @@ const Title = styled.div`
     font-size: 0.9rem;
     color: #3b24eb;
     border-bottom: 1px solid #3b24eb;
+    cursor: pointer;
     i {
       color: #00000029;
       margin-left: 1rem;

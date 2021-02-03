@@ -34,6 +34,7 @@ const Text = styled.div`
   line-height: 1.5rem;
   span {
     color: #5541ed;
+    cursor: pointer;
   }
 `;
 
@@ -44,4 +45,5 @@ const Button = styled.button`
   border-radius: 0.3rem;
   color: #fff;
   background: #5541ed;
+  cursor: pointer;
 `;

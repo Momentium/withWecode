@@ -71,14 +71,23 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                 <input type="text" />
               </StSearchWrap>
 
-              <Auth>
-                <Link to="/auth/signIn">
-                  <p>로그인</p>
-                </Link>
-                <Link to="/auth/signUp">
-                  <p>회원가입</p>
-                </Link>
-              </Auth>
+              {
+                location.pathname.includes("workstation")  ?
+                <StLogInCont>
+                  <img src="/images/icons/사각형 943@2x.png" alt=""/>
+                  <img src="/images/icons/사각형 944@2x.png" alt=""/>
+                  <span className="link-workstation">워크스테이션</span>
+                </StLogInCont>
+                :
+                <Auth>
+                  <Link to="/auth/signIn">
+                    <p>로그인</p>
+                  </Link>
+                  <Link to="/auth/signUp">
+                    <p>회원가입</p>
+                  </Link>
+                </Auth>
+              }
             </>
           )}
         </HeaderCon>
@@ -88,6 +97,37 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
 );
 
 export default withRouterAndRef(Header);
+
+const StLogInCont = styled.div`
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 21px;
+    margin-right: 30px;
+  }
+  img:first-child {
+    margin-left: 36px;
+    
+  }
+
+  span {
+    cursor: pointer;
+    user-select:none;
+    display: inline-block;
+    width: 150px;
+    line-height: 40px;
+    border: 1px solid #5142E4;
+    border-radius: 5px;
+
+    text-align: center;
+    vertical-align: middle;
+
+    color: #5541ED;
+    font-size: 15px;
+    font-weight: normal;
+  }
+`;
 
 const StSection = styled.div`
   position: fixed;
@@ -100,7 +140,8 @@ const StSection = styled.div`
   padding: 0 320px;
   box-sizing: content-box; */
 
-  width: 100vw;
+  width: 100%;
+  border-bottom: 1px solid #00000029;
 `;
 
 const HeaderCon = styled.header`
@@ -109,7 +150,6 @@ const HeaderCon = styled.header`
     theme.pathname.includes("auth") ? "flex-start" : "space-between"};
   align-items: center;
 
-  /* width: 100%; */
   width: 80rem;
   height: 4.37rem;
   margin: 0 auto;

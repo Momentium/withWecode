@@ -20,7 +20,8 @@ const SignIn: React.FC = () => {
   const SIGNIN = () => {
     const { email, password } = inputs;
     axios
-      .post("http://10.0.1.44:3000/users/signin", {
+      .post(`http://10.0.1.29:3000/users/signin`, {
+        //.post(`${process.env.REACT_APP_URL}/users/signin`, {
         email: email,
         password: password,
       })
@@ -87,7 +88,7 @@ const SignIn: React.FC = () => {
               <input type="checkbox" />
               아이디 저장
             </label>
-            <Link to="/Auth/FindId">
+            <Link to="/auth/FindId">
               <button>아이디 / 비밀번호 찾기</button>
             </Link>
           </FindAccount>
@@ -101,7 +102,7 @@ const SignIn: React.FC = () => {
             <Kakao />
             <Facebook />
           </Icon>
-          <Link to="/Auth/SignUp">
+          <Link to="/auth/SignUp">
             <Question
               ask="아직 OFFERTUNITY 회원이 아니신가요?"
               button="회원가입"
