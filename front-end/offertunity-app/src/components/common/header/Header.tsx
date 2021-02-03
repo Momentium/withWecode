@@ -140,9 +140,7 @@ const StSection = styled.div`
   padding: 0 320px;
   box-sizing: content-box; */
 
-  width: 100vw;
-
-  padding: 0 20rem;
+  width: 100%;
   border-bottom: 1px solid #00000029;
 `;
 
@@ -152,7 +150,6 @@ const HeaderCon = styled.header`
     theme.pathname.includes("auth") ? "flex-start" : "space-between"};
   align-items: center;
 
-  /* width: 100%; */
   width: 80rem;
   height: 4.37rem;
   margin: 0 auto;
