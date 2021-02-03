@@ -50,7 +50,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                   <Link to="/startup">스타트업</Link>
                 </StLinkWrap>
                 <StLinkWrap
-                  name="invest"
+                  name="partner"
                   curPage={location.pathname?.substring(1)}
                 >
                   <Link to="/partner">투자기관</Link>

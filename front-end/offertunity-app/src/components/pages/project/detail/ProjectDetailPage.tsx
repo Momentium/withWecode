@@ -14,7 +14,7 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
 
   useEffect(() => {
     const _resId = match.params.id;
-    axios.get(`http://10.0.1.29:3000/projects/${_resId}`).then((res) => {
+    axios.get(`${process.env.REACT_APP_URL}/projects/${_resId}`).then((res) => {
       console.log(res);
       const _data = res.data.projectDetail;
       setData(_data);

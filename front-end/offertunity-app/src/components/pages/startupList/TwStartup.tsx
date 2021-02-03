@@ -10,9 +10,13 @@ const TwStartup = (props: any) => {
 
   // 백엔드 API 나오면 수정할예정
   useEffect(() => {
-    axios.get("http://10.0.1.44:3000/companies/list/startup").then((res) => {
+    axios.get(`${process.env.REACT_APP_URL}/companies/list/startup`)
+    .then((res) => {
       const _data = res.data.companies;
       setStartupList(_data.slice(0, 3));
+    })
+    .catch(err => {
+      console.log(err)
     });
   }, []);
 

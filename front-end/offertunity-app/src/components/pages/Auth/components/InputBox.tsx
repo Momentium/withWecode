@@ -9,6 +9,7 @@ type Props = {
 };
 
 const InputBox: React.FC<Props> = ({ typeId }) => {
+  const reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$+ %^&*-]).{8,}$/;
   const [modal, setModal] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [checkService, setCheckService] = useState(false);
@@ -43,7 +44,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   const signUp = () => {
     console.log("악 !!!!");
     axios
-      .post("http://10.0.1.29:3000/users/signup", {
+      .post(`${process.env.REACT_APP_URL}/users/signup`, {
         email: email,
         name: name,
         password: password,
@@ -77,7 +78,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
 
   const handleModal = () => {
     setModal(!modal);
-    axios.post("http://10.0.1.41:3000/auths/email", {
+    axios.post(`${process.env.REACT_APP_URL}/auths/email`, {
       email: email,
     });
   };
@@ -91,7 +92,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
 
   const sendCertification = () => {
     axios
-      .post("http://10.0.1.41:3000/auths/emailconfirm", {
+      .post(`${process.env.REACT_APP_URL}/auths/emailconfirm`, {
         email: email,
         authNum: emailCertification,
       })
@@ -104,9 +105,8 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   };
 
   const handlePw = (event: any) => {
-    event.preventDefault();
+    // event.preventDefault();
     const { value } = event.target;
-    const reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$+ %^&*-]).{8,}$/;
 
     setInputs({
       ...inputs,
@@ -116,7 +116,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   };
 
   const handleSamePw = (event: any) => {
-    event.preventDefault();
+    // event.preventDefault();
     const { value } = event.target;
     const samePw = password === value;
     setInputs({

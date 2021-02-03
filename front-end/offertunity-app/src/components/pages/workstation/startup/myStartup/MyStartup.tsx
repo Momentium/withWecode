@@ -156,7 +156,11 @@ const MyStartup = () => {
           Authorization: `Basic ${_token}`,
         },
       }
-    );
+    )
+    .then((res) => { 
+      console.log(res) 
+      alert('임시 저장 성공')
+    });
   };
   const submitForm = () => {
     const _formData = new FormData();
@@ -177,7 +181,11 @@ const MyStartup = () => {
           Authorization: `Basic ${_token}`,
         },
       }
-    );
+    )
+    .then((res) => { 
+      console.log(res) 
+      alert('저장 성공')
+    });
   };
 
   return (

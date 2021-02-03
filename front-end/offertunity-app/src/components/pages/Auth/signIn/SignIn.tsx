@@ -64,7 +64,7 @@ const SignIn: React.FC = () => {
     });
   };
   const handleGOOGLE = () => {
-    window.location.href = "http://10.0.1.29:3000/users/google";
+    window.location.href = `${process.env.REACT_APP_URL}/users/google`;
   };
   return (
     <>

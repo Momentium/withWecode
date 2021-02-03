@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Title from "../../common/title/Title";
 import Card from "./components/Card";
 import PaginationCmp from "../../common/pagination/PaginationCmp";
@@ -15,7 +15,7 @@ const PartnerList = () => {
     const LIMIT = 12;
     axios
       .get(
-        `http://10.0.1.44:3000/companies/list/partner?offset=${page}&limit=${LIMIT}`
+        `${process.env.REACT_APP_URL}/companies/list/partner?offset=${page}&limit=${LIMIT}`
       )
       .then((res) => {
         setPartnerList(res.data.companies);
@@ -30,7 +30,7 @@ const PartnerList = () => {
   return (
     <PartnerListCon>
       <Title title={"투자 파트너스"} />
-      <PartnerCompanyList>
+      <PartnerCompanyList dataLength={partnerList.length}>
         <Card data={partnerList} />
       </PartnerCompanyList>
       <PaginationBox>
@@ -53,10 +53,15 @@ const PartnerListCon = styled.section`
   ${({ theme }) => theme.conWidth}
 `;
 
-const PartnerCompanyList = styled.div`
+const PartnerCompanyList = styled.div<{ dataLength:number }>`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  ${
+    props => css`
+      grid-template-rows: repeat(1fr, props.dataLength % 3);
+    `
+  }
+  
   column-gap: 10rem;
   row-gap: 2rem;
   width: 100%;
