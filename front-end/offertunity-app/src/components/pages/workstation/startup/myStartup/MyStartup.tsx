@@ -67,6 +67,7 @@ const MyStartup = () => {
       })
       .catch((err) => {
         alert(`데이터 전송에 실패했습니다.\n ${err}`)
+        
       })
   }, []);
 
