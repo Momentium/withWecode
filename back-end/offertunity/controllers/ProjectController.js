@@ -13,12 +13,14 @@ const getProjects = errorWrapper(async(req, res) => {
 })
 
 const getOneProject = errorWrapper(async(req, res) => {
+
     const userInfofromToken = req.foundUser ? req.foundUser : undefined
     const isStartup = userInfofromToken.type_id === 1
     const findApplied = isStartup ? await ApplyService.findRelatedApplication({ companies: userInfofromToken.company_id }) : false
     const hasApplied = findApplied ? true : false
     const { projectId } = req.params
     const projectDetail = await ProjectService.findOneProject({ id: projectId })
+
 
     res.status(200).json({ projectDetail, hasApplied })
 })

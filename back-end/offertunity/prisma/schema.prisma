@@ -20,12 +20,14 @@ model answers {
 }
 
 model applicants {
-  id         Int       @id @default(autoincrement())
-  company_id Int
-  project_id Int
-  created_at DateTime  @default(now())
-  companies  companies @relation(fields: [company_id], references: [id])
-  projects   projects  @relation(fields: [project_id], references: [id])
+  id                 Int       @id @default(autoincrement())
+  company_id         Int
+  project_id         Int
+  business_brief     String?
+  business_model     String?
+  created_at         DateTime  @default(now())
+  companies          companies @relation(fields: [company_id], references: [id])
+  projects           projects  @relation(fields: [project_id], references: [id])
 
   @@index([company_id], name: "FK_applicants_company_id_companies_id")
   @@index([project_id], name: "FK_applicants_project_id_projects_id")
@@ -303,7 +305,8 @@ model projects {
   caution              String?
   contact              String?
   is_opened            Int
-  hit                  Int             
+  hit                  Int
+  is_saved             Boolean                @default(false) 
   created_at           DateTime?              @default(now())
   updated_at           DateTime?              @updatedAt
   deleted_at           DateTime?
