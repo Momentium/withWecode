@@ -25,8 +25,24 @@ const SignIn: React.FC = () => {
       })
       .then(function (response) {
         alert("로그인 성공");
+        
+        console.log(response.data.foundUser)
+        const _resData = response.data.foundUser;
+      
+        const _userInfo:{} = {
+          id: _resData.id,
+          email: _resData.email,
+          name: _resData.name,
+          type_id: _resData.type_id,
+        }
+        
         sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("userInfo", JSON.stringify(_userInfo));
+        
+        console.log(JSON.parse(String(sessionStorage.getItem("userInfo"))))
         window.location.href = "/";
+       
+     
       })
       .catch(function (error) {
         alert("로그인 실패");
