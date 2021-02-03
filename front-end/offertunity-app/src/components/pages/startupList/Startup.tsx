@@ -7,17 +7,6 @@ import * as St from "../../styles/styledComp";
 import Search from "../../common/search/Search";
 
 const Startup = ({ data, itemsPerPage, page }: any) => {
-  const [searchValue, setSearchValue] = useState<string>();
-  const onKeyPress = (event: KeyboardEvent) => {
-    if (event.key === "Enter") {
-      /*
-      axios get */
-    }
-  };
-
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
-  };
   return (
     <StartupBox>
       <StCont className="filter-cont">
@@ -29,7 +18,7 @@ const Startup = ({ data, itemsPerPage, page }: any) => {
         boxName={"startupBox"}
         itemsPerPage={itemsPerPage}
         page={page}
-        background={"contain"}
+        background={"cover"}
       />
     </StartupBox>
   );
