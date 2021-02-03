@@ -36,16 +36,12 @@ const StartupDetails = ({ match }: any) => {
     <DetailBox>
       <MoveBar data={companyData} />
       {companyData && (
-        <CompanyCard data={companyData} type={"startup"} isLogin={isLogin} />
-      )}
-      {/* <CompanyDescription data={companyData} /> */}
-      {/* companyData && (
         <>
           <CompanyCard data={companyData} type={"startup"} isLogin={isLogin} />
           <CompanyDescription data={companyData} />
         </>
       )}
-      <IRBtn boxStyle={boxStyle} type={"startup"} />  */}
+      <IRBtn boxStyle={boxStyle} type={"startup"} />
     </DetailBox>
   );
 };

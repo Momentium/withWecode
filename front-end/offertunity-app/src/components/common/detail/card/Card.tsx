@@ -7,7 +7,7 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
   const backgroundImage = {
     backgroundImage: `url(${data.logo_img})`,
     backgroundRepeat: "no-repeat",
-    backgroundSize: "contain",
+    backgroundSize: "cover",
     backgroundPosition: "center",
   };
 

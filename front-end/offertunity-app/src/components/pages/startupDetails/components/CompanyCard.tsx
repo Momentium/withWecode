@@ -9,7 +9,7 @@ const CompanyCard = ({ data, type }: any) => {
     },
     {
       title: "설립일",
-      content: data.established_date.slice(0, 10),
+      content: data.established_date,
     },
     {
       title: "산업분야",

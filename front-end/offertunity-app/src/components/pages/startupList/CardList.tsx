@@ -8,7 +8,7 @@ const CardList = ({ list, data, name, boxName, background }: any) => {
     <Container className={boxName}>
       {list &&
         list.map((data: any, idx: number) => (
-          <Link to={`/startup/detail/${data.id}`}>
+          <Link to={`/startup/detail/${data.id}`} key={idx}>
             <Card
               data={data}
               key={idx}
@@ -22,7 +22,7 @@ const CardList = ({ list, data, name, boxName, background }: any) => {
         {data &&
           data.map((item: any, idx: number) => {
             return (
-              <Link to={`/startup/detail/${item.id}`}>
+              <Link to={`/startup/detail/${item.id}`} key={idx}>
                 <Card
                   data={item}
                   key={idx}

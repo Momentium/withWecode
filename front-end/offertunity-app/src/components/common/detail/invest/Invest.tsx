@@ -2,16 +2,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import Title from "../../title/Title";
 
-const Invest = ({ data }: any) => {
+const Invest = ({ data, page }: any) => {
   const { infoContainerData, containerTitle } = data;
-  const attractInvestment = data.invested_to;
+  const attractInvestment =
+    page === "partner" ? data.invested_to : data.invested_from;
   const [postsToShow, setPostsToShow] = useState([]);
   const [toggle, setToggle] = useState(false);
 
   // 더보기 버튼 관련 함수들....
   const loopWithSlice = useCallback(
     (start: number, end: number) => {
-      const slicedPosts = attractInvestment.slice(start, end);
+      const slicedPosts = attractInvestment?.slice(start, end);
       setPostsToShow(slicedPosts);
     },
     [attractInvestment]
@@ -57,7 +58,7 @@ const Invest = ({ data }: any) => {
           : null}
       </InvestInfoBox>
       <InvestHistory>
-        {postsToShow.map((item: any, idx: number) => {
+        {postsToShow?.map((item: any, idx: number) => {
           return (
             <HistoryWrapper className="wrapper" key={idx}>
               <div className="titleBox">
@@ -74,7 +75,12 @@ const Invest = ({ data }: any) => {
                 </div>
                 <div className="box">
                   <p className="subTitle">
-                    투자 기관 <span>{item.invested_startup}</span>
+                    투자 기관{" "}
+                    <span>
+                      {page === "partner"
+                        ? item.invested_startup
+                        : item.invested_institution}
+                    </span>
                   </p>
                   <p className="subTitle">
                     기업 가치{" "}
@@ -89,13 +95,13 @@ const Invest = ({ data }: any) => {
             </HistoryWrapper>
           );
         })}
-        {attractInvestment.length >= 4 && (
+        {/* {attractInvestment.length >= 4 && (
           <BtnContainer>
             <LoadMoreBtn onClick={handleShowMorePosts}>
               {!toggle ? "더보기" : "접기"}
             </LoadMoreBtn>
           </BtnContainer>
-        )}
+        )} */}
       </InvestHistory>
     </InvestBox>
   );
