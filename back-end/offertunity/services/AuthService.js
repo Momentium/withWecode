@@ -2,26 +2,17 @@ const prisma = require('../prisma')
 
 const emailVeryfierCreate = (async(fields) => {
     const { auth_number, email } = fields
-    const checker = await prisma.email_auth.findUnique({
-        where: {
-            email: email
-        }
+    return await prisma.email_auth.upsert({
+        create: {
+            email: email,
+            auth_number: auth_number
+        },
+        update: {
+            auth_number: auth_number
+
+        },
+        where: { email: email },
     })
-
-    if (!checker) {
-        return prisma.email_auth.create({
-            data: {
-                email: email,
-                auth_number: auth_number
-            }
-        })
-    } else {
-        return prisma.email_auth.update({
-            where: { email: email },
-            data: { auth_number: auth_number }
-        })
-    }
-
 })
 
 const emailVerificationCodeCheck = (async(fields) => {
@@ -35,7 +26,6 @@ const emailVerificationCodeCheck = (async(fields) => {
             }
         }
     })
-
     if (find) { return true }
 })
 

@@ -3,6 +3,7 @@ const { errorWrapper, errorGenerator } = require("../errors");
 
 const InitialDataSetting = errorWrapper(async (req, res) => {
   await InitialService.createDatas("business_types", ["개인", "법인"]);
+  
   await InitialService.createDatas("company_types", [
     "스타트업",
     "파트너",
