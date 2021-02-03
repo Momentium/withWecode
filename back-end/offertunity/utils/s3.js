@@ -11,6 +11,11 @@ const { AWS_config_region, AWS_IDENTITYPOOLID } = process.env
 
 const bucket = 'offertunity'
 
+multer({
+  limits: { fieldSize: 25 * 1024 * 1024 }
+})
+
+
 AWS.config.update({
   region : AWS_config_region,
   credentials : new AWS.CognitoIdentityCredentials({
@@ -30,7 +35,6 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE, // 자동을 콘텐츠 타입 세팅
     acl: "public-read", // 클라이언트에서 자유롭게 가용하기 위함
     key: (req, file, cb) => {
-      console.log(file);
       let extension = path.extname(file.originalname)
       cb(null, 'profileimage/'+Date.now().toString()+extension);
     }
