@@ -25,7 +25,7 @@ const StartupDetails = ({ match }: any) => {
   useEffect(() => {
     const _resId = match.params.id;
     axios
-      .get(`http://10.0.1.44:3000/companies/startup/${_resId}`)
+      .get(`${process.env.REACT_APP_URL}/companies/startup/${_resId}`)
       .then((res) => {
         const _data = res.data.company;
         setCompanyData(_data);

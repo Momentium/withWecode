@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Card from "./Card";
 
 const CardList = ({ list, data, name, boxName, background }: any) => {
@@ -18,9 +18,9 @@ const CardList = ({ list, data, name, boxName, background }: any) => {
             />
           </Link>
         ))}
-      <CardBottom>
-        {data &&
-          data.map((item: any, idx: number) => {
+      {data && (
+        <CardBottom dataLength={data?.length}>
+          {data.map((item: any, idx: number) => {
             return (
               <Link to={`/startup/detail/${item.id}`} key={idx}>
                 <Card
@@ -31,8 +31,9 @@ const CardList = ({ list, data, name, boxName, background }: any) => {
                 />
               </Link>
             );
-          })}{" "}
-      </CardBottom>
+          })}
+        </CardBottom>
+      )}
     </Container>
   );
 };
@@ -55,8 +56,13 @@ const Container = styled.div`
   }
 `;
 
-const CardBottom = styled.div`
+const CardBottom = styled.div<{dataLength: number}>`
   display: grid;
+
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+
+  ${props => css`
+    grid-template-rows: repeat(1fr, props.dataLength % 4);
+  `
+  }
 `;

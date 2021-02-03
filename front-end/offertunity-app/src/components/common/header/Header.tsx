@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import withRouterAndRef from "api/withRouterAndRef";
 import styled, { css } from "styled-components";
@@ -12,6 +12,18 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
     const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
       setFocus(!focus);
     };
+
+    const [showModal,setShowModal] = useState(false)
+   
+    const handleModal=()=>{
+      setShowModal(!showModal)
+    }
+
+    const logOut =()=>{
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("userInfo");
+      window.location.href = "/";
+    }
 
     return (
       <StSection ref={ref}>
@@ -38,7 +50,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                   <Link to="/startup">스타트업</Link>
                 </StLinkWrap>
                 <StLinkWrap
-                  name="invest"
+                  name="partner"
                   curPage={location.pathname?.substring(1)}
                 >
                   <Link to="/partner">투자기관</Link>
@@ -72,12 +84,28 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
               </StSearchWrap>
 
               {
-                location.pathname.includes("workstation")  ?
+                //location.pathname.includes("workstation")  ?
+                sessionStorage.getItem("token") ?
+                
                 <StLogInCont>
-                  <img src="/images/icons/사각형 943@2x.png" alt=""/>
-                  <img src="/images/icons/사각형 944@2x.png" alt=""/>
-                  <span className="link-workstation">워크스테이션</span>
+                  <img src="/images/icons/사각형 943@2x.png" alt="" className="bell"/>
+                  <Link to="/MypageStartup">
+                    <img src="/images/icons/사각형 944@2x.png" alt=""/>
+                  </Link>
+                  <span className="link-workstation" onClick={handleModal}>워크스테이션</span>
+                 {showModal && <Modal>
+                    <ul>
+                      <li>마이 스타트업</li>
+                      <li>지원사업 프로젝트</li>
+                      <li>IR자료 요청 관리</li>
+                      <li>IR자료 및 지원서류 관리</li>
+                      <li>회원정보 수정</li>
+                      <li onClick={logOut}>로그아웃</li>
+                    </ul>
+                  </Modal>}
                 </StLogInCont>
+                
+               
                 :
                 <Auth>
                   <Link to="/auth/signIn">
@@ -99,18 +127,19 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
 export default withRouterAndRef(Header);
 
 const StLogInCont = styled.div`
+position:relative;
+
   display: flex;
   align-items: center;
 
   img {
     height: 21px;
-    margin-right: 30px;
+   margin-right: 30px;
+ &.bell{
+  margin-left: 36px;
+ }
   }
-  img:first-child {
-    margin-left: 36px;
-    
-  }
-
+ 
   span {
     cursor: pointer;
     user-select:none;
@@ -126,6 +155,32 @@ const StLogInCont = styled.div`
     color: #5541ED;
     font-size: 15px;
     font-weight: normal;
+  }
+`;
+
+const Modal = styled.div`
+  z-index:10;
+  position:absolute;
+  top: 50px;
+  left: 118px;
+  width:176px;
+  height:233px;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  box-shadow: 3px -1px 10px #0000004A;
+  opacity: 1;
+  ul{ 
+    width: 100%;
+    padding: 1rem;
+    li{
+      font-size:13px;
+      line-height:35px;
+      cursor:pointer
+    }
+    li:nth-child(5){
+      border-top:1px solid #0000004A;
+    }
   }
 `;
 

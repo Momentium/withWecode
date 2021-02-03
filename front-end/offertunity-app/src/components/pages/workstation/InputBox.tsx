@@ -3,15 +3,15 @@ import styled  from "styled-components";
 const InputBox:React.FC<any> = ( {cName, type, placeholder, width, height, fSize, fWeight, value, changeVal} ) => {
   return (
     <StInputBox 
-      // className={cName}
+      className={cName}
       type={type}
       placeholder={placeholder}
       width={width}
       height={height}
       fSize={fSize}
       fWeight={fWeight}
-      // value={value}
-      // onChange={changeVal}
+      value={value}
+      onChange={changeVal}
     />
   );
 };
@@ -23,7 +23,7 @@ const StInputBox = styled.input<{width:number, height:number, fSize:number, fWei
   width: ${props => `${props.width}px`};
   line-height: ${props => `${props.height - 2}px`};
   font-size: ${props => `${props.fSize}px`};
-  font-weight: ${props => `${props.fWeight}px`};
+  font-weight: ${props => `${props.fWeight}`};
 
   box-sizing: border-box;
   vertical-align: center;

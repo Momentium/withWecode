@@ -9,6 +9,7 @@ type Props = {
 };
 
 const InputBox: React.FC<Props> = ({ typeId }) => {
+  const reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$+ %^&*-]).{8,}$/;
   const [modal, setModal] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [checkService, setCheckService] = useState(false);
@@ -17,8 +18,10 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   const [btnActive, setBtnActive] = useState(false);
   const [openTerms, setOpenTerms] = useState(false);
   const [showPwAlert, setShowPwAlert] = useState(false);
+  const [emailData, setEmailData] = useState({});
   const [inputs, setInputs] = useState({
     email: "",
+    emailCertification: "",
     name: "",
     password: "",
     passwordAgain: "",
@@ -28,6 +31,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   });
   const {
     email,
+    emailCertification,
     name,
     password,
     passwordAgain,
@@ -37,16 +41,17 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   } = inputs;
   const history = useHistory();
 
-  const SIGNUP = () => {
+  const signUp = () => {
+    console.log("악 !!!!");
     axios
-      .post("http://10.0.1.29:3000/users/signup", {
+      .post(`${process.env.REACT_APP_URL}/users/signup`, {
         email: email,
         name: name,
         password: password,
         typeId: typeId,
         signUpMethodId: "1",
       })
-      .then(function (response) {
+      .then((res) => {
         alert("회원가입 성공");
         if (typeId === "2") {
           history.push("/auth/SignupFinishPartner");
@@ -55,7 +60,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
           history.push("/auth/SignupFinishStartup");
         }
       })
-      .catch(function (error) {
+      .catch((err) => {
         alert("필수사항을 입력해 주세요");
       });
   };
@@ -73,31 +78,35 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
 
   const handleModal = () => {
     setModal(!modal);
-    axios
-      .post("http://10.0.1.41:3000/auths/email", {
-        email: email,
-      })
-      .then(function (response) {
-        alert("에잇");
-      });
-
-    console.log(email);
+    axios.post(`${process.env.REACT_APP_URL}/auths/email`, {
+      email: email,
+    });
   };
 
-  // const SendEmail = () => {
-  //   axios
-  //     .post(" http://127.0.0.1:3000/auths/email ", {
-  //       email: email,
-  //     })
-  //     .then(function (response) {
-  //       alert("이메일인증");
-  //     });
-  // };
+  const handleCertification = (event: any) => {
+    setInputs({
+      ...inputs,
+      emailCertification: event.target.value,
+    });
+  };
+
+  const sendCertification = () => {
+    axios
+      .post(`${process.env.REACT_APP_URL}/auths/emailconfirm`, {
+        email: email,
+        authNum: emailCertification,
+      })
+      .then(function (response) {
+        alert("올바른 인증번호 입니다");
+      })
+      .catch(function (error) {
+        alert("잘못된 인증번호 입니다");
+      });
+  };
 
   const handlePw = (event: any) => {
-    event.preventDefault();
+    // event.preventDefault();
     const { value } = event.target;
-    const reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$+ %^&*-]).{8,}$/;
 
     setInputs({
       ...inputs,
@@ -107,7 +116,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   };
 
   const handleSamePw = (event: any) => {
-    event.preventDefault();
+    // event.preventDefault();
     const { value } = event.target;
     const samePw = password === value;
     setInputs({
@@ -186,8 +195,19 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
           </button>
         </GetEmeil>
         <CheckEmeil>
-          <input type="text" placeholder="인증번호를 입력해주세요." />
-          <button>인증확인</button>
+          <input
+            type="text"
+            placeholder="인증번호를 입력해주세요."
+            onChange={handleCertification}
+          />
+          <button
+            style={{
+              background: emailCertification.length > 0 ? "#5541ed" : "#c3bdf4",
+            }}
+            onClick={sendCertification}
+          >
+            인증확인
+          </button>
         </CheckEmeil>
       </Email>
       <Name>
@@ -203,7 +223,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         </p>
         <PwWrap>
           <input
-            type="text"
+            type="password"
             placeholder="비밀번호를 입력해주세요"
             onChange={handlePw}
           />
@@ -218,7 +238,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         </p>
         <PwWrap>
           <input
-            type="text"
+            type="password"
             placeholder="비밀번호를 다시 입력해주세요"
             onChange={handleSamePw}
           />
@@ -274,7 +294,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
       <div>
         <Enroll
           style={{ background: btnActive ? "#5541ED" : "#C3BDF4" }}
-          onClick={btnActive ? SIGNUP : undefined}
+          onClick={btnActive ? signUp : undefined}
         >
           가입
         </Enroll>

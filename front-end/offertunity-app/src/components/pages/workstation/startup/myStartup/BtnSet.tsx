@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import BasicBtn from 'components/common/button/BasicBtn';
 
-const BtnSet = () => {
+const BtnSet:React.FC<any> = ({ save, submit }) => {
   return (
     <StCont>
       <BasicBtn
@@ -20,6 +20,7 @@ const BtnSet = () => {
         fSize={18}
         fWeight={"bold"}
         txt={"임시저장"}
+        click={save}
       />
 
       <BasicBtn
@@ -28,6 +29,7 @@ const BtnSet = () => {
         fSize={18}
         fWeight={"bold"}
         txt={"저장하기"}
+        click={submit}
       />
     </StCont>
   );
