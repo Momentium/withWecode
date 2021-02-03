@@ -8,7 +8,7 @@ const ModalChangePw = () => {
     newPassword: "",
     chkPassword: "",
   });
-  const { password, newPassword, chkPassword } = inputs;
+  const { newPassword, chkPassword } = inputs;
 
   const handlePassword = (event: any) => {
     event.preventDefault();

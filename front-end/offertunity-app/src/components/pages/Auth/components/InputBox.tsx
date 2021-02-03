@@ -40,7 +40,8 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   } = inputs;
   const history = useHistory();
 
-  const SIGNUP = () => {
+  const signUp = () => {
+    console.log("악 !!!!");
     axios
       .post("http://10.0.1.29:3000/users/signup", {
         email: email,
@@ -49,7 +50,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         typeId: typeId,
         signUpMethodId: "1",
       })
-      .then(function (response) {
+      .then((res) => {
         alert("회원가입 성공");
         if (typeId === "2") {
           history.push("/auth/SignupFinishPartner");
@@ -58,7 +59,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
           history.push("/auth/SignupFinishStartup");
         }
       })
-      .catch(function (error) {
+      .catch((err) => {
         alert("필수사항을 입력해 주세요");
       });
   };
@@ -222,7 +223,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         </p>
         <PwWrap>
           <input
-            type="text"
+            type="password"
             placeholder="비밀번호를 입력해주세요"
             onChange={handlePw}
           />
@@ -237,7 +238,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         </p>
         <PwWrap>
           <input
-            type="text"
+            type="password"
             placeholder="비밀번호를 다시 입력해주세요"
             onChange={handleSamePw}
           />
@@ -293,7 +294,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
       <div>
         <Enroll
           style={{ background: btnActive ? "#5541ED" : "#C3BDF4" }}
-          onClick={btnActive ? SIGNUP : undefined}
+          onClick={btnActive ? signUp : undefined}
         >
           가입
         </Enroll>
