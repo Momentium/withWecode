@@ -17,44 +17,46 @@ const CompanyTeamInfo = ({ data }: any) => {
     width: "100%",
     height: "14rem",
   };
-  const { shortDescription, member_count, member } = data[0];
+
   return (
     <TeamBox>
       <Title title={"팀소개"} />
       <ShortInfo>
         <MiniTitle title={"한 줄 소개"} />
-        <span>{shortDescription}</span>
+        <span>{data.team_intro}</span>
       </ShortInfo>
       <div className="bottomBox">
         <TeamCount>
           <MiniTitle title={"팀원 수"} />
-          <div className="count">{member_count}</div>
+          <div className="count">{data.company_members.length}</div>
         </TeamCount>
         <TeamMember>
           <div className="box">
             <MiniTitle title={"팀원 소개"} />
-            <ControlBtns>
-              <LeftBtn onClick={moveToLeft} />
-              <RightBtn onClick={moveToRight} />
-            </ControlBtns>
+            {data.company_members.length < 5 ? null : (
+              <ControlBtns>
+                <LeftBtn onClick={moveToLeft} />
+                <RightBtn onClick={moveToRight} />
+              </ControlBtns>
+            )}
           </div>
           <ImageContainer>
             <Flicking
               className="flicking0"
               gap={64}
               bound={true}
-              lastIndex={member.length}
+              lastIndex={data.company_members.length}
               style={flickingContainer}
               ref={flicking}
             >
-              {member.map((item: any, idx: number) => {
+              {data.company_members.map((item: any, idx: number) => {
                 return (
                   <ProfileInfo key={idx}>
                     <ProfileImg>
-                      <img src={item.photo} alt="사원의 프로필 사진입니다." />
+                      <img src={item.img} alt="사원의 프로필 사진입니다." />
                     </ProfileImg>
                     <div className="name">{item.name}</div>
-                    <div className="job">{item.job}</div>
+                    <div className="job">{item.position}</div>
                   </ProfileInfo>
                 );
               })}

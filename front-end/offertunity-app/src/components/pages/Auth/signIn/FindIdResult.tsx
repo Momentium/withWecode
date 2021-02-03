@@ -50,10 +50,6 @@ const Wrap = styled.div`
   }
 `;
 
-const Buttons = styled.div`
-  margin-bottom: 3.5rem;
-`;
-
 const Btn = styled.button`
   display: block;
   width: 20rem;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -14,6 +14,7 @@ const Profile: React.FC<Props> = ({ data }) => {
     signup_method_id,
     company_id,
     phone_number,
+    type_id
   } = data;
   console.log(data);
 
@@ -27,6 +28,13 @@ const Profile: React.FC<Props> = ({ data }) => {
     );
   } else {
     profileImg = <img src={profile_picture} alt="프로필사진" />;
+  }
+
+  let typeId= null;
+  if(type_id === 2 ){
+    typeId =  <p>파트너 회원</p>
+  }else if (type_id === 1){
+    typeId = <p>스타트업 회원</p>
   }
   return (
     <Wrap>
@@ -46,7 +54,7 @@ const Profile: React.FC<Props> = ({ data }) => {
           </Info>
           <Info>
             <span>회원 구분</span>
-            <p>스타트업 회원</p>
+            {typeId}
           </Info>
           <Link to="/EditMypageStartup">
             <BtnOne>프로필 수정</BtnOne>
@@ -55,11 +63,11 @@ const Profile: React.FC<Props> = ({ data }) => {
         <Box>
           <Info>
             <span>휴대 전화 번호</span>
-            <p>{phone_number}000-0000-0000</p>
+            <p>{phone_number ? phone_number : "000-0000-0000"}</p>
           </Info>
           <Info>
             <span>소속 스타트업</span>
-            <p>{company_id}MOMENTIUM</p>
+            <p>{company_id ? company_id : "MOMENTIUM"}</p>
           </Info>
           <BtnTwo>마이 스타트업 관리</BtnTwo>
         </Box>

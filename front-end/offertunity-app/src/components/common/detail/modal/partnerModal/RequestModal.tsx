@@ -3,19 +3,27 @@ import axios from "axios";
 import styled from "styled-components";
 
 const RequestModal = ({ title, onChange, handleRequest }: any) => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<any>();
   const [showList, setShowList] = useState(false);
   const [selectText, setSelectText] = useState<string | null>();
 
   useEffect(() => {
-    axios.get("data/partnerData/uploadData.json").then((res) => {
-      const data = res.data.data;
-      setItems(data);
-    });
+    axios
+      .get("data/partnerData/uploadData.json", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+      .then((res) => {
+        const data = res.data.data;
+        setItems(data);
+      });
   }, []);
 
+  console.log(items);
   useEffect(() => {
-    if (items.length !== 0) {
+    if (items?.length) {
       setSelectText("IR 자료 선택하기");
     } else {
       setSelectText("등록된 IR 자료가 없습니다");

@@ -15,11 +15,11 @@ const PartnerList = () => {
     const LIMIT = 12;
     axios
       .get(
-        `http://localhost:3000/data/partnerData/offset=${page}&limit=${LIMIT}.json`
+        `http://10.0.1.44:3000/companies/list/partner?offset=${page}&limit=${LIMIT}`
       )
       .then((res) => {
-        setPartnerList(res.data.data);
-        setTotalLength(res.data.data.length);
+        setPartnerList(res.data.companies);
+        setTotalLength(res.data.num);
       });
   }, [page]);
 

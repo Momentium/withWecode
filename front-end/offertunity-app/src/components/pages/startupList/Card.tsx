@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LikeBtn from "../../common/button/iconBtn/LikeBtn";
+import LikeBtn from "../../common/detail/buttons/Buttons";
 import Title from "./Title";
 
 const Card = ({ data, name, background }: any) => {
@@ -22,7 +22,7 @@ const Card = ({ data, name, background }: any) => {
     <Wrapper className={name}>
       <Image style={cardImage} className={name}>
         <div className="likebtnWrap">
-          <LikeBtn isLike={like} clickLike={clickLike} />
+          <LikeBtn isLike={like} clickLike={clickLike} page={"list"} />
         </div>
       </Image>
       <Title title={title} />
