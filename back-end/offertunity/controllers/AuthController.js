@@ -113,6 +113,4 @@ module.exports = {
     },
     email,
     emailVerification,
-    // phoneNumber,
-    // phoneNumberVerificatiton.
 };

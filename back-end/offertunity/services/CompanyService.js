@@ -126,7 +126,7 @@ const findStartups = async(query) => {
         where
     })).length
 
-    for (len = 0; len < companies.length; len++) {
+    for (let len = 0; len < companies.length; len++) {
         companies[len].tag = []
         if (companies[len].startups[0].sector_id) {
             companies[len].tag.push(await findInfoName('sectors', companies[len].startups[0].sector_id))
