@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
 import Tab from "../components/Tab";
+
+
 
 const FindIdAgain = () => {
   return (
@@ -10,7 +11,7 @@ const FindIdAgain = () => {
       <Tab />
       <Con>
         <Wrap>
-          <span>asdhadjh@dlksjld</span>
+          <span>yay@naver.com</span>
           <p>OFFERTUNITY의 소중한 회원님이셨군요!</p>
           <p>아래 [로그인] 버트을 통해 OFFERTUNITY에 로그인해주세요.</p>
           <Link to="/auth/SignIn">

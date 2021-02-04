@@ -57,7 +57,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/EditMypageStartup" component={EditMypageStartup} />
         </Switch>
         
-        <Route path="/workstation/:type/:tab" component={WSPage} />
+        <Route path="/workstation/:tab" component={WSPage} />
         <Route path="/auth/:name" component={Auth} />
       </StAppCont>
 
