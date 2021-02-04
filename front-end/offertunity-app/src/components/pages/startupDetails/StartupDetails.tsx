@@ -50,5 +50,5 @@ export default StartupDetails;
 
 const DetailBox = styled.main`
   ${({ theme }) => theme.conWidth}
-  margin-top: 40px;
+  margin-top: 100px;
 `;

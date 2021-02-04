@@ -8,10 +8,9 @@ import ShareBtn from "components/common/button/iconBtn/ShareBtn";
 
 const ProjectCard: React.FC<any> = ({ data, like, clickLike }) => {
   const { tag } = data;
-  console.log(data);
   return (
     <StOverviewCont>
-      <img src={`${data.img}`} alt="project-img" />
+      <img src={`${data.project_images[0]?.img_url}`} alt="project-img" />
       <StRightCont>
         <div className="name">{data.name}</div>
         <div className="explain">{data.introduction}</div>
@@ -33,7 +32,7 @@ const ProjectCard: React.FC<any> = ({ data, like, clickLike }) => {
               </tr>
               <tr>
                 <th>마감일</th>
-                <td>{data.due_date}</td>
+                <td>{data.due_date.slice(0, 10)}</td>
               </tr>
             </tbody>
           </StInfoTable>
