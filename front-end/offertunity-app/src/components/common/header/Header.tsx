@@ -11,11 +11,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
     const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
       setFocus(!focus);
     };
-    const [showModal, setShowModal] = useState(false);
-
-    const handleModal = () => {
-      setShowModal(!showModal);
-    };
 
     const logOut = () => {
       sessionStorage.removeItem("userInfo");
@@ -81,6 +76,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                 <input type="text" />
               </StSearchWrap>
 
+
               {sessionStorage.getItem("userInfo") ? (
                 <StLogInCont>
                   <img
@@ -122,6 +118,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <li onClick={logOut}>로그아웃</li>
                         </ul>
                       </Modal>
+
                     </>
                   ) : (
                     <>
@@ -131,11 +128,13 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                       >
                         <span>워크스테이션</span>
                       </Link>
+
                       <Modal className="modal">
                         <ul>
                           <Link to={"/workstation/mypartner"}>
                             <li>파트너 기관 관리</li>
                           </Link>
+
                           <Link to="/workstation/myproject">
                             <li>지원사업 관리</li>
                           </Link>
@@ -143,6 +142,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                             <li>IR자료 요청 관리</li>
                           </Link>
                           <Link to="/EditMypageStartup">
+
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>
@@ -150,6 +150,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <li onClick={logOut}>로그아웃</li>
                         </ul>
                       </Modal>
+
                     </>
                   )}
                 </StLogInCont>
@@ -163,6 +164,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                   </Link>
                 </Auth>
               )}
+
             </>
           )}
         </HeaderCon>
@@ -225,17 +227,16 @@ const Modal = styled.div`
   box-shadow: 3px -1px 10px #0000004a;
   opacity: 1;
   ul {
-    width: 100%;
+    width: 6rem;
 
     li {
-      width: 6rem;
+
+      width: 100%;
       font-size: 13px;
       line-height: 35px;
       cursor: pointer;
     }
-    li:nth-child(5) {
-      border-top: 1px solid #0000004a;
-    }
+
     li:hover {
       font-weight: bold;
     }
