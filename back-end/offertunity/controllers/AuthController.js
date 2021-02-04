@@ -28,6 +28,8 @@ const email = errorWrapper(async(req, res) => {
         html: `<b>${authNum}</b>`,
     });
 
+    console.log("checkcheck: ", { authNum, email })
+
     const emailVeriferSave = await AuthService.emailVeryfierCreate({
         email,
         auth_number: authNum,
@@ -73,7 +75,6 @@ const socialLoginResponse = (req, res, err, user) => {
     });
 };
 
-
 module.exports = {
     naver: {
         get: (req, res, next) => {
@@ -113,6 +114,4 @@ module.exports = {
     },
     email,
     emailVerification,
-    // phoneNumber,
-    // phoneNumberVerificatiton.
 };

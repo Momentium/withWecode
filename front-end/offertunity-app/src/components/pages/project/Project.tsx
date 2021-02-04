@@ -1,19 +1,23 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import * as St from "components/styles/styledComp";
+import ProjectPrsnt from "./ProjectPrsnt";
 
-interface Props {
-  el: {}
-}
+const Project: React.FC<any> = ({ data, page }) => {
+  // const [tags, setTags] = useState<JSX.Element[]>([]);
+  // const [like, setLike] = useState<boolean>(data.like);
 
-const Project:React.FC<Props> = ({el}) => {
-  return (
-    <StPjtWrap>
+  // useEffect(() => {
+  //   setTags(
+  //     data.tag?.map((el: string, idx: number) => (
+  //       <St.Tag key={idx}>{el}</St.Tag>
+  //     ))
+  //   );
+  // }, []);
 
-    </StPjtWrap>
-  );
+  // const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   setLike(!like);
+  // };
+
+  return <ProjectPrsnt page={page} data={data} />;
 };
 export default Project;
-
-const StPjtWrap = styled.div`
-  
-`;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import ProgressingCard from './ProgressingCard'
 
@@ -9,18 +10,19 @@ import ProgressingCard from './ProgressingCard'
   const [projectData,setProjectData] = useState([]);
 
   useEffect(() => {
-    fetch("/data/progressing.json")
-    .then(res =>res.json())
+    axios.get("/data/progressing.json")
     .then(res =>{
-      setProjectData(res.projecting)
+      const _resData = res.data
+      setProjectData(_resData.projecting)
     })
   },[])
+ 
 
   return(
     <Progessing>
-     {projectData.map((el: any, idx: number)=>{
+     {projectData.map((el:any , idx: number) => {
        return(
-       <ProgressingCard data = {el} key={idx} index={idx}/>
+       <ProgressingCard key={idx} data={el} index={idx}/>
        )  
      })}
     </Progessing>
@@ -30,6 +32,6 @@ import ProgressingCard from './ProgressingCard'
 export default ProgressingProject;
 
 const Progessing =styled.div`
-  display: inline-block;
-  
+  display: flex;
+  flex-wrap: wrap;
 `;

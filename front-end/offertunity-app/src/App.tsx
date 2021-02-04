@@ -1,36 +1,78 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Switch,
+  Route,
+  withRouter,
+  RouteComponentProps,
+} from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
-import Header from "./components/pages/header/Header";
-import Banner from "./components/pages/banner/Banner"
+import Header from "./components/common/header/Header";
+import Banner from "./components/common/banner/Banner";
 import Main from "./components/pages/main/Main";
-import Project from "./components/pages/project/ProjectPage";
+import ProjectPage from "./components/pages/project/ProjectPage";
+import ProjectDetailPage from "./components/pages/project/detail/ProjectDetailPage";
+import Newsletter from "./components/common/newsletter/Newsletter";
+import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
+import Auth from "./components/pages/Auth/Auth";
+import StartupList from "./components/pages/startupList/StartupList";
+import StartupDetails from "./components/pages/startupDetails/StartupDetails";
+import MypageStartup from "./components/pages/mypage/MypageStartup";
+import EditMypageStartup from "./components/pages/mypage/EditMypageStartup";
+import PartnerList from "components/pages/partnerList/PartnerList";
+import PartnerDetails from "./components/pages/partnersDetails/PartnerDetails";
+import WSPage from "./components/pages/workstation/WSPage";
 
-const App = () => {
-  const [HH, setHH] = useState<number | undefined>(60);
-  useEffect(() => {}, []);
+const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
+  const [headMargin, setHeadMargin] = useState<number | undefined>(0);
+  const headerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    setHeadMargin(headerRef.current?.clientHeight);
+  }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        {/* Header 들어갈 자리 */}
-        <Header />
-        <Banner />
-        <StAppCont headerHeight={HH}>
-          {/* Route 들어갈 자리 */}
-          <Route exact path="/" component={Main} />
-          <Route path="/project" component={Project} />
-        </StAppCont>
+    <ThemeProvider theme={{ ...theme, ...location }}>
+      {/* Header 들어갈 자리 */}
+      <Header ref={headerRef} />
+      <StAppCont className="app" headMargin={headMargin}>
+        {!location.pathname.includes("auth") &&
+          !location.pathname.includes("detail") &&
+          !location.pathname.includes("workstation") &&
+          !location.pathname.includes("workstation") &&
+          !location.pathname.includes("Mypage") && <Banner />}
 
-        {/* Footer 들어갈 자리 */}
-      </BrowserRouter>
+        {/* Route 들어갈 자리 */}
+        <Route exact path="/" component={Main} />
+        <Switch>
+          <Route path="/project/detail/:id" component={ProjectDetailPage} />
+          <Route path="/project" component={ProjectPage} />
+          <Route path="/startup/detail/:id" component={StartupDetails} />
+          <Route path="/startup" component={StartupList} />
+          <Route path="/partner/detail/:id" component={PartnerDetails} />
+          <Route path="/partner" component={PartnerList} />
+          <Route path="/MypageStartup" component={MypageStartup} />
+          <Route path="/EditMypageStartup" component={EditMypageStartup} />
+        </Switch>
+
+        <Route path="/workstation" component={WSPage} />
+        <Route path="/auth/:name" component={Auth} />
+      </StAppCont>
+
+      {/* Footer 들어갈 자리 */}
+      {!location.pathname.includes("auth") && (
+        <>
+          {!location.pathname.includes("workstation") && <Newsletter />}
+          <Footer />
+        </>
+      )}
     </ThemeProvider>
   );
 };
+export default withRouter(App);
 
-export default App;
-
-const StAppCont = styled.div<{ headerHeight: number | undefined }>`
-  margin-top: ${(props) => `${props.headerHeight}px`};
+const StAppCont = styled.div<{ headMargin: number | undefined }>`
+  margin-top: ${(props) => `${props.headMargin}px`};
 `;

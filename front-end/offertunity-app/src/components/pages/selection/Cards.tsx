@@ -1,33 +1,35 @@
 import React from "react";
 import styled from "styled-components";
+import Labels from "../../common/label/Labels";
 
 const Cards = ({ data }: any) => {
   const { title, image, logo, label, field, stack, invest, description } = data;
+  const backgroundLogoImage = {
+    backgroundImage: `url(${logo})`,
+    backgroundSize: "contain",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+  };
+  const backgroundImage = {
+    backgroundImage: `url(${image})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  };
   return (
     <>
       <CardContainer>
-        <ImageWrapper>
-          <img src={image} />
-        </ImageWrapper>
+        <ImageWrapper style={backgroundImage} />
         <BottomSection>
           <TitleWrapper>
             <p>{title}</p>
-            <LogoWrapper>
-              <img src={logo} />
-            </LogoWrapper>
+            <LogoWrapper style={backgroundLogoImage} />
           </TitleWrapper>
-          <LabelWrapper>
-            {label.map((category: string, idx: any) => {
-              return <span key={idx}>{category}</span>;
-            })}
-          </LabelWrapper>
+          <Labels label={label} />
         </BottomSection>
         <Figure>
           <TitleWithLogo>
             <h1>{title}</h1>
-            <div className="logoWrapper">
-              <img src={logo} />
-            </div>
+            <div className="logoWrapper" style={backgroundLogoImage}></div>
           </TitleWithLogo>
           <Information>
             <div>
@@ -97,30 +99,8 @@ const TitleWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  width: 3.75rem;
+  width: 4.18rem;
   height: 3.75rem;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const LabelWrapper = styled.div`
-  width: 100%;
-  padding-bottom: 0.625rem;
-  display: flex;
-  flex-wrap: wrap;
-
-  span {
-    margin: 0.3rem 0.6rem 0.3rem 0;
-    height: 1.4rem;
-    display: inline-block;
-    border: 1px solid #c3bdf4;
-    padding: 0.3rem 0.375rem;
-    color: #c3bdf4;
-    font-size: 0.688rem;
-  }
 `;
 
 const Figure = styled.div`
@@ -157,11 +137,6 @@ const TitleWithLogo = styled.div`
   .logoWrapper {
     width: 2.6rem;
     height: 2.5rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
   }
 `;
 const Information = styled.div`

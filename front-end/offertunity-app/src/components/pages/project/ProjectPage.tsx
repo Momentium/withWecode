@@ -1,31 +1,32 @@
-import ProjectList from './ProjectList';
 import styled from 'styled-components';
-import SelectBtn from '../../common/button/SelectBtn';
+import * as St from '../../styles/styledComp';
+import ProjectList from './ProjectList';
+import SelectBtn from 'components/common/button/selectBtn/SelectBtn';
 
 const ProjectPage = () => {
   return (
-    <div>
-      <StUpperCont>
-        <div className="title">진행중인 지원사업</div>
-        <StFilter>
-          <SelectBtn curPage={"project"} category={"date"}/>
-          <SelectBtn curPage={"project"} category={"support"}/>
-          <SelectBtn curPage={"project"} category={"establish"}/>
-        </StFilter>
-      </StUpperCont>
+    <>
+      <St.Section>
+        <StCont className="upper-cont">
+          <St.SectionTitle>진행중인 지원사업</St.SectionTitle>
+          <StCont className="filter-cont">
+            {/* <SelectBtn curPage={"project"} category={"date"}/>
+            <SelectBtn curPage={"project"} category={"support"}/>
+            <SelectBtn curPage={"project"} category={"establish"}/> */}
+          </StCont>
+        </StCont>
+      </St.Section>
 
       <ProjectList/>
-    </div>
+    </>
   );
 };
 export default ProjectPage;
 
-const StUpperCont = styled.div`
-  display: flex;
+const StCont = styled(St.FlexDiv)`
   justify-content: space-between;
-  align-items: center;
-`;
 
-const StFilter = styled(StUpperCont)`
-  
+  &.upper-cont{
+    margin-bottom: 48px;
+  }
 `;
