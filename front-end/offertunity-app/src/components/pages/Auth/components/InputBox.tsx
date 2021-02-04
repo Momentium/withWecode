@@ -86,6 +86,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
     axios.post(`${process.env.REACT_APP_URL}/auths/email`, {
       email: email,
     });
+    console.log(email);
   };
 
   const handleCertification = (event: any) => {
