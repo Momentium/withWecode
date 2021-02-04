@@ -1,5 +1,6 @@
 const DEFAULT_QUERY_OPTION = {
-    is_saved: true
+    is_saved: true,
+    deleted_at: null,
         // status: 'PUBLISHED',
         // deleted_at: null,
 }

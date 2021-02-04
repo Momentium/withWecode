@@ -13,6 +13,8 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "사업계획서",
     "사업자등록 사본",
     "대표자 주민등록증(운전면허증)",
+    "IR 자료",
+    "기타"
   ]);
   await InitialService.createDatas("investment_funds", [
     "1천만원 - 5천만원",

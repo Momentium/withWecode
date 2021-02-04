@@ -5,7 +5,21 @@ const { makeQueryOption } = require("../utils");
 const ARTICLES_DEFAULT_OFFSET = 0;
 const ARTICLES_DEFAULT_LIMIT = 5;
 
-const findProjects = (query) => {
+const findPublishedProjects = (query) => {
+  const { offset, limit, ...fields } = query;
+  const where = makeQueryOption(fields);
+
+  return prisma.projects.findMany({
+      where,
+      skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+      take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+      orderBy: {
+          created_at: "asc",
+      },
+  });
+};
+
+const findAllProjects = (query) => {
     const { offset, limit, ...fields } = query;
     const where = makeQueryOption(fields);
 
@@ -27,8 +41,6 @@ const findOneProject = (field) => {
         where: {
             [uniqueKey]: value },
     });
-
-
 };
 
 const resetChoices = async(field) => {
@@ -68,6 +80,7 @@ const createProject = async(fields) => {
             eligibilities: requestedFields.eligibilities ? { connect: { id: Number(requestedFields.eligibilities) } } : undefined,
             sectors: requestedFields.sectors ? { connect: { id: Number(requestedFields.sectors) } } : undefined,
             is_opened: 0,
+            is_saved: false,
             hit: 0,
             project_images: project_picture ? { create: [{ img_url: project_picture }] } : undefined,
             due_date,
@@ -94,6 +107,15 @@ const updateProject = async(fields) => {
     });
 };
 
+const saveInfo = (async(field) => {
+  const { projectId } = field;
+
+  return await prisma.projects.update({
+      where: { id: Number(projectId) },
+      data: { is_saved: true }
+  })
+})
+
 const openProject = (projectId) => {
     return prisma.projects.update({
         where: {
@@ -118,12 +140,14 @@ const deleteProject = (projectId) => {
 };
 
 module.exports = {
-    findProjects,
+    findPublishedProjects,
+    findAllProjects,
     findOneProject,
     resetChoices,
     createRelatedDoc,
     createProject,
     updateProject,
+    saveInfo,
     openProject,
     deleteProject,
 };
