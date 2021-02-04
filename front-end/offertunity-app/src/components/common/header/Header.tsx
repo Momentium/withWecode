@@ -12,17 +12,22 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
       setFocus(!focus);
     };
 
+
     const [showModal, setShowModal] = useState(false);
 
     const handleModal = () => {
       setShowModal(!showModal);
     };
 
+
     const logOut = () => {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("userInfo");
       window.location.href = "/";
     };
+
+    const info = JSON.parse(String(sessionStorage.getItem("userInfo")));
+
 
     return (
       <StSection ref={ref}>
@@ -38,7 +43,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
               <StNavCont>
                 <StLinkWrap
                   name="project"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[0]}
                 >
                   <Link to="/project">지원사업</Link>
                 </StLinkWrap>
@@ -94,21 +99,58 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                     <Link to="/MypageStartup">
                       <img src="/images/icons/사각형 944@2x.png" alt="" />
                     </Link>
-                    <span className="link-workstation" onClick={handleModal}>
+
+                  <Link to={"/workstation/:tab"} className="link-workstation">
+                    <span  >
                       워크스테이션
                     </span>
-                    {showModal && (
-                      <Modal>
-                        <ul>
-                          <li>마이 스타트업</li>
-                          <li>지원사업 프로젝트</li>
-                          <li>IR자료 요청 관리</li>
-                          <li>IR자료 및 지원서류 관리</li>
-                          <li>회원정보 수정</li>
-                          <li onClick={logOut}>로그아웃</li>
-                        </ul>
-                      </Modal>
-                    )}
+                    </Link>
+
+                  
+                      {info.type_id === 1 ? (
+                        <Modal className="modal">
+                          <ul>
+                            <Link to="/workstation/mystartup">
+                              <li> 스타트업</li>
+                            </Link>
+                            <Link to="/workstation/mystartup">
+                            <li>지원사업 프로젝트</li>
+                            </Link>
+                            <Link to="/workstation/mystartup">
+                            <li>IR자료 요청 관리</li>
+                            </Link>
+                            <Link to="/workstation/mystartup">
+                            <li>IR자료 및 지원서류 관리</li>
+                            </Link>
+                            <Link to="/workstation/mystartup">
+                            <li style={{ borderTop: "1px solid #0000004a" }}>
+                              회원정보 수정
+                            </li>
+                            </Link>
+                            <li onClick={logOut}>로그아웃</li>
+                          </ul>
+                        </Modal>
+                      ) : (
+                        <Modal className="modal">
+                          <ul>
+                            <Link to={"/workstation/mypartner"}>
+                              <li>파트너 기관 관리</li>
+                            </Link>
+                            <Link to="/workstation/mypartner">
+                            <li>지원사업 관리</li>
+                            </Link>
+                            <Link to="/workstation/mypartner">
+                            <li>IR자료 요청 관리</li>
+                            </Link>
+                            <Link to="/workstation/mypartner">
+                            <li style={{ borderTop: "1px solid #0000004a" }}>
+                              회원정보 수정
+                            </li>
+                            </Link>
+                            <li onClick={logOut}>로그아웃</li>
+                          </ul>
+                        </Modal>
+                      )}
                   </StLogInCont>
                 ) : (
                   <Auth>
@@ -160,16 +202,26 @@ const StLogInCont = styled.div`
     color: #5541ed;
     font-size: 15px;
     font-weight: normal;
+    
+    
+  }
+
+  .link-workstation:hover + .modal{
+        display:inline-block;
+      }
+  .modal:hover {
+    display: inline-block;
   }
 `;
 
 const Modal = styled.div`
+
+display:none;
   z-index: 10;
   position: absolute;
-  top: 50px;
+  top: 43px;
   left: 118px;
-  width: 176px;
-  height: 233px;
+  padding: 1rem 2rem;
   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 5px;
@@ -177,16 +229,20 @@ const Modal = styled.div`
   opacity: 1;
   ul {
     width: 100%;
-    padding: 1rem;
+
     li {
+      width:6rem;
       font-size: 13px;
       line-height: 35px;
       cursor: pointer;
     }
     li:nth-child(5) {
       border-top: 1px solid #0000004a;
+    li:hover {
+      font-weight: bold;
     }
   }
+  
 `;
 
 const StSection = styled.div`

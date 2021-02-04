@@ -1,96 +1,90 @@
-import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import * as St from "components/styles/styledComp";
 import GuideBar from "./GuideBar";
 import MyStartup from "./startup/myStartup/MyStartup";
 import SupportPjt from "./startup/supportPjt/SupportPjt";
-import AdminIRReq from "./common/AdminIRReq";
+import AdminIRReq from "./AdminIRReq";
 import MyPartner from "./partner/myPartner/MyPartner";
 import PartnerPjt from "./partner/supportPjt/PartnerPjt";
 
-const WSPage: React.FC<any> = ({ location, match }) => {
-  // const [curUser, setCurUser] = useState<string>("partner");
-  const userInfo = JSON.parse(String(sessionStorage.getItem("userInfo")));
-  const [userType, setUserType] = useState<string>(match.params.type);
-  // const [curTab, setCurTab] = useState<string>(match.params.tab);
-  const [curTab, setCurTab] = useState<string>("마이 스타트업");
-
-  const clickTab = (e: any) => {
-    // const _curTarget = e.currentTarget.className.split()[2];
-    const _curTarget = e.currentTarget.textContent;
-    setCurTab(_curTarget);
-  };
+const WSPage: React.FC<any> = ({ match }) => {
+  const userInfo: any = JSON.parse(String(sessionStorage.getItem("userInfo")));
+  const curType: number = userInfo.type_id;
+  const curTab: string = match.params.tab;
+  const navi: any =
+    curType === 1
+      ? {
+          mystartup: "마이 스타트업",
+          myproject: "지원사업 프로젝트",
+          myrequest: "IR 자료 요청 관리",
+          mydocument: "IR 자료 및 지원서류 관리",
+        }
+      : {
+          mypartner: "파트너 기관 관리",
+          myproject: "지원사업 관리",
+          myrequest: "IR 자료 요청 관리",
+        };
 
   return (
     <StWSCont>
-      <StRootWrap>{`홈  >  지원사업  >  ${curTab}`}</StRootWrap>
+      <StRootWrap>{`홈  >  지원사업  >  ${navi[curTab]}`}</StRootWrap>
 
       <StTabCont>
         <St.SectionTitle style={{ margin: 0 }}>워크 스테이션</St.SectionTitle>
 
-        {userInfo?.type_id === 1 ? (
+        {curType === 1 ? (
           <>
-            <StTabWrap
-              className="startup"
-              isChecked={curTab === "마이 스타트업"}
-              onClick={clickTab}
-            >
-              마이 스타트업
+            <StTabWrap isChecked={curTab === "mystartup"}>
+              <Link to="/workstation/mystartup">{navi["mystartup"]}</Link>
             </StTabWrap>
-            <StTabWrap
-              className="project"
-              isChecked={curTab === "지원사업 프로젝트"}
-              onClick={clickTab}
-            >
-              지원사업 프로젝트
+            <StTabWrap isChecked={curTab === "myproject"}>
+              <Link to="/workstation/myproject">{navi["myproject"]}</Link>
             </StTabWrap>
-            <StTabWrap
-              className="request"
-              isChecked={curTab === "IR 자료 요청 관리"}
-              onClick={clickTab}
-            >
-              IR 자료 요청 관리
+            <StTabWrap isChecked={curTab === "myrequest"}>
+              <Link to="/workstation/myrequest">{navi["myrequest"]}</Link>
             </StTabWrap>
-            <StTabWrap
-              className="document"
-              isChecked={curTab === "IR 자료 및 지원서류 관리"}
-              onClick={clickTab}
-            >
-              IR 자료 및 지원서류 관리
+            <StTabWrap isChecked={curTab === "mydocument"}>
+              <Link to="/workstation/mydocument">{navi["mydocument"]}</Link>
             </StTabWrap>
           </>
         ) : (
           <>
-            <StTabWrap
-              isChecked={curTab === "파트너 기관 관리"}
-              onClick={clickTab}
-            >
-              파트너 기관 관리
+            <StTabWrap isChecked={curTab === "mypartner"}>
+              <Link to="/workstation/mypartner">{navi["mypartner"]}</Link>
+            </StTabWrap>
+            <StTabWrap isChecked={curTab === "myproject"}>
+              <Link to="/workstation/myproject">{navi["myproject"]}</Link>
+            </StTabWrap>
+            <StTabWrap isChecked={curTab === "myrequest"}>
+              <Link to="/workstation/myrequest">{navi["myrequest"]}</Link>
             </StTabWrap>
             <StTabWrap
-              isChecked={curTab === "지원사업 관리"}
-              onClick={clickTab}
+              isChecked={curTab === "myrequest"}
+              style={{ visibility: "hidden" }}
             >
-              지원사업 관리
-            </StTabWrap>
-            <StTabWrap
-              isChecked={curTab === "IR 자료 요청 관리"}
-              onClick={clickTab}
-            >
-              IR 자료 요청 관리
+              IR 자료 및 지원서류 관리
             </StTabWrap>
           </>
         )}
       </StTabCont>
 
-      <GuideBar curTab={curTab} />
+      <GuideBar curType={curType} curTab={curTab} />
 
-      {curTab === "마이 스타트업" && <MyStartup />}
-      {curTab === "지원사업 프로젝트" && <SupportPjt />}
-      {curTab === "IR 자료 요청 관리" && <AdminIRReq />}
-      {curTab === "IR 자료 및 지원서류 관리" && <></>}
-      {curTab === "파트너 기관 관리" && <MyPartner />}
-      {curTab === "지원사업 관리" && <PartnerPjt />}
+      {curType === 1 ? (
+        <>
+          {curTab === "mystartup" && <MyStartup />}
+          {curTab === "myproject" && <SupportPjt />}
+          {curTab === "myrequest" && <AdminIRReq />}
+          {curTab === "mydocument" && <></>}
+        </>
+      ) : (
+        <>
+          {curTab === "mypartner" && <MyPartner />}
+          {curTab === "myproject" && <PartnerPjt />}
+          {curTab === "myrequest" && <></>}
+        </>
+      )}
     </StWSCont>
   );
 };
@@ -129,21 +123,21 @@ const StTabCont = styled.div`
 const StTabWrap = styled.span<{ isChecked: boolean }>`
   cursor: pointer;
   display: inline-block;
-  /* width: 184px; */
   text-align: center;
-
-  /* padding-bottom: 12px; */
 
   font-weight: bold;
   font-size: 15px;
   letter-spacing: 0px;
-  ${(props) =>
-    props.isChecked
-      ? css`
-          color: #5541ed;
-        `
-      : css`
-          color: #000000;
-        `}
-  transition: all 0.1s ease;
+
+  a {
+    ${(props) =>
+      props.isChecked
+        ? css`
+            color: #5541ed;
+          `
+        : css`
+            color: #000000;
+          `}
+    transition: all 0.1s linear;
+  }
 `;

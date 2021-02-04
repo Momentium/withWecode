@@ -42,7 +42,6 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   const history = useHistory();
 
   const signUp = () => {
-    console.log("악 !!!!");
     axios
       .post(`${process.env.REACT_APP_URL}/users/signup`, {
         email: email,
@@ -50,7 +49,12 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         password: password,
         typeId: typeId,
         signUpMethodId: "1",
-      })
+        terms:[
+          {"service":true},
+          {"personal_info":true},
+          {"marketing":true}
+        ]
+    })
       .then((res) => {
         alert("회원가입 성공");
         if (typeId === "2") {
@@ -62,6 +66,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
       })
       .catch((err) => {
         alert("필수사항을 입력해 주세요");
+        console.log(err);
       });
   };
 
@@ -165,6 +170,10 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
 
   const handleTerm = () => {
     setOpenTerms(!openTerms);
+  };
+
+  const handleCancel = () => {
+    window.location.href = "/";
   };
 
   return (
@@ -298,7 +307,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         >
           가입
         </Enroll>
-        <Cancle>취소</Cancle>
+        <Cancle onClick={handleCancel}>취소</Cancle>
       </div>
     </Wrap>
   );
