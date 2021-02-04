@@ -24,5 +24,6 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
-
 /.vscode
+workspace.*
+debug.log
