@@ -836,7 +836,7 @@ const tempSavePartnerBasicInfo = errorWrapper(async(req, res, next) => {
 
 const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
     if (req.foundUser.type_id === 1) errorGenerator({ statusCode: 400, message: 'this user is not partner user' })
-    const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description, investedDates, investedStartups, investedFunds, investedValues, investedSeries, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs, portfolioImagesDeleteIds, investedDeleteIds, memberDeleteIds, companyNewsDeleteIds } = req.body
+    const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description, investedDates, investedStartups, investedFunds, investedValues, investedSeries, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs } = req.body
     let { logoImg, portfolioImages, memberImages } = req.files
     const interedtedTechnologyId = interedtedTechnology ? await CompanyService.getRelatedInfoId('technologies', interedtedTechnology) : undefined
     const totalInvestedId = totalInvested ? await CompanyService.getRelatedInfoId('investment_funds', totalInvested) : undefined
@@ -1168,18 +1168,20 @@ const getOnePartner = errorWrapper(async (req, res) => {
   const company = await CompanyService.findPartner({ id: companyId });
   console.log(company);
 
-  if ("interst_technology_id" in Object.keys(company.partners[0])) {
+  if (!(company.partners[0].interst_technology_id === null)) {
     company.partners[0].interst_technology = await CompanyService.findInfoName(
       "technologies",
       company.partners[0].interst_technology_id
     );
   }
-  if ("invested_total_id" in Object.keys(company.partners[0])) {
+  if (!(company.partners[0].invested_total_id === null)) {
+    console.log('investment_total_access')
     company.partners[0].investment_total = await CompanyService.findInfoName(
       "investment_funds",
       company.partners[0].invested_total_id
     );
   }
+
   for (len = 0; len < company.partners[0].invested_to.length; len++) {
     company.partners[0].invested_to[
       len
