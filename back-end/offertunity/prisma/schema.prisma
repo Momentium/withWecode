@@ -468,6 +468,7 @@ model terms {
   id              Int               @id @default(autoincrement())
   name            String
   content         String
+  required        Boolean
   user_agreements user_agreements[]
 }
 
