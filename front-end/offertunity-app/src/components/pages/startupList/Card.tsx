@@ -4,13 +4,10 @@ import LikeBtn from "../../common/detail/buttons/Buttons";
 import Title from "./Title";
 import axios from "axios";
 
-const Card = ({ data, name, background, service, isLogin }: any) => {
+const Card = ({ data, name, background, service, isLogin, id }: any) => {
   const [like, setLike] = useState<boolean>(data.like);
-
-  console.log(isLogin);
-
   const cardImage = {
-    backgroundImage: `url(${data.logo_img})`,
+    backgroundImage: `url(${data.startups[0].thumbnail})`,
     backgroundSize: background,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -23,17 +20,16 @@ const Card = ({ data, name, background, service, isLogin }: any) => {
   const getLikeData = () => {
     if (isLogin) {
       axios
-        .get(`${process.env.REACT_APP_URL}/likes/company/${data.id}`, {
+        .get(`${process.env.REACT_APP_URL}/likes/company/${id}`, {
           headers: {
             Authorization: sessionStorage.getItem("token"),
           },
         })
-        .then((res) => setLike(res.data.startups[0].is_liked))
+        .then((res) => setLike(res.data.result))
         .catch((error) => console.log(error));
     } else {
       setLike(false);
     }
-    console.log("ello");
   };
 
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
