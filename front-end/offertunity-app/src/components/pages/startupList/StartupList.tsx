@@ -7,26 +7,24 @@ import styled from "styled-components";
 
 const StartupList = () => {
   const [startupList, setStartupList] = useState<any[]>([]);
-  const itemsPerPage = 16;
-  const [page, setPage] = useState(1);
-  const [updatePage, setUpdatePage] = useState(0);
-  const [currPage, setCurrPage] = useState(80);
   const [totalLength, setTotalLength] = useState(0);
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 16;
 
-  // 백엔드 API 나오면 수정할예정
   useEffect(() => {
     const LIMIT = 16;
     axios
-      .get(`http://localhost:3000/data/offset=${page}&limit=${LIMIT}.json`)
+      .get(
+        `${process.env.REACT_APP_URL}/companies/list/startup?offset=${page}&limit=${20}`
+      )
       .then((res) => {
-        setStartupList(res.data.data);
+        setStartupList(res.data.companies);
       });
   }, [page]);
 
-  // 백엔드 API 나오면 수정할예정
   useEffect(() => {
-    axios.get(`data/startupList.json`).then((res) => {
-      setTotalLength(res.data.data.length);
+    axios.get(`${process.env.REACT_APP_URL}/companies/list/startup`).then((res) => {
+      setTotalLength(res.data.num);
     });
   }, []);
 
@@ -47,7 +45,6 @@ const StartupList = () => {
       <Startup data={startupList} itemsPerPage={itemsPerPage} page={page} />
       <PaginationCmp
         onChange={handleClickPage}
-        listLength={startupList.length}
         page={page}
         itemsPerPage={itemsPerPage}
         totalLength={totalLength}

@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
  ${reset}
 * {
   box-sizing: border-box;
-
+  
   font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

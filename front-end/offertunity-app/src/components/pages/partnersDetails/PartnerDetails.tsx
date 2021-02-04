@@ -26,10 +26,13 @@ const PartnerDetails = ({ match }: any) => {
   useEffect(() => {
     const _resId = match.params.id;
     axios
-      .get(`http://10.0.1.44:3000/companies/partner/${_resId}`)
+      .get(`${process.env.REACT_APP_URL}/companies/partner/${_resId}`)
       .then((res) => {
         const _data = res.data.company;
         setPartnerData(_data);
+      })
+      .catch(err => {
+        console.log(err)
       });
   }, []);
 

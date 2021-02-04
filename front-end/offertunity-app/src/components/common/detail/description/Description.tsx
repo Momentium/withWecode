@@ -30,7 +30,7 @@ const CompanyDescription = ({ data, introduceDatas }: any) => {
         })}
       </CompanyInformation>
       {/* <CompanyImgSlider images={images} /> */}
-      <CompanyInvestInfo data={data.partners[0]} />
+      {/* <CompanyInvestInfo data={data.partners[0]} /> */}
       <CompanyTeamInfo data={data} />
       {news && <CompanyNews data={news} />}
     </>

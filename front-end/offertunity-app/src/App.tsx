@@ -14,7 +14,7 @@ import ProjectDetailPage from "./components/pages/project/detail/ProjectDetailPa
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
-import Auth from "./components/pages/Auth/Auth";
+import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
 import StartupDetails from "./components/pages/startupDetails/StartupDetails";
 import MypageStartup from "./components/pages/mypage/MypageStartup";
@@ -56,8 +56,8 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/MypageStartup" component={MypageStartup} />
           <Route path="/EditMypageStartup" component={EditMypageStartup} />
         </Switch>
-
-        <Route path="/workstation" component={WSPage} />
+        
+        <Route path="/workstation/:type/:tab" component={WSPage} />
         <Route path="/auth/:name" component={Auth} />
       </StAppCont>
 

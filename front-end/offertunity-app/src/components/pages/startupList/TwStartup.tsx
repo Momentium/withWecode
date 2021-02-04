@@ -10,9 +10,13 @@ const TwStartup = (props: any) => {
 
   // 백엔드 API 나오면 수정할예정
   useEffect(() => {
-    axios.get("data/thisweekStartup.json").then((res) => {
-      const _data = res.data.data;
-      setStartupList(_data);
+    axios.get(`${process.env.REACT_APP_URL}/companies/list/startup`)
+    .then((res) => {
+      const _data = res.data.companies;
+      setStartupList(_data.slice(0, 3));
+    })
+    .catch(err => {
+      console.log(err)
     });
   }, []);
 

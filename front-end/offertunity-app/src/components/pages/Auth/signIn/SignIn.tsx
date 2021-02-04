@@ -18,8 +18,8 @@ const SignIn: React.FC = () => {
   const SIGNIN = () => {
     const { email, password } = inputs;
     axios
-      .post("http://10.0.1.41:3000/users/signin", {
-        //.post(`${process.env.REACT_APP_URL}/users/signin`, {
+      //.post("http://10.0.1.41:3000/users/signin", {
+        .post(`${process.env.REACT_APP_URL}/users/signin`, {
         email: email,
         password: password,
       })
@@ -63,7 +63,7 @@ const SignIn: React.FC = () => {
     });
   };
   const handleGOOGLE = () => {
-    window.location.href = "http://10.0.1.41:3000/users/google";
+    window.location.href = `${process.env.REACT_APP_URL}/users/google`;
   };
   return (
     <>

@@ -2,16 +2,14 @@ import React from "react";
 import Description from "../../../common/detail/description/Description";
 
 const CompanyDescription = ({ data }: any) => {
-  const { introduce, itemIntroduce } = data;
-
   const introduceDatas = [
     {
       title: "스타트업 소개",
-      description: introduce,
+      description: data.description,
     },
     {
       title: "아이템 소개",
-      description: itemIntroduce,
+      description: data.startups[0].item_description,
     },
   ];
 

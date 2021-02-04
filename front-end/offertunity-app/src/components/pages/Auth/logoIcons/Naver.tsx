@@ -10,7 +10,7 @@ const Naver = () => {
 
   const handleNAVER = () => {
     //axios.get("http://10.0.1.29:3000/auths/naver");
-    window.location.href = "http://10.0.1.41:3000/auths/naver";
+    window.location.href = `${process.env.REACT_APP_URL}/auths/naver`;
   };
 
   return <NaverBtn onClick={handleNAVER}>네이버</NaverBtn>;

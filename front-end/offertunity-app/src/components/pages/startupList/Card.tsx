@@ -3,12 +3,11 @@ import styled from "styled-components";
 import LikeBtn from "../../common/detail/buttons/Buttons";
 import Title from "./Title";
 
-const Card = ({ data, name, background }: any) => {
-  const { title, image, label, description, service, shortDescriotion } = data;
+const Card = ({ data, name, background, service }: any) => {
   const [like, setLike] = useState<boolean>(data.like);
 
   const cardImage = {
-    backgroundImage: `url(${image})`,
+    backgroundImage: `url(${data.logo_img})`,
     backgroundSize: background,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -25,20 +24,17 @@ const Card = ({ data, name, background }: any) => {
           <LikeBtn isLike={like} clickLike={clickLike} page={"list"} />
         </div>
       </Image>
-      <Title title={title} />
-      {service ? (
-        <Service>
-          <span>주요 서비스</span>
-          {service}
-        </Service>
-      ) : (
-        <ShortDescription>
-          <span>{shortDescriotion}</span>
-        </ShortDescription>
-      )}
-      <Description>{description}</Description>
+      <BottomCon className={name}>
+        <Title title={data.name} />
+        {service ? (
+          <Service>
+            <span>주요 서비스</span>
+          </Service>
+        ) : null}
+        <Description className={name}>{data.description}</Description>
+      </BottomCon>
       <LabelWrapper>
-        {label.map((element: any, idx: number) => (
+        {data.tag.map((element: any, idx: number) => (
           <Label key={idx}>{element}</Label>
         ))}
       </LabelWrapper>
@@ -53,6 +49,7 @@ const Wrapper = styled.div`
   &.startupList {
     position: relative;
     width: 18.875rem;
+    height: 435px;
     margin-bottom: 2rem;
     padding: 2rem;
     border: 1px solid #c6c6c6;
@@ -64,7 +61,6 @@ const Wrapper = styled.div`
 
   &.issueStartup {
     width: 25rem;
-    height: 28.938rem;
   }
 
   &.issueStartup:not(:nth-child(3n)) {
@@ -94,10 +90,17 @@ const Image = styled.div`
 
 const Description = styled.div`
   width: 100%;
-  height: 3.375rem;
   overflow: hidden;
   margin-top: 0.5rem;
   font-size: 0.938rem;
+
+  &.issueStartup {
+    height: 55px;
+  }
+
+  &.startupList {
+    height: 90px;
+  }
 `;
 const LabelWrapper = styled.div`
   display: flex;
@@ -110,6 +113,7 @@ const Service = styled.div`
   font-size: 16px;
   font-weight: bold;
   margin-top: 1rem;
+  margin-bottom: 8px;
 
   span {
     margin-right: 1.5rem;
@@ -135,4 +139,14 @@ const ShortDescription = styled.div`
   margin: 1.5rem 0 1rem 0;
   font-size: 0.938rem;
   font-weight: bold;
+`;
+
+const BottomCon = styled.div`
+  &.issueStartup {
+    height: 120px;
+  }
+
+  &.startupList {
+    height: 120px;
+  }
 `;
