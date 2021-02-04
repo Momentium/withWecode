@@ -40,13 +40,14 @@ router.post(
 
 router.get("/mypage", cors(), validateToken, UserController.showMemberInfo);
 
-router.post(
+router.put(
     "/mypage",
-    cors(),
     validateToken,
     upload.single("profile_picture"),
     UserController.addMemberInfo
 );
+
+router.delete("/mypage/profilepic", validateToken, UserController.deleteProfilePic)
 
 router.delete("/mypage", cors(), validateToken, UserController.deleteMember);
 
