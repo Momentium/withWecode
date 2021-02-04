@@ -49,7 +49,12 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         password: password,
         typeId: typeId,
         signUpMethodId: "1",
-      })
+        terms:[
+          {"service":true},
+          {"personal_info":true},
+          {"marketing":true}
+        ]
+    })
       .then((res) => {
         alert("회원가입 성공");
         if (typeId === "2") {

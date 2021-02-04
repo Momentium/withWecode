@@ -92,7 +92,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                       <img src="/images/icons/사각형 944@2x.png" alt="" />
                     </Link>
 
-                  <Link to={"/project/detail/"} className="link-workstation">
+                  <Link to={"/workstation/:tab"} className="link-workstation">
                     <span  >
                       워크스테이션
                     </span>
