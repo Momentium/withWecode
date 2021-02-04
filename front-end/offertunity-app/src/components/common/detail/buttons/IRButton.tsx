@@ -14,10 +14,19 @@ const Buttons = ({ boxStyle, title, type }: any) => {
   }, []);
 
   useEffect(() => {
+    const getUserInfo = sessionStorage.getItem("userInfo");
+    const userInfo = JSON.parse(String(getUserInfo));
+
     if (type === "startup") {
       setText("IR 자료 요청하기");
+      if (userInfo.type_id === 1) {
+        setBtnInvisible(true);
+      }
     } else if (type === "partner") {
       setText("IR자료 검토 요청");
+      if (userInfo.type_id === 2) {
+        setBtnInvisible(true);
+      }
     }
   }, []);
 

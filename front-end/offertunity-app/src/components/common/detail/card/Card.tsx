@@ -4,8 +4,15 @@ import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
 
 const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
+  const checkImg = () => {
+    if (type === "startup") {
+      return `url(${data.startups[0].thumbnail})`;
+    } else {
+      return `url(${data.partners[0].thumbnail})`;
+    }
+  };
   const backgroundImage = {
-    backgroundImage: `url(${data.logo_img})`,
+    backgroundImage: checkImg(),
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -20,6 +27,10 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
       <CompanyImg style={backgroundImage} />
       <CompanyInfo>
         <Title>
+          <div className="logo">
+            <img alt="로고" src={data.logo_img} />
+          </div>
+
           <span>{data.name}</span>
         </Title>
         <Hr />
@@ -46,16 +57,29 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
             })}
           </LeftBox>
           <RightBox>
-            {/* <Labels label={label} detailName={"detailLabels"} /> */}
+            {type === "startup" && (
+              <Labels label={data.tag} detailName={"detailLabels"} />
+            )}
           </RightBox>
         </DetailInfo>
-        {/* <Buttons
-          data={data.partners[0].is_liked}
-          title={data.name}
-          type={type}
-          companyId={data.id}
-          isLogin={isLogin}
-        /> */}
+        {type === "startup" && (
+          <Buttons
+            data={data.startups[0].is_liked}
+            title={data.name}
+            type={type}
+            companyId={data.id}
+            isLogin={isLogin}
+          />
+        )}
+        {type === "partner" && (
+          <Buttons
+            data={data.partners[0].is_liked}
+            title={data.name}
+            type={type}
+            companyId={data.id}
+            isLogin={isLogin}
+          />
+        )}
       </CompanyInfo>
     </CardBox>
   );
@@ -84,14 +108,25 @@ const CompanyInfo = styled.div`
 const Title = styled.div`
   display: flex;
   align-items: flex-end;
+  align-items: center;
   span {
     font-size: ${({ theme }) => theme.fontSizes.titleSize};
     font-weight: bold;
   }
+
+  .logo {
+    width: 98px;
+    height: 98px;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
 `;
 
 const Hr = styled.hr`
-  width: 80%;
+  width: 100%;
   margin: 1.5rem 0rem;
 `;
 

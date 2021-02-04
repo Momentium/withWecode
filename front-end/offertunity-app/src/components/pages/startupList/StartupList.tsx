@@ -15,17 +15,25 @@ const StartupList = () => {
     const LIMIT = 16;
     axios
       .get(
-        `${process.env.REACT_APP_URL}/companies/list/startup?offset=${page}&limit=${20}`
+        `${process.env.REACT_APP_URL}/companies/list/startup?offset=${page}&limit=${LIMIT}`
       )
       .then((res) => {
         setStartupList(res.data.companies);
       });
   }, [page]);
 
+  console.log(
+    `${
+      process.env.REACT_APP_URL
+    }/companies/list/startup?offset=${page}&limit=${16}`
+  );
+
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_URL}/companies/list/startup`).then((res) => {
-      setTotalLength(res.data.num);
-    });
+    axios
+      .get(`${process.env.REACT_APP_URL}/companies/list/startup`)
+      .then((res) => {
+        setTotalLength(res.data.num);
+      });
   }, []);
 
   const handleClickPage = (event: any, value: any) => {

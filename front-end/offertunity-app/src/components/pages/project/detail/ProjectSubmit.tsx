@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const ProjectSubmit: React.FC<any> = ({ onUploadFile, handleUploadFile }) => {
+  const [txt, setTxt] = useState<string>("");
   const uploadList = [
     {
       title: "사업계획서",
@@ -20,19 +21,23 @@ const ProjectSubmit: React.FC<any> = ({ onUploadFile, handleUploadFile }) => {
       id: "license",
     },
   ];
+
+  const changeVal = (e: any) => {
+    setTxt(e.currentTarget.value);
+  };
   return (
     <ProjectSubmitCont>
       <PjSummary>
         <Title>사업개요</Title>
         <NoticeMsg>최대 1000자까지 작성할 수 있습니다.</NoticeMsg>
-        <TextArea />
-        <CurrText>245/1000자</CurrText>
+        <TextArea onChange={changeVal} value={txt} />
+        <CurrText>{`${txt.length} / 500자`}</CurrText>
       </PjSummary>
       <PjBizModel>
         <Title>비즈니스 모델</Title>
         <NoticeMsg>최대 1000자까지 작성할 수 있습니다.</NoticeMsg>
-        <TextArea />
-        <CurrText>245/1000자</CurrText>
+        <TextArea onChange={changeVal} value={txt} />
+        <CurrText>{`${txt.length} / 500자`}</CurrText>
       </PjBizModel>
       <PjSubmitDocu>
         <Title>제출 서류</Title>
