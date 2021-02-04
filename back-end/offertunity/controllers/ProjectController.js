@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken')
 const { dateForm } = require('../utils')
 const { ProjectService, UserService, LikeService, ApplyService } = require('../services')
 const { errorWrapper, errorGenerator } = require('../errors');
-const { NotExtended } = require("http-errors");
 
 
 const getPublishedProjects = errorWrapper(async(req, res) => {

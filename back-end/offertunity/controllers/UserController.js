@@ -63,7 +63,8 @@ const showMemberInfo = errorWrapper(async (req, res) => {
 const addMemberInfo = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
   const requestedFields = req.body;
-  const profile_picture = req.file ? req.file.location : null;
+  const userInfo = await UserService.findUserInfo({ id: userId })
+  const profile_picture = req.file? req.file.location : userInfo.profile_picture? userInfo.profile_picture: null
   const addInfo = await UserService.updateInfo({
     userId,
     requestedFields,
@@ -73,6 +74,14 @@ const addMemberInfo = errorWrapper(async (req, res) => {
     message: "information successfully added",
   });
 });
+
+const deleteProfilePic = errorWrapper(async(req, res) => {
+  const { id: userId } = req.foundUser;
+  await UserService.deleteImage({ id: userId });
+  res.status(201).json({
+    message: "user profile picture successfully deleted",
+  });
+})
 
 const deleteMember = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
@@ -87,5 +96,6 @@ module.exports = {
   signUp,
   showMemberInfo,
   addMemberInfo,
+  deleteProfilePic,
   deleteMember,
 };
