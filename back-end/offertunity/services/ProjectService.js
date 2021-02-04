@@ -10,6 +10,9 @@ const findPublishedProjects = (query) => {
   const where = makeQueryOption(fields);
 
   return prisma.projects.findMany({
+    include: {
+        project_images: true
+        },
       where,
       skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
       take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
@@ -25,6 +28,9 @@ const findAllProjects = (query) => {
     delete where.AND[0]
 
     return prisma.projects.findMany({
+        include: {
+            project_images: true
+            },
         where,
         skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
@@ -39,6 +45,9 @@ const findOneProject = (field) => {
     const isKeyId = uniqueKey === "id";
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
     return prisma.projects.findUnique({
+        include: {
+            project_images: true
+            },
         where: {
             [uniqueKey]: value },
     });
@@ -71,17 +80,18 @@ const createProject = async(fields) => {
         requestedFields,
         project_picture,
         due_date,
-        sectors,
+        eligible_sectors,
         eligibilities
     } = fields;
     requestedFields.required_documents = undefined;
-    requestedFields.sectors = undefined;
+    requestedFields.eligibility = undefined;
+    requestedFields.eligible_sectors = undefined
 
     return await prisma.projects.create({
         data: {
             ...requestedFields,
             eligibilities: eligibilities ? { connect: { id: eligibilities.id } } : undefined,
-            sectors: sectors ? { connect: { id: sectors.id } } : undefined,
+            eligible_sectors: eligible_sectors ? { connect: { id: eligible_sectors.id } } : undefined,
             is_opened: 0,
             is_saved: false,
             hit: 0,

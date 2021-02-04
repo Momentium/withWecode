@@ -54,12 +54,12 @@ const tempSaveProjectInfo = errorWrapper(async(req, res) => {
 
     const requestedFields = req.body
     const project_picture = req.file ? req.file.location : undefined;
-    const required_documents = requestedFields.required_documents
+    // const required_documents = requestedFields.required_documents
     const due_date = await dateForm(requestedFields.due_date)
     
-    const sectors = await requestedFields.sectors? await prisma.sectors.findUnique({
+    const eligible_sectors = await requestedFields.eligible_sectors? await prisma.eligible_sectors.findUnique({
         where: {
-            name: String(requestedFields.sectors)
+            name: String(requestedFields.eligible_sectors)
         }
     }):undefined
 
@@ -68,16 +68,15 @@ const tempSaveProjectInfo = errorWrapper(async(req, res) => {
             name: String(requestedFields.eligibilities)
         }
     }): undefined
-console.log(sectors)
-    const projectAction = await ProjectService.createProject({ userInfofromToken, requestedFields, project_picture, due_date, sectors, eligibilities })
+    const projectAction = await ProjectService.createProject({ userInfofromToken, requestedFields, project_picture, due_date, eligible_sectors, eligibilities })
     // for (len = 0; len < required_documents.length; len++) {
     //     await ProjectService.createRelatedDoc({ required_documents, projectAction })
     // }
     if (req.save) {
         next();
     } else {
-        res.status(201).json({ message: 'project info temporarily saved' 
-    })
+        res.status(201).json({ message: 'project info temporarily saved', ProjectActionId: projectAction.id 
+    },)
     }
 })
 

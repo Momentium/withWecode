@@ -144,6 +144,11 @@ model eligibilities {
   name String @unique
 }
 
+model eligible_sectors {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
 model email_auth {
   email       String @unique
   auth_number String @unique
@@ -311,7 +316,7 @@ model projects {
   introduction         String?
   host                 String?
   due_date             DateTime?
-  sector_id            Int?
+  eligible_sector      Int?
   eligibility          Int?
   outline              String?
   detail               String?
@@ -324,7 +329,7 @@ model projects {
   created_at           DateTime?              @default(now())
   updated_at           DateTime?              @updatedAt
   deleted_at           DateTime?
-  sectors              sectors?               @relation(fields: [sector_id], references: [id])
+  eligible_sectors     eligible_sectors?      @relation(fields: [eligible_sector], references: [id])
   eligibilities        eligibilities?         @relation(fields: [eligibility], references: [id])
   applicants           applicants[]
   project_images       project_images[]
@@ -332,8 +337,8 @@ model projects {
   recent_views_project recent_views_project[]
   required_documents   required_documents[]
 
-  @@index([host], name: "FK_projects_host_companies_id")
-  @@index([sector_id], name: "FK_projects_sector_id_sectors_id")
+  @@index([eligible_sector], name: "FK_projects_eligible_sector_eligible_sectors_id")
+  @@index([eligibility], name: "FK_projects_eligibility_eligibilities_id")
 }
 
 model questions {
