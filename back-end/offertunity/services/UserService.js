@@ -13,6 +13,7 @@ const findCompany = (field) => {
 
 const createUser = async (fields) => {
   const { email, name, password, user_types, signup_methods, terms } = fields
+  console.log(fields)
   const data = {
     email, name, password, user_types, signup_methods
   }

@@ -5,12 +5,12 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
   await InitialService.createDatas("business_types", ["개인", "법인"]);
   console.log("business_types")
   
-  await InitialService.createDatas("company_types", [
+  await InitialService.createDatas("user_types", [
     "스타트업",
     "파트너",
     "admin",
   ]);
-  console.log("company_types")
+  console.log("user_types")
 
   await InitialService.createDatas("document_types", [
     "사업계획서",
