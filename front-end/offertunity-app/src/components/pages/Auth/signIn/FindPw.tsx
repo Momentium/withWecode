@@ -9,6 +9,10 @@ import Modal from "../components/Modal";
 
 const FindPw = () => {
   const [modal, setModal] = useState(false);
+  const [email,setEmail] = useState("");
+  const handleInput =(event: any)=>{
+    setEmail(event.target.value)
+  }
   console.log(modal);
   return (
     <>
@@ -20,7 +24,7 @@ const FindPw = () => {
             가입했던 이메일 계정을 입력하면, 새로운 비밀번호를 이메일로
             발송해드려요.
           </p>
-          <input type="text" placeholder="이메일 계정을 입력해주세요" />
+          <input type="text" placeholder="이메일 계정을 입력해주세요" onChange={handleInput}/>
           <Buttons>
             <ChkBtn
               onClick={() => {
@@ -41,7 +45,7 @@ const FindPw = () => {
         {modal && (
           <Modal
             title="비밀번호 찾기"
-            content="22312@asnj.com"
+            content={email}
             notionOne="입력해주신 정보는 등록되지 않은 이메일 계정입니다."
             notionTwo="다른계정 혹은 회원가입을 해주세요."
           />
