@@ -6,11 +6,19 @@ import Buttons from "../../../common/detail/buttons/Buttons";
 import StButton from "./StButton";
 import ShareBtn from "components/common/button/iconBtn/ShareBtn";
 
-const ProjectCard: React.FC<any> = ({ data, like, clickLike }) => {
+const ProjectCard: React.FC<any> = ({
+  data,
+  like,
+  clickLike,
+  changeDetail,
+}) => {
   const { tag } = data;
   return (
     <StOverviewCont>
-      <img src={`${data.project_images[0]?.img_url}`} alt="project-img" />
+      <img
+        src="https://images.unsplash.com/photo-1492551557933-34265f7af79e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        alt="project-img"
+      />
       <StRightCont>
         <div className="name">{data.name}</div>
         <div className="explain">{data.introduction}</div>
@@ -46,7 +54,7 @@ const ProjectCard: React.FC<any> = ({ data, like, clickLike }) => {
           </StInfoTag>
         </StInfoCont>
         <StBtnsCont>
-          <StButton />
+          <StButton changeDetail={changeDetail} />
           <ShareBtn />
         </StBtnsCont>
       </StRightCont>

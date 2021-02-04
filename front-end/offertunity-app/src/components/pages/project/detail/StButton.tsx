@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const StButton = () => {
+const StButton = ({ changeDetail }: any) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,12 +17,8 @@ const StButton = () => {
     }
   }, []);
 
-  const test = () => {
-    console.log("testetset ");
-  };
-
   return visible ? (
-    <StButtonWrap onClick={test}>지원하기</StButtonWrap>
+    <StButtonWrap onClick={changeDetail}>지원하기</StButtonWrap>
   ) : (
     <StButtonWrap className="disabled" disabled>
       지원하기

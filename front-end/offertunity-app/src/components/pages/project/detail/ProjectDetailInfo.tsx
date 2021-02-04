@@ -99,11 +99,13 @@ const PjInformation = styled.div`
 `;
 
 const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #fbfaff;
   white-space: pre-line;
   line-height: 2rem;
   p {
-    width: 70%;
     padding: 3.125rem 0;
     margin: 0 auto;
   }

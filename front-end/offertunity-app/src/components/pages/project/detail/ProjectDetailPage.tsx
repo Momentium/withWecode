@@ -16,10 +16,9 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
     detail: "정보가 아직 없습니다",
     created_at: "2020-02-04T06:17:00.837Z",
     deleted_at: "2021-02-04T06:17:00.837Z",
-    project_images:
-      "https://offertunity.s3.ap-northeast-2.amazonaws.com/profileimage/1612420170404.png",
   });
   const [like, setLike] = useState<boolean>(data.like);
+  const [user, setUser] = useState<boolean>(false);
 
   useEffect(() => {
     const _resId = match.params.id;
@@ -30,7 +29,6 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
         if (Object.keys(_data).length === 0) {
           alert("정보가 아직 등록 되어있지 않습니다.");
         } else {
-          console.log(_data.project_images.length);
           setData({
             ..._data,
             ...{
@@ -44,17 +42,6 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
               deleted_at: _data.deleted_at
                 ? _data.deleted_at
                 : "2021-02-04T06:17:00.837Z",
-              project_images:
-                _data.project_images.length !== 0
-                  ? _data.project_images
-                  : [
-                      {
-                        id: 1,
-                        project_id: 1,
-                        img_url:
-                          "https://offertunity.s3.ap-northeast-2.amazonaws.com/profileimage/1612420170404.png",
-                      },
-                    ],
             },
           });
         }
@@ -64,7 +51,14 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
       });
   }, []);
 
-  // console.log(data);
+  const changeDetail = () => {
+    const getUserInfo = sessionStorage.getItem("userInfo");
+    const userInfo = JSON.parse(String(getUserInfo));
+
+    if (userInfo?.type_id === 1) {
+      setUser(true);
+    }
+  };
 
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
     setLike(!like);
@@ -74,11 +68,16 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
     <>
       <ProjectDetailPageCont>
         <MoveBar data={data} />
-        <ProjectCard data={data} like={like} clickLike={clickLike} />
-        <ProjectDetailInfo data={data} />
+        <ProjectCard
+          data={data}
+          like={like}
+          clickLike={clickLike}
+          changeDetail={changeDetail}
+        />
+        {user ? <ProjectSubmit /> : <ProjectDetailInfo data={data} />}
       </ProjectDetailPageCont>
       <ProjectRequestBtn>
-        <StButton />
+        <StButton changeDetail={changeDetail} />
       </ProjectRequestBtn>
     </>
   );
