@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as Mt from "api/methods";
 import BaseInfo from './BaseInfo';
-import IntroForm from './IntroForm';
+import IntroForm from '../IntroForm';
 import IntroImg from './IntroImg';
 import InvestDesire from './InvestDesire';
 import InvestHist from './InvestHist';
@@ -20,8 +20,9 @@ interface BasicState {
 }
 
 const MyPartner = () => {
-  const _token = sessionStorage.getItem("token");
-  const _formData = new FormData();
+  // const _token = sessionStorage.getItem("token");
+  const _token = Mt.getUserInfo().token;
+  // const _formData = new FormData();
 
   const [logoImg, setLogo] = useState<string>("");
   const [basicInfo, setBasicInfo] = useState<BasicState>({
@@ -34,7 +35,6 @@ const MyPartner = () => {
   });
 
   useEffect(() => {
-    const _token = sessionStorage.getItem("token");
     axios
       .get(`${process.env.REACT_APP_URL}/companies/info/partner`, {
         headers: {
@@ -43,7 +43,6 @@ const MyPartner = () => {
       })
       .then((res) => {
         const _resData = res.data.body;
-        console.log(_resData)
         if (Object.keys(_resData).length === 0) {
           alert("정보가 아직 등록 되어있지 않습니다.")
         } else {
@@ -95,15 +94,13 @@ const MyPartner = () => {
   };
 
   const saveBasicInfo = () => {
-    // const _formData = new FormData();
+    const _formData = new FormData();
 
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });
     
     _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
-
-    console.log(_formData)
 
     axios.post(
       `${process.env.REACT_APP_URL}/companies/info/partner/basic/temp`,
@@ -135,7 +132,7 @@ const MyPartner = () => {
   };
 
   const saveForm = () => {
-    // const _formData = new FormData();
+    const _formData = new FormData();
     _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
@@ -159,7 +156,7 @@ const MyPartner = () => {
     });
   };
   const submitForm = () => {
-    // const _formData = new FormData();
+    const _formData = new FormData();
     _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);

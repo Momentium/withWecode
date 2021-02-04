@@ -13,7 +13,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
     };
 
     const logOut = () => {
-      sessionStorage.removeItem("token");
       sessionStorage.removeItem("userInfo");
       window.location.href = "/";
     };
@@ -33,32 +32,31 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
             <>
               <StNavCont>
                 <StLinkWrap
-                  name="project"
-                  curPage={location.pathname.split("/")[0]}
+                  curPage={location.pathname.split("/")[1] === "project"}
                 >
                   <Link to="/project">지원사업</Link>
                 </StLinkWrap>
+
                 <StLinkWrap
-                  name="startup"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[1] === "startup"}
                 >
                   <Link to="/startup">스타트업</Link>
                 </StLinkWrap>
+
                 <StLinkWrap
-                  name="partner"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[1] === "partner"}
                 >
                   <Link to="/partner">투자기관</Link>
                 </StLinkWrap>
+
                 <StLinkWrap
-                  name="demo"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[1] === "demo"}
                 >
                   <Link to="/demo">온라인 데모데이</Link>
                 </StLinkWrap>
+
                 <StLinkWrap
-                  name="team"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[1] === "team"}
                 >
                   <Link to="/team">팀빌딩</Link>
                 </StLinkWrap>
@@ -78,46 +76,41 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                 <input type="text" />
               </StSearchWrap>
 
-              {
-                //location.pathname.includes("workstation")  ?
-                sessionStorage.getItem("token") ? (
-                  <StLogInCont>
-                    <img
-                      src="/images/icons/사각형 943@2x.png"
-                      alt=""
-                      className="bell"
-                    />
-                    <Link to="/MypageStartup">
-                      <img src="/images/icons/사각형 944@2x.png" alt="" />
-                    </Link>
 
-                    <Link
-                      to={
-                        info.type_id === 1
-                          ? "workstation/mystartup"
-                          : "workstation/mypartner"
-                      }
-                      className="link-workstation"
-                    >
-                      <span>워크스테이션</span>
-                    </Link>
+              {sessionStorage.getItem("userInfo") ? (
+                <StLogInCont>
+                  <img
+                    src="/images/icons/bell.png"
+                    alt="bell-icon"
+                    className="bell"
+                  />
+                  <Link to="/MypageStartup">
+                    <img src="/images/icons/person.png" alt="person-icon" />
+                  </Link>
 
-                    {info.type_id === 1 ? (
-                      <Modal className="modal" style={{ left: "5rem" }}>
-                        <ul style={{ width: "10rem" }}>
+                  {info.type_id === 1 ? (
+                    <>
+                      <Link
+                        to={"/workstation/mystartup"}
+                        className="link-workstation"
+                      >
+                        <span>워크스테이션</span>
+                      </Link>
+                      <Modal className="modal">
+                        <ul>
                           <Link to="/workstation/mystartup">
                             <li> 스타트업</li>
                           </Link>
-                          <Link to="/workstation/mystartup">
+                          <Link to="/workstation/myproject">
                             <li>지원사업 프로젝트</li>
                           </Link>
-                          <Link to="/workstation/mystartup">
+                          <Link to="/workstation/myrequest">
                             <li>IR자료 요청 관리</li>
                           </Link>
-                          <Link to="/workstation/mystartup">
+                          <Link to="/workstation/mydocument">
                             <li>IR자료 및 지원서류 관리</li>
                           </Link>
-                          <Link to="/MypageStartup">
+                          <Link to="/EditMypageStartup">
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>
@@ -125,19 +118,31 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <li onClick={logOut}>로그아웃</li>
                         </ul>
                       </Modal>
-                    ) : (
+
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to={"/workstation/mypartner"}
+                        className="link-workstation"
+                      >
+                        <span>워크스테이션</span>
+                      </Link>
+
                       <Modal className="modal">
                         <ul>
                           <Link to={"/workstation/mypartner"}>
                             <li>파트너 기관 관리</li>
                           </Link>
-                          <Link to="/workstation/mypartner">
+
+                          <Link to="/workstation/myproject">
                             <li>지원사업 관리</li>
                           </Link>
-                          <Link to="/workstation/mypartner">
+                          <Link to="/workstation/myrequest">
                             <li>IR자료 요청 관리</li>
                           </Link>
-                          <Link to="/MypageStartup">
+                          <Link to="/EditMypageStartup">
+
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>
@@ -145,19 +150,21 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <li onClick={logOut}>로그아웃</li>
                         </ul>
                       </Modal>
-                    )}
-                  </StLogInCont>
-                ) : (
-                  <Auth>
-                    <Link to="/auth/signIn">
-                      <p>로그인</p>
-                    </Link>
-                    <Link to="/auth/signUp">
-                      <p>회원가입</p>
-                    </Link>
-                  </Auth>
-                )
-              }
+
+                    </>
+                  )}
+                </StLogInCont>
+              ) : (
+                <Auth>
+                  <Link to="/auth/signIn">
+                    <p>로그인</p>
+                  </Link>
+                  <Link to="/auth/signUp">
+                    <p>회원가입</p>
+                  </Link>
+                </Auth>
+              )}
+
             </>
           )}
         </HeaderCon>
@@ -223,6 +230,7 @@ const Modal = styled.div`
     width: 6rem;
 
     li {
+
       width: 100%;
       font-size: 13px;
       line-height: 35px;
@@ -283,7 +291,7 @@ const StNavCont = styled.nav`
   }
 `;
 
-const StLinkWrap = styled.div<{ name: string; curPage: string }>`
+const StLinkWrap = styled.div<{ curPage: boolean }>`
   margin-right: 56px;
 
   @keyframes colorChangeNav {
@@ -314,7 +322,7 @@ const StLinkWrap = styled.div<{ name: string; curPage: string }>`
   }
 
   ${(props) =>
-    props.curPage.includes(props.name) &&
+    props.curPage &&
     css`
       * {
         animation: colorChangeNav 0.2s forwards;

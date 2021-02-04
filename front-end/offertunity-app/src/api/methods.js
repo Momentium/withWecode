@@ -16,3 +16,8 @@ export const dataURLtoFile = (dataurl, fileName) => {
     return dataurl
   }
 }
+
+export const getUserInfo = () => {
+  const _userInfo = JSON.parse(String(sessionStorage.getItem("userInfo")))
+  return { ..._userInfo }
+}
