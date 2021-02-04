@@ -11,15 +11,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
     const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
       setFocus(!focus);
     };
-
-
-    const [showModal, setShowModal] = useState(false);
-
-    const handleModal = () => {
-      setShowModal(!showModal);
-    };
-
-
+ 
     const logOut = () => {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("userInfo");
@@ -27,7 +19,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
     };
 
     const info = JSON.parse(String(sessionStorage.getItem("userInfo")));
-
 
     return (
       <StSection ref={ref}>
@@ -236,13 +227,12 @@ display:none;
       line-height: 35px;
       cursor: pointer;
     }
-    li:nth-child(5) {
-      border-top: 1px solid #0000004a;
+   
     li:hover {
       font-weight: bold;
     }
   }
-  
+
 `;
 
 const StSection = styled.div`
