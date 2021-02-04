@@ -112,7 +112,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   const handlePw = (event: any, ) => {
     // event.preventDefault();
     let { value } = event.target;
-    value = value.replace(/[^A-Za-z]/ig, "")
+    //value = value.replace(/[^A-Za-z]/ig, "")
     
       setInputs({
         ...inputs,
