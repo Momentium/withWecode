@@ -15,18 +15,19 @@ const StartupList = () => {
     const LIMIT = 16;
     axios
       .get(
-        `http://10.0.1.44:3000/companies/list/startup?offset=${page}&limit=${LIMIT}`
+        `${process.env.REACT_APP_URL}/companies/list/startup?offset=${page}&limit=${LIMIT}`
       )
       .then((res) => {
         setStartupList(res.data.companies);
-        setTotalLength(res.data.companies.num);
       });
   }, [page]);
 
   useEffect(() => {
-    axios.get(`data/startupList.json`).then((res) => {
-      setTotalLength(res.data.data.length);
-    });
+    axios
+      .get(`${process.env.REACT_APP_URL}/companies/list/startup`)
+      .then((res) => {
+        setTotalLength(res.data.num);
+      });
   }, []);
 
   const handleClickPage = (event: any, value: any) => {
@@ -46,7 +47,6 @@ const StartupList = () => {
       <Startup data={startupList} itemsPerPage={itemsPerPage} page={page} />
       <PaginationCmp
         onChange={handleClickPage}
-        listLength={totalLength}
         page={page}
         itemsPerPage={itemsPerPage}
         totalLength={totalLength}

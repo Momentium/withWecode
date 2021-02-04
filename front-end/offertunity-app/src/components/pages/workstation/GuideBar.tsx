@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface Props {
+  curType: number;
   curTab: string;
 }
 
-const GuideBar:React.FC<Props> = ({ curTab }) => {
-
+const GuideBar:React.FC<Props> = ({ curType, curTab }) => {
   const [txt, setTxt] = useState<{title:string, msg:string}>({
     title: "마이 스타트업",
     msg: "*입력된 모든 정보는 실제 페이지에 반영됩니다. 해당 영역을 클릭하면 정보 수정이 가능합니다.",
@@ -14,44 +14,47 @@ const GuideBar:React.FC<Props> = ({ curTab }) => {
 
   useEffect(() => {
     switch(curTab) {
-      case "마이 스타트업":
+      case "mystartup":
         setTxt({
           title: "마이 스타트업",
           msg: "*입력된 모든 정보는 실제 페이지에 반영됩니다. 해당 영역을 클릭하면 정보 수정이 가능합니다.",
         })
         break;
-      case "지원사업 프로젝트":
-        setTxt({
-          title: "지원사업 프로젝트",
-          msg: "*지원사업에 필요한 기본 등록 정보와 관심 지원사업을 한꺼번에 관리할 수 있습니다.",
-        })
+      case "myproject":
+        if(curType === 1){
+          setTxt({
+            title: "지원사업 프로젝트",
+            msg: "*지원사업에 필요한 기본 등록 정보와 관심 지원사업을 한꺼번에 관리할 수 있습니다.",
+          })
+        }
+        else {
+          setTxt({
+            title: "지원사업 관리",
+            msg: "*지원사업을 관리할 수 있습니다.",
+          })
+        }
         break;
-      case "IR 자료 요청 관리":
+      case "myrequest":
         setTxt({
           title: "IR 자료 요청 관리",
           msg: "*지원사업에 필요한 기본 등록 정보와 관심 지원사업을 한꺼번에 관리할 수 있습니다.",
         })
         break;
-      case "IR 자료 및 지원서류 관리":
+      case "mydocument":
         setTxt({
           title: "IR 자료 및 지원서류 관리",
           msg: "*지원사업 및 투자 유치에 필요한 모든 서류를 version별로 관리할 수 있습니다.",
         })
         break;
-      case "파트너 기관 관리":
+
+      case "mypartner":
         setTxt({
           title: "파트너 기관 관리",
           msg: "*입력된 모든 정보는 실제 페이지에 반영됩니다. 해당 영역을 클릭하면 정보 수정이 가능합니다.",
         })
         break;
-      case "지원사업 관리":
-        setTxt({
-          title: "지원사업 관리",
-          msg: "*지원사업을 관리할 수 있습니다.",
-        })
-        break;
     }
-  }, [curTab])
+  }, [curType, curTab])
 
   return (
     <StCont>
@@ -65,6 +68,7 @@ const GuideBar:React.FC<Props> = ({ curTab }) => {
 export default GuideBar;
 
 const StCont = styled.span`
+  user-select: none;
   display: inline-flex;
 
   width: 100%;

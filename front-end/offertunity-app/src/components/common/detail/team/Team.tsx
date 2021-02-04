@@ -28,7 +28,7 @@ const CompanyTeamInfo = ({ data }: any) => {
       <div className="bottomBox">
         <TeamCount>
           <MiniTitle title={"팀원 수"} />
-          <div className="count">{data.company_members.length}</div>
+          <div className="count">{data.company_members.length}명</div>
         </TeamCount>
         <TeamMember>
           <div className="box">
@@ -131,6 +131,7 @@ const ImageContainer = styled.div`
   display: flex;
   width: 100%;
   margin-top: 1.938rem;
+  z-index: -10;
 `;
 
 const ProfileImg = styled.div`

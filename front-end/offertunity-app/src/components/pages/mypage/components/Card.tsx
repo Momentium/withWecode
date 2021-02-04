@@ -7,7 +7,7 @@ type Props = {
   index: number;
 };
 const Card: React.FC<Props> = ({ data, key, index }) => {
-  const [like, setLike] = useState(true);
+  const [like, setLike] = useState<Boolean>();
   const { logo, title, sub, info } = data;
 
   const likeIt = () => {

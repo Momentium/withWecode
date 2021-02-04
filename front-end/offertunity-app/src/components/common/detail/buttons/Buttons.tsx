@@ -12,6 +12,10 @@ const boxStyle = {
 const Buttons = ({ data, title, type, companyId, page, isLogin }: any) => {
   const [like, setLike] = useState<boolean>(data);
 
+  useEffect(() => {
+    getLikeData();
+  }, []);
+
   const getLikeData = () => {
     if (isLogin) {
       axios
@@ -27,16 +31,12 @@ const Buttons = ({ data, title, type, companyId, page, isLogin }: any) => {
     }
   };
 
-  useEffect(() => {
-    getLikeData();
-  }, []);
-
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (isLogin) {
       getLikeData();
     } else {
-      alert("로그인 진행해주세요");
+      alert("로그인후에 이용 가능합니다.");
     }
   };
 
