@@ -42,9 +42,15 @@ const lengthChecker = (...data) => {
     }
 };
 
-const dateForm = async(dateInfo) => {
-    return new Date(dateInfo)
+const dateForm = async (dateInfo) => {
+  return new Date(dateInfo)
 };
+
+const calcYear = async (dateInfo) => {
+    const thisDate = new Date();
+    const establishedDate = new Date(dateInfo)
+    return `${thisDate.getFullYear() - establishedDate.getFullYear() + 1}년차`
+}
 
 module.exports = {
     s3,
@@ -53,4 +59,5 @@ module.exports = {
     typeChecker,
     lengthChecker,
     makeQueryOption,
+    calcYear
 };
