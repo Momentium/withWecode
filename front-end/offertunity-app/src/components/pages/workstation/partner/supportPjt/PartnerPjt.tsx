@@ -3,28 +3,30 @@ import axios from 'axios';
 import { Link, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import * as St from "components/styles/styledComp";
+import * as Mt from 'api/methods'
 import InputPjt from "./AddPjt";
 import PjtList from './PjtList';
 
 const PartnerPjt = () => {
   const _params = useParams<any>();
-  // const _userInfo = 
+  const _userInfo = Mt.getUserInfo();
   const [pjtList, setPjtList] = useState<any[]>([]);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_URL}/companies/partner/`)
+    console.log(_userInfo.company_id)
+    axios.get(`${process.env.REACT_APP_URL}/projects`)
     .then((res) => {
-      const _resData = res.data;
+      const _resData:any = res.data;
       console.log(_resData)
-      _resData.map((el:any, idx:number) => 
-        <Link to={`/project/${el.id}`} key={idx}>
-          <StADWrap>
-            <PjtList
+      // setPjtList(_resData.map((el:any, idx:number) => 
+      //   <Link to={`/project/${el.id}`} key={idx}>
+      //     <StADWrap>
+      //       <PjtList
 
-            />
-          </StADWrap>
-        </Link>
-      )
+      //       />
+      //     </StADWrap>
+      //   </Link>
+      // ))
     })
   }, [])
 

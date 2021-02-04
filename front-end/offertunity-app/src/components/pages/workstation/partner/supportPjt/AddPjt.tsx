@@ -8,7 +8,7 @@ import BtnSet from '../../BtnSet';
 interface BasicState {
   host: string;
   due_date: string;
-  sectors: string;
+  eligible_sectors: string;
   eligibilities: string;
   name: string;
   introduction: string;
@@ -20,7 +20,7 @@ const AddPjt = () => {
   const [basicInfo, setBasicInfo] = useState<BasicState>({
     host: "",
     due_date: new Date().toISOString().substring(0, 10),
-    sectors: "공간지원",
+    eligible_sectors: "공간지원",
     eligibilities: "업력 무관",
     name: "",
     introduction: ""
@@ -37,7 +37,7 @@ const AddPjt = () => {
         setBasicInfo({ ...basicInfo, ...{ due_date: _target.value } });
         break;
       case "field":
-        setBasicInfo({ ...basicInfo, ...{ sectors: _target.textContent } });
+        setBasicInfo({ ...basicInfo, ...{ eligible_sectors: _target.textContent } });
         break;
       case "eligibility":
         setBasicInfo({ ...basicInfo, ...{ eligibilities: _target.textContent } });
@@ -128,7 +128,7 @@ const AddPjt = () => {
     )
     .then((res) => { 
       console.log(res.data)
-      setPostId(res.data.id) 
+      setPostId(res.data.ProjectActionId);
       alert('임시 저장 성공')
     });
   };
@@ -147,7 +147,7 @@ const AddPjt = () => {
     // _formData.append("contact", contact);
 
     axios.post(
-      `${process.env.REACT_APP_URL}/projects/allinfo/save/:projectId`,
+      `${process.env.REACT_APP_URL}/projects/allinfo/save/${postId}`,
       _formData,
       {
         headers: {
