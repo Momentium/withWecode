@@ -13,7 +13,7 @@ function SamplePrevArrow(props: any) {
         fontSize: "1.25rem",
         position: "absolute",
         top: "-7.5rem",
-        left: "24rem",
+        left: "33rem",
         cursor: "pointer",
       }}
       onClick={onClick}
@@ -34,7 +34,7 @@ function SampleNextArrow(props: any) {
         fontSize: "1.25rem",
         position: "absolute",
         top: "-7.5rem",
-        left: "27rem",
+        left: "36rem",
         cursor: "pointer",
       }}
       onClick={onClick}
