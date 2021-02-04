@@ -76,7 +76,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                 <input type="text" />
               </StSearchWrap>
 
-
               {sessionStorage.getItem("userInfo") ? (
                 <StLogInCont>
                   <img
@@ -118,7 +117,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <li onClick={logOut}>로그아웃</li>
                         </ul>
                       </Modal>
-
                     </>
                   ) : (
                     <>
@@ -142,7 +140,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                             <li>IR자료 요청 관리</li>
                           </Link>
                           <Link to="/EditMypageStartup">
-
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>
@@ -150,7 +147,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <li onClick={logOut}>로그아웃</li>
                         </ul>
                       </Modal>
-
                     </>
                   )}
                 </StLogInCont>
@@ -164,7 +160,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                   </Link>
                 </Auth>
               )}
-
             </>
           )}
         </HeaderCon>
@@ -227,10 +222,9 @@ const Modal = styled.div`
   box-shadow: 3px -1px 10px #0000004a;
   opacity: 1;
   ul {
-    width: 6rem;
+    width: 9rem;
 
     li {
-
       width: 100%;
       font-size: 13px;
       line-height: 35px;
