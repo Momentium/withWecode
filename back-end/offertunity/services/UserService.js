@@ -55,7 +55,6 @@ const findUserInfo = (field) => {
 
 const updateInfo = async (fields) => {
   const { userId, requestedFields, profile_picture } = fields;
-  console.log(profile_picture);
   return prisma.users.update({
     where: {
       id: Number(userId),
@@ -66,6 +65,21 @@ const updateInfo = async (fields) => {
     },
   });
 };
+
+const deleteImage = (field) => {
+  const [uniqueKey] = Object.keys(field);
+  const isKeyId = uniqueKey === "id";
+  const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
+
+  return prisma.users.update({
+    where: {
+      [uniqueKey]: value,
+    },
+    data: {
+      profile_picture: null
+    }
+  });
+}
 
 const deleteMember = (field) => {
   const [uniqueKey] = Object.keys(field);
@@ -86,5 +100,6 @@ module.exports = {
   findUserType,
   findUserInfo,
   updateInfo,
+  deleteImage,
   deleteMember,
 };
