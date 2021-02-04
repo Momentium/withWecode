@@ -41,7 +41,8 @@ const ProjectDetailInfo: React.FC<any> = ({ data }) => {
               <span>신청기간</span>
             </div>
             <div className="content">
-              {created_at}~{deleted_at}
+              {/* {created_at}~{deleted_at} */}
+              {created_at.slice(0, 10)}~{deleted_at.slice(0, 10)}
             </div>
           </div>
           <div className="wrapper">
@@ -98,11 +99,13 @@ const PjInformation = styled.div`
 `;
 
 const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #fbfaff;
   white-space: pre-line;
   line-height: 2rem;
   p {
-    width: 70%;
     padding: 3.125rem 0;
     margin: 0 auto;
   }

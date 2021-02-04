@@ -32,11 +32,8 @@ const SignIn: React.FC = () => {
           name: _resData.name,
           type_id: _resData.type_id,
         };
-
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("userInfo", JSON.stringify(_resData));
-
-        console.log(_resData)
         console.log(JSON.parse(String(sessionStorage.getItem("userInfo"))));
 
         window.location.href = "/";

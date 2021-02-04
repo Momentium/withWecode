@@ -53,15 +53,13 @@ const PartnerListCon = styled.section`
   ${({ theme }) => theme.conWidth}
 `;
 
-const PartnerCompanyList = styled.div<{ dataLength:number }>`
+const PartnerCompanyList = styled.div<{ dataLength: number }>`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  ${
-    props => css`
-      grid-template-rows: repeat(1fr, props.dataLength % 3);
-    `
-  }
-  
+  ${(props) => css`
+    grid-template-rows: repeat(1fr, props.dataLength % 3);
+  `}
+
   column-gap: 10rem;
   row-gap: 2rem;
   width: 100%;

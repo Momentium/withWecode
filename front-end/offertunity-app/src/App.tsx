@@ -22,6 +22,7 @@ import EditMypageStartup from "./components/pages/mypage/EditMypageStartup";
 import PartnerList from "components/pages/partnerList/PartnerList";
 import PartnerDetails from "./components/pages/partnersDetails/PartnerDetails";
 import WSPage from "./components/pages/workstation/WSPage";
+import DemodayPage from "./components/pages/demoday/DemodayPage";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
@@ -56,8 +57,11 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/MypageStartup" component={MypageStartup} />
           <Route path="/EditMypageStartup" component={EditMypageStartup} />
 
+          <Route path="/demo" component={DemodayPage} />
+
           <Route path="/workstation/:tab/:addon" component={WSPage} />
           <Route path="/workstation/:tab" component={WSPage} />
+
         </Switch>
 
         <Route path="/auth/:name" component={Auth} />
