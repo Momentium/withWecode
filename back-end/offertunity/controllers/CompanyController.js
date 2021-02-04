@@ -1327,4 +1327,5 @@ module.exports = {
   downloadStartupDoc,
   readStartupDoc,
   deleteStartupDoc,
+  tempSavePartnerBasicInfo
 };
