@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken')
 const { dateForm } = require('../utils')
 const { ProjectService, UserService, LikeService, ApplyService } = require('../services')
 const { errorWrapper, errorGenerator } = require('../errors');
-const { NotExtended } = require("http-errors");
 
 
 const getPublishedProjects = errorWrapper(async(req, res) => {
@@ -14,19 +13,20 @@ const getPublishedProjects = errorWrapper(async(req, res) => {
 })
 
 const getAllProjects = errorWrapper(async(req, res) => {
-    const projectList = await ProjectService.findProjects(req.query)
+    const projectList = await ProjectService.findAllProjects(req.query)
     res.status(200).json({ projectList })
 })
 
 const getOneProject = errorWrapper(async(req, res) => {
-
-    const userInfofromToken = req.foundUser ? req.foundUser : undefined
-    const isStartup = userInfofromToken.type_id === 1
-    const findApplied = isStartup ? await ApplyService.findRelatedApplication({ companies: userInfofromToken.company_id }) : false
-    const hasApplied = findApplied ? true : false
     const { projectId } = req.params
     const projectDetail = await ProjectService.findOneProject({ id: projectId })
-
+    let hasApplied
+    const userInfofromToken = req.foundUser ? req.foundUser : undefined
+    if (userInfofromToken) {
+    const isStartup = userInfofromToken.type_id === 1
+    const findApplied = isStartup ? await ApplyService.findRelatedApplication({ companies: userInfofromToken.company_id }) : false
+    hasApplied = findApplied ? true : false
+} else {hasApplied = false}
 
     res.status(200).json({ projectDetail, hasApplied })
 })

@@ -10,6 +10,9 @@ const findPublishedProjects = (query) => {
   const where = makeQueryOption(fields);
 
   return prisma.projects.findMany({
+    include: {
+        project_images: true
+        },
       where,
       skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
       take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
@@ -24,6 +27,9 @@ const findAllProjects = (query) => {
     const where = makeQueryOption(fields);
 
     return prisma.projects.findMany({
+        include: {
+            project_images: true
+            },
         where,
         skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
@@ -38,6 +44,9 @@ const findOneProject = (field) => {
     const isKeyId = uniqueKey === "id";
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
     return prisma.projects.findUnique({
+        include: {
+            project_images: true
+            },
         where: {
             [uniqueKey]: value },
     });
