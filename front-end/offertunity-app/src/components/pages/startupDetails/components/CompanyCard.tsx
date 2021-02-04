@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "../../../common/detail/card/Card";
 
-const CompanyCard = ({ data, type }: any) => {
+const CompanyCard = ({ data, type, isLogin }: any) => {
   const detailInfo = [
     {
       title: "대표자명",
@@ -9,7 +9,7 @@ const CompanyCard = ({ data, type }: any) => {
     },
     {
       title: "설립일",
-      content: data.established_date,
+      content: data.established_date.slice(0, 10),
     },
     {
       title: "산업분야",
@@ -25,9 +25,9 @@ const CompanyCard = ({ data, type }: any) => {
     },
   ];
 
-  console.log(data.startups[0].sector);
-
-  return <Card data={data} detailInfo={detailInfo} type={type} />;
+  return (
+    <Card data={data} detailInfo={detailInfo} type={type} isLogin={isLogin} />
+  );
 };
 
 export default CompanyCard;

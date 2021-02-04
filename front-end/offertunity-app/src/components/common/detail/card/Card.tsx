@@ -4,6 +4,7 @@ import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
 
 const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
+  console.log(isLogin);
   const checkImg = () => {
     if (type === "startup") {
       return `url(${data.startups[0].thumbnail})`;
@@ -18,6 +19,13 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
     backgroundPosition: "center",
   };
 
+  const logoImage = {
+    backgroundImage: `url(${data.logo_img})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
+
   const handleUrlClick = (url: string) => {
     window.open(url, "_blank");
   };
@@ -27,9 +35,7 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
       <CompanyImg style={backgroundImage} />
       <CompanyInfo>
         <Title>
-          <div className="logo">
-            <img alt="로고" src={data.logo_img} />
-          </div>
+          <div className="logo" style={logoImage} />
 
           <span>{data.name}</span>
         </Title>
@@ -117,6 +123,7 @@ const Title = styled.div`
   .logo {
     width: 98px;
     height: 98px;
+    margin-right: 32px;
 
     img {
       max-width: 100%;
@@ -151,8 +158,6 @@ const Wrapper = styled.div`
   }
 
   div {
-    width: 15.813rem;
-
     span {
       &.url {
         color: #1087fd;
@@ -164,5 +169,5 @@ const Wrapper = styled.div`
 `;
 
 const RightBox = styled.div`
-  width: 13.563;
+  width: 30%;
 `;

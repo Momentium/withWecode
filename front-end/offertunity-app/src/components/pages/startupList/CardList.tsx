@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Card from "./Card";
 
 const CardList = ({ list, data, name, boxName, background }: any) => {
+  const [isLogin, setIsLogin] = useState<boolean>();
+
+  useEffect(() => {
+    sessionStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
+  }, []);
+
   return (
     <Container className={boxName}>
       {list &&
@@ -15,6 +21,7 @@ const CardList = ({ list, data, name, boxName, background }: any) => {
               name={name}
               background={background}
               service={true}
+              isLogin={isLogin}
             />
           </Link>
         ))}
@@ -28,6 +35,7 @@ const CardList = ({ list, data, name, boxName, background }: any) => {
                   key={idx}
                   name={name}
                   background={background}
+                  isLogin={isLogin}
                 />
               </Link>
             );
@@ -56,13 +64,12 @@ const Container = styled.div`
   }
 `;
 
-const CardBottom = styled.div<{dataLength: number}>`
+const CardBottom = styled.div<{ dataLength: number }>`
   display: grid;
 
   grid-template-columns: 1fr 1fr 1fr 1fr;
 
-  ${props => css`
+  ${(props) => css`
     grid-template-rows: repeat(1fr, props.dataLength % 4);
-  `
-  }
+  `}
 `;

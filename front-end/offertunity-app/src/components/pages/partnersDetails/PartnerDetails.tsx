@@ -31,8 +31,8 @@ const PartnerDetails = ({ match }: any) => {
         const _data = res.data.company;
         setPartnerData(_data);
       })
-      .catch(err => {
-        console.log(err)
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
@@ -54,4 +54,5 @@ export default PartnerDetails;
 
 const DetailBox = styled.main`
   ${({ theme }) => theme.conWidth}
+  margin-top: 40px;
 `;

@@ -22,12 +22,6 @@ const StartupList = () => {
       });
   }, [page]);
 
-  console.log(
-    `${
-      process.env.REACT_APP_URL
-    }/companies/list/startup?offset=${page}&limit=${16}`
-  );
-
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_URL}/companies/list/startup`)

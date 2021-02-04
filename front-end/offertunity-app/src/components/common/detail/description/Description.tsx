@@ -34,11 +34,10 @@ const CompanyDescription = ({ data, introduceDatas, type }: any) => {
       ) : (
         <CompanyInvestInfo data={data.startups[0]} page={"startup"} />
       )}
-      {/* <CompanyImgSlider images={images} /> */}
       {type === "partner" ? (
-        <CompanyInvestInfo data={data.partners[0]} />
+        <CompanyImgSlider images={data.partners[0].investment_portfolio} />
       ) : (
-        <CompanyInvestInfo data={data.startups[0].invested_from} />
+        <CompanyImgSlider images={data.startups[0].startup_images} />
       )}
       <CompanyTeamInfo data={data} />
       {news && <CompanyNews data={news} />}

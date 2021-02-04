@@ -61,7 +61,7 @@ const CompanyImgSlider = ({ images }: any) => {
   const classes = useStyles();
 
   return (
-    <>
+    <PortfolioCon>
       {visibleBtn ? (
         ""
       ) : (
@@ -82,10 +82,10 @@ const CompanyImgSlider = ({ images }: any) => {
           zIndex={0}
           isConstantSize={true}
         >
-          {images.map((item: string, idx: number) => {
+          {images.map((item: any, idx: any) => {
             return (
               <SliderImgWrapper key={idx}>
-                <img alt="image" src={item} onClick={handleOpen} />
+                <img alt="image" src={item.img_url} onClick={handleOpen} />
               </SliderImgWrapper>
             );
           })}
@@ -110,11 +110,15 @@ const CompanyImgSlider = ({ images }: any) => {
           </Fade>
         </Modal>
       </SliderBox>
-    </>
+    </PortfolioCon>
   );
 };
 
 export default CompanyImgSlider;
+
+const PortfolioCon = styled.section`
+  margin-top: 72.5px;
+`;
 
 const SliderBox = styled.div`
   width: 100%;

@@ -4,9 +4,10 @@ import LikeBtn from "../../common/detail/buttons/Buttons";
 import Title from "./Title";
 import axios from "axios";
 
-const Card = ({ data, name, background, service }: any) => {
+const Card = ({ data, name, background, service, isLogin }: any) => {
   const [like, setLike] = useState<boolean>(data.like);
-  const [isLogin, setIsLogin] = useState<boolean>();
+
+  console.log(isLogin);
 
   const cardImage = {
     backgroundImage: `url(${data.logo_img})`,
@@ -16,23 +17,22 @@ const Card = ({ data, name, background, service }: any) => {
   };
 
   useEffect(() => {
-    sessionStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
-    getLikeData();
+    isLogin && getLikeData();
   }, []);
 
   const getLikeData = () => {
-    // if (isLogin) {
-    //   axios
-    //     .get(`${process.env.REACT_APP_URL}/likes/company/${companyId}`, {
-    //       headers: {
-    //         Authorization: sessionStorage.getItem("token"),
-    //       },
-    //     })
-    //     .then((res) => setLike(res.data.result))
-    //     .catch((error) => console.log(error));
-    // } else {
-    //   setLike(false);
-    // }
+    if (isLogin) {
+      axios
+        .get(`${process.env.REACT_APP_URL}/likes/company/${data.id}`, {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        })
+        .then((res) => setLike(res.data.startups[0].is_liked))
+        .catch((error) => console.log(error));
+    } else {
+      setLike(false);
+    }
     console.log("ello");
   };
 
@@ -41,7 +41,7 @@ const Card = ({ data, name, background, service }: any) => {
     if (isLogin) {
       getLikeData();
     } else {
-      alert("로그인 진행해주세요");
+      alert("다시해봐...제발..");
     }
   };
 
@@ -49,7 +49,12 @@ const Card = ({ data, name, background, service }: any) => {
     <Wrapper className={name}>
       <Image style={cardImage} className={name}>
         <div className="likebtnWrap">
-          <LikeBtn isLike={like} clickLike={clickLike} page={"list"} />
+          <LikeBtn
+            isLike={like}
+            clickLike={clickLike}
+            page={"list"}
+            isLogin={isLogin}
+          />
         </div>
       </Image>
       <BottomCon className={name}>

@@ -4,7 +4,6 @@ import styled from "styled-components";
 const AuthenticateModal = ({ text }: any) => {
   return (
     <>
-      <Title>IR 자료 전달</Title>
       <Content>
         <Image>
           <img src="/images/startupDetail/modal.png" />
