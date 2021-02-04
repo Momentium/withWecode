@@ -18,8 +18,8 @@ const SignIn: React.FC = () => {
   const SIGNIN = () => {
     const { email, password } = inputs;
     axios
-      .post("http://10.0.1.44:3000/users/signin", {
-        //.post(`${process.env.REACT_APP_URL}/users/signin`, {
+      //.post("http://10.0.1.44:3000/users/signin", {
+        .post(`${process.env.REACT_APP_URL}/users/signin`, {
         email: email,
         password: password,
       })
@@ -34,7 +34,6 @@ const SignIn: React.FC = () => {
         };
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("userInfo", JSON.stringify(_resData));
-        console.log(_resData);
         console.log(JSON.parse(String(sessionStorage.getItem("userInfo"))));
         window.location.href = "/";
       })
