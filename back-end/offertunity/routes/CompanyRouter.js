@@ -16,8 +16,8 @@ router.post(
     '/info/startup/basic/temp',
     validateToken,
     upload.fields([
-        {name: 'logoImg', maxCount: 1}, 
-        {name: 'thumbnail', maxCount: 1}, 
+        { name: 'logoImg', maxCount: 1 },
+        { name: 'thumbnail', maxCount: 1 },
     ]),
     CompanyController.tempSaveStartupBasicInfo
 )
@@ -96,11 +96,60 @@ router.delete(
     CompanyController.deleteMember
 )
 
-<<<<<<< HEAD
 // IR_count
 router.get(
     '/IR_count/:companyId',
     CompanyController.startupIRCount
+)
+
+router.delete(
+    '/del/investedfrom/:investedFromId',
+    validateToken,
+    CompanyController.deleteInvestFrom
+)
+
+router.delete(
+    '/del/investedto/:investeToId',
+    validateToken,
+    CompanyController.deleteInvestTo
+)
+
+router.delete(
+    '/del/image/:imageId',
+    validateToken,
+    CompanyController.deleteImage
+)
+
+router.delete(
+    '/del/news/:newsId',
+    validateToken,
+    CompanyController.deleteNews
+)
+
+// startup 정보 조회
+router.get(
+    '/list/startup',
+    checkLogIn,
+    CompanyController.getStartups
+)
+
+router.get(
+    '/startup/:companyId',
+    checkLogIn,
+    CompanyController.getOnestartup
+)
+
+// partner 정보 조회
+router.get(
+    '/list/partner',
+    checkLogIn,
+    CompanyController.getPartners
+)
+
+router.get(
+    '/partner/:companyId',
+    checkLogIn,
+    CompanyController.getOnePartner
 )
 
 //startup doc
@@ -133,59 +182,5 @@ router.delete(
 
 )
 
-module.exports = router
-=======
-router.delete(
-    '/del/investedfrom/:investedFromId',
-    validateToken,
-    CompanyController.deleteInvestFrom
-)
-
-router.delete(
-    '/del/investedto/:investeToId',
-    validateToken,
-    CompanyController.deleteInvestTo
-)
-
-router.delete(
-    '/del/image/:imageId',
-    validateToken,
-    CompanyController.deleteImage
-)
-
-router.delete(
-    '/del/news/:newsId',
-    validateToken,
-    CompanyController.deleteNews
-)
-
-
-// startup 정보 조회
-router.get(
-    '/list/startup',
-    checkLogIn,
-    CompanyController.getStartups
-)
-
-router.get(
-    '/startup/:companyId',
-    checkLogIn,
-    CompanyController.getOnestartup
-)
-
-// partner 정보 조회
-router.get(
-    '/list/partner',
-    checkLogIn,
-    CompanyController.getPartners
-)
-
-router.get(
-    '/partner/:companyId',
-    checkLogIn,
-    CompanyController.getOnePartner
-)
-
 
 module.exports = router
->>>>>>> back-end

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const MoreProject = () => {
   return(
     <More>
-      <p>더보기</p>
+      <div>더보기</div>
       <img src="/projectImg/arrow.png" alt="더보기"/>
     </More>
   )
@@ -12,11 +12,15 @@ const MoreProject = () => {
 
 export default MoreProject;
 
-const More =styled.div`
+const More =styled.button`
   display:inline-block;
-  width:5.18rem;
+  width: 5.18rem;
+  cursor:pointer;
   p{
     font-size:0.8rem;
     font-weight:normal;
+  }
+  img{
+    display:inherit;
   }
 `;

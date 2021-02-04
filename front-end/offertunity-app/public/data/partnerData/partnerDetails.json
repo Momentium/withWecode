@@ -1,0 +1,67 @@
+{
+  "company": {
+    "id": 1,
+    "type_id": 2,
+    "name": "위코드투자",
+    "logo_img": "https://offertunity.s3.ap-northeast-2.amazonaws.com/profileimage/1612149513856.png",
+    "established_date": "2018-11-04T00:00:00.000Z",
+    "homepage": "www.wecode.com",
+    "description": "기술 스타트업에 투자합니다.",
+    "team_intro": "안녕하세요",
+    "member_count": 10,
+    "is_saved": true,
+    "partners": [
+      {
+        "id": 1,
+        "company_id": 1,
+        "interst_technology_id": 1,
+        "invested_total_id": 1,
+        "invested_counts": 15,
+        "investment_portfolio": [],
+        "invested_to": [
+          {
+            "id": 1,
+            "partner_id": 1,
+            "date": "2019-10-31T15:00:00.000Z",
+            "invested_startup": "매거진 B",
+            "invested_fund_id": 1,
+            "corporate_value": 100000000,
+            "series_id": 1,
+            "invested_fund": "1천만원 ~ 5천만원",
+            "series": "엔젤투자"
+          },
+          {
+            "id": 2,
+            "partner_id": 1,
+            "date": "2019-10-31T15:00:00.000Z",
+            "invested_startup": "매거진 B",
+            "invested_fund_id": 1,
+            "corporate_value": 100000000,
+            "series_id": 1,
+            "invested_fund": "1천만원 ~ 5천만원",
+            "series": "엔젤투자"
+          }
+        ],
+        "interst_technology": "블록체인",
+        "investment_total": "1천만원 ~ 5천만원"
+      }
+    ],
+    "company_news": [],
+    "company_members": [
+      {
+        "id": 3,
+        "company_id": 1,
+        "name": "김별이",
+        "img": "https://offertunity.s3.ap-northeast-2.amazonaws.com/profileimage/1612149513850.jpeg",
+        "position": "대표"
+      },
+      {
+        "id": 4,
+        "company_id": 1,
+        "name": "한민아",
+        "img": "https://offertunity.s3.ap-northeast-2.amazonaws.com/profileimage/1612149513851.jpg",
+        "position": "대리"
+      }
+    ]
+  }
+}

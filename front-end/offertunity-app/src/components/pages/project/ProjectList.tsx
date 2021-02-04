@@ -1,22 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import * as St from "components/styles/styledComp";
+import Project from "./Project";
+import BeltBanner from "components/common/banner/BeltBanner";
 
-import Project from './Project';
-
-const ProjectList = () => {
-
-  const [pjts, setPjts] = useState<any>([]);
+const DemodayList = () => {
+  const [pjts, setPjts] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
-    setPjts(pjts.map((el:{}, idx:number) => 
-      <Project key={idx} el={el}/>
-    ));
+    axios.get("http://10.0.1.29:3000/projects").then((res) => {
+      const _resData = res.data.projectList;
+      setPjts(
+        _resData.map((el: {}, idx: number) => (
+          <Project key={idx} data={el} page={"list"} />
+        ))
+      );
+    });
   }, []);
+
+  console.log(pjts.length < 10);
 
   return (
     <>
-      {pjts}
+      <St.Section>{pjts}</St.Section>
+
+      {pjts.length < 10 ? null : <BeltBanner curPage={"projectPage"} />}
     </>
   );
 };
 
-export default ProjectList;
+export default DemodayList;
