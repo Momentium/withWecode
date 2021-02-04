@@ -366,9 +366,6 @@ const StSearchWrap = styled.div<{ focus: boolean }>`
     width: 100%;
     border: 0px;
     box-sizing: border-box;
-    &:focus {
-      outline: none;
-    }
   }
 
   ${(props) =>

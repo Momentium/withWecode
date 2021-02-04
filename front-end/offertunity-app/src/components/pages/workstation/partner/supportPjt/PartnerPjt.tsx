@@ -1,34 +1,40 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { Link, useParams } from "react-router-dom";
+import { withRouter, Link, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import * as St from "components/styles/styledComp";
 import * as Mt from 'api/methods'
 import InputPjt from "./AddPjt";
 import PjtList from './PjtList';
 
-const PartnerPjt = () => {
-  const _params = useParams<any>();
+const PartnerPjt:React.FC<any> = ({ match }) => {
+  const _params = match.params;
   const _userInfo = Mt.getUserInfo();
   const [pjtList, setPjtList] = useState<any[]>([]);
 
   useEffect(() => {
     console.log(_userInfo.company_id)
-    axios.get(`${process.env.REACT_APP_URL}/projects`)
+    axios.get(`${process.env.REACT_APP_URL}/projects`,
+      {
+        headers: {
+          Authorization: `Basic ${_userInfo.token}`
+        }
+      }
+    )
     .then((res) => {
-      const _resData:any = res.data;
+      const _resData:any = res.data.projectList;
       console.log(_resData)
-      // setPjtList(_resData.map((el:any, idx:number) => 
-      //   <Link to={`/project/${el.id}`} key={idx}>
-      //     <StADWrap>
-      //       <PjtList
-
-      //       />
-      //     </StADWrap>
-      //   </Link>
-      // ))
+      setPjtList(_resData.map((el:any, idx:number) => 
+        <Link to={`/project/${el.id}`} key={idx}>
+          <StADWrap img={el.project_images[0].img_url}>
+            <PjtList
+              data={el}
+            />
+          </StADWrap>
+        </Link>
+      ))
     })
-  }, [])
+  }, [match])
 
   return (
     <>
@@ -55,7 +61,7 @@ const PartnerPjt = () => {
     </>
   );
 };
-export default PartnerPjt;
+export default withRouter(PartnerPjt);
 
 const StADCont = styled.div`
   display: flex;

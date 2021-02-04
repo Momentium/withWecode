@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as Mt from "api/methods";
 import PjtBasicInfo from './PjtBasicInfo';
@@ -16,6 +17,7 @@ interface BasicState {
 
 const AddPjt = () => {
   const _token = Mt.getUserInfo().token;
+  const _history = useHistory();
   const [poster, setPoster] = useState<string>("");
   const [basicInfo, setBasicInfo] = useState<BasicState>({
     host: "",
@@ -128,7 +130,7 @@ const AddPjt = () => {
     )
     .then((res) => { 
       console.log(res.data)
-      setPostId(res.data.ProjectActionId);
+      setPostId(res.data.ProjectId);
       alert('임시 저장 성공')
     });
   };
@@ -157,8 +159,8 @@ const AddPjt = () => {
       }
     )
     .then((res) => { 
-      console.log(res) 
       alert('저장 성공')
+      _history.replace(`/workstation/myproject`)
     });
   };
 

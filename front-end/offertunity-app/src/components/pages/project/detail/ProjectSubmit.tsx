@@ -80,9 +80,9 @@ const TextArea = styled.textarea`
   padding: 1.5rem;
   resize: none;
 
-  &:focus {
+  /* &:focus {
     outline: none !important;
-  }
+  } */
 `;
 
 const Title = styled.div`

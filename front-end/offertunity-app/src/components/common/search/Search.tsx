@@ -22,9 +22,9 @@ const SearchBox = styled.div`
     border: 1px solid #d8d8d8;
     box-sizing: border-box;
     padding: 4px 6px 4px 30px;
-    &:focus {
+    /* &:focus {
       outline: none;
-    }
+    } */
   }
 
   i {

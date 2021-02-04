@@ -202,9 +202,9 @@ const SelectContainer = styled.div`
   text-align: center;
   position: relative;
 
-  &:focus {
+  /* &:focus {
     outline: none;
-  }
+  } */
 
   .select-options {
     position: absolute;

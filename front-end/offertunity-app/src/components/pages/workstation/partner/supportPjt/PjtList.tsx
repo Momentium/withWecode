@@ -1,31 +1,29 @@
 import styled from "styled-components";
 
-const PjtList:React.FC<any> = ({  }) => {
+const PjtList:React.FC<any> = ({ data }) => {
   return (
     <StHoverCont className="hover-cont">
-      <div className="title">지원사업 이름이 들어갑니다.</div>
+      <div className="title">{data.name}</div>
       <div className="contents">
-        이번서울창업허브 허브방송국에서 다양한 형태의 영상 촬영 지원 프로그램을
-        통해 기업의 제품 영상 촬영, 사진 촬영 지원 콘텐츠 제작 등으로 스타트업
-        매출 증대 및 기업의 인지도 상승 기여
+        {data.introduction}
       </div>
       <StInfoTable>
         <tbody>
           <tr>
             <th className="first-th">주최</th>
-            <td>이름이 들어갑니다.</td>
-          </tr>
-          <tr>
-            <th>지원분야</th>
-            <td>2020.00.00</td>
-          </tr>
-          <tr>
-            <th>지원대상</th>
-            <td>공간지원</td>
+            <td>{data.host}</td>
           </tr>
           <tr>
             <th>마감일</th>
-            <td>7년 미만 기업</td>
+            <td>{(new Date(data.due_date).toISOString().substring(0, 10))}</td>
+          </tr>
+          <tr>
+            <th>지원분야</th>
+            <td>{(selectData as any)["supportField"][data.eligible_sector]}</td>
+          </tr>
+          <tr>
+            <th>지원대상</th>
+            <td>{(selectData as any)["eligibility"][data.eligibility]}</td>
           </tr>
         </tbody>
       </StInfoTable>
@@ -115,3 +113,17 @@ const StBtn = styled.span`
     color: white;
   }
 `;
+
+const selectData = {
+  supportField: [
+    "공간지원",
+    "사업화",
+    "콘텐츠",
+    "기술지원"
+  ],
+  eligibility: [
+    "업력 무관",
+    "7년 미만",
+    "3년 미만"
+  ],
+}
