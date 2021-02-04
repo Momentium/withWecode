@@ -22,6 +22,7 @@ const findPublishedProjects = (query) => {
 const findAllProjects = (query) => {
     const { offset, limit, ...fields } = query;
     const where = makeQueryOption(fields);
+    delete where.AND[0]
 
     return prisma.projects.findMany({
         where,
@@ -67,18 +68,20 @@ const createRelatedDoc = async(fields) => {
 
 const createProject = async(fields) => {
     const {
-        userInfofromToken,
         requestedFields,
         project_picture,
         due_date,
+        sectors,
+        eligibilities
     } = fields;
     requestedFields.required_documents = undefined;
+    requestedFields.sectors = undefined;
+
     return await prisma.projects.create({
         data: {
             ...requestedFields,
-            companies: { connect: { id: Number(userInfofromToken.company_id) } },
-            eligibilities: requestedFields.eligibilities ? { connect: { id: Number(requestedFields.eligibilities) } } : undefined,
-            sectors: requestedFields.sectors ? { connect: { id: Number(requestedFields.sectors) } } : undefined,
+            eligibilities: eligibilities ? { connect: { id: eligibilities.id } } : undefined,
+            sectors: sectors ? { connect: { id: sectors.id } } : undefined,
             is_opened: 0,
             is_saved: false,
             hit: 0,

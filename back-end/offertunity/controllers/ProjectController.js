@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { AUTH_TOKEN_SALT } = process.env
+const prisma = require("../prisma");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { dateForm } = require('../utils')
@@ -9,24 +10,25 @@ const { NotExtended } = require("http-errors");
 
 
 const getPublishedProjects = errorWrapper(async(req, res) => {
-    const projectList = await ProjectService.findProjects(req.query)
+    const projectList = await ProjectService.findPublishedProjects(req.query)
     res.status(200).json({ projectList })
 })
 
 const getAllProjects = errorWrapper(async(req, res) => {
-    const projectList = await ProjectService.findProjects(req.query)
+    const projectList = await ProjectService.findAllProjects(req.query)
     res.status(200).json({ projectList })
 })
 
 const getOneProject = errorWrapper(async(req, res) => {
-
-    const userInfofromToken = req.foundUser ? req.foundUser : undefined
-    const isStartup = userInfofromToken.type_id === 1
-    const findApplied = isStartup ? await ApplyService.findRelatedApplication({ companies: userInfofromToken.company_id }) : false
-    const hasApplied = findApplied ? true : false
     const { projectId } = req.params
     const projectDetail = await ProjectService.findOneProject({ id: projectId })
-
+    let hasApplied
+    const userInfofromToken = req.foundUser ? req.foundUser : undefined
+    if (userInfofromToken) {
+    const isStartup = userInfofromToken.type_id === 1
+    const findApplied = isStartup ? await ApplyService.findRelatedApplication({ companies: userInfofromToken.company_id }) : false
+    hasApplied = findApplied ? true : false
+} else {hasApplied = false}
 
     res.status(200).json({ projectDetail, hasApplied })
 })
@@ -54,11 +56,23 @@ const tempSaveProjectInfo = errorWrapper(async(req, res) => {
     const project_picture = req.file ? req.file.location : undefined;
     const required_documents = requestedFields.required_documents
     const due_date = await dateForm(requestedFields.due_date)
+    
+    const sectors = await requestedFields.sectors? await prisma.sectors.findUnique({
+        where: {
+            name: String(requestedFields.sectors)
+        }
+    }):undefined
 
-    const projectAction = await ProjectService.createProject({ userInfofromToken, requestedFields, project_picture, due_date })
-    for (len = 0; len < required_documents.length; len++) {
-        await ProjectService.createRelatedDoc({ required_documents, projectAction })
-    }
+    const eligibilities = requestedFields.eligibilities? await prisma.eligibilities.findUnique({
+        where: {
+            name: String(requestedFields.eligibilities)
+        }
+    }): undefined
+console.log(sectors)
+    const projectAction = await ProjectService.createProject({ userInfofromToken, requestedFields, project_picture, due_date, sectors, eligibilities })
+    // for (len = 0; len < required_documents.length; len++) {
+    //     await ProjectService.createRelatedDoc({ required_documents, projectAction })
+    // }
     if (req.save) {
         next();
     } else {
