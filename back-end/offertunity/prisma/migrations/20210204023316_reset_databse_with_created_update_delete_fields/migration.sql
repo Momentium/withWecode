@@ -18,6 +18,8 @@ CREATE TABLE `applicants` (
     `business_brief` VARCHAR(191),
     `business_model` VARCHAR(191),
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3),
+    `deleted_at` DATETIME(3),
 INDEX `FK_applicants_company_id_companies_id`(`company_id`),
 INDEX `FK_applicants_project_id_projects_id`(`project_id`),
 
@@ -45,6 +47,9 @@ CREATE TABLE `companies` (
     `team_intro` VARCHAR(191),
     `member_count` INT,
     `is_saved` BOOLEAN NOT NULL DEFAULT false,
+    `created_at` DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3),
+    `deleted_at` DATETIME(3),
 INDEX `FK_companies_type_id_company_types_id`(`type_id`),
 
     PRIMARY KEY (`id`)
@@ -56,6 +61,9 @@ CREATE TABLE `company_documents` (
     `company_id` INT NOT NULL,
     `doc_url` VARCHAR(191) NOT NULL,
     `type_id` INT NOT NULL,
+    `created_at` DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3),
+    `deleted_at` DATETIME(3),
 INDEX `FK_company_documents_company_id_companies_id`(`company_id`),
 INDEX `FK_company_documents_type_id_document_types_id`(`type_id`),
 
@@ -99,6 +107,9 @@ CREATE TABLE `demodays` (
     `name` VARCHAR(191),
     `company_id` INT,
     `streaming_url` VARCHAR(191),
+    `created_at` DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3),
+    `deleted_at` DATETIME(3),
 INDEX `FK_demodays_company_id_companies_id`(`company_id`),
 
     PRIMARY KEY (`id`)
@@ -227,6 +238,9 @@ CREATE TABLE `partners` (
     `interst_technology_id` INT,
     `invested_total_id` INT,
     `invested_counts` INT,
+    `created_at` DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3),
+    `deleted_at` DATETIME(3),
 UNIQUE INDEX `partners.company_id_unique`(`company_id`),
 INDEX `FK_partners_company_id_companies_id`(`company_id`),
 INDEX `FK_partners_interst_technology_id_technologies_id`(`interst_technology_id`),
@@ -406,6 +420,9 @@ CREATE TABLE `startups` (
     `instagram_url` VARCHAR(191),
     `facebook_url` VARCHAR(191),
     `thumbnail` VARCHAR(191),
+    `created_at` DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3),
+    `deleted_at` DATETIME(3),
 UNIQUE INDEX `startups.company_id_unique`(`company_id`),
 INDEX `FK_startups_business_type_id_business_types_id`(`business_type_id`),
 INDEX `FK_startups_company_id_companies_id`(`company_id`),
@@ -457,6 +474,7 @@ CREATE TABLE `terms` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `content` VARCHAR(191) NOT NULL,
+    `is_required` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

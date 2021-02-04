@@ -7,7 +7,7 @@ const { errorWrapper, errorGenerator } = require("../errors");
 const passport = require("passport");
 
 const signUp = errorWrapper(async (req, res) => {
-  const { email, name, password, typeId, signUpMethodId } = req.body;
+  const { email, name, password, typeId, signUpMethodId, terms } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const foundUser = await UserService.findUser({ email });
@@ -24,6 +24,7 @@ const signUp = errorWrapper(async (req, res) => {
     password: hashedPassword,
     user_types: { connect: { id: Number(typeId) } },
     signup_methods: { connect: { id: Number(signUpMethodId) } },
+    terms
   });
 
   res.status(201).json({
@@ -42,7 +43,16 @@ const signIn = errorWrapper(async (req, res) => {
   if (!isValidPassword)
     errorGenerator({ statusCode: 400, message: "client input invalid" });
   const token = jwt.sign({ id }, AUTH_TOKEN_SALT);
-  res.status(200).json({ message: "login success!", token, foundUser});
+  res.status(200).json({ 
+    message: "login success!", 
+    token, 
+    id: foundUser.id,
+    email: foundUser.email,
+    type_id: foundUser.type_id, 
+    name: foundUser.name,
+    profile_picture: foundUser.profile_picture,
+    company_id: foundUser.company_id
+  });
 });
 
 const showMemberInfo = errorWrapper(async (req, res) => {
@@ -54,7 +64,8 @@ const showMemberInfo = errorWrapper(async (req, res) => {
 const addMemberInfo = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
   const requestedFields = req.body;
-  const profile_picture = req.file ? req.file.location : null;
+  const userInfo = await UserService.findUserInfo({ id: userId })
+  const profile_picture = req.file? req.file.location : userInfo.profile_picture? userInfo.profile_picture: null
   const addInfo = await UserService.updateInfo({
     userId,
     requestedFields,
@@ -64,6 +75,14 @@ const addMemberInfo = errorWrapper(async (req, res) => {
     message: "information successfully added",
   });
 });
+
+const deleteProfilePic = errorWrapper(async(req, res) => {
+  const { id: userId } = req.foundUser;
+  await UserService.deleteImage({ id: userId });
+  res.status(201).json({
+    message: "user profile picture successfully deleted",
+  });
+})
 
 const deleteMember = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
@@ -78,5 +97,6 @@ module.exports = {
   signUp,
   showMemberInfo,
   addMemberInfo,
+  deleteProfilePic,
   deleteMember,
 };

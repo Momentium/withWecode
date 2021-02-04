@@ -11,7 +11,9 @@ const PartnerDescription = ({ data }: any) => {
     },
   ];
 
-  return <Description data={data} introduceDatas={introduceDatas} />;
+  return (
+    <Description data={data} introduceDatas={introduceDatas} type={"partner"} />
+  );
 };
 
 export default PartnerDescription;

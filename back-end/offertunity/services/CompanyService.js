@@ -1,4 +1,4 @@
-const { upsertConnection, makeQueryOption } = require('../utils')
+const { upsertConnection, makeQueryOption, calcYear } = require('../utils')
 const prisma = require('../prisma')
 
 const createCompany = (async(userId, companyFields) => {
@@ -121,12 +121,15 @@ const findStartups = async(query) => {
         where,
         skip: ((Number(offset) - 1) * Number(limit)) || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+        orderBy: {
+            id: 'desc',
+          },      
     })
     const num = (await prisma.companies.findMany({
         where
     })).length
 
-    for (len = 0; len < companies.length; len++) {
+    for (let len = 0; len < companies.length; len++) {
         companies[len].tag = []
         if (companies[len].startups[0].sector_id) {
             companies[len].tag.push(await findInfoName('sectors', companies[len].startups[0].sector_id))
@@ -137,7 +140,9 @@ const findStartups = async(query) => {
         if (companies[len].startups[0].investment_series_id) {
             companies[len].tag.push(await findInfoName('investment_series', companies[len].startups[0].investment_series_id))
         }
-        console.log(companies[len].tag)
+        if (companies[len].established_date) {
+            companies[len].tag.push(await calcYear(companies[len].established_date))
+        }
     }
 
     return [companies, num]
@@ -177,6 +182,10 @@ const findStartup = async(field) => {
     if (startup.startups[0].investment_series_id) {
         startup.tag.push(await findInfoName('investment_series', startup.startups[0].investment_series_id))
     }
+    if (startup.established_date) {
+        startup.tag.push(await calcYear(startup.established_date))
+    }
+
     return startup
 
 }
@@ -185,10 +194,8 @@ const findPartners = async(query) => {
     const { offset, limit, ...fields } = query
     const where = makeQueryOption(fields)
     where.type_id = 2
-
     const ARTICLES_DEFAULT_OFFSET = 0
     const ARTICLES_DEFAULT_LIMIT = 12
-
     const companies = await prisma.companies.findMany({
         include: {
             partners: true,
@@ -196,21 +203,38 @@ const findPartners = async(query) => {
         where,
         skip: ((Number(offset) - 1) * Number(limit)) || ARTICLES_DEFAULT_OFFSET,
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+        orderBy: {
+            id: 'desc',
+          },      
     })
     const num = (await prisma.companies.findMany({
         where
     })).length
 
+    for (let len = 0; len < companies.length; len++) {
+        companies[len].tag = []
+        if (companies[len].partners[0].invested_total_id) {
+            companies[len].tag.push(await findInfoName('investment_funds', companies[len].partners[0].invested_total_id))
+        }
+        if (companies[len].partners[0].interst_technology_id) {
+            companies[len].tag.push(await findInfoName('technologies', companies[len].partners[0].interst_technology_id))
+        }
+        if (companies[len].established_date) {
+            companies[len].tag.push(await calcYear(companies[len].established_date))
+        }
+
+    }
+
     return [companies, num]
 }
 
-const findPartner = (field) => {
+const findPartner = async (field) => {
     const [uniqueKey] = Object.keys(field)
 
     const isKeyId = uniqueKey === 'id'
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey]
 
-    return prisma.companies.findUnique({
+    const partner = await prisma.companies.findUnique({
         where: {
             [uniqueKey]: value
         },
@@ -225,6 +249,19 @@ const findPartner = (field) => {
             company_members: true
         }
     })
+
+    partner.tag = []
+    if (partner.partners[0].invested_total_id) {
+        partner.tag.push(await findInfoName('investment_funds', partner.partners[0].invested_total_id))
+    }
+    if (partner.partners[0].interst_technology_id) {
+        partner.tag.push(await findInfoName('technologies', partner.partners[0].interst_technology_id))
+    }
+    if (partner.established_date) {
+        partner.tag.push(await calcYear(partner.established_date))
+    }
+
+    return partner
 }
 
 const imageLengthChecker = async(table, where) => {
@@ -277,7 +314,6 @@ const readByDocType = (async(fields) => {
 
 const registerDoc = (async(fields) => {
     const { companyId, docTypeId, startupDoc } = fields
-    console.log({ companyId, docTypeId, startupDoc })
 
     return await prisma.company_documents.create({
         data: {
@@ -288,7 +324,7 @@ const registerDoc = (async(fields) => {
     })
 })
 
-const deleteSDoc = (async(fields) => {
+const deleteDoc = (async(fields) => {
     const { company_id, doc_url, type_id } = fields
     return await prisma.company_documents.delete({
         where: {
@@ -328,5 +364,5 @@ module.exports = {
     irRequestedCount,
     readByDocType,
     registerDoc,
-    deleteSDoc
+    deleteDoc
 }

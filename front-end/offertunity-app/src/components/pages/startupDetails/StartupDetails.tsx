@@ -25,7 +25,7 @@ const StartupDetails = ({ match }: any) => {
   useEffect(() => {
     const _resId = match.params.id;
     axios
-      .get(`http://10.0.1.44:3000/companies/startup/${_resId}`)
+      .get(`${process.env.REACT_APP_URL}/companies/startup/${_resId}`)
       .then((res) => {
         const _data = res.data.company;
         setCompanyData(_data);
@@ -36,16 +36,12 @@ const StartupDetails = ({ match }: any) => {
     <DetailBox>
       <MoveBar data={companyData} />
       {companyData && (
-        <CompanyCard data={companyData} type={"startup"} isLogin={isLogin} />
-      )}
-      {/* <CompanyDescription data={companyData} /> */}
-      {/* companyData && (
         <>
           <CompanyCard data={companyData} type={"startup"} isLogin={isLogin} />
           <CompanyDescription data={companyData} />
         </>
       )}
-      <IRBtn boxStyle={boxStyle} type={"startup"} />  */}
+      <IRBtn boxStyle={boxStyle} type={"startup"} />
     </DetailBox>
   );
 };
@@ -54,4 +50,5 @@ export default StartupDetails;
 
 const DetailBox = styled.main`
   ${({ theme }) => theme.conWidth}
+  margin-top: 100px;
 `;

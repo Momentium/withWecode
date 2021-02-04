@@ -4,4 +4,5 @@ const { InitialController } = require("../controllers");
 
 router.post("/data", InitialController.InitialDataSetting);
 
+
 module.exports = router;

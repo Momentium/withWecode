@@ -1,22 +1,66 @@
 const express = require('express')
-const passport = require('passport')
 const router = express.Router()
-const { body } = require('express-validator')
 const upload = require('../utils/s3')
-const cors = require("cors");
-
-router.options("/", cors());
-
 const { ProjectController } = require('../controllers')
+const { validateToken, save, checkLogIn } = require('../middlewares')
 
-const { validateToken, checkLogIn } = require('../middlewares')
+router.get(
+  '/published', 
+  ProjectController.getPublishedProjects
+  )
 
-router.get('/', cors(), ProjectController.getProjects)
-router.get('/:projectId', checkLogIn, ProjectController.getOneProject)
-router.post('/', validateToken, upload.single('project_picture'), ProjectController.postOneProject)
-router.put('/:projectId', validateToken, upload.single('project_picture'), ProjectController.updateOneProject)
-router.put('/publish/:projectId', validateToken, upload.single('project_picture'), ProjectController.openOneProject)
-router.delete('/:projectId', validateToken, ProjectController.deleteOneProject)
+router.get(
+  '/', 
+  checkLogIn, 
+  ProjectController.getMyProjects
+  )
 
+router.get(
+  '/:projectId', 
+  checkLogIn, 
+  ProjectController.getOneProject
+  )
+
+router.post(
+  '/basicinfo/temp', 
+  validateToken, 
+  upload.single('project_picture'), 
+  ProjectController.tempSaveProjectBasicInfo
+  )
+
+router.post(
+  '/allinfo/temp', 
+  validateToken, 
+  upload.single('project_picture'), 
+  ProjectController.tempSaveProjectInfo
+  )
+
+router.post(
+  '/allinfo/save/:projectId', 
+  validateToken, 
+  save, 
+  upload.single('project_picture'),
+  ProjectController.saveProjectInfo
+  )
+
+router.put(
+  '/temp/:projectId', 
+  validateToken, 
+  upload.single('project_picture'), 
+  ProjectController.updateOneProject
+  )
+
+router.put(
+  '/publish/:projectId', 
+  validateToken, 
+  upload.single('project_picture'), 
+  ProjectController.openOneProject
+  )
+
+router.delete(
+  '/:projectId', 
+  validateToken, 
+  ProjectController.deleteOneProject
+  )
 
 module.exports = router

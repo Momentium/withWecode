@@ -9,7 +9,7 @@ const RequestModal = ({ title, onChange, handleRequest }: any) => {
 
   useEffect(() => {
     axios
-      .get("data/partnerData/uploadData.json", {
+      .get("/data/partnerData/uploadData.json", {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -49,7 +49,7 @@ const RequestModal = ({ title, onChange, handleRequest }: any) => {
   };
 
   const goToUploadData = () => {
-    window.location.replace("/mypage");
+    window.location.replace("/MypageStartup");
   };
 
   return (

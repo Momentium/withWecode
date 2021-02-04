@@ -8,14 +8,19 @@ const DemodayList = () => {
   const [pjts, setPjts] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
-    axios.get("http://10.0.1.29:3000/projects").then((res) => {
-      const _resData = res.data.projectList;
-      setPjts(
-        _resData.map((el: {}, idx: number) => (
-          <Project key={idx} data={el} page={"list"} />
-        ))
-      );
-    });
+    axios
+      .get(`http://10.0.1.29:3000/projects`)
+      .then((res) => {
+        const _resData = res.data.projectList;
+        setPjts(
+          _resData.map((el: {}, idx: number) => (
+            <Project key={idx} data={el} page={"list"} />
+          ))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   console.log(pjts.length < 10);

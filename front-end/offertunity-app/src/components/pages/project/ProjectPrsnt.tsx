@@ -8,7 +8,7 @@ const ProjectPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
   return (
     <StPjtWrap>
       <StImgWrap
-        imgUrl={"https://t1.daumcdn.net/cfile/tistory/2207573D58CFDE2704"}
+        imgUrl={`https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80`}
       />
 
       <StContentsCont>
@@ -36,7 +36,7 @@ const ProjectPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
             </tr>
             <tr>
               <th>지원분야</th>
-              <td>{data.field}</td>
+              <td>{data.sector_id}</td>
             </tr>
             <tr>
               <th>지원대상</th>

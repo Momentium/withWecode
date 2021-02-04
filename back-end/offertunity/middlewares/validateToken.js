@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const validateToken = errorWrapper(async(req, res, next) => {
     let token
+    console.log(req.headers.authorization)
     if (req.headers.authorization.includes(' ')) {
         [bearer, token] = req.headers.authorization.split(' ')
     } else {

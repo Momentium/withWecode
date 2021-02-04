@@ -5,30 +5,55 @@ const { makeQueryOption } = require("../utils");
 const ARTICLES_DEFAULT_OFFSET = 0;
 const ARTICLES_DEFAULT_LIMIT = 5;
 
-const findProjects = (query) => {
+const findPublishedProjects = (query, field) => {
+  const { offset, limit, ...fields } = query;
+  const where = makeQueryOption(fields);
+
+  return prisma.projects.findMany({
+    include: {
+        project_images: true
+        },
+      where,
+    //   skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+    //   take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+      orderBy: {
+          created_at: "asc",
+      },
+  });
+};
+
+const findMyProjects = (query, companyId) => {
     const { offset, limit, ...fields } = query;
     const where = makeQueryOption(fields);
+    delete where.AND[0]
+    where.company = companyId
 
     return prisma.projects.findMany({
+        include: {
+            project_images: true
+            },
         where,
-        skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
-        take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+        // skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+        // take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
         orderBy: {
             created_at: "asc",
         },
     });
 };
 
+
+
 const findOneProject = (field) => {
     const [uniqueKey] = Object.keys(field);
     const isKeyId = uniqueKey === "id";
     const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
     return prisma.projects.findUnique({
+        include: {
+            project_images: true
+            },
         where: {
             [uniqueKey]: value },
     });
-
-
 };
 
 const resetChoices = async(field) => {
@@ -59,15 +84,22 @@ const createProject = async(fields) => {
         requestedFields,
         project_picture,
         due_date,
+        eligible_sectors,
+        eligibilities
     } = fields;
     requestedFields.required_documents = undefined;
+    requestedFields.eligibility = undefined;
+    requestedFields.eligible_sectors = undefined
+
+console.log(userInfofromToken)
     return await prisma.projects.create({
         data: {
+            companies: userInfofromToken? { connect: { id: userInfofromToken.company_id } } : undefined,
             ...requestedFields,
-            companies: { connect: { id: Number(userInfofromToken.company_id) } },
-            eligibilities: requestedFields.eligibilities ? { connect: { id: Number(requestedFields.eligibilities) } } : undefined,
-            sectors: requestedFields.sectors ? { connect: { id: Number(requestedFields.sectors) } } : undefined,
+            eligibilities: eligibilities ? { connect: { id: eligibilities.id } } : undefined,
+            eligible_sectors: eligible_sectors ? { connect: { id: eligible_sectors.id } } : undefined,
             is_opened: 0,
+            is_saved: false,
             hit: 0,
             project_images: project_picture ? { create: [{ img_url: project_picture }] } : undefined,
             due_date,
@@ -94,6 +126,15 @@ const updateProject = async(fields) => {
     });
 };
 
+const saveInfo = (async(field) => {
+  const { projectId } = field;
+
+  return await prisma.projects.update({
+      where: { id: Number(projectId) },
+      data: { is_saved: true }
+  })
+})
+
 const openProject = (projectId) => {
     return prisma.projects.update({
         where: {
@@ -118,12 +159,14 @@ const deleteProject = (projectId) => {
 };
 
 module.exports = {
-    findProjects,
+    findPublishedProjects,
+    findMyProjects,
     findOneProject,
     resetChoices,
     createRelatedDoc,
     createProject,
     updateProject,
+    saveInfo,
     openProject,
     deleteProject,
 };

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Kakao = () => {
   const handleKAKAO = () => {
-    window.location.href = "http://10.0.1.29:3000/users/kakao";
+    window.location.href = `${process.env.REACT_APP_URL}/users/kakao`;
   };
 
   return <KakaoBtn onClick={handleKAKAO}>카카오</KakaoBtn>;

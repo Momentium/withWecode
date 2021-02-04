@@ -6,7 +6,7 @@ import Tab from "../components/Tab";
 import Question from "../components/Question";
 import FinaAccountMainTxt from "../components/FinaAccountMainTxt";
 
-const FindId = () => {
+const FindId: React.FC = () => {
   const [email, setEmail] = useState("");
 
   const handleInputValue = (event: any) => {
@@ -23,12 +23,13 @@ const FindId = () => {
           <p>
             이메일 정보를 입력하고 [확인]을 클릭하면 가입 여부를 알려드립니다.
           </p>
-          <input type="text" placeholder="이메일 계정을 입력해주세요" />
+          <input type="text" placeholder="이메일 계정을 입력해주세요" onChange={handleInputValue}/>
           <Buttons>
-            <Link to="/auth/FindIdAgain">
+            <Link to="/auth/FindIdAgain" >
               {/* 아이디가 있는 경우는  /auth/FindIdResult 로 이동 */}
               <ChkBtn>확인</ChkBtn>
             </Link>
+            <Link to="/"></Link>
             <CancleBtn>취소</CancleBtn>
           </Buttons>
           <Link to="/auth/SignUp">

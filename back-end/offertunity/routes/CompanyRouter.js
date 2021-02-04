@@ -66,6 +66,16 @@ router.get(
 )
 
 router.post(
+    '/info/partner/basic/temp',
+    validateToken,
+    upload.fields([
+        { name: 'logoImg', maxCount: 1 },
+    ]),
+    CompanyController.tempSavePartnerBasicInfo
+)
+
+
+router.post(
     '/info/partner/temp',
     validateToken,
     upload.fields([

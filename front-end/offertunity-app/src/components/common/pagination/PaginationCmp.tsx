@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Pagination, PaginationItem } from "@material-ui/lab";
+import { Pagination } from "@material-ui/lab";
 import { makeStyles, Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,15 +26,14 @@ const PaginationCmp = ({
 }: any) => {
   const classes = useStyles();
   const noOfPages = Math.ceil(totalLength / itemsPerPage);
-
-  console.log(page);
-
+  
   return (
     <>
       {(currPage === "partner" && totalLength > 12) ||
       (currPage === "startup" && totalLength > 16) ? (
-        <Box component="span">
+        <Box className="pagenation-span" component="span">
           <Pagination
+            className="pagenation-comp"
             count={noOfPages}
             page={page}
             onChange={onChange}

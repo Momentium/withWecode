@@ -34,7 +34,7 @@ const LabelWrapper = styled.div`
     height: 1.4rem;
     display: inline-block;
     border: 1px solid #c3bdf4;
-    padding: 0.3rem 0.375rem;
+    padding: 0.3rem 0.3rem;
     color: #c3bdf4;
     font-size: 0.688rem;
 
