@@ -26,15 +26,12 @@ const EditForm: React.FC<Props> = ({ data }) => {
         },
         name: nameInput,
         phone_number: phoneNumber,
-        profile_picture: "",
       })
       .then((res) => {
-        console.log(res);
-        alert("옽ㅋ히");
+        alert("회원정보가 수정되었습니다");
       })
       .catch((err) => {
-        alert("노노 ~~~");
-        console.log(err);
+        alert("올바른 정보를 입력해주세요");
       });
 
     console.log(sessionStorage.getItem("token"));
