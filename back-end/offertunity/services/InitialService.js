@@ -8,6 +8,13 @@ const createDatas = (async (table, datas) => {
     }
 })
 
+const createTerms = async (datas) => {
+    for (len=0; len<datas.length; len++) {
+        await prisma.terms.create( {data: datas[len]} )
+    }
+}
+
 module.exports = {
-    createDatas
+    createDatas,
+    createTerms
 }

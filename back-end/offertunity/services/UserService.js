@@ -1,5 +1,6 @@
 const { signup_methods } = require("../prisma");
 const prisma = require("../prisma");
+const { getRelatedInfoId } = require('./CompanyService')
 
 const findCompany = (field) => {
   const [uniqueKey] = Object.keys(field);
@@ -10,8 +11,25 @@ const findCompany = (field) => {
   return prisma.companies.findUnique({ where: { [uniqueKey]: value } });
 };
 
-const createUser = (fields) => {
-  return prisma.users.create({ data: fields });
+const createUser = async (fields) => {
+  const { email, name, password, user_types, signup_methods, terms } = fields
+  const data = {
+    email, name, password, user_types, signup_methods
+  }
+  const createdUser = await prisma.users.create({ data });
+
+  for (let len=0; len<terms.length; len++) {
+    if (Object.keys(terms[len])[0]) {
+      const termId = await getRelatedInfoId('terms', Object.keys(terms[len])[0])
+      await prisma.user_agreements.create({
+        data: {
+          term_id: termId,
+          user_id: createdUser.id
+        }
+      })
+    }
+  }
+  return createdUser
 };
 
 const findUser = (field) => {

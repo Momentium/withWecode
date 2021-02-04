@@ -142,14 +142,9 @@ const tempSaveStartupBasicInfo = errorWrapper(async(req, res, next) => {
         await CompanyService.updateStartup(companyInfo.id, startupFields);
     };
 
-    // save 기능 연결
-    if (req.companySave) {
-        next()
-    } else {
-        await res.status(201).json({
-            message: 'startup basic info temporary saved'
-        })
-    }
+    await res.status(201).json({
+        message: 'startup basic info temporary saved'
+    })
 });
 
 const tempSaveStartupInfo = errorWrapper(async(req, res, next) => {
@@ -444,8 +439,8 @@ const getPartnerInfo = errorWrapper(async(req, res) => {
         body.logoImg = company.logo_img;
         body.establishedDate = company.established_date;
         body.investedCounts = company.partners[0].invested_counts;
-        body.totalInvested = await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id);
-        body.interedtedTechnology = await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id);
+        body.totalInvested = company.partners[0].invested_total_id ? await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id) : null;
+        body.interedtedTechnology = company.partners[0].interst_technology_id ? await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id) : null;
         body.homepage = company.homepage;
         body.description = company.description;
         body.teamIntro = company.team_intro;
@@ -456,9 +451,56 @@ const getPartnerInfo = errorWrapper(async(req, res) => {
         body.portfolioImages = company.partners[0].investment_portfolio
     }
 
-    await res.status(201).json({
+    await res.status(200).json({
         message: 'partner info',
         body
+    })
+})
+
+const tempSavePartnerBasicInfo = errorWrapper(async(req, res, next) => {
+    if (req.foundUser.type_id === 1) errorGenerator({ statusCode: 400, message: 'this user is not partner user' })
+    const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description } = req.body
+    let { logoImg } = req.files
+
+    console.log('totalInvested', totalInvested)
+
+    const interedtedTechnologyId = interedtedTechnology ? await CompanyService.getRelatedInfoId('technologies', interedtedTechnology) : undefined
+    const totalInvestedId = totalInvested ? await CompanyService.getRelatedInfoId('investment_funds', totalInvested) : undefined
+    
+    console.log('invest', totalInvestedId)
+    console.log('tech', interedtedTechnologyId)
+
+
+    const companyFields = {
+        name,
+        logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
+        established_date: await dateForm(establishedDate),
+        homepage,
+        description,
+        company_types: { connect: { id: 2 } }
+    }
+    const partner_connect = {
+        investment_funds: { connect: { id: totalInvestedId } },
+        technologies: { connect: { id: interedtedTechnologyId } }
+    }
+    const partner_field = {
+        invested_counts: Number(investedCounts),
+    }
+    Object.keys(companyFields).forEach(key => companyFields[key] === undefined ? companyFields[key] = null : {});
+    Object.keys(partner_connect).forEach(key => isNaN(partner_connect[key].connect.id) ? partner_connect[key] = undefined : {});
+    Object.keys(partner_field).forEach(key => partner_field[key] === undefined ? partner_field[key] = null : {});
+    const partnerFields = {...partner_connect, ...partner_field }
+
+    if (!req.foundUser.company_id) {
+        const companyInfo = await CompanyService.createCompany(req.foundUser.id, companyFields);
+        await CompanyService.createCompanyDetail(companyInfo.id, 'partners', partnerFields);
+    } else {
+        const companyInfo = await CompanyService.updateCompany(req.foundUser.company_id, companyFields);
+        await CompanyService.updatePartner(companyInfo.id, partnerFields);
+    };
+
+    await res.status(201).json({
+        message: 'startup basic info temporary saved'
     })
 })
 
@@ -764,6 +806,7 @@ module.exports = {
     saveStartupInfo,
     saveStartupSubmitInfo,
     getPartnerInfo,
+    tempSavePartnerBasicInfo,
     tempSavePartnerInfo,
     savePartnerInfo,
     getStartups,
