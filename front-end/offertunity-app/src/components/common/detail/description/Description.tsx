@@ -7,7 +7,7 @@ import CompanyTeamInfo from "../team/Team";
 import CompanyInvestInfo from "../invest/Invest";
 import CompanyNews from "../news/News";
 
-const CompanyDescription = ({ data, introduceDatas }: any) => {
+const CompanyDescription = ({ data, introduceDatas, type }: any) => {
   const [news, setNews] = useState();
 
   useEffect(() => {
@@ -29,8 +29,16 @@ const CompanyDescription = ({ data, introduceDatas }: any) => {
           );
         })}
       </CompanyInformation>
-      {/* <CompanyImgSlider images={images} /> */}
-      {/* <CompanyInvestInfo data={data.partners[0]} /> */}
+      {type === "partner" ? (
+        <CompanyInvestInfo data={data.partners[0]} page={"partner"} />
+      ) : (
+        <CompanyInvestInfo data={data.startups[0]} page={"startup"} />
+      )}
+      {type === "partner" ? (
+        <CompanyImgSlider images={data.partners[0].investment_portfolio} />
+      ) : (
+        <CompanyImgSlider images={data.startups[0].startup_images} />
+      )}
       <CompanyTeamInfo data={data} />
       {news && <CompanyNews data={news} />}
     </>
