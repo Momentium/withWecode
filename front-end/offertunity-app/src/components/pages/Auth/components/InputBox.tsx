@@ -49,12 +49,12 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         password: password,
         typeId: typeId,
         signUpMethodId: "1",
-        terms:[
-          {"service":true},
-          {"personal_info":true},
-          {"marketing":true}
-        ]
-    })
+        terms: [
+          { service: true },
+          { personal_info: true },
+          { marketing: true },
+        ],
+      })
       .then((res) => {
         alert("회원가입 성공");
         if (typeId === "2") {
@@ -109,18 +109,16 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
       });
   };
 
-  const handlePw = (event: any, ) => {
+  const handlePw = (event: any) => {
     // event.preventDefault();
-    let { value } = event.target;
-    //value = value.replace(/[^A-Za-z]/ig, "")
-    
-      setInputs({
-        ...inputs,
-        password: value,
-        validatePassword: reg.test(value),
-      });
-   
-    
+    const value = event.target.value;
+
+    setInputs({
+      ...inputs,
+      password: value,
+      validatePassword: reg.test(value),
+    });
+    console.log(value);
   };
 
   const handleSamePw = (event: any) => {
@@ -176,7 +174,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   };
 
   const handleCancel = () => {
-    window.location.href = "/";
+    window.location.href = "/auth/signUp";
   };
 
   return (
@@ -240,8 +238,12 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
             onChange={handlePw}
             // value=""
           />
-        
-          {validatePassword ? <i className="fas fa-check" /> :<i className="fas fa-times"/>}
+
+          {validatePassword ? (
+            <i className="fas fa-check" />
+          ) : (
+            <i className="fas fa-times" />
+          )}
         </PwWrap>
         <span>영문,숫자,특수문자(!@#$%^&*+_)를 조합한 8자이상 </span>
       </Pw>
@@ -408,7 +410,7 @@ const PwAlert = styled.span`
 const PwWrap = styled.div`
   position: relative;
   display: inline-block;
-  
+
   button {
     position: absolute;
     top: 1rem;
@@ -425,12 +427,12 @@ const PwWrap = styled.div`
     font-size: 0.8rem;
     color: #5541ed;
   }
-   .fa-times {
-     position: absolute;
-     top: 1rem;
+  .fa-times {
+    position: absolute;
+    top: 1rem;
     right: 1.5rem;
     color: #898989;
-   }
+  }
 `;
 
 const Agree = styled(Input)``;

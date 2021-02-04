@@ -1,41 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Slider from "react-slick";
 
-function SamplePrevArrow(props:any) {
+function SamplePrevArrow(props: any) {
   const { className, style, onClick } = props;
   return (
     <div
       className={className}
-      style={{ ...style, display: "inline-block",  fontSize:"1.25rem",position: "absolute",
-      top: "-7.5rem",
-      left: "24rem",
-    cursor:"pointer"}}
+      style={{
+        ...style,
+        display: "inline-block",
+        fontSize: "1.25rem",
+        position: "absolute",
+        top: "-7.5rem",
+        left: "24rem",
+        cursor: "pointer",
+      }}
       onClick={onClick}
     >
-      <i className="fas fa-chevron-left"/>
+      <i className="fas fa-chevron-left" />
     </div>
-    
   );
 }
 
-function SampleNextArrow(props:any) {
-  const { className, style, onClick } = props;  
+function SampleNextArrow(props: any) {
+  const { className, style, onClick } = props;
   return (
-    <div 
+    <div
       className={className}
-      style={{ ...style, display: "inline-block",fontSize:"1.25rem",position: "absolute",
-      top: "-7.5rem",
-      left: "27rem",
-      cursor:"pointer" }}
+      style={{
+        ...style,
+        display: "inline-block",
+        fontSize: "1.25rem",
+        position: "absolute",
+        top: "-7.5rem",
+        left: "27rem",
+        cursor: "pointer",
+      }}
       onClick={onClick}
     >
-      <i className="fas fa-chevron-right"/>
+      <i className="fas fa-chevron-right" />
     </div>
   );
 }
-
-
 
 export default function SimpleSlider() {
   var settings = {
@@ -43,7 +50,7 @@ export default function SimpleSlider() {
     infinite: true,
     speed: 500,
     slidesToShow: 7,
-    slidesToScroll: 1, 
+    slidesToScroll: 1,
     bslidesToShow: 0,
     autoplay: true,
     autoplaySpeed: 2000,
@@ -84,36 +91,41 @@ export default function SimpleSlider() {
     ],
   };
 
-  const [invList,setInvestList] = useState([]);
+  const [invList, setInvestList] = useState([]);
   useEffect(() => {
-    axios.get("/data/investList.json")
-    .then((res) =>{
-      const _resData = res.data
-      setInvestList(_resData.invest)
-    })
-  },[])
+    axios.get("/data/investList.json").then((res) => {
+      const _resData = res.data;
+      setInvestList(_resData.invest);
+    });
+  }, []);
 
   return (
-    
     <Slider {...settings}>
-        {invList.map((logo:any)=>{
-          return(
-            <div >
-              <h3 style={{width:"12.5rem",height:"12.5rem",display:'flex',alignItems:'center',cursor:"pointer"}}>
-                <img src={logo.img} alt="" style={{display:'inline-block',width:'100%',padding:'1.5rem'}}/>
-              </h3>
-            </div>
-          )
-        })}
+      {invList.map((logo: any) => {
+        return (
+          <div>
+            <h3
+              style={{
+                width: "12.5rem",
+                height: "12.5rem",
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src={logo.img}
+                alt=""
+                style={{
+                  display: "inline-block",
+                  width: "100%",
+                  padding: "1.5rem",
+                }}
+              />
+            </h3>
+          </div>
+        );
+      })}
     </Slider>
-    
   );
-  
 }
-
-
-
-
-
-
- 
