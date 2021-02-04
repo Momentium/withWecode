@@ -7,11 +7,18 @@ import { SearchSvg, UnSearchSvg } from "assets/icons/SearchSvg";
 
 const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
   ({ location }, ref) => {
-    // const { location } = props
     const [focus, setFocus] = useState<boolean>(false);
     const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
       setFocus(!focus);
     };
+
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleModal = () => {
+      setShowModal(!showModal);
+    };
+
 
     const logOut = () => {
       sessionStorage.removeItem("token");
@@ -20,6 +27,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
     };
 
     const info = JSON.parse(String(sessionStorage.getItem("userInfo")));
+
 
     return (
       <StSection ref={ref}>
@@ -35,7 +43,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
               <StNavCont>
                 <StLinkWrap
                   name="project"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[0]}
                 >
                   <Link to="/project">지원사업</Link>
                 </StLinkWrap>
@@ -207,6 +215,7 @@ const StLogInCont = styled.div`
 `;
 
 const Modal = styled.div`
+
 display:none;
   z-index: 10;
   position: absolute;
@@ -227,6 +236,8 @@ display:none;
       line-height: 35px;
       cursor: pointer;
     }
+    li:nth-child(5) {
+      border-top: 1px solid #0000004a;
     li:hover {
       font-weight: bold;
     }
