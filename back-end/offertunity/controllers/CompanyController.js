@@ -465,13 +465,10 @@ const getPartnerInfo = errorWrapper(async(req, res) => {
 
 const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
     if (req.foundUser.type_id === 1) errorGenerator({ statusCode: 400, message: 'this user is not partner user' })
-    const { name, establishedDate, investedCounts, totalInvestedId, interedtedTechnologyId, homepage, description, investedDates, investedStartups, investedFunds, investedValues, investedSeries, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs, portfolioImagesDeleteIds, investedDeleteIds, memberDeleteIds, companyNewsDeleteIds } = req.body
+    const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description, investedDates, investedStartups, investedFunds, investedValues, investedSeries, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs, portfolioImagesDeleteIds, investedDeleteIds, memberDeleteIds, companyNewsDeleteIds } = req.body
     let { logoImg, portfolioImages, memberImages } = req.files
-
-    if (!logoImg) {
-        let { logoImg } = req.body
-    }
-
+    const interedtedTechnologyId = interedtedTechnology ? await CompanyService.getRelatedInfoId('technologies', interedtedTechnology) : undefined
+    const totalInvestedId = totalInvested ? await CompanyService.getRelatedInfoId('investment_funds', totalInvested) : undefined
     const companyFields = {
         name,
         logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
@@ -481,25 +478,20 @@ const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
         team_intro: teamIntro,
         member_count: memberCount ? Number(memberCount) : null,
         company_types: { connect: { id: 2 } }
-
     }
     const partner_connect = {
-        investment_funds: { connect: { id: Number(totalInvestedId) } },
+        investment_funds: { connect: { id: totalInvestedId } },
         technologies: { connect: { id: Number(interedtedTechnologyId) } }
     }
     const partner_field = {
         invested_counts: Number(investedCounts),
     }
-
     Object.keys(companyFields).forEach(key => companyFields[key] === undefined ? companyFields[key] = null : {});
     Object.keys(partner_connect).forEach(key => isNaN(partner_connect[key].connect.id) ? partner_connect[key] = undefined : {});
     Object.keys(partner_field).forEach(key => partner_field[key] === undefined ? partner_field[key] = null : {});
-
     const partnerFields = {...partner_connect, ...partner_field }
-
     let companyInfo
     let partnerInfo
-
     if (!req.foundUser.company_id) {
         companyInfo = await CompanyService.createCompany(req.foundUser.id, companyFields);
         partnerInfo = await CompanyService.createCompanyDetail(companyInfo.id, 'partners', partnerFields);
@@ -507,7 +499,6 @@ const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
         companyInfo = await CompanyService.updateCompany(req.foundUser.company_id, companyFields);
         partnerInfo = await CompanyService.updatePartner(companyInfo.id, partnerFields);
     };
-
     // portfolio 이미지 추가
     if (portfolioImages) {
         if ((await CompanyService.imageLengthChecker('investment_portfolio', { partner_id: partnerInfo.id }) + portfolioImages.length) > 5) errorGenerator({ statusCode: 400, message: 'Images Limitation Exceeded' })
@@ -520,32 +511,34 @@ const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
             )
         }
     }
-
     // 투자 이력 추가
     if (investedDates && investedStartups && investedFunds && investedValues && investedSeries) {
         if (typeChecker(investedDates, investedStartups, investedFunds, investedValues, investedSeries) === 'string') {
+            const investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds)
+            const investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries)
             await CompanyService.createRelatedInfo('invested_to', data = {
                 partners: { connect: { id: partnerInfo.id } },
                 date: await dateForm(investedDates),
                 invested_startup: investedStartups,
-                investment_funds: { connect: { id: Number(investedFunds) } },
+                investment_funds: { connect: { id: Number(investedFundId) } },
                 corporate_value: Number(investedValues),
-                investment_series: { connect: { id: Number(investedSeries) } }
+                investment_series: { connect: { id: Number(investedSeriesId) } }
             })
         } else if (lengthChecker(investedDates, investedStartups, investedFunds, investedValues, investedSeries)) {
             for (len = 0; len < investedDates.length; len++) {
+                let investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds[len])
+                let investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries[len])
                 await CompanyService.createRelatedInfo('invested_to', data = {
                     partners: { connect: { id: partnerInfo.id } },
                     date: await dateForm(investedDates[len]),
                     invested_startup: investedStartups[len],
-                    investment_funds: { connect: { id: Number(investedFunds[len]) } },
+                    investment_funds: { connect: { id: Number(investedFundId) } },
                     corporate_value: Number(investedValues[len]),
-                    investment_series: { connect: { id: Number(investedSeries[len]) } }
+                    investment_series: { connect: { id: Number(investedSeriesId) } }
                 })
             }
         }
     }
-
     // Team Memebr 추가
     if (memberInfoNames && memberInfoPositions && memberImages) {
         if (typeChecker(memberInfoNames, memberInfoPositions) === 'string' && memberImages.length === 1) {
@@ -566,7 +559,6 @@ const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
             }
         }
     }
-
     // News URL 추가
     if (companyNewsURLs) {
         if (typeof companyNewsURLs === 'string') {
@@ -583,7 +575,6 @@ const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
             }
         }
     }
-
     // save 기능 연결
     if (req.companySave) {
         next()

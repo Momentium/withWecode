@@ -185,10 +185,8 @@ const findPartners = async(query) => {
     const { offset, limit, ...fields } = query
     const where = makeQueryOption(fields)
     where.type_id = 2
-
     const ARTICLES_DEFAULT_OFFSET = 0
     const ARTICLES_DEFAULT_LIMIT = 12
-
     const companies = await prisma.companies.findMany({
         include: {
             partners: true,
@@ -200,7 +198,6 @@ const findPartners = async(query) => {
     const num = (await prisma.companies.findMany({
         where
     })).length
-
     return [companies, num]
 }
 
@@ -288,7 +285,7 @@ const registerDoc = (async(fields) => {
     })
 })
 
-const deleteSDoc = (async(fields) => {
+const deleteDoc = (async(fields) => {
     const { company_id, doc_url, type_id } = fields
     return await prisma.company_documents.delete({
         where: {
@@ -328,5 +325,5 @@ module.exports = {
     irRequestedCount,
     readByDocType,
     registerDoc,
-    deleteSDoc
+    deleteDoc
 }
