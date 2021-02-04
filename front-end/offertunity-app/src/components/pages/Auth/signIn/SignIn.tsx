@@ -9,6 +9,7 @@ import Kakao from "../logoIcons/Kakao";
 import Facebook from "../logoIcons/Facebook";
 import Or from "../components/Or";
 import Question from "../components/Question";
+
 const SignIn: React.FC = () => {
   const history = useHistory();
   const [inputs, setInputs] = useState({
@@ -18,17 +19,13 @@ const SignIn: React.FC = () => {
   const SIGNIN = () => {
     const { email, password } = inputs;
     axios
-      //.post("http://10.0.1.44:3000/users/signin", {
         .post(`${process.env.REACT_APP_URL}/users/signin`, {
         email: email,
         password: password,
       })
       .then(function (response) {
         alert("로그인 성공");
-
-      
         const _resData = response.data;
-
         const _userInfo: {} = {
           id: _resData.id,
           email: _resData.email,
@@ -41,6 +38,7 @@ const SignIn: React.FC = () => {
 
         console.log(_resData)
         console.log(JSON.parse(String(sessionStorage.getItem("userInfo"))));
+
         window.location.href = "/";
       })
       .catch(function (error) {

@@ -14,7 +14,7 @@ const InvestList = () => {
     >
       <Wrap>
         <Title>투자기관 리스트</Title>
-        <MoreBtn txt={"더 많은 투자기관 보기"} toLink={"/invest"} />
+        <MoreBtn txt={"더 많은 투자기관 보기"} toLink={"/partner"} />
         {/* <More>
           더 많은 투자기관 보기
           <img src="images/investList/arrow.png" alt=""/>
