@@ -8,7 +8,7 @@ import InvestDesire from "./InvestDesire";
 import InvestHist from "./InvestHist";
 import IntroTeam from "./IntroTeam";
 import News from "./News";
-import BtnSet from "./BtnSet";
+import BtnSet from "../../BtnSet";
 
 interface BasicState {
   name: string;
@@ -46,7 +46,7 @@ const MyStartup = () => {
         console.log(_resData)
 
         if (Object.keys(_resData).length === 0) {
-          console.log("body is empty");
+          alert("정보가 아직 등록 되어있지 않습니다.")
         } else {
           setThumb(_resData.thumbnail ? _resData.thumbnail : "");
           setLogo(_resData.logoImg ? _resData.logoImg : "");
@@ -67,7 +67,6 @@ const MyStartup = () => {
       })
       .catch((err) => {
         alert(`데이터 전송에 실패했습니다.\n ${err}`)
-        
       })
   }, []);
 
@@ -105,8 +104,8 @@ const MyStartup = () => {
       _formData.append(key, (basicInfo as any)[key]);
     });
     
-    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, "startup_img_"));
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, "startup_logo_"));
+    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`));
+    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
 
     axios.post(
       `${process.env.REACT_APP_URL}/companies/info/startup/basic/temp`,
@@ -139,8 +138,8 @@ const MyStartup = () => {
 
   const saveForm = () => {
     const _formData = new FormData();
-    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, "startup_img_"));
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, "startup_logo_"));
+    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`));
+    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });
@@ -164,8 +163,8 @@ const MyStartup = () => {
   };
   const submitForm = () => {
     const _formData = new FormData();
-    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, "startup_img_"));
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, "startup_logo_"));
+    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`));
+    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });

@@ -7,7 +7,6 @@ import { SearchSvg, UnSearchSvg } from "assets/icons/SearchSvg";
 
 const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
   ({ location }, ref) => {
-    // const { location } = props
     const [focus, setFocus] = useState<boolean>(false);
     const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
       setFocus(!focus);
@@ -39,7 +38,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
               <StNavCont>
                 <StLinkWrap
                   name="project"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[0]}
                 >
                   <Link to="/project">지원사업</Link>
                 </StLinkWrap>
