@@ -1,5 +1,6 @@
-const { InitialService } = require("../services");
+const { InitialService, UserService, CompanyService } = require("../services");
 const { errorWrapper, errorGenerator } = require("../errors");
+const { dateForm } = require("../utils");
 
 const InitialDataSetting = errorWrapper(async (req, res) => {
   await InitialService.createDatas("business_types", ["개인", "법인"]);
@@ -98,6 +99,13 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
   ]);
   console.log("company_types")
 
+  await InitialService.createDatas("service_types", [
+    "홈페이지",
+    "앱",
+  ]);
+  console.log("company_types")
+
+
   await InitialService.createTerms([
     {
       name: "service",
@@ -122,7 +130,6 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     message: "data created",
   });
 });
-
 
 module.exports = {
   InitialDataSetting,
