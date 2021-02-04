@@ -62,7 +62,7 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
   ]);
   console.log("sectors")
 
-  await InitialService.createDatas("service_types", [
+  await InitialService.createDatas("technologies", [
     "빅데이터",
     "AI",
     "블록체인",
@@ -75,7 +75,7 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "데이터솔루션",
     "기타"
   ]);
-  console.log("service_types")
+  console.log("technologies")
 
   await InitialService.createDatas("signup_methods", [
     "email",

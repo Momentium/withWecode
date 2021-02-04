@@ -20,7 +20,7 @@ const createUser = async (fields) => {
   const createdUser = await prisma.users.create({ data });
 
   for (let len=0; len<terms.length; len++) {
-    if (Object.keys(terms[len])[0]) {
+    if (terms[Object.keys(terms[len])[0]] === true) {
       const termId = await getRelatedInfoId('terms', Object.keys(terms[len])[0])
       await prisma.user_agreements.create({
         data: {
