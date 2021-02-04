@@ -26,6 +26,8 @@ model applicants {
   business_brief     String?
   business_model     String?
   created_at         DateTime  @default(now())
+  updated_at         DateTime? @updatedAt
+  deleted_at         DateTime?
   companies          companies @relation(fields: [company_id], references: [id])
   projects           projects  @relation(fields: [project_id], references: [id])
 
@@ -50,6 +52,9 @@ model companies {
   team_intro                                              String?
   member_count                                            Int?
   is_saved                                                Boolean                @default(false)
+  created_at                                              DateTime?              @default(now())
+  updated_at                                              DateTime?              @updatedAt
+  deleted_at                                              DateTime?  
   company_types                                           company_types?         @relation(fields: [type_id], references: [id])
   applicants                                              applicants[]
   company_documents                                       company_documents[]
@@ -76,6 +81,9 @@ model company_documents {
   company_id     Int
   doc_url        String
   type_id        Int
+  created_at     DateTime?      @default(now())
+  updated_at     DateTime?      @updatedAt
+  deleted_at     DateTime?
   companies      companies      @relation(fields: [company_id], references: [id])
   document_types document_types @relation(fields: [type_id], references: [id])
   IR_requests    IR_requests[]
@@ -114,6 +122,9 @@ model demodays {
   name          String?
   company_id    Int?
   streaming_url String?
+  created_at    DateTime?      @default(now())
+  updated_at    DateTime?      @updatedAt
+  deleted_at    DateTime?
   companies     companies?     @relation(fields: [company_id], references: [id])
   participants  participants[]
   questions     questions[]
@@ -236,6 +247,9 @@ model partners {
   interst_technology_id Int?
   invested_total_id     Int?
   invested_counts       Int?
+  created_at            DateTime?               @default(now())
+  updated_at            DateTime?               @updatedAt
+  deleted_at            DateTime?
   companies             companies              @relation(fields: [company_id], references: [id])
   technologies          technologies?          @relation(fields: [interst_technology_id], references: [id])
   investment_funds      investment_funds?      @relation(fields: [invested_total_id], references: [id])
@@ -412,6 +426,9 @@ model startups {
   instagram_url           String?
   facebook_url            String?
   thumbnail               String?
+  created_at              DateTime?          @default(now())
+  updated_at              DateTime?          @updatedAt
+  deleted_at              DateTime?
   business_types          business_types?    @relation(fields: [business_type_id], references: [id])
   companies               companies          @relation(fields: [company_id], references: [id])
   technologies            technologies?      @relation(fields: [core_technology_id], references: [id])
@@ -468,6 +485,7 @@ model terms {
   id              Int               @id @default(autoincrement())
   name            String
   content         String
+  is_required     Boolean
   user_agreements user_agreements[]
 }
 

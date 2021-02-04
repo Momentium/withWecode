@@ -1,8 +1,8 @@
-const { errorWrapper, errorGenerator } = require('../errors')
+const { errorWrapper, errorGenerator } = require("../errors");
 
-const save = errorWrapper(async(req, res, next) => {
-    req.companySave = true
-    next()
-})
+const save = errorWrapper(async (req, res, next) => {
+  req.save = true;
+  next();
+});
 
-module.exports = save
+module.exports = save;
