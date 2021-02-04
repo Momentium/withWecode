@@ -19,7 +19,7 @@ const Buttons = ({ data, title, type, companyId, page, isLogin }: any) => {
   const getLikeData = () => {
     if (isLogin) {
       axios
-        .get(`${process.env.REACT_APP_URL}/likes/company/${companyId}`, {
+        .get(`http://10.0.1.44:3000/likes/company/${companyId}`, {
           headers: {
             Authorization: sessionStorage.getItem("token"),
           },

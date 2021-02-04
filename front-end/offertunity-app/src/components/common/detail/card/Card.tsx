@@ -9,7 +9,7 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
     if (type === "startup") {
       return `url(${data.startups[0].thumbnail})`;
     } else {
-      return `url(${data.partners[0].thumbnail})`;
+      return `url(${data.logo_img})`;
     }
   };
   const backgroundImage = {
@@ -35,7 +35,7 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
       <CompanyImg style={backgroundImage} />
       <CompanyInfo>
         <Title>
-          <div className="logo" style={logoImage} />
+          {type === "startup" && <div className="logo" style={logoImage} />}
 
           <span>{data.name}</span>
         </Title>
@@ -63,9 +63,7 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
             })}
           </LeftBox>
           <RightBox>
-            {type === "startup" && (
-              <Labels label={data.tag} detailName={"detailLabels"} />
-            )}
+            <Labels label={data.tag} detailName={"detailLabels"} />
           </RightBox>
         </DetailInfo>
         {type === "startup" && (
