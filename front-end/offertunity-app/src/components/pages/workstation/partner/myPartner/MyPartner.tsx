@@ -122,7 +122,7 @@ const MyPartner = () => {
   const changeIntroForm = (e: any) => {
     const _target = e.currentTarget;
     switch (_target.className.split(" ")[2]) {
-      case "startup":
+      case "invest":
         _target.value.length < 500 && setIntroSU(_target.value);
         break;
       case "item":
@@ -194,8 +194,8 @@ const MyPartner = () => {
       <IntroForm 
         cName={"invest"}
         title={"투자 파트너 소개"}
-        // txt={introItem}
-        // changeVal={changeIntroForm}
+        txt={introSU}
+        changeVal={changeIntroForm}
       />
 
       <IntroImg/>

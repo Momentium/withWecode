@@ -352,9 +352,9 @@ const Input = styled.div`
       font-size: 0.9rem;
       color: #d8d8d8;
     }
-    &:focus {
+    /* &:focus {
       outline: none;
-    }
+    } */
   }
 `;
 

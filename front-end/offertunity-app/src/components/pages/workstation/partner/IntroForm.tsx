@@ -3,15 +3,23 @@ import * as St from "components/styles/styledComp";
 
 const IntroForm:React.FC<any>= ({ cName, title, txt, changeVal }) => {
   return (
-    <div>
+    <StCont>
       <St.SectionTitle>{title}</St.SectionTitle>
+      {cName === 'invest' && <StGuideDiv>최대 500자까지 작성할 수 있습니다.</StGuideDiv>}
       <StTxtarea 
         className={cName}
         placeholder={`${title}를 작성해주세요.`}
         value={txt}
         onChange={changeVal}
       />
-    </div>
+      {
+        cName === "invest" &&
+        <div className="flex-div">
+          <StLetCntDiv>&nbsp;</StLetCntDiv>
+          <StLetCntDiv>{`${txt ? txt.length : 0} / 500 자`}</StLetCntDiv>
+        </div>
+      }
+    </StCont>
   );
 }
 export default IntroForm;
@@ -29,3 +37,27 @@ const StTxtarea = styled.textarea`
     color: #898989;
   }
 `;
+
+
+const StLetCntDiv = styled.div`
+  font-size: 15px;
+  color: #5B5B5B;
+
+  margin-top: 16px;
+`;
+
+const StCont = styled.div`
+
+  .flex-div {
+    display: flex;
+    justify-content: flex-end;
+  }
+`;
+
+const StGuideDiv = styled.div`
+  margin-top: 24px;
+  font-size: 15px;
+  color: #9F9F9F;
+`;
+
+

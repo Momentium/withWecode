@@ -6,7 +6,7 @@ const PjtBasicInfo: React.FC<any> = (props) => {
   const {
     host,
     due_date,
-    sectors,
+    eligible_sectors,
     eligibilities,
     name,
     introduction,
@@ -74,7 +74,7 @@ const PjtBasicInfo: React.FC<any> = (props) => {
                   cName="field"
                   mode="supportField"
                   width={186}
-                  curVal={sectors}
+                  curVal={eligible_sectors}
                   changeVal={props.changeVal}
                 />
               </div>
