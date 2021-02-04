@@ -13,13 +13,14 @@ const findCompany = (field) => {
 
 const createUser = async (fields) => {
   const { email, name, password, user_types, signup_methods, terms } = fields
+  console.log(fields)
   const data = {
     email, name, password, user_types, signup_methods
   }
   const createdUser = await prisma.users.create({ data });
 
   for (let len=0; len<terms.length; len++) {
-    if (Object.keys(terms[len])[0]) {
+    if (terms[Object.keys(terms[len])[0]] === true) {
       const termId = await getRelatedInfoId('terms', Object.keys(terms[len])[0])
       await prisma.user_agreements.create({
         data: {

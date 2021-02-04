@@ -791,6 +791,7 @@ const tempSavePartnerBasicInfo = errorWrapper(async(req, res, next) => {
     let { logoImg } = req.files
 
     console.log('totalInvested', totalInvested)
+    console.log('totalInvested', interedtedTechnology)
 
     const interedtedTechnologyId = interedtedTechnology ? await CompanyService.getRelatedInfoId('technologies', interedtedTechnology) : undefined
     const totalInvestedId = totalInvested ? await CompanyService.getRelatedInfoId('investment_funds', totalInvested) : undefined
