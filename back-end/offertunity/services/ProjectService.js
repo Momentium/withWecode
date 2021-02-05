@@ -5,6 +5,7 @@ const { makeQueryOption } = require("../utils");
 const ARTICLES_DEFAULT_OFFSET = 0;
 const ARTICLES_DEFAULT_LIMIT = 5;
 
+
 const findPublishedProjects = (query, field) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
@@ -16,11 +17,13 @@ const findPublishedProjects = (query, field) => {
       where,
     //   skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
     //   take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+
       orderBy: {
           created_at: "asc",
       },
   });
 };
+
 
 const findMyProjects = (query, companyId) => {
     const { offset, limit, ...fields } = query;

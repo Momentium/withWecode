@@ -13,7 +13,7 @@ router.get(
   '/', 
   checkLogIn, 
   ProjectController.getMyProjects
-  )
+)
 
 router.get(
   '/:projectId', 

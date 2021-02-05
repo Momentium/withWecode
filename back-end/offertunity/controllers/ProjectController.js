@@ -9,7 +9,12 @@ const { errorWrapper, errorGenerator } = require('../errors');
 
 
 const getPublishedProjects = errorWrapper(async(req, res) => {
-    const projectList = await ProjectService.findPublishedProjects(req.query)
+    const projectList = await ProjectService.findProjects(req.query)
+    res.status(200).json({ projectList })
+})
+
+const getAllProjects = errorWrapper(async(req, res) => {
+    const projectList = await ProjectService.findAllProjects(req.query)
     res.status(200).json({ projectList })
 })
 
@@ -27,6 +32,7 @@ const getOneProject = errorWrapper(async(req, res) => {
     res.status(200).json({ projectDetail, hasApplied })
 })
 
+
 const getMyProjects = errorWrapper(async(req, res) => {
     const userInfofromToken = req.foundUser
 
@@ -35,6 +41,22 @@ const getMyProjects = errorWrapper(async(req, res) => {
 })
 
 const tempSaveProjectBasicInfo = errorWrapper(async(req, res) => {
+    const userInfofromToken = req.foundUser
+
+    const requestedFields = req.body
+    const project_picture = req.file ? req.file.location : undefined;
+    const due_date = await dateForm(requestedFields.due_date)
+
+    const projectAction = await ProjectService.createProject({ userInfofromToken, requestedFields, project_picture, due_date })
+    if (req.save) {
+        next();
+    } else {
+        res.status(201).json({ message: 'project basic info temporarily saved' 
+    })
+    }
+})
+
+const tempSaveProjectInfo = errorWrapper(async(req, res) => {
     const userInfofromToken = req.foundUser
 
     const requestedFields = req.body
