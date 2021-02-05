@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import * as St from "components/styles/styledComp";
+import * as Mt from 'api/methods'
 import GuideBar from "./GuideBar";
 import MyStartup from "./startup/myStartup/MyStartup";
 import SupportPjt from "./startup/supportPjt/SupportPjt";
@@ -9,11 +10,11 @@ import MyPartner from "./partner/myPartner/MyPartner";
 import PartnerPjt from "./partner/supportPjt/PartnerPjt";
 
 const WSPage: React.FC<any> = ({ match }) => {
-  const userInfo: any = JSON.parse(String(sessionStorage.getItem("userInfo")));
-  const curType: number = userInfo.type_id;
-  const curTab: string = match.params.tab;
+  const _userInfo = Mt.getUserInfo();
+  const _curType: number = _userInfo.type_id;
+  const _curTab: string = match.params.tab;
   const navi: any =
-    curType === 1
+    _curType === 1
       ? {
           mystartup: "마이 스타트업",
           myproject: "지원사업 프로젝트",
@@ -28,39 +29,39 @@ const WSPage: React.FC<any> = ({ match }) => {
 
   return (
     <StWSCont>
-      <StRootWrap>{`홈  >  지원사업  >  ${navi[curTab]}`}</StRootWrap>
+      <StRootWrap>{`홈  >  지원사업  >  ${navi[_curTab]}`}</StRootWrap>
 
       <StTabCont>
         <St.SectionTitle style={{ margin: 0 }}>워크 스테이션</St.SectionTitle>
 
-        {curType === 1 ? (
+        {_curType === 1 ? (
           <>
-            <StTabWrap isChecked={curTab === "mystartup"}>
+            <StTabWrap isChecked={_curTab === "mystartup"}>
               <Link to="/workstation/mystartup">{navi["mystartup"]}</Link>
             </StTabWrap>
-            <StTabWrap isChecked={curTab === "myproject"}>
+            <StTabWrap isChecked={_curTab === "myproject"}>
               <Link to="/workstation/myproject">{navi["myproject"]}</Link>
             </StTabWrap>
-            <StTabWrap isChecked={curTab === "myrequest"}>
+            <StTabWrap isChecked={_curTab === "myrequest"}>
               <Link to="/workstation/myrequest">{navi["myrequest"]}</Link>
             </StTabWrap>
-            <StTabWrap isChecked={curTab === "mydocument"}>
+            <StTabWrap isChecked={_curTab === "mydocument"}>
               <Link to="/workstation/mydocument">{navi["mydocument"]}</Link>
             </StTabWrap>
           </>
         ) : (
           <>
-            <StTabWrap isChecked={curTab === "mypartner"}>
+            <StTabWrap isChecked={_curTab === "mypartner"}>
               <Link to="/workstation/mypartner">{navi["mypartner"]}</Link>
             </StTabWrap>
-            <StTabWrap isChecked={curTab === "myproject"}>
+            <StTabWrap isChecked={_curTab === "myproject"}>
               <Link to="/workstation/myproject">{navi["myproject"]}</Link>
             </StTabWrap>
-            <StTabWrap isChecked={curTab === "myrequest"}>
+            <StTabWrap isChecked={_curTab === "myrequest"}>
               <Link to="/workstation/myrequest">{navi["myrequest"]}</Link>
             </StTabWrap>
             <StTabWrap
-              isChecked={curTab === "myrequest"}
+              isChecked={_curTab === "myrequest"}
               style={{ visibility: "hidden" }}
             >
               IR 자료 및 지원서류 관리
@@ -69,20 +70,20 @@ const WSPage: React.FC<any> = ({ match }) => {
         )}
       </StTabCont>
 
-      <GuideBar curType={curType} curTab={curTab} />
+      <GuideBar curType={_curType} curTab={_curTab} />
 
-      {curType === 1 ? (
+      {_curType === 1 ? (
         <>
-          {curTab === "mystartup" && <MyStartup />}
-          {curTab === "myproject" && <SupportPjt />}
-          {curTab === "myrequest" && <AdminIRReq />}
-          {curTab === "mydocument" && <></>}
+          {_curTab === "mystartup" && <MyStartup />}
+          {_curTab === "myproject" && <SupportPjt />}
+          {_curTab === "myrequest" && <AdminIRReq />}
+          {_curTab === "mydocument" && <></>}
         </>
       ) : (
         <>
-          {curTab === "mypartner" && <MyPartner />}
-          {curTab === "myproject" && <PartnerPjt />}
-          {curTab === "myrequest" && <></>}
+          {_curTab === "mypartner" && <MyPartner />}
+          {_curTab === "myproject" && <PartnerPjt />}
+          {_curTab === "myrequest" && <></>}
         </>
       )}
     </StWSCont>

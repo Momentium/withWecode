@@ -12,22 +12,12 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
       setFocus(!focus);
     };
 
-
-    const [showModal, setShowModal] = useState(false);
-
-    const handleModal = () => {
-      setShowModal(!showModal);
-    };
-
-
     const logOut = () => {
-      sessionStorage.removeItem("token");
       sessionStorage.removeItem("userInfo");
       window.location.href = "/";
     };
 
     const info = JSON.parse(String(sessionStorage.getItem("userInfo")));
-
 
     return (
       <StSection ref={ref}>
@@ -42,32 +32,31 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
             <>
               <StNavCont>
                 <StLinkWrap
-                  name="project"
-                  curPage={location.pathname.split("/")[0]}
+                  curPage={location.pathname.split("/")[1] === "project"}
                 >
                   <Link to="/project">지원사업</Link>
                 </StLinkWrap>
+
                 <StLinkWrap
-                  name="startup"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[1] === "startup"}
                 >
                   <Link to="/startup">스타트업</Link>
                 </StLinkWrap>
+
                 <StLinkWrap
-                  name="partner"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[1] === "partner"}
                 >
                   <Link to="/partner">투자기관</Link>
                 </StLinkWrap>
+
                 <StLinkWrap
-                  name="demo"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[1] === "demo"}
                 >
                   <Link to="/demo">온라인 데모데이</Link>
                 </StLinkWrap>
+
                 <StLinkWrap
-                  name="team"
-                  curPage={location.pathname?.substring(1)}
+                  curPage={location.pathname.split("/")[1] === "team"}
                 >
                   <Link to="/team">팀빌딩</Link>
                 </StLinkWrap>
@@ -87,82 +76,90 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                 <input type="text" />
               </StSearchWrap>
 
-              {
-                //location.pathname.includes("workstation")  ?
-                sessionStorage.getItem("token") ? (
-                  <StLogInCont>
-                    <img
-                      src="/images/icons/사각형 943@2x.png"
-                      alt=""
-                      className="bell"
-                    />
-                    <Link to="/MypageStartup">
-                      <img src="/images/icons/사각형 944@2x.png" alt="" />
-                    </Link>
+              {sessionStorage.getItem("userInfo") ? (
+                <StLogInCont>
+                  <img
+                    src="/images/icons/bell.png"
+                    alt="bell-icon"
+                    className="bell"
+                  />
+                  <Link to="/MypageStartup">
+                    <img src="/images/icons/person.png" alt="person-icon" />
+                  </Link>
 
-                  <Link to={"/workstation/:tab"} className="link-workstation">
-                    <span  >
-                      워크스테이션
-                    </span>
-                    </Link>
-
-                  
-                      {info.type_id === 1 ? (
-                        <Modal className="modal">
-                          <ul>
-                            <Link to="/workstation/mystartup">
-                              <li> 스타트업</li>
-                            </Link>
-                            <Link to="/workstation/mystartup">
+                  {info.type_id === 1 ? (
+                    <>
+                      <Link
+                        to={"/workstation/mystartup"}
+                        className="link-workstation"
+                      >
+                        <span>워크스테이션</span>
+                      </Link>
+                      <Modal className="modal">
+                        <ul>
+                          <Link to="/workstation/mystartup">
+                            <li> 스타트업</li>
+                          </Link>
+                          <Link to="/workstation/myproject">
                             <li>지원사업 프로젝트</li>
-                            </Link>
-                            <Link to="/workstation/mystartup">
+                          </Link>
+                          <Link to="/workstation/myrequest">
                             <li>IR자료 요청 관리</li>
-                            </Link>
-                            <Link to="/workstation/mystartup">
+                          </Link>
+                          <Link to="/workstation/mydocument">
                             <li>IR자료 및 지원서류 관리</li>
-                            </Link>
-                            <Link to="/workstation/mystartup">
+                          </Link>
+                          <Link to="/EditMypageStartup">
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>
-                            </Link>
-                            <li onClick={logOut}>로그아웃</li>
-                          </ul>
-                        </Modal>
-                      ) : (
-                        <Modal className="modal">
-                          <ul>
-                            <Link to={"/workstation/mypartner"}>
-                              <li>파트너 기관 관리</li>
-                            </Link>
-                            <Link to="/workstation/mypartner">
+                          </Link>
+                          <li onClick={logOut}>로그아웃</li>
+                        </ul>
+                      </Modal>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to={"/workstation/mypartner"}
+                        className="link-workstation"
+                      >
+                        <span>워크스테이션</span>
+                      </Link>
+
+                      <Modal className="modal">
+                        <ul>
+                          <Link to={"/workstation/mypartner"}>
+                            <li>파트너 기관 관리</li>
+                          </Link>
+
+                          <Link to="/workstation/myproject">
                             <li>지원사업 관리</li>
-                            </Link>
-                            <Link to="/workstation/mypartner">
+                          </Link>
+                          <Link to="/workstation/myrequest">
                             <li>IR자료 요청 관리</li>
-                            </Link>
-                            <Link to="/workstation/mypartner">
+                          </Link>
+                          <Link to="/EditMypageStartup">
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>
-                            </Link>
-                            <li onClick={logOut}>로그아웃</li>
-                          </ul>
-                        </Modal>
-                      )}
-                  </StLogInCont>
-                ) : (
-                  <Auth>
-                    <Link to="/auth/signIn">
-                      <p>로그인</p>
-                    </Link>
-                    <Link to="/auth/signUp">
-                      <p>회원가입</p>
-                    </Link>
-                  </Auth>
-                )
-              }
+                          </Link>
+                          <li onClick={logOut}>로그아웃</li>
+                        </ul>
+                      </Modal>
+                    </>
+                  )}
+                </StLogInCont>
+              ) : (
+                <Auth>
+                  <Link to="/auth/signIn">
+                    <p>로그인</p>
+                  </Link>
+                  <Link to="/auth/signUp">
+                    <p>회원가입</p>
+                  </Link>
+                </Auth>
+              )}
             </>
           )}
         </HeaderCon>
@@ -202,21 +199,18 @@ const StLogInCont = styled.div`
     color: #5541ed;
     font-size: 15px;
     font-weight: normal;
-    
-    
   }
 
-  .link-workstation:hover + .modal{
-        display:inline-block;
-      }
+  .link-workstation:hover + .modal {
+    display: inline-block;
+  }
   .modal:hover {
     display: inline-block;
   }
 `;
 
 const Modal = styled.div`
-
-display:none;
+  display: none;
   z-index: 10;
   position: absolute;
   top: 43px;
@@ -228,21 +222,19 @@ display:none;
   box-shadow: 3px -1px 10px #0000004a;
   opacity: 1;
   ul {
-    width: 100%;
+    width: 9rem;
 
     li {
-      width:6rem;
+      width: 100%;
       font-size: 13px;
       line-height: 35px;
       cursor: pointer;
     }
-    li:nth-child(5) {
-      border-top: 1px solid #0000004a;
+
     li:hover {
       font-weight: bold;
     }
   }
-  
 `;
 
 const StSection = styled.div`
@@ -293,7 +285,7 @@ const StNavCont = styled.nav`
   }
 `;
 
-const StLinkWrap = styled.div<{ name: string; curPage: string }>`
+const StLinkWrap = styled.div<{ curPage: boolean }>`
   margin-right: 56px;
 
   @keyframes colorChangeNav {
@@ -324,7 +316,7 @@ const StLinkWrap = styled.div<{ name: string; curPage: string }>`
   }
 
   ${(props) =>
-    props.curPage.includes(props.name) &&
+    props.curPage &&
     css`
       * {
         animation: colorChangeNav 0.2s forwards;
@@ -369,9 +361,6 @@ const StSearchWrap = styled.div<{ focus: boolean }>`
     width: 100%;
     border: 0px;
     box-sizing: border-box;
-    &:focus {
-      outline: none;
-    }
   }
 
   ${(props) =>

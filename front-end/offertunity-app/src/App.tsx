@@ -56,10 +56,14 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/partner" component={PartnerList} />
           <Route path="/MypageStartup" component={MypageStartup} />
           <Route path="/EditMypageStartup" component={EditMypageStartup} />
+
           <Route path="/demo" component={DemodayPage} />
+
+          <Route path="/workstation/:tab/:addon" component={WSPage} />
+          <Route path="/workstation/:tab" component={WSPage} />
+
         </Switch>
 
-        <Route path="/workstation/:tab" component={WSPage} />
         <Route path="/auth/:name" component={Auth} />
       </StAppCont>
 

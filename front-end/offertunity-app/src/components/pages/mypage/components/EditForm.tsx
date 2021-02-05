@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -15,7 +16,28 @@ const EditForm: React.FC<Props> = ({ data }) => {
     phoneNumber: "",
   });
   const { nameInput, phoneNumber } = inputs;
-  const { email, name, phone_number } = data;
+  const { email, name, phone_number, type_id } = data;
+
+  const saveData = () => {
+    axios
+      .put(`${process.env.REACT_APP_URL}/users/mypage`, {
+        headers: {
+          Authorization: sessionStorage.getItem("token"),
+        },
+        name: nameInput,
+        phone_number: phoneNumber,
+      })
+      .then((res) => {
+        alert("회원정보가 수정되었습니다");
+      })
+      .catch((err) => {
+        alert("올바른 정보를 입력해주세요");
+      });
+
+    console.log(sessionStorage.getItem("token"));
+    console.log(nameInput);
+    console.log(phoneNumber);
+  };
 
   const handleName = (event: any) => {
     event.preventDefault();
@@ -52,7 +74,7 @@ const EditForm: React.FC<Props> = ({ data }) => {
         </Static>
         <Static className="user">
           <Title>회원구분</Title>
-          <Box>스타트업 회원</Box>
+          <Box>{type_id === 2 ? "파트너 회원" : "스타트업 회원"} </Box>
         </Static>
       </ID>
       <Pw>
@@ -83,9 +105,14 @@ const EditForm: React.FC<Props> = ({ data }) => {
         <button onClick={validatePhoneNumber}>인증하기</button>
       </Phone>
       <BtnWrap>
-        <SaveBtn style={{ background: BtnTrue ? "#1a2536" : "#ccc" }}>
+        {/* <Link to="/MypageStartup"> */}
+        <SaveBtn
+          style={{ background: BtnTrue ? "#1a2536" : "#ccc" }}
+          onClick={saveData}
+        >
           프로필저장
         </SaveBtn>
+        {/* </Link> */}
         <Link to="/MypageStartup">
           <CancleBtn>취소</CancleBtn>
         </Link>
