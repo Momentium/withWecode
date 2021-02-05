@@ -83,7 +83,6 @@ const createRelatedDoc = async(fields) => {
 
 const createProject = async(fields) => {
     const {
-        userInfofromToken,
         requestedFields,
         project_picture,
         due_date,
