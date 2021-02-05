@@ -50,7 +50,8 @@ const signIn = errorWrapper(async (req, res) => {
     email: foundUser.email,
     type_id: foundUser.type_id, 
     name: foundUser.name,
-    profile_picture: foundUser.profile_picture
+    profile_picture: foundUser.profile_picture,
+    company_id: foundUser.company_id
   });
 });
 

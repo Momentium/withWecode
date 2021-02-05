@@ -5,7 +5,8 @@ const { makeQueryOption } = require("../utils");
 const ARTICLES_DEFAULT_OFFSET = 0;
 const ARTICLES_DEFAULT_LIMIT = 5;
 
-const findPublishedProjects = (query) => {
+
+const findPublishedProjects = (query, field) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
 
@@ -14,30 +15,36 @@ const findPublishedProjects = (query) => {
         project_images: true
         },
       where,
-      skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
-      take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+    //   skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+    //   take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+
       orderBy: {
           created_at: "asc",
       },
   });
 };
 
-const findAllProjects = (query) => {
+
+const findMyProjects = (query, companyId) => {
     const { offset, limit, ...fields } = query;
     const where = makeQueryOption(fields);
+    delete where.AND[0]
+    where.company = companyId
 
     return prisma.projects.findMany({
         include: {
             project_images: true
             },
         where,
-        skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
-        take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+        // skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
+        // take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
         orderBy: {
             created_at: "asc",
         },
     });
 };
+
+
 
 const findOneProject = (field) => {
     const [uniqueKey] = Object.keys(field);
@@ -80,14 +87,20 @@ const createProject = async(fields) => {
         requestedFields,
         project_picture,
         due_date,
+        eligible_sectors,
+        eligibilities
     } = fields;
     requestedFields.required_documents = undefined;
+    requestedFields.eligibility = undefined;
+    requestedFields.eligible_sectors = undefined
+
+console.log(userInfofromToken)
     return await prisma.projects.create({
         data: {
+            companies: userInfofromToken? { connect: { id: userInfofromToken.company_id } } : undefined,
             ...requestedFields,
-            companies: { connect: { id: Number(userInfofromToken.company_id) } },
-            eligibilities: requestedFields.eligibilities ? { connect: { id: Number(requestedFields.eligibilities) } } : undefined,
-            sectors: requestedFields.sectors ? { connect: { id: Number(requestedFields.sectors) } } : undefined,
+            eligibilities: eligibilities ? { connect: { id: eligibilities.id } } : undefined,
+            eligible_sectors: eligible_sectors ? { connect: { id: eligible_sectors.id } } : undefined,
             is_opened: 0,
             is_saved: false,
             hit: 0,
@@ -150,7 +163,7 @@ const deleteProject = (projectId) => {
 
 module.exports = {
     findPublishedProjects,
-    findAllProjects,
+    findMyProjects,
     findOneProject,
     resetChoices,
     createRelatedDoc,

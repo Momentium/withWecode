@@ -1,27 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import LikeBtn from "../../common/detail/buttons/Buttons";
 import Title from "./Title";
+import axios from "axios";
 
-const Card = ({ data, name, background, service }: any) => {
+const Card = ({ data, name, background, service, isLogin, id }: any) => {
   const [like, setLike] = useState<boolean>(data.like);
-
   const cardImage = {
-    backgroundImage: `url(${data.logo_img})`,
+    backgroundImage: `url(${data.startups[0].thumbnail})`,
     backgroundSize: background,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
   };
 
+  useEffect(() => {
+    isLogin && getLikeData();
+  }, []);
+
+  const getLikeData = () => {
+    if (isLogin) {
+      axios
+        .get(`${process.env.REACT_APP_URL}/likes/company/${id}`, {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        })
+        .then((res) => setLike(res.data.result))
+        .catch((error) => console.log(error));
+    } else {
+      setLike(false);
+    }
+  };
+
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
-    setLike(!like);
+    e.preventDefault();
+    if (isLogin) {
+      getLikeData();
+    } else {
+      alert("다시해봐...제발..");
+    }
   };
 
   return (
     <Wrapper className={name}>
       <Image style={cardImage} className={name}>
         <div className="likebtnWrap">
-          <LikeBtn isLike={like} clickLike={clickLike} page={"list"} />
+          <LikeBtn
+            isLike={like}
+            clickLike={clickLike}
+            page={"list"}
+            isLogin={isLogin}
+          />
         </div>
       </Image>
       <BottomCon className={name}>

@@ -12,8 +12,8 @@ router.get(
 router.get(
   '/', 
   checkLogIn, 
-  ProjectController.getAllProjects
-  )
+  ProjectController.getMyProjects
+)
 
 router.get(
   '/:projectId', 

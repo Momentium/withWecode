@@ -14,7 +14,7 @@ import ProjectDetailPage from "./components/pages/project/detail/ProjectDetailPa
 import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
-import Auth from "./components/pages/Auth/Auth";
+import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startupList/StartupList";
 import StartupDetails from "./components/pages/startupDetails/StartupDetails";
 import MypageStartup from "./components/pages/mypage/MypageStartup";
@@ -22,6 +22,7 @@ import EditMypageStartup from "./components/pages/mypage/EditMypageStartup";
 import PartnerList from "components/pages/partnerList/PartnerList";
 import PartnerDetails from "./components/pages/partnersDetails/PartnerDetails";
 import WSPage from "./components/pages/workstation/WSPage";
+import DemodayPage from "./components/pages/demoday/DemodayPage";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
@@ -55,9 +56,10 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/partner" component={PartnerList} />
           <Route path="/MypageStartup" component={MypageStartup} />
           <Route path="/EditMypageStartup" component={EditMypageStartup} />
+          <Route path="/demo" component={DemodayPage} />
         </Switch>
 
-        <Route path="/workstation" component={WSPage} />
+        <Route path="/workstation/:tab" component={WSPage} />
         <Route path="/auth/:name" component={Auth} />
       </StAppCont>
 

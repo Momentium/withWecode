@@ -9,7 +9,7 @@ const InvestHist = () => {
       <St.SectionTitle>투자 유지 이력</St.SectionTitle>
 
       <StHistCont>
-        <StHistWrap>
+        {/* <StHistWrap>
           <div className="log">투자 유치 이력</div>
           <div className="table-cont">
             <StTable>
@@ -56,7 +56,7 @@ const InvestHist = () => {
             <StInvestWrap>시드 투자</StInvestWrap>
           </div>
         </StHistWrap>
-        <div className="line" />
+        <div className="line" /> */}
       </StHistCont>
 
       <div className="btn-cont">

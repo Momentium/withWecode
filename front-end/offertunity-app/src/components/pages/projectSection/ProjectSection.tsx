@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import ProgressingProject from "./ProgressingProject";
 import NewProject from "./NewProject";
-// import MoreProject from "./MoreProject";
 import MoreBtn from 'components/common/button/iconBtn/MoreBtn';
 
 const ProjectSection = () => {

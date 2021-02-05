@@ -25,7 +25,7 @@ const MypageStartup: React.FC = () => {
 
   const getProfileData = () => {
     axios
-      .get("http://10.0.1.29:3000/users/mypage", {
+      .get(`${process.env.REACT_APP_URL}/users/mypage`, {
         headers: {
           Authorization: `token ${sessionStorage.getItem("token")}`,
         },
