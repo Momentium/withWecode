@@ -1,4 +1,4 @@
 node_modules/
-
+/front-end
 .DS_Store
 *.env
