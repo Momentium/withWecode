@@ -42,7 +42,6 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         {!location.pathname.includes("auth") &&
           !location.pathname.includes("detail") &&
           !location.pathname.includes("workstation") &&
-          !location.pathname.includes("workstation") &&
           !location.pathname.includes("Mypage") && <Banner />}
 
         {/* Route 들어갈 자리 */}
