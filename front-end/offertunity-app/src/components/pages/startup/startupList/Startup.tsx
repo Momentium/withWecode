@@ -3,8 +3,8 @@ import styled from "styled-components";
 import CardList from "./CardList";
 import Title from "./Title";
 import SelectBtn from "components/common/button/selectBtn/SelectBtn";
-import * as St from "../../styles/styledComp";
-import Search from "../../common/search/Search";
+import * as St from "../../../../styles/styledComp";
+import Search from "../../../common/search/Search";
 
 const Startup = ({ data, itemsPerPage, page }: any) => {
   return (

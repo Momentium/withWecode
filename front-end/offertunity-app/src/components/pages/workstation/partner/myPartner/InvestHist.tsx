@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import SelectBtn from "../../SelectBtn";
 import InputBox from "../../InputBox";
 

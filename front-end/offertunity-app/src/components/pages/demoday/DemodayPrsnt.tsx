@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import LikeBtn from "components/common/button/iconBtn/LikeBtn";
 import ShareBtn from "components/common/button/iconBtn/ShareBtn";
 

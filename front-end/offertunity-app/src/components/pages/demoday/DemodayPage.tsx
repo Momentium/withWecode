@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import * as St from "../../styles/styledComp";
+import * as St from "../../../styles/styledComp";
 import DemodayList from "./DemodayList";
 
 const ProjectPage = () => {

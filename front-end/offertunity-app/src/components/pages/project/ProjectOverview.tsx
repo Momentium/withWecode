@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import IconBtns from "./IconBtns";
 
 const ProjectOverview: React.FC<any> = ({

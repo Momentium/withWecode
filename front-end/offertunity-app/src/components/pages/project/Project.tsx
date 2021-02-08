@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import ProjectPrsnt from "./ProjectPrsnt";
 
 const Project: React.FC<any> = ({ data, page }) => {

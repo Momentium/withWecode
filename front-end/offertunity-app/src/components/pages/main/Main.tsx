@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ProjectSection from "../projectSection/ProjectSection";
-import Selection from "../selection/Selection";
-import InvestList from "../investList/InvestList"
+import ProjectSection from "./projectSection/ProjectSection";
+import Selection from "./selection/Selection";
+import InvestList from "./investList/InvestList"
 
 const Main = () => {
   return (

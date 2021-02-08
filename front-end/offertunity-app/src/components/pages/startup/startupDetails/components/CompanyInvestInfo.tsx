@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Title from "../../../common/title/Title";
+import Title from "../../../../common/title/Title";
 
 const CompanyInvestInfo = ({ data }: any) => {
   const {

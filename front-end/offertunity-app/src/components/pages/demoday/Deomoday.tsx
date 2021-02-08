@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import DemodayPrsnt from "./DemodayPrsnt";
 
 const Demoday: React.FC<any> = ({ data }) => {
