@@ -1,8 +1,8 @@
 import React, { useState,  } from 'react';
 import styled, { css } from 'styled-components';
 import BasicBtn from 'components/common/button/BasicBtn';
-import InputBox from '../../InputBox';
-import SelectBtn from '../../SelectBtn';
+import InputBox from '../../common/InputBox';
+import SelectBtn from '../../common/SelectBtn';
 
 const InputPjt:React.FC<any> = ({ handleSubmit }) => {
   const [img, setImg] = useState<any>();

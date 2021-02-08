@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import SelectBtn from "../../SelectBtn";
-import InputBox from "../../InputBox";
+import SelectBtn from "../../common/SelectBtn";
+import InputBox from "../../common/InputBox";
 
 const PjtBasicInfo: React.FC<any> = (props) => {
   const {

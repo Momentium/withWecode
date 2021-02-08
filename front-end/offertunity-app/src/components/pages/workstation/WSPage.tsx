@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import * as St from "styles/styledComp";
 import * as Mt from 'api/methods'
-import GuideBar from "./GuideBar";
+import GuideBar from "./common/GuideBar";
 import MyStartup from "./startup/myStartup/MyStartup";
 import SupportPjt from "./startup/supportPjt/SupportPjt";
 import AdminIRReq from "./AdminIRReq";

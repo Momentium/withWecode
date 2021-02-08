@@ -9,7 +9,7 @@ const DemodayList = () => {
 
   useEffect(() => {
     axios
-      .get(`http://10.0.1.29:3000/projects`)
+      .get(`${process.env.REACT_APP_URL}/projects`)
       .then((res) => {
         const _resData = res.data.projectList;
         setPjts(

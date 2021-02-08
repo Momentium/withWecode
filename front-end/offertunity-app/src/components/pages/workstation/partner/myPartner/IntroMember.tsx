@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import InputBox from '../../InputBox';
+import InputBox from '../../common/InputBox';
 
 const IntroMember = () => {
   return (
