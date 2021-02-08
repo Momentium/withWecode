@@ -24,7 +24,7 @@ var server = http.createServer(app);
 /**
  * host name
  */
-const hostname = "10.58.0.203";
+const hostname = `${process.env.HOST}`;
 
 
 /**

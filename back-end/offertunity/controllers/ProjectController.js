@@ -4,7 +4,7 @@ const prisma = require("../prisma");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { dateForm } = require('../utils')
-const { ProjectService, UserService, LikeService, ApplyService } = require('../services')
+const { ProjectService, LikeService, ApplyService } = require('../services')
 const { errorWrapper, errorGenerator } = require('../errors');
 
 

@@ -125,6 +125,8 @@ const findStartups = async(query) => {
             id: 'desc',
           },      
     })
+
+    console.log(companies)
     const num = (await prisma.companies.findMany({
         where
     })).length
@@ -163,7 +165,7 @@ const findStartup = async(field) => {
             startups: {
                 include: {
                     startup_images: true,
-                    invested_from: true,
+                    invested_from: {orderBy: {id: 'desc'}},
                     wish_investment_series: true
                 }
             },
@@ -205,7 +207,7 @@ const findPartners = async(query) => {
         take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
         orderBy: {
             id: 'desc',
-          },      
+        },
     })
     const num = (await prisma.companies.findMany({
         where
@@ -242,7 +244,7 @@ const findPartner = async (field) => {
             partners: {
                 include: {
                     investment_portfolio: true,
-                    invested_to: true,
+                    invested_to: {orderBy: {id: 'desc'}},
                 }
             },
             company_news: true,
@@ -279,7 +281,7 @@ const findInfoName = async(table, id) => {
 }
 
 const readRelatedInfo = (table, id) => {
-    return prisma[table].findUnique({
+    return prisma[table].findFirst({
         where: { id }
     })
 }

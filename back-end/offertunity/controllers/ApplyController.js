@@ -13,12 +13,23 @@ const getOneApplication = errorWrapper(async (req, res) => {
   res.status(200).json({ ApplicationDetail })
 })
 
+const getMyApplication = errorWrapper(async (req, res) => {
+  const { projectId } = req.params
+  if (!(req.foundUser.company_id === 1)) errorGenerator({ statusCode: 400, message: "this user is not startup user" });
+  const companyId = req.foundUser.company_id
+  const ApplicationDetail = await ApplyService.findMyApplication({
+    company_id: companyId,
+    project_id: projectId
+  })
+  res.status(200).json({ ApplicationDetail })
+})
+
 const postApplication = errorWrapper(async (req, res) => {
   const { projectId } = req.params
-  const userInfofromToken = req.foundUser
-  const requestedFields = req.body
+  const userInfo = req.foundUser
+  const requestFields = req.body
 
-  const createApplication = await ApplyService.createApplication({projectId, userInfofromToken, requestedFields})
+  const createApplication = await ApplyService.createApplication({projectId, userInfo, requestFields})
   res.status(201).json({ message: 'information successfully added'})
 })
 
@@ -56,6 +67,7 @@ const deleteApplication = errorWrapper(async (req, res) => {
 module.exports = {
   getApplications,
   getOneApplication,
+  getMyApplication,
   postApplication,
   updateApplication,
   deleteApplication
