@@ -13,27 +13,26 @@ router.options("/signup", cors());
 router.options("/signin", cors());
 router.options("/mypage", cors());
 
-
 //email
 
 router.post(
-    "/signup",
-    cors(),
-    body("email").isEmail(),
-    body("password").matches(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-    ),
-    UserController.signUp
+  "/signup",
+  cors(),
+  body("email").isEmail(),
+  body("password").matches(
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+  ),
+  UserController.signUp
 );
 
 router.post(
-    "/signin",
-    cors(),
-    body("email").isEmail(),
-    body("password").matches(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-    ),
-    UserController.signIn
+  "/signin",
+  cors(),
+  body("email").isEmail(),
+  body("password").matches(
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+  ),
+  UserController.signIn
 );
 
 //mypage
@@ -41,13 +40,17 @@ router.post(
 router.get("/mypage", cors(), validateToken, UserController.showMemberInfo);
 
 router.put(
-    "/mypage",
-    validateToken,
-    upload.single("profile_picture"),
-    UserController.addMemberInfo
+  "/mypage",
+  validateToken,
+  upload.single("profile_picture"),
+  UserController.addMemberInfo
 );
 
-router.delete("/mypage/profilepic", validateToken, UserController.deleteProfilePic)
+router.delete(
+  "/mypage/profilepic",
+  validateToken,
+  UserController.deleteProfilePic
+);
 
 router.delete("/mypage", cors(), validateToken, UserController.deleteMember);
 
