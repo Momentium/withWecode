@@ -9,6 +9,7 @@ const ARTICLES_DEFAULT_LIMIT = 5;
 const findPublishedProjects = async (query, field) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
+  console.log(where);
 
   const projects = await prisma.projects.findMany({
     include: {

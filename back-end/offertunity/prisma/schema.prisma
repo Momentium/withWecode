@@ -41,6 +41,10 @@ model applicant_documents {
   document_id        Int
   applicants         applicants @relation(fields: [applicant_id], references: [id])
   company_documents  company_documents @relation(fields: [document_id], references: [id])
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix/back-end
   @@index([applicant_id], name: "FK_applicant_documents_applicants_id")
   @@index([document_id], name: "FK_applicant_documents_company_documents_id")
 }

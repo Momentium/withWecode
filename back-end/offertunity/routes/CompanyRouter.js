@@ -96,18 +96,6 @@ router.delete(
 router.get("/IR_count/:companyId", CompanyController.startupIRCount);
 
 router.delete(
-  "/del/investedfrom/:investedFromId",
-  validateToken,
-  CompanyController.deleteInvestFrom
-);
-
-router.delete(
-  "/del/investedto/:investeToId",
-  validateToken,
-  CompanyController.deleteInvestTo
-);
-
-router.delete(
   "/del/image/:imageId",
   validateToken,
   CompanyController.deleteImage
