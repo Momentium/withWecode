@@ -7,9 +7,9 @@ const ProgressingProject = () => {
   const [projectData, setProjectData] = useState([]);
 
   useEffect(() => {
-    axios.get("/data/progressing.json").then((res) => {
-      const _resData = res.data;
-      setProjectData(_resData.projecting);
+    axios.get(`${process.env.REACT_APP_URL}/projects/published`).then((res) => {
+      const _resData = res.data.projectList;
+      setProjectData(_resData);
     });
   }, []);
 

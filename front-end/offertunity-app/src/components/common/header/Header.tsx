@@ -83,7 +83,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                     alt="bell-icon"
                     className="bell"
                   />
-                  <Link to="/MypageStartup">
+                  <Link to="/Mypage">
                     <img src="/images/icons/person.png" alt="person-icon" />
                   </Link>
 
@@ -109,7 +109,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <Link to="/workstation/mydocument">
                             <li>IR자료 및 지원서류 관리</li>
                           </Link>
-                          <Link to="/EditMypageStartup">
+                          <Link to="/EditMypage">
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>
@@ -139,7 +139,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <Link to="/workstation/myrequest">
                             <li>IR자료 요청 관리</li>
                           </Link>
-                          <Link to="/EditMypageStartup">
+                          <Link to="/EditMypage">
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>
@@ -213,8 +213,9 @@ const Modal = styled.div`
   display: none;
   z-index: 10;
   position: absolute;
-  top: 43px;
-  left: 118px;
+  top: 100%;
+  left: 73%;
+  transform: translateX(-50%);
   padding: 1rem 2rem;
   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
   background: #ffffff 0% 0% no-repeat padding-box;

@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Tab from "../components/Tab";
 
-
-
 const FindIdAgain = () => {
   return (
     <>
-      <Tab />
+      <Tab password="false" id="true" />
       <Con>
         <Wrap>
           <span>yay@naver.com</span>
@@ -46,10 +44,6 @@ const Wrap = styled.div`
     font-size: 0.9rem;
     line-height: 1.5rem;
   }
-`;
-
-const Buttons = styled.div`
-  margin-bottom: 3.5rem;
 `;
 
 const Btn = styled.button`

@@ -17,8 +17,8 @@ import theme from "./styles/theme";
 import Auth from "./components/pages/auth/Auth";
 import StartupList from "./components/pages/startup/startupList/StartupList";
 import StartupDetails from "./components/pages/startup/startupDetails/StartupDetails";
-import MypageStartup from "./components/pages/mypage/MypageStartup";
-import EditMypageStartup from "./components/pages/mypage/EditMypageStartup";
+import Mypage from "./components/pages/mypage/Mypage";
+import EditMypage from "./components/pages/mypage/EditMypage";
 import PartnerList from "components/pages/partner/partnerList/PartnerList";
 import PartnerDetails from "./components/pages/partner/partnersDetails/PartnerDetails";
 import WSPage from "./components/pages/workstation/WSPage";
@@ -54,14 +54,13 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
           <Route path="/startup" component={StartupList} />
           <Route path="/partner/detail/:id" component={PartnerDetails} />
           <Route path="/partner" component={PartnerList} />
-          <Route path="/MypageStartup" component={MypageStartup} />
-          <Route path="/EditMypageStartup" component={EditMypageStartup} />
+          <Route path="/Mypage" component={Mypage} />
+          <Route path="/EditMypage" component={EditMypage} />
 
           <Route path="/demo" component={DemodayPage} />
 
           <Route path="/workstation/:tab/:addon" component={WSPage} />
           <Route path="/workstation/:tab" component={WSPage} />
-
         </Switch>
 
         <Route path="/auth/:name" component={Auth} />

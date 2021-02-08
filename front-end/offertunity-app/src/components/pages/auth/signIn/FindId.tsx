@@ -15,7 +15,7 @@ const FindId: React.FC = () => {
 
   return (
     <>
-      <Tab />
+      <Tab password="false" id="true" />
       <Con>
         <Wrap>
           <FinaAccountMainTxt />
@@ -23,9 +23,13 @@ const FindId: React.FC = () => {
           <p>
             이메일 정보를 입력하고 [확인]을 클릭하면 가입 여부를 알려드립니다.
           </p>
-          <input type="text" placeholder="이메일 계정을 입력해주세요" onChange={handleInputValue}/>
+          <input
+            type="text"
+            placeholder="이메일 계정을 입력해주세요"
+            onChange={handleInputValue}
+          />
           <Buttons>
-            <Link to="/auth/FindIdAgain" >
+            <Link to="/auth/FindIdAgain">
               {/* 아이디가 있는 경우는  /auth/FindIdResult 로 이동 */}
               <ChkBtn>확인</ChkBtn>
             </Link>

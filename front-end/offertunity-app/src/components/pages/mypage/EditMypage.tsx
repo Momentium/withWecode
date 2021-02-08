@@ -6,7 +6,7 @@ import EditProfileImg from "./components/EditProfileImg";
 import EditForm from "./components/EditForm";
 import WorkStation from "./components/WorkStation";
 
-const EditMypageStartup: React.FC = () => {
+const EditMypage: React.FC = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const EditMypageStartup: React.FC = () => {
         <Station>
           <Link to="/">홈 </Link>
           <i className="fas fa-chevron-right" />
-          <Link to="/MypageStartup"> 마이페이지</Link>
+          <Link to="/Mypage"> 마이페이지</Link>
           <i className="fas fa-chevron-right" /> 프로필 수정
         </Station>
         <Box>
@@ -40,7 +40,7 @@ const EditMypageStartup: React.FC = () => {
   );
 };
 
-export default EditMypageStartup;
+export default EditMypage;
 
 const Wrap = styled.div`
   background: #f9f8fa;

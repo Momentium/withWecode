@@ -19,6 +19,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   const [openTerms, setOpenTerms] = useState(false);
   const [showPwAlert, setShowPwAlert] = useState(false);
   const [emailData, setEmailData] = useState({});
+  const [emailCertificateNumber, setEmailCertificateNumber] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
     emailCertification: "",
@@ -40,6 +41,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
     validatePassword,
   } = inputs;
   const history = useHistory();
+  console.log(checkService, checkPersonalInfo, checkMarketing);
 
   const signUp = () => {
     axios
@@ -50,9 +52,9 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         typeId: typeId,
         signUpMethodId: "1",
         terms: [
-          { service: true },
-          { personal_info: true },
-          { marketing: true },
+          { service: checkService },
+          { personal_info: checkPersonalInfo },
+          { marketing: checkMarketing },
         ],
       })
       .then((res) => {
@@ -82,11 +84,13 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   };
 
   const handleModal = () => {
-    setModal(!modal);
-    axios.post(`${process.env.REACT_APP_URL}/auths/email`, {
-      email: email,
-    });
-    console.log(email);
+    axios
+      .post(`${process.env.REACT_APP_URL}/auths/email`, {
+        email: email,
+      })
+      .then((res) => {
+        setModal(!modal);
+      });
   };
 
   const handleCertification = (event: any) => {
@@ -104,6 +108,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
       })
       .then(function (response) {
         alert("올바른 인증번호 입니다");
+        setEmailCertificateNumber(true);
       })
       .catch(function (error) {
         alert("잘못된 인증번호 입니다");
@@ -311,7 +316,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
       <div>
         <Enroll
           style={{ background: btnActive ? "#5541ED" : "#C3BDF4" }}
-          onClick={btnActive ? signUp : undefined}
+          onClick={btnActive && emailCertificateNumber ? signUp : undefined}
         >
           가입
         </Enroll>
