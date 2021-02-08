@@ -44,25 +44,18 @@ const getOneProject = errorWrapper(async (req, res) => {
   res.status(200).json({ projectDetail, hasApplied });
 });
 
-const startNewProject = errorWrapper(async (req, res) => {
-  const userInfofromToken = req.foundUser;
-  const projectAction = await ProjectService.createProject({
-    userInfofromToken,
-  });
-  res
-    .status(201)
-    .json({ message: "new project created", projectID: projectAction.id });
-});
-
 const tempSaveProjectInfo = errorWrapper(async (req, res, next) => {
-  const { projectId } = req.params;
   const userInfofromToken = req.foundUser;
   const requestedFields = req.body;
+  const projectDetail = req.params.projectId
+    ? await ProjectService.findOneProject({ id: req.params.projectId })
+    : await ProjectService.createProject({
+        userInfofromToken,
+      });
 
-  const foundProject = await ProjectService.findOneProject({ id: projectId });
-  if (!foundProject)
+  if (!projectDetail)
     errorGenerator({ statusCode: 404, message: "project not found" });
-  const { company: companyIdfromProject } = foundProject;
+  const { company: companyIdfromProject } = projectDetail;
 
   if (userInfofromToken.company_id !== companyIdfromProject)
     errorGenerator({ statusCode: 403, message: "unauthorized" });
@@ -72,7 +65,6 @@ const tempSaveProjectInfo = errorWrapper(async (req, res, next) => {
     : null;
   const due_date = await dateForm(requestedFields.due_date);
 
-  const projectDetail = await ProjectService.findOneProject({ id: projectId });
   const project_picture = req.file
     ? req.file.location
     : projectDetail.project_images
@@ -93,16 +85,7 @@ const tempSaveProjectInfo = errorWrapper(async (req, res, next) => {
       })
     : undefined;
 
-  const projectAction = await ProjectService.updateProject({
-    projectId,
-    requestedFields,
-    due_date,
-    project_picture,
-    eligible_sectors,
-    eligibilities,
-  });
-
-  await ProjectService.resetChoices({ projectAction });
+  await ProjectService.resetChoices({ projectDetail });
   if (required_documents) {
     for (len = 0; len < required_documents.length; len++) {
       await ProjectService.createRelatedDoc({
@@ -112,11 +95,21 @@ const tempSaveProjectInfo = errorWrapper(async (req, res, next) => {
     }
   } else {
   }
+
+  const projectAction = await ProjectService.updateProject({
+    projectId: projectDetail.id,
+    requestedFields,
+    due_date,
+    project_picture,
+    eligible_sectors,
+    eligibilities,
+  });
+
   if (req.save) {
     next();
   } else {
     res.status(201).json({
-      message: "project info temporarily saved",
+      message: "project info saved",
       ProjectId: projectAction.id,
     });
   }
@@ -140,10 +133,22 @@ const deleteProjectPic = errorWrapper(async (req, res) => {
   });
 });
 
-const saveProjectInfo = errorWrapper(async (req, res) => {
+const requestOpenProject = errorWrapper(async (req, res) => {
   const { projectId } = req.params;
-  await ProjectService.saveInfo({ projectId });
-  res.status(201).json({ message: "information successfully saved" });
+  const userInfofromToken = req.foundUser;
+
+  const foundProject = await ProjectService.findOneProject({ id: projectId });
+  if (!foundProject)
+    errorGenerator({ statusCode: 404, message: "project not found" });
+  const { company: companyIdfromProject } = foundProject;
+
+  if (userInfofromToken.company_id !== companyIdfromProject)
+    errorGenerator({ statusCode: 403, message: "unauthorized" });
+
+  await ProjectService.openRequest({ projectId });
+  res.status(201).json({
+    message: "request to open project successfully delivered ",
+  });
 });
 
 const openOneProject = errorWrapper(async (req, res) => {
@@ -201,11 +206,10 @@ module.exports = {
   getPublishedProjects,
   getMyProjects,
   getOneProject,
-  startNewProject,
   tempSaveProjectInfo,
-  saveProjectInfo,
   openOneProject,
   deleteProjectPic,
   deleteOneProject,
+  requestOpenProject,
   likeProject,
 };

@@ -10,22 +10,18 @@ router.get("/", checkLogIn, ProjectController.getMyProjects);
 
 router.get("/:projectId", checkLogIn, ProjectController.getOneProject);
 
-router.post("/newproject", validateToken, ProjectController.startNewProject);
-
 router.post(
-  "/allinfo/temp/:projectId",
+  "/allinfo/save",
   validateToken,
   upload.single("project_picture"),
   ProjectController.tempSaveProjectInfo
 );
 
-router.post(
+router.put(
   "/allinfo/save/:projectId",
   validateToken,
-  save,
   upload.single("project_picture"),
-  ProjectController.tempSaveProjectInfo,
-  ProjectController.saveProjectInfo
+  ProjectController.tempSaveProjectInfo
 );
 
 router.put(
@@ -33,6 +29,12 @@ router.put(
   validateToken,
   upload.single("project_picture"),
   ProjectController.openOneProject
+);
+
+router.post(
+  "/requestopen/:projectId",
+  validateToken,
+  ProjectController.requestOpenProject
 );
 
 router.delete(

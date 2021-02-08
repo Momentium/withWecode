@@ -74,6 +74,7 @@ const findOneProject = async (field) => {
   const [uniqueKey] = Object.keys(field);
   const isKeyId = uniqueKey === "id";
   const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
+  console.log(field);
   const projects = await prisma.projects.findUnique({
     where: {
       [uniqueKey]: value,
@@ -114,11 +115,11 @@ const findOneProject = async (field) => {
 };
 
 const resetChoices = async (field) => {
-  const { projectAction } = field;
+  const { projectDetail } = field;
   return await prisma.required_documents.deleteMany({
     where: {
       projects: {
-        id: Number(projectAction.id),
+        id: Number(projectDetail.id),
       },
     },
   });
@@ -180,16 +181,17 @@ const updateProject = async (fields) => {
         ? { create: [{ img_url: project_picture }] }
         : undefined,
       due_date,
+      is_saved: true,
     },
   });
 };
 
-const saveInfo = async (field) => {
+const openRequest = async (field) => {
   const { projectId } = field;
 
   return await prisma.projects.update({
     where: { id: Number(projectId) },
-    data: { is_saved: true },
+    data: { request_open: 1 },
   });
 };
 
@@ -233,8 +235,8 @@ module.exports = {
   createRelatedDoc,
   createProject,
   updateProject,
-  saveInfo,
   openProject,
+  openRequest,
   deleteImage,
   deleteProject,
 };

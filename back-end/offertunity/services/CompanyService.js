@@ -85,6 +85,7 @@ const checkExistence = async (table, data) => {
 const checkWishInvestmentSeries = async (startupId) => {
   return await prisma.wish_investment_series.findMany({
     where: { startup_id: startupId },
+    npm,
   });
 };
 const createWishInvestmentSeries = async (data) => {
