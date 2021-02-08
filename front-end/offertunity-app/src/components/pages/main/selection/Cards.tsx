@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Labels from "../../common/label/Labels";
+import Labels from "../../../common/label/Labels";
 
 const Cards = ({ data }: any) => {
   const { title, image, logo, label, field, stack, invest, description } = data;

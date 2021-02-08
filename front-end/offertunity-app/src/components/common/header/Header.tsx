@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import withRouterAndRef from "api/withRouterAndRef";
 import styled, { css } from "styled-components";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import { SearchSvg, UnSearchSvg } from "assets/icons/SearchSvg";
 
 const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(

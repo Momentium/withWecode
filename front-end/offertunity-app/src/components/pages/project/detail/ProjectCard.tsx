@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import Buttons from "../../../common/detail/buttons/Buttons";
 import StButton from "./StButton";
 import ShareBtn from "components/common/button/iconBtn/ShareBtn";

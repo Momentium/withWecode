@@ -1,5 +1,5 @@
 import React from "react";
-import Description from "../../../common/detail/description/Description";
+import Description from "../../../../common/detail/description/Description";
 
 const PartnerDescription = ({ data }: any) => {
   const { description } = data;

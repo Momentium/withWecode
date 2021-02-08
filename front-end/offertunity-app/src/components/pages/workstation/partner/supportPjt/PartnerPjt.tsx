@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { withRouter, Link, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import * as Mt from 'api/methods'
 import InputPjt from "./AddPjt";
 import PjtList from './PjtList';

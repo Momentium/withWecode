@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 import Demoday from "./Deomoday";
 import BeltBanner from "components/common/banner/BeltBanner";
 

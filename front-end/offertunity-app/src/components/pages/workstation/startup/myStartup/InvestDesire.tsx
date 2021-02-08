@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as St from 'components/styles/styledComp';
+import * as St from 'styles/styledComp';
 import SelectBtn from '../../SelectBtn';
 
 const InvestDesire:React.FC<any> = () => {

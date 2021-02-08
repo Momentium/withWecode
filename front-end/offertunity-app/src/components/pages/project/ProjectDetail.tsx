@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styled, { css, ThemeContext } from "styled-components";
-import * as St from "components/styles/styledComp";
+import * as St from "styles/styledComp";
 
 const ProjectDetail: React.FC<any> = ({ data }) => {
   const [curScroll, setCurScroll] = useState<string>("guide");

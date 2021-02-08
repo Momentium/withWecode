@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import * as St from 'components/styles/styledComp';
+import * as St from 'styles/styledComp';
 import BasicBtn from 'components/common/button/BasicBtn';
 import InputPjt from './InputPjt';
 import ViewPjt from './ViewPjt';

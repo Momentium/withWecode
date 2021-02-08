@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import GlobalStyle from "../src/components/styles/globalStyles";
+import GlobalStyle from "./styles/globalStyles";
 import { StylesProvider } from "@material-ui/core/styles";
 import { BrowserRouter } from "react-router-dom";
 
