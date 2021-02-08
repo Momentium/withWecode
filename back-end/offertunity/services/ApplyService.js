@@ -24,29 +24,31 @@ const findOneApplication = (field) => {
   const isKeyId = uniqueKey === "id";
   const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
 
-  return prisma.applicants.findUnique({ where: {
-    [uniqueKey]: value } });
+  return prisma.applicants.findUnique({
+    where: {
+      [uniqueKey]: value,
+    },
+  });
 };
 
-const findRelatedApplication = (field) => {
-  const [uniqueKey] = Object.keys(field);
-  const isKeyId = uniqueKey === "companies";
-  const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
-
-  return prisma.applicants.findMany({ where: { 
-    [uniqueKey]: {id: value } } } );
+const findRelatedApplication = async (fields) => {
+  const { company_id, project_id } = fields;
+  const applicants = await prisma.applicants.findMany({
+    where: {
+      company_id: { equals: company_id },
+      project_id: { equals: project_id },
+    },
+  });
+  console.log("applicants: ", applicants);
+  return applicants;
 };
 
 const createApplication = async (fields) => {
-  const {
-    projectId,
-    userInfofromToken,
-    requestedFields,
-  } = fields;
+  const { projectId, userInfofromToken, requestedFields } = fields;
   return await prisma.applicants.create({
     data: {
       ...requestedFields,
-      companies: { connect: { id: Number(userInfofromToken.com.company_id) } },
+      companies: { connect: { id: Number(userInfofromToken.company_id) } },
       projects: { connect: { id: Number(projectId) } },
     },
   });

@@ -756,160 +756,318 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
 });
 
 // ---------------------------------- Partner ------------------------------------
-const getPartnerInfo = errorWrapper(async(req, res) => {
-    if (req.foundUser.type_id === 1) errorGenerator({ statusCode: 400, message: 'this user is not partner user' })
-    const body = {}
-    if (req.foundUser.company_id) {
-        const companyId = req.foundUser.company_id;
-        const company = await CompanyService.findPartner({ id: companyId });
+const getPartnerInfo = errorWrapper(async (req, res) => {
+  if (req.foundUser.type_id === 1)
+    errorGenerator({
+      statusCode: 400,
+      message: "this user is not partner user",
+    });
+  const body = {};
+  if (req.foundUser.company_id) {
+    const companyId = req.foundUser.company_id;
+    const company = await CompanyService.findPartner({ id: companyId });
 
-        body.name = company.name;
-        body.logoImg = company.logo_img;
-        body.establishedDate = company.established_date;
-        body.investedCounts = company.partners[0].invested_counts;
-        body.totalInvested = company.partners[0].invested_total_id ? await CompanyService.findInfoName('investment_funds', company.partners[0].invested_total_id) : null;
-        body.interedtedTechnology = company.partners[0].interst_technology_id ? await CompanyService.findInfoName('technologies', company.partners[0].interst_technology_id) : null;
-        body.homepage = company.homepage;
-        body.description = company.description;
-        body.teamIntro = company.team_intro;
-        body.memberCount = company.member_count;
-        body.members = company.company_members
-        body.news = company.company_news
-        body.investedFrom = company.partners[0].invested_from
-        body.portfolioImages = company.partners[0].investment_portfolio
+    body.name = company.name;
+    body.logoImg = company.logo_img;
+    body.establishedDate = company.established_date;
+    body.investedCounts = company.partners[0].invested_counts;
+    body.totalInvested = company.partners[0].invested_total_id
+      ? await CompanyService.findInfoName(
+          "investment_funds",
+          company.partners[0].invested_total_id
+        )
+      : null;
+    body.interedtedTechnology = company.partners[0].interst_technology_id
+      ? await CompanyService.findInfoName(
+          "technologies",
+          company.partners[0].interst_technology_id
+        )
+      : null;
+    body.homepage = company.homepage;
+    body.description = company.description;
+    body.teamIntro = company.team_intro;
+    body.memberCount = company.member_count;
+    body.members = company.company_members;
+    body.news = company.company_news;
+    body.investedFrom = company.partners[0].invested_from;
+    body.portfolioImages = company.partners[0].investment_portfolio;
+  }
+
+  await res.status(200).json({
+    message: "partner info",
+    body,
+  });
+});
+
+const tempSavePartnerBasicInfo = errorWrapper(async (req, res, next) => {
+  if (req.foundUser.type_id === 1)
+    errorGenerator({
+      statusCode: 400,
+      message: "this user is not partner user",
+    });
+  const {
+    name,
+    establishedDate,
+    investedCounts,
+    totalInvested,
+    interedtedTechnology,
+    homepage,
+    description,
+  } = req.body;
+  let { logoImg } = req.files;
+
+  console.log("totalInvested", totalInvested);
+  console.log("totalInvested", interedtedTechnology);
+
+  const interedtedTechnologyId = interedtedTechnology
+    ? await CompanyService.getRelatedInfoId(
+        "technologies",
+        interedtedTechnology
+      )
+    : undefined;
+  const totalInvestedId = totalInvested
+    ? await CompanyService.getRelatedInfoId("investment_funds", totalInvested)
+    : undefined;
+
+  console.log("invest", totalInvestedId);
+  console.log("tech", interedtedTechnologyId);
+
+  const companyFields = {
+    name,
+    logo_img: logoImg
+      ? logoImg[0].location
+      : req.body.logoImg
+      ? req.body.logoImg
+      : null,
+    established_date: await dateForm(establishedDate),
+    homepage,
+    description,
+    company_types: { connect: { id: 2 } },
+  };
+  const partner_connect = {
+    investment_funds: { connect: { id: totalInvestedId } },
+    technologies: { connect: { id: interedtedTechnologyId } },
+  };
+  const partner_field = {
+    invested_counts: Number(investedCounts),
+  };
+  Object.keys(companyFields).forEach((key) =>
+    companyFields[key] === undefined ? (companyFields[key] = null) : {}
+  );
+  Object.keys(partner_connect).forEach((key) =>
+    isNaN(partner_connect[key].connect.id)
+      ? (partner_connect[key] = undefined)
+      : {}
+  );
+  Object.keys(partner_field).forEach((key) =>
+    partner_field[key] === undefined ? (partner_field[key] = null) : {}
+  );
+  const partnerFields = { ...partner_connect, ...partner_field };
+
+  if (!req.foundUser.company_id) {
+    const companyInfo = await CompanyService.createCompany(
+      req.foundUser.id,
+      companyFields
+    );
+    await CompanyService.createCompanyDetail(
+      companyInfo.id,
+      "partners",
+      partnerFields
+    );
+  } else {
+    const companyInfo = await CompanyService.updateCompany(
+      req.foundUser.company_id,
+      companyFields
+    );
+    await CompanyService.updatePartner(companyInfo.id, partnerFields);
+  }
+
+  await res.status(201).json({
+    message: "startup basic info temporary saved",
+  });
+});
+
+const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
+  if (req.foundUser.type_id === 1)
+    errorGenerator({
+      statusCode: 400,
+      message: "this user is not partner user",
+    });
+  const {
+    name,
+    establishedDate,
+    investedCounts,
+    totalInvested,
+    interedtedTechnology,
+    homepage,
+    description,
+    investedDates,
+    investedStartups,
+    investedFunds,
+    investedValues,
+    investedSeries,
+    teamIntro,
+    memberCount,
+    memberInfoNames,
+    memberInfoPositions,
+    companyNewsURLs,
+  } = req.body;
+  let { logoImg, portfolioImages, memberImages } = req.files;
+  const interedtedTechnologyId = interedtedTechnology
+    ? await CompanyService.getRelatedInfoId(
+        "technologies",
+        interedtedTechnology
+      )
+    : undefined;
+  const totalInvestedId = totalInvested
+    ? await CompanyService.getRelatedInfoId("investment_funds", totalInvested)
+    : undefined;
+  const companyFields = {
+    name,
+    logo_img: logoImg
+      ? logoImg[0].location
+      : req.body.logoImg
+      ? req.body.logoImg
+      : null,
+    established_date: await dateForm(establishedDate),
+    homepage,
+    description,
+    team_intro: teamIntro,
+    member_count: memberCount ? Number(memberCount) : null,
+    company_types: { connect: { id: 2 } },
+  };
+  const partner_connect = {
+    investment_funds: { connect: { id: totalInvestedId } },
+    technologies: { connect: { id: Number(interedtedTechnologyId) } },
+  };
+  const partner_field = {
+    invested_counts: Number(investedCounts),
+  };
+  Object.keys(companyFields).forEach((key) =>
+    companyFields[key] === undefined ? (companyFields[key] = null) : {}
+  );
+  Object.keys(partner_connect).forEach((key) =>
+    isNaN(partner_connect[key].connect.id)
+      ? (partner_connect[key] = undefined)
+      : {}
+  );
+  Object.keys(partner_field).forEach((key) =>
+    partner_field[key] === undefined ? (partner_field[key] = null) : {}
+  );
+  const partnerFields = { ...partner_connect, ...partner_field };
+  let companyInfo;
+  let partnerInfo;
+  if (!req.foundUser.company_id) {
+    companyInfo = await CompanyService.createCompany(
+      req.foundUser.id,
+      companyFields
+    );
+    partnerInfo = await CompanyService.createCompanyDetail(
+      companyInfo.id,
+      "partners",
+      partnerFields
+    );
+  } else {
+    companyInfo = await CompanyService.updateCompany(
+      req.foundUser.company_id,
+      companyFields
+    );
+    partnerInfo = await CompanyService.updatePartner(
+      companyInfo.id,
+      partnerFields
+    );
+  }
+  // portfolio 이미지 추가
+  if (portfolioImages) {
+    if (
+      (await CompanyService.imageLengthChecker("investment_portfolio", {
+        partner_id: partnerInfo.id,
+      })) +
+        portfolioImages.length >
+      5
+    )
+      errorGenerator({
+        statusCode: 400,
+        message: "Images Limitation Exceeded",
+      });
+    for (len = 0; len < portfolioImages.length; len++) {
+      await CompanyService.createRelatedInfo(
+        "investment_portfolio",
+        (data = {
+          partners: { connect: { id: partnerInfo.id } },
+          img_url: portfolioImages[len].location,
+        })
+      );
     }
-
-    await res.status(200).json({
-        message: 'partner info',
-        body
-    })
-})
-
-const tempSavePartnerBasicInfo = errorWrapper(async(req, res, next) => {
-    if (req.foundUser.type_id === 1) errorGenerator({ statusCode: 400, message: 'this user is not partner user' })
-    const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description } = req.body
-    let { logoImg } = req.files
-
-    console.log('totalInvested', totalInvested)
-    console.log('totalInvested', interedtedTechnology)
-
-    const interedtedTechnologyId = interedtedTechnology ? await CompanyService.getRelatedInfoId('technologies', interedtedTechnology) : undefined
-    const totalInvestedId = totalInvested ? await CompanyService.getRelatedInfoId('investment_funds', totalInvested) : undefined
-    
-    console.log('invest', totalInvestedId)
-    console.log('tech', interedtedTechnologyId)
-
-
-    const companyFields = {
-        name,
-        logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
-        established_date: await dateForm(establishedDate),
-        homepage,
-        description,
-        company_types: { connect: { id: 2 } }
+  }
+  // 투자 이력 추가
+  if (
+    investedDates &&
+    investedStartups &&
+    investedFunds &&
+    investedValues &&
+    investedSeries
+  ) {
+    if (
+      typeChecker(
+        investedDates,
+        investedStartups,
+        investedFunds,
+        investedValues,
+        investedSeries
+      ) === "string"
+    ) {
+      const investedFundId = await CompanyService.getRelatedInfoId(
+        "investment_funds",
+        investedFunds
+      );
+      const investedSeriesId = await CompanyService.getRelatedInfoId(
+        "investment_series",
+        investedSeries
+      );
+      await CompanyService.createRelatedInfo(
+        "invested_to",
+        (data = {
+          partners: { connect: { id: partnerInfo.id } },
+          date: await dateForm(investedDates),
+          invested_startup: investedStartups,
+          investment_funds: { connect: { id: Number(investedFundId) } },
+          corporate_value: Number(investedValues),
+          investment_series: { connect: { id: Number(investedSeriesId) } },
+        })
+      );
+    } else if (
+      lengthChecker(
+        investedDates,
+        investedStartups,
+        investedFunds,
+        investedValues,
+        investedSeries
+      )
+    ) {
+      for (len = 0; len < investedDates.length; len++) {
+        let investedFundId = await CompanyService.getRelatedInfoId(
+          "investment_funds",
+          investedFunds[len]
+        );
+        let investedSeriesId = await CompanyService.getRelatedInfoId(
+          "investment_series",
+          investedSeries[len]
+        );
+        await CompanyService.createRelatedInfo(
+          "invested_to",
+          (data = {
+            partners: { connect: { id: partnerInfo.id } },
+            date: await dateForm(investedDates[len]),
+            invested_startup: investedStartups[len],
+            investment_funds: { connect: { id: Number(investedFundId) } },
+            corporate_value: Number(investedValues[len]),
+            investment_series: { connect: { id: Number(investedSeriesId) } },
+          })
+        );
+      }
     }
-    const partner_connect = {
-        investment_funds: { connect: { id: totalInvestedId } },
-        technologies: { connect: { id: interedtedTechnologyId } }
-    }
-    const partner_field = {
-        invested_counts: Number(investedCounts),
-    }
-    Object.keys(companyFields).forEach(key => companyFields[key] === undefined ? companyFields[key] = null : {});
-    Object.keys(partner_connect).forEach(key => isNaN(partner_connect[key].connect.id) ? partner_connect[key] = undefined : {});
-    Object.keys(partner_field).forEach(key => partner_field[key] === undefined ? partner_field[key] = null : {});
-    const partnerFields = {...partner_connect, ...partner_field }
-
-    if (!req.foundUser.company_id) {
-        const companyInfo = await CompanyService.createCompany(req.foundUser.id, companyFields);
-        await CompanyService.createCompanyDetail(companyInfo.id, 'partners', partnerFields);
-    } else {
-        const companyInfo = await CompanyService.updateCompany(req.foundUser.company_id, companyFields);
-        await CompanyService.updatePartner(companyInfo.id, partnerFields);
-    };
-
-    await res.status(201).json({
-        message: 'startup basic info temporary saved'
-    })
-})
-
-
-const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
-    if (req.foundUser.type_id === 1) errorGenerator({ statusCode: 400, message: 'this user is not partner user' })
-    const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description, investedDates, investedStartups, investedFunds, investedValues, investedSeries, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs } = req.body
-    let { logoImg, portfolioImages, memberImages } = req.files
-    const interedtedTechnologyId = interedtedTechnology ? await CompanyService.getRelatedInfoId('technologies', interedtedTechnology) : undefined
-    const totalInvestedId = totalInvested ? await CompanyService.getRelatedInfoId('investment_funds', totalInvested) : undefined
-    const companyFields = {
-        name,
-        logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
-        established_date: await dateForm(establishedDate),
-        homepage,
-        description,
-        team_intro: teamIntro,
-        member_count: memberCount ? Number(memberCount) : null,
-        company_types: { connect: { id: 2 } }
-    }
-    const partner_connect = {
-        investment_funds: { connect: { id: totalInvestedId } },
-        technologies: { connect: { id: Number(interedtedTechnologyId) } }
-    }
-    const partner_field = {
-        invested_counts: Number(investedCounts),
-    }
-    Object.keys(companyFields).forEach(key => companyFields[key] === undefined ? companyFields[key] = null : {});
-    Object.keys(partner_connect).forEach(key => isNaN(partner_connect[key].connect.id) ? partner_connect[key] = undefined : {});
-    Object.keys(partner_field).forEach(key => partner_field[key] === undefined ? partner_field[key] = null : {});
-    const partnerFields = {...partner_connect, ...partner_field }
-    let companyInfo
-    let partnerInfo
-    if (!req.foundUser.company_id) {
-        companyInfo = await CompanyService.createCompany(req.foundUser.id, companyFields);
-        partnerInfo = await CompanyService.createCompanyDetail(companyInfo.id, 'partners', partnerFields);
-    } else {
-        companyInfo = await CompanyService.updateCompany(req.foundUser.company_id, companyFields);
-        partnerInfo = await CompanyService.updatePartner(companyInfo.id, partnerFields);
-    };
-    // portfolio 이미지 추가
-    if (portfolioImages) {
-        if ((await CompanyService.imageLengthChecker('investment_portfolio', { partner_id: partnerInfo.id }) + portfolioImages.length) > 5) errorGenerator({ statusCode: 400, message: 'Images Limitation Exceeded' })
-        for (len = 0; len < portfolioImages.length; len++) {
-            await CompanyService.createRelatedInfo('investment_portfolio',
-                data = {
-                    partners: { connect: { id: partnerInfo.id } },
-                    img_url: portfolioImages[len].location
-                }
-            )
-        }
-    }
-    // 투자 이력 추가
-    if (investedDates && investedStartups && investedFunds && investedValues && investedSeries) {
-        if (typeChecker(investedDates, investedStartups, investedFunds, investedValues, investedSeries) === 'string') {
-            const investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds)
-            const investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries)
-            await CompanyService.createRelatedInfo('invested_to', data = {
-                partners: { connect: { id: partnerInfo.id } },
-                date: await dateForm(investedDates),
-                invested_startup: investedStartups,
-                investment_funds: { connect: { id: Number(investedFundId) } },
-                corporate_value: Number(investedValues),
-                investment_series: { connect: { id: Number(investedSeriesId) } }
-            })
-        } else if (lengthChecker(investedDates, investedStartups, investedFunds, investedValues, investedSeries)) {
-            for (len = 0; len < investedDates.length; len++) {
-                let investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds[len])
-                let investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries[len])
-                await CompanyService.createRelatedInfo('invested_to', data = {
-                    partners: { connect: { id: partnerInfo.id } },
-                    date: await dateForm(investedDates[len]),
-                    invested_startup: investedStartups[len],
-                    investment_funds: { connect: { id: Number(investedFundId) } },
-                    corporate_value: Number(investedValues[len]),
-                    investment_series: { connect: { id: Number(investedSeriesId) } }
-                })
-            }
-        }
-    }
+  }
   // 투자 이력 추가
   if (
     investedDates &&
@@ -1175,7 +1333,7 @@ const getOnePartner = errorWrapper(async (req, res) => {
     );
   }
   if (!(company.partners[0].invested_total_id === null)) {
-    console.log('investment_total_access')
+    console.log("investment_total_access");
     company.partners[0].investment_total = await CompanyService.findInfoName(
       "investment_funds",
       company.partners[0].invested_total_id
@@ -1330,5 +1488,5 @@ module.exports = {
   downloadStartupDoc,
   readStartupDoc,
   deleteStartupDoc,
-  tempSavePartnerBasicInfo
+  tempSavePartnerBasicInfo,
 };
