@@ -11,9 +11,9 @@ const ProgressingCard: React.FC<Props> = ({ data, index }) => {
   const { id, name, project_images, due_date, host, introduction } = data;
 
   const dueDate = due_date.split("T")[0];
-  //const image = data.project_images[0].img_url;
+  const image = data.project_images[0].img_url;
 
-  // console.log(image);
+  console.log(image);
 
   return (
     <Card key={id}>
