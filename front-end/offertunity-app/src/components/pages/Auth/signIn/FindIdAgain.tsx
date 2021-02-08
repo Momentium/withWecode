@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Tab from "../components/Tab";
 
-
-
 const FindIdAgain = () => {
   return (
     <>
@@ -46,10 +44,6 @@ const Wrap = styled.div`
     font-size: 0.9rem;
     line-height: 1.5rem;
   }
-`;
-
-const Buttons = styled.div`
-  margin-bottom: 3.5rem;
 `;
 
 const Btn = styled.button`

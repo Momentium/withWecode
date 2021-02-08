@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
 
 const Tab = () => {
   const [idTxt, setIdTxt] = useState(false);
   const [pwTxt, setPwTxt] = useState(false);
-  const history = useHistory();
 
   const findId = (event: any) => {
     setIdTxt(!idTxt);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -19,7 +19,7 @@ const SignIn: React.FC = () => {
   const SIGNIN = () => {
     const { email, password } = inputs;
     axios
-        .post(`${process.env.REACT_APP_URL}/users/signin`, {
+      .post(`${process.env.REACT_APP_URL}/users/signin`, {
         email: email,
         password: password,
       })

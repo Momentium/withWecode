@@ -54,6 +54,7 @@ const MypageStartup: React.FC = () => {
   const getCardData = () => {
     axios.get("/data/mypageInterestList.json").then((res) => {
       setCardData(res.data.data);
+      console.log(res.data);
     });
   };
 
@@ -62,7 +63,7 @@ const MypageStartup: React.FC = () => {
       <Wrap>
         <Center>
           <Station>
-            <Link to="/">홈</Link> <i className="fas fa-chevron-right" />{" "}
+            <Link to="/">홈</Link> <i className="fas fa-chevron-right" />
             마이페이지
           </Station>
           <Profile data={profileData} />
