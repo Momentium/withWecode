@@ -8,25 +8,24 @@ interface Props {
 }
 
 const ProgressingCard: React.FC<Props> = ({ data, index }) => {
-  const { id, name, project_images, due_date, host, introduction } = data;
+  console.log(data);
+  const { id, name, project_images, due_date, host, introduction, tag } = data;
 
   const dueDate = due_date.split("T")[0];
-  const image = data.project_images;
-
+  const image = project_images[0];
   console.log(image);
-
   return (
     <Card key={id}>
-      {/* <img src={image} alt={name} /> */}
+      <img src={image as any} alt={name} />
       <div className="txtBox">
         <Subtitle>{host}</Subtitle>
         <Date>~{dueDate} 까지</Date>
       </div>
       <Title>{introduction}</Title>
 
-      {/* {tag.map((tag:any,idx: number) => {
-          return <Tag key={idx}>{tag}</Tag>
-        })} */}
+      {tag.map((tag: any, idx: number) => {
+        return <Tag key={idx}>{tag}</Tag>;
+      })}
     </Card>
   );
 };

@@ -74,7 +74,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
 
   const handleEmail = (event: any) => {
     event.preventDefault();
-    const emailStandard = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+    const emailStandard = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
     const checkEmail = emailStandard.test(email);
     setInputs({
       ...inputs,
@@ -251,7 +251,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
             <i className="fas fa-times" />
           )}
         </PwWrap>
-        <span>영문,숫자,특수문자(!@#$%^&*+_)를 조합한 8자이상 </span>
+        <span>영문 대소문자,숫자,특수문자(!@#$%^&*+_)를 조합한 8자이상 </span>
       </Pw>
 
       <PwCheck>
