@@ -94,7 +94,6 @@ const createProject = async(fields) => {
     requestedFields.eligibility = undefined;
     requestedFields.eligible_sectors = undefined
 
-console.log(userInfofromToken)
     return await prisma.projects.create({
         data: {
             companies: userInfofromToken? { connect: { id: userInfofromToken.company_id } } : undefined,
