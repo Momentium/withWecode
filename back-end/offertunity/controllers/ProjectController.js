@@ -58,22 +58,6 @@ const tempSaveProjectBasicInfo = errorWrapper(async(req, res) => {
 
 const tempSaveProjectInfo = errorWrapper(async(req, res) => {
     const userInfofromToken = req.foundUser
-
-    const requestedFields = req.body
-    const project_picture = req.file ? req.file.location : undefined;
-    const due_date = await dateForm(requestedFields.due_date)
-
-    const projectAction = await ProjectService.createProject({ userInfofromToken, requestedFields, project_picture, due_date })
-    if (req.save) {
-        next();
-    } else {
-        res.status(201).json({ message: 'project basic info temporarily saved' 
-    })
-    }
-})
-
-const tempSaveProjectInfo = errorWrapper(async(req, res) => {
-    const userInfofromToken = req.foundUser
     const requestedFields = req.body
     const project_picture = req.file ? req.file.location : undefined;
     // const required_documents = requestedFields.required_documents
