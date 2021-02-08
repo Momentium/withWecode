@@ -4,7 +4,8 @@ import { withRouter, Link, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import * as St from "styles/styledComp";
 import * as Mt from 'api/methods'
-import InputPjt from "./AddPjt";
+import AddPjt from "./AddPjt";
+import EditPjt from "./EditPjt";
 import PjtList from './PjtList';
 
 const PartnerPjt:React.FC<any> = ({ match }) => {
@@ -13,7 +14,8 @@ const PartnerPjt:React.FC<any> = ({ match }) => {
   const [pjtList, setPjtList] = useState<any[]>([]);
 
   useEffect(() => {
-    console.log(_userInfo.company_id)
+    // console.log(_userInfo.company_id)
+    console.log(_params)
     axios.get(`${process.env.REACT_APP_URL}/projects`,
       {
         headers: {
@@ -26,7 +28,7 @@ const PartnerPjt:React.FC<any> = ({ match }) => {
       console.log(_resData)
       setPjtList(_resData.map((el:any, idx:number) => 
         <Link to={`/project/${el.id}`} key={idx}>
-          <StADWrap img={el.project_images[0].img_url}>
+          <StADWrap img={el.project_images.length !== 0 ? el.project_images[0].img_url : null}>
             <PjtList
               data={el}
             />
@@ -36,11 +38,17 @@ const PartnerPjt:React.FC<any> = ({ match }) => {
     })
   }, [match])
 
+
   return (
     <>
       {_params.addon ? (
         <>
-          <InputPjt />
+        {
+          _params.addon === 'addPjt'?
+          <AddPjt />
+          :
+          <EditPjt id={_params.id}/>
+        }
         </>
       ) : (
         <>

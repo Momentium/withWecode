@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as Mt from "api/methods";
@@ -15,7 +15,7 @@ interface BasicState {
   introduction: string;
 }
 
-const AddPjt = () => {
+const EditPjt:React.FC<any> = ({ id }) => {
   const _token = Mt.getUserInfo().token;
   const _history = useHistory();
   const [poster, setPoster] = useState<string>("");
@@ -82,6 +82,30 @@ const AddPjt = () => {
   const [caution, setCaution] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   // const [postId, setPostId] = useState<number>(0);
+
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_URL}/projects/${id}`)
+    .then((res) => {
+      const _resData = res.data.projectDetail;
+      console.log(_resData)
+
+      setPoster(_resData.project_images[0].img_url);
+      setBasicInfo({
+        host: _resData.host,
+        due_date: new Date(_resData.due_date).toISOString().substring(0, 10),
+        eligible_sectors: _resData.eligible_sectors.name,
+        eligibilities: _resData.eligibilities.name,
+        name: _resData.name,
+        introduction: _resData.introduction
+      })
+
+      setOutline(_resData.outline)
+      setDetail(_resData.detail)
+      setApply(_resData.application_method);
+      setCaution(_resData.caution)
+      setContact(_resData.contact);
+    })
+  }, [])
   
   const changeIntroForm = (e: any) => {
     const _target = e.currentTarget;
@@ -137,7 +161,7 @@ const AddPjt = () => {
   const submitForm = () => {
     const _formData = new FormData();
     
-    _formData.append("project_picture", Mt.dataURLtoFile(poster, `${basicInfo.name}_logo`));
+    _formData.append("project_images", Mt.dataURLtoFile(poster, `${basicInfo.name}_logo`));
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });
@@ -147,8 +171,8 @@ const AddPjt = () => {
     _formData.append("caution", caution);
     _formData.append("contact", contact);
 
-    axios.post(
-      `${process.env.REACT_APP_URL}/projects/allinfo/save`,
+    axios.put(
+      `${process.env.REACT_APP_URL}/projects/allinfo/save/${id}`,
       _formData,
       {
         headers: {
@@ -217,5 +241,5 @@ const AddPjt = () => {
   );
 }
 
-export default AddPjt;
+export default EditPjt;
 

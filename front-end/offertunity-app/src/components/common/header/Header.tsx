@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import withRouterAndRef from "api/withRouterAndRef";
 import styled, { css } from "styled-components";
@@ -58,7 +58,8 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                 <StLinkWrap
                   curPage={location.pathname.split("/")[1] === "team"}
                 >
-                  <Link to="/team">팀빌딩</Link>
+                  <Link to="/team" style={{visibility: "hidden"}}>팀빌딩</Link>
+                  {/* <Link to="/team">팀빌딩</Link> */}
                 </StLinkWrap>
               </StNavCont>
 
@@ -214,8 +215,8 @@ const Modal = styled.div`
   z-index: 10;
   position: absolute;
   top: 100%;
-  left: 73%;
-  transform: translateX(-50%);
+  /* left: 73%; */
+  transform: translateX(50%);
   padding: 1rem 2rem;
   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
   background: #ffffff 0% 0% no-repeat padding-box;

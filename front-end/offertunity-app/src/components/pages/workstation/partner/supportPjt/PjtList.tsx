@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const PjtList:React.FC<any> = ({ data }) => {
+const PjtList:React.FC<any> = ({ data, editPjt }) => {
   return (
     <StHoverCont className="hover-cont">
       <div className="title">{data.name}</div>
@@ -28,7 +29,9 @@ const PjtList:React.FC<any> = ({ data }) => {
         </tbody>
       </StInfoTable>
       <div className="btn-cont">
-        <StBtn>수정하기</StBtn>
+        <Link to={`/workstation/myproject/editPjt/${data.id}`}>
+          <StBtn>수정하기</StBtn>
+        </Link>
         <StBtn>삭제하기</StBtn>
         <StBtn>오픈신청</StBtn>
       </div>

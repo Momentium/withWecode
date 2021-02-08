@@ -64,7 +64,6 @@ const IntroTeam:React.FC<any> = () => {
             {
               <>
               <IntroMember/>
-              <IntroMember/><IntroMember/><IntroMember/><IntroMember/><IntroMember/><IntroMember/>
               </>
             }
             </div>

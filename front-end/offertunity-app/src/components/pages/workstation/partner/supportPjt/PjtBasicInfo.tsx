@@ -92,11 +92,11 @@ const PjtBasicInfo: React.FC<any> = (props) => {
             </div>
           </StFormWrap>
 
-          <div>
+          {/* <div>
             <StButtonWrap onClick={props.submit}>
               기본정보 임시 저장
             </StButtonWrap>
-          </div>
+          </div> */}
         </StFormCont>
       </StTopCont>
 

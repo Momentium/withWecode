@@ -218,9 +218,9 @@ const MyStartup = () => {
       <IntroImg />
 
       <InvestDesire />
-      <InvestInfo view={"startup"} data={[]} />
-      <IntroTeam />
-      <News />
+      {/* <InvestInfo view={"startup"} data={[]} /> */}
+      {/* <IntroTeam /> */}
+      {/* <News /> */}
       <BtnSet 
         save={saveForm}
         submit={submitForm} 

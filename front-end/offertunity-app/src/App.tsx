@@ -59,6 +59,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
 
           <Route path="/demo" component={DemodayPage} />
 
+          <Route path="/workstation/:tab/:addon/:id" component={WSPage} />
           <Route path="/workstation/:tab/:addon" component={WSPage} />
           <Route path="/workstation/:tab" component={WSPage} />
         </Switch>
