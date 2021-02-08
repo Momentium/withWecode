@@ -79,6 +79,7 @@ const deleteNews = errorWrapper(async (req, res) => {
   }
 });
 
+// startup Info Read
 const getStartupInfo = errorWrapper(async (req, res) => {
   if (req.foundUser.type_id === 2)
     errorGenerator({
@@ -142,7 +143,7 @@ const getStartupInfo = errorWrapper(async (req, res) => {
     body.members = company.company_members;
     body.news = company.company_news;
     body.investedFrom = company.startups[0].invested_from;
-    if (!body.investedFrom.length === 0) {
+    if (!(body.investedFrom.length === 0)) {
       for (len = 0; len < body.investedFrom.length; len++) {
         body.investedFrom[
           len
@@ -282,11 +283,7 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     memberInfoNames,
     memberInfoPositions,
     companyNewsURLs,
-    investedDates,
-    investedInstitutions,
-    investedFunds,
-    investedValues,
-    investedSeries,
+    investedFrom
   } = req.body;
   const { logoImg, startupImages, memberImages, thumbnail } = req.files;
 
@@ -496,74 +493,37 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
     }
   }
 
-  // 투자 이력 추가
-  if (
-    investedDates &&
-    investedInstitutions &&
-    investedFunds &&
-    investedValues &&
-    investedSeries
-  ) {
-    if (
-      typeChecker(
-        investedDates,
-        investedInstitutions,
-        investedFunds,
-        investedValues,
-        investedSeries
-      ) === "string"
-    ) {
-      const investedFundId = await CompanyService.getRelatedInfoId(
-        "investment_funds",
-        investedFunds
-      );
-      const investedSeriesId = await CompanyService.getRelatedInfoId(
-        "investment_series",
-        investedSeries
-      );
-      await CompanyService.createRelatedInfo(
-        "invested_from",
-        (data = {
-          startups: { connect: { id: startupInfo.id } },
-          date: await dateForm(investedDates),
-          invested_institution: investedInstitutions,
-          investment_funds: { connect: { id: investedFundId } },
-          corporate_value: Number(investedValues),
-          investment_series: { connect: { id: Number(investedSeriesId) } },
-        })
-      );
-    } else if (
-      lengthChecker(
-        investedDates,
-        investedInstitutions,
-        investedFunds,
-        investedValues,
-        investedSeries
-      )
-    ) {
-      for (len = 0; len < investedDates.length; len++) {
-        let investedFundId = await CompanyService.getRelatedInfoId(
-          "investment_funds",
-          investedFunds[len]
-        );
-        let investedSeriesId = await CompanyService.getRelatedInfoId(
-          "investment_series",
-          investedSeries[len]
-        );
-        await CompanyService.createRelatedInfo(
-          "invested_from",
-          (data = {
-            startups: { connect: { id: startupInfo.id } },
-            date: await dateForm(investedDates[len]),
-            invested_institution: investedInstitutions[len],
-            investment_funds: { connect: { id: investedFundId } },
-            corporate_value: Number(investedValues[len]),
-            investment_series: { connect: { id: investedSeriesId } },
-          })
-        );
-      }
+  const investedFromProcess = async (investedFrom) => {
+    const jsonInvestedFrom = JSON.parse(investedFrom)
+    if (jsonInvestedFrom.id) {
+      const existData = CompanyService.readRelatedInfo('invested_from', jsonInvestedFrom.id)
+      if (existData === []) errorGenerator ({ statusCode: 400, message: "Invalid Invest Data" });
+      if (existData[0].startup_id === startupInfo.id) errorGenerator ({ statusCode: 400, message: "this invest record is not beloged to this company"});
+      CompanyService.deleteRelatedInfo("invested_to", Number(jsonInvestedFrom.id));
+    } else if (!jsonInvestedFrom.id) {
+      const investedFundId = await CompanyService.getRelatedInfoId('investment_funds', jsonInvestedFrom.investedFunds)
+      const investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', jsonInvestedFrom.investedSeries)
+      CompanyService.createRelatedInfo('invested_to', data = {
+        partners: { connect: { id: partnerInfo.id } },
+        date: await dateForm(jsonInvestedFrom.investedDates),
+        invested_institution: jsonInvestedFrom.investedInstitutions,
+        investment_funds: { connect: { id: Number(investedFundId) } },
+        corporate_value: Number(jsonInvestedFrom.investedValues),
+        investment_series: { connect: { id: Number(investedSeriesId) } }
+      })
     }
   }
+
+  // 투자 이력 추가 및 삭제
+    if (investedFrom) {
+      if (Object.prototype.toString.call(investedFrom) === '[object String]') {
+        await investedFromProcess(JSON.parse(investedFrom))
+      } else if (Object.prototype.toString.call(investedFrom) === '[object Array]') {
+        for (let len=0; len < investedFrom.length; len++ ) {
+          await investedFromProcess(JSON.parse(investedFrom[len]))
+        }
+      }
+    }
 
   // Team Memebr 추가
   if (memberInfoNames && memberInfoPositions && memberImages) {
@@ -775,16 +735,32 @@ const getPartnerInfo = errorWrapper(async(req, res) => {
         body.memberCount = company.member_count;
         body.members = company.company_members
         body.news = company.company_news
-        body.investedFrom = company.partners[0].invested_from
-        body.portfolioImages = company.partners[0].investment_portfolio
-    }
+        
+        body.investedTo = company.partners[0].invested_to;
 
-    await res.status(200).json({
-        message: 'partner info',
-        body
+        if (!(body.investedTo.length === 0)) {
+          for (len = 0; len < body.investedTo.length; len++) {
+            console.log(body.investedTo[len])
+            body.investedTo[len].invested_fund = await CompanyService.findInfoName(
+              "investment_funds", body.investedTo[len].invested_fund_id);
+            console.log(body.investedTo[len].invested_fund_id)
+            body.investedTo[len].investment_series = await CompanyService.findInfoName(
+              "investment_series", body.investedTo[len].series_id);
+          }
+        }
+        body.portfolioImages = company.partners[0].investment_portfolio
+        await res.status(200).json({
+          message: 'partner info',
+          body
+        });
+    } else if (!req.foundUser.company_id) {
+      await res.status(200).json({
+        message: 'Company Info is not registered yet',
     })
+  }
 })
 
+// Partner 기본 정보 임시저장
 const tempSavePartnerBasicInfo = errorWrapper(async(req, res, next) => {
     if (req.foundUser.type_id === 1) errorGenerator({ statusCode: 400, message: 'this user is not partner user' })
     const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description } = req.body
@@ -798,7 +774,6 @@ const tempSavePartnerBasicInfo = errorWrapper(async(req, res, next) => {
     
     console.log('invest', totalInvestedId)
     console.log('tech', interedtedTechnologyId)
-
 
     const companyFields = {
         name,
@@ -833,10 +808,11 @@ const tempSavePartnerBasicInfo = errorWrapper(async(req, res, next) => {
     })
 })
 
-
+// Partner 전체 정보 임시저장
 const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
     if (req.foundUser.type_id === 1) errorGenerator({ statusCode: 400, message: 'this user is not partner user' })
-    const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description, investedDates, investedStartups, investedFunds, investedValues, investedSeries, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs } = req.body
+    const { name, establishedDate, investedCounts, totalInvested, interedtedTechnology, homepage, description, investedDates, investedStartups, investedFunds, investedValues, investedSeries, teamIntro, memberCount, memberInfoNames, memberInfoPositions, companyNewsURLs, investedTo } = req.body
+
     let { logoImg, portfolioImages, memberImages } = req.files
     const interedtedTechnologyId = interedtedTechnology ? await CompanyService.getRelatedInfoId('technologies', interedtedTechnology) : undefined
     const totalInvestedId = totalInvested ? await CompanyService.getRelatedInfoId('investment_funds', totalInvested) : undefined
@@ -870,6 +846,7 @@ const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
         companyInfo = await CompanyService.updateCompany(req.foundUser.company_id, companyFields);
         partnerInfo = await CompanyService.updatePartner(companyInfo.id, partnerFields);
     };
+    
     // portfolio 이미지 추가
     if (portfolioImages) {
         if ((await CompanyService.imageLengthChecker('investment_portfolio', { partner_id: partnerInfo.id }) + portfolioImages.length) > 5) errorGenerator({ statusCode: 400, message: 'Images Limitation Exceeded' })
@@ -882,102 +859,38 @@ const tempSavePartnerInfo = errorWrapper(async(req, res, next) => {
             )
         }
     }
-    // 투자 이력 추가
-    if (investedDates && investedStartups && investedFunds && investedValues && investedSeries) {
-        if (typeChecker(investedDates, investedStartups, investedFunds, investedValues, investedSeries) === 'string') {
-            const investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds)
-            const investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries)
-            await CompanyService.createRelatedInfo('invested_to', data = {
-                partners: { connect: { id: partnerInfo.id } },
-                date: await dateForm(investedDates),
-                invested_startup: investedStartups,
-                investment_funds: { connect: { id: Number(investedFundId) } },
-                corporate_value: Number(investedValues),
-                investment_series: { connect: { id: Number(investedSeriesId) } }
-            })
-        } else if (lengthChecker(investedDates, investedStartups, investedFunds, investedValues, investedSeries)) {
-            for (len = 0; len < investedDates.length; len++) {
-                let investedFundId = await CompanyService.getRelatedInfoId('investment_funds', investedFunds[len])
-                let investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', investedSeries[len])
-                await CompanyService.createRelatedInfo('invested_to', data = {
-                    partners: { connect: { id: partnerInfo.id } },
-                    date: await dateForm(investedDates[len]),
-                    invested_startup: investedStartups[len],
-                    investment_funds: { connect: { id: Number(investedFundId) } },
-                    corporate_value: Number(investedValues[len]),
-                    investment_series: { connect: { id: Number(investedSeriesId) } }
-                })
-            }
-        }
-    }
-  // 투자 이력 추가
-  if (
-    investedDates &&
-    investedStartups &&
-    investedFunds &&
-    investedValues &&
-    investedSeries
-  ) {
-    if (
-      typeChecker(
-        investedDates,
-        investedStartups,
-        investedFunds,
-        investedValues,
-        investedSeries
-      ) === "string"
-    ) {
-      const investedFundId = await CompanyService.getRelatedInfoId(
-        "investment_funds",
-        investedFunds
-      );
-      const investedSeriesId = await CompanyService.getRelatedInfoId(
-        "investment_series",
-        investedSeries
-      );
-      await CompanyService.createRelatedInfo(
-        "invested_to",
-        (data = {
+
+    const investedToProcess = async (jsonInvestedTo) => {
+      if (jsonInvestedTo.id) {
+        const existData = CompanyService.readRelatedInfo('invested_to', Number(jsonInvestedTo.id));
+        if (existData === []) errorGenerator ({ statusCode: 400, message: "Invalid Invest Data" });  
+        if (jsonInvestedTo.partner_id === partnerInfo.id) errorGenerator ({ statusCode: 400, message: "this invest record is not beloged to this company"})
+        await CompanyService.deleteRelatedInfo("invested_to", Number(jsonInvestedTo.id));
+      } else if (!jsonInvestedTo.id) {
+        const investedFundId = await CompanyService.getRelatedInfoId('investment_funds', jsonInvestedTo.investedFunds)
+        const investedSeriesId = await CompanyService.getRelatedInfoId('investment_series', jsonInvestedTo.investedSeries)
+        await CompanyService.createRelatedInfo('invested_to', data = {
           partners: { connect: { id: partnerInfo.id } },
-          date: await dateForm(investedDates),
-          invested_startup: investedStartups,
+          date: await dateForm(jsonInvestedTo.investedDates),
+          invested_startup: jsonInvestedTo.investedStartups,
           investment_funds: { connect: { id: Number(investedFundId) } },
-          corporate_value: Number(investedValues),
-          investment_series: { connect: { id: Number(investedSeriesId) } },
+          corporate_value: Number(jsonInvestedTo.investedValues),
+          investment_series: { connect: { id: Number(investedSeriesId) } }
         })
-      );
-    } else if (
-      lengthChecker(
-        investedDates,
-        investedStartups,
-        investedFunds,
-        investedValues,
-        investedSeries
-      )
-    ) {
-      for (len = 0; len < investedDates.length; len++) {
-        let investedFundId = await CompanyService.getRelatedInfoId(
-          "investment_funds",
-          investedFunds[len]
-        );
-        let investedSeriesId = await CompanyService.getRelatedInfoId(
-          "investment_series",
-          investedSeries[len]
-        );
-        await CompanyService.createRelatedInfo(
-          "invested_to",
-          (data = {
-            partners: { connect: { id: partnerInfo.id } },
-            date: await dateForm(investedDates[len]),
-            invested_startup: investedStartups[len],
-            investment_funds: { connect: { id: Number(investedFundId) } },
-            corporate_value: Number(investedValues[len]),
-            investment_series: { connect: { id: Number(investedSeriesId) } },
-          })
-        );
       }
     }
-  }
+    
+    // 투자 이력 추가 및 삭제
+    if (investedTo) {
+      if (Object.prototype.toString.call(investedTo) === '[object String]') {
+        await investedToProcess(JSON.parse(investedTo))
+      } else if (Object.prototype.toString.call(investedTo) === '[object Array]') {
+        for (let len=0; len < investedTo.length; len++ ) {
+          await investedToProcess(JSON.parse(investedTo[len]))
+        }
+      }
+    }
+
   // Team Memebr 추가
   if (memberInfoNames && memberInfoPositions && memberImages) {
     if (
