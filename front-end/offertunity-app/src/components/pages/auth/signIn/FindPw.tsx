@@ -9,14 +9,14 @@ import Modal from "../components/Modal";
 
 const FindPw = () => {
   const [modal, setModal] = useState(false);
-  const [email,setEmail] = useState("");
-  const handleInput =(event: any)=>{
-    setEmail(event.target.value)
-  }
+  const [email, setEmail] = useState("");
+  const handleInput = (event: any) => {
+    setEmail(event.target.value);
+  };
   console.log(modal);
   return (
     <>
-      <Tab />
+      <Tab on="true" />
       <Con>
         <Wrap>
           <FinaAccountMainTxt />
@@ -24,7 +24,11 @@ const FindPw = () => {
             가입했던 이메일 계정을 입력하면, 새로운 비밀번호를 이메일로
             발송해드려요.
           </p>
-          <input type="text" placeholder="이메일 계정을 입력해주세요" onChange={handleInput}/>
+          <input
+            type="text"
+            placeholder="이메일 계정을 입력해주세요"
+            onChange={handleInput}
+          />
           <Buttons>
             <ChkBtn
               onClick={() => {

@@ -2,30 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const Tab = () => {
-  const [idTxt, setIdTxt] = useState(false);
-  const [pwTxt, setPwTxt] = useState(false);
+type Props = {
+  on: string;
+};
 
-  const findId = (event: any) => {
-    setIdTxt(!idTxt);
-  };
-
-  const findPw = (event: any) => {
-    setPwTxt(!pwTxt);
-  };
-
+const Tab: React.FC<Props> = ({ on }) => {
   return (
     <Wrap>
       <TabMenu>
-        <Link to="/auth/FindId">
-          <Id onClick={findId} className={idTxt ? "active" : ""}>
-            아이디 찾기
-          </Id>
+        <Link to="/auth/FindId" className={on}>
+          <Id>아이디 찾기</Id>
         </Link>
-        <Link to="/auth/FindPw">
-          <Password onClick={findPw} className={pwTxt ? "active" : ""}>
-            비밀번호 찾기
-          </Password>
+        <Link to="/auth/FindPw" className={on}>
+          <Password>비밀번호 찾기</Password>
         </Link>
       </TabMenu>
     </Wrap>
