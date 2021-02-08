@@ -16,7 +16,7 @@ const FindPw = () => {
   console.log(modal);
   return (
     <>
-      <Tab on="true" />
+      <Tab password="true" id="false" />
       <Con>
         <Wrap>
           <FinaAccountMainTxt />

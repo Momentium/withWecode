@@ -8,7 +8,7 @@ import Box from "./components/Box";
 import Level from "./components/Level";
 import Card from "./components/Card";
 
-const MypageStartup: React.FC = () => {
+const Mypage: React.FC = () => {
   const [profileData, setProfileData] = useState({});
   const [successData, setSuccessData] = useState();
   const [interestData, setInterestData] = useState();
@@ -32,6 +32,7 @@ const MypageStartup: React.FC = () => {
       })
       .then((res) => {
         setProfileData(res.data.userInfo);
+        console.log(res.data);
       });
   };
 
@@ -54,7 +55,6 @@ const MypageStartup: React.FC = () => {
   const getCardData = () => {
     axios.get("/data/mypageInterestList.json").then((res) => {
       setCardData(res.data.data);
-      console.log(res.data);
     });
   };
 
@@ -86,7 +86,7 @@ const MypageStartup: React.FC = () => {
   );
 };
 
-export default MypageStartup;
+export default Mypage;
 
 const Wrap = styled.div`
   background: #f9f8fa;

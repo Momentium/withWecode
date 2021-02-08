@@ -3,18 +3,19 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 type Props = {
-  on: string;
+  id: string;
+  password: string;
 };
 
-const Tab: React.FC<Props> = ({ on }) => {
+const Tab: React.FC<Props> = ({ id, password }) => {
   return (
     <Wrap>
       <TabMenu>
-        <Link to="/auth/FindId" className={on}>
-          <Id>아이디 찾기</Id>
+        <Link to="/auth/FindId">
+          <Id className={id}>아이디 찾기</Id>
         </Link>
-        <Link to="/auth/FindPw" className={on}>
-          <Password>비밀번호 찾기</Password>
+        <Link to="/auth/FindPw">
+          <Password className={password}>비밀번호 찾기</Password>
         </Link>
       </TabMenu>
     </Wrap>
@@ -45,5 +46,13 @@ const TabMenu = styled.div`
   }
 `;
 
-const Id = styled.span``;
-const Password = styled.span``;
+const Id = styled.span`
+  &.true {
+    color: #5541ed;
+  }
+`;
+const Password = styled.span`
+  &.true {
+    color: #5541ed;
+  }
+`;

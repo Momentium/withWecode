@@ -15,7 +15,7 @@ const FindId: React.FC = () => {
 
   return (
     <>
-      <Tab on="true" />
+      <Tab password="false" id="true" />
       <Con>
         <Wrap>
           <FinaAccountMainTxt />

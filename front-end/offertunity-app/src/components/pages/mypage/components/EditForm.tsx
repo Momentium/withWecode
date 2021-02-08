@@ -9,7 +9,6 @@ type Props = {
 };
 
 const EditForm: React.FC<Props> = ({ data }) => {
-  console.log(data);
   const [Modal, setModal] = useState(false);
   const [inputs, setInputs] = useState({
     nameInput: "",
@@ -33,10 +32,6 @@ const EditForm: React.FC<Props> = ({ data }) => {
       .catch((err) => {
         alert("올바른 정보를 입력해주세요");
       });
-
-    console.log(sessionStorage.getItem("token"));
-    console.log(nameInput);
-    console.log(phoneNumber);
   };
 
   const handleName = (event: any) => {
@@ -105,7 +100,7 @@ const EditForm: React.FC<Props> = ({ data }) => {
         <button onClick={validatePhoneNumber}>인증하기</button>
       </Phone>
       <BtnWrap>
-        {/* <Link to="/MypageStartup"> */}
+        {/* <Link to="/Mypage"> */}
         <SaveBtn
           style={{ background: BtnTrue ? "#1a2536" : "#ccc" }}
           onClick={saveData}
@@ -113,7 +108,7 @@ const EditForm: React.FC<Props> = ({ data }) => {
           프로필저장
         </SaveBtn>
         {/* </Link> */}
-        <Link to="/MypageStartup">
+        <Link to="/Mypage">
           <CancleBtn>취소</CancleBtn>
         </Link>
       </BtnWrap>

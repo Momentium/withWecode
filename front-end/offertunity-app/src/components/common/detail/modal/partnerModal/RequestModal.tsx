@@ -49,7 +49,7 @@ const RequestModal = ({ title, onChange, handleRequest }: any) => {
   };
 
   const goToUploadData = () => {
-    window.location.replace("/MypageStartup");
+    window.location.replace("/Mypage");
   };
 
   return (

@@ -5,7 +5,7 @@ import PartnerModal from "./partnerModal/PartnerModal";
 
 const Modal = ({ onClick, title, type }: any) => {
   const goToMypage = () => {
-    window.location.replace("/EditMypageStartup");
+    window.location.replace("/EditMypage");
   };
 
   return (

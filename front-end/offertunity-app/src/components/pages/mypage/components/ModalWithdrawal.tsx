@@ -1,8 +1,24 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const ModalWithdrawal = () => {
   const [Modal, setModal] = useState(true);
+
+  const handleWithrawal = () => {
+    axios
+      .post(`${process.env.REACT_APP_URL}/users/mypage`, {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        alert("회원탈퇴 되었습니다");
+      })
+      .catch((err) => {
+        alert("잘못된 비밀번호 입니다");
+      });
+  };
   return (
     <ModalWrap style={{ display: Modal ? "inline-block" : "none" }}>
       <Box>
@@ -16,7 +32,7 @@ const ModalWithdrawal = () => {
             setModal(false);
           }}
         >
-          <Submit>확인</Submit>
+          <Submit onClick={handleWithrawal}>확인</Submit>
           <Cancel>취소</Cancel>
         </Button>
       </Box>

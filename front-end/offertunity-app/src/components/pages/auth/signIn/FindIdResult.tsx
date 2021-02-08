@@ -7,7 +7,7 @@ import Tab from "../components/Tab";
 const FindIdResult = () => {
   return (
     <>
-      <Tab on="true" />
+      <Tab password="false" id="true" />
       <Con>
         <Wrap>
           <span>asdhadjh@dlksjld</span>
