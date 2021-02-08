@@ -68,7 +68,7 @@ const StBtnWrap = styled.div<{width:number, isOpen:boolean}>`
   justify-content: space-between;
   align-items: center;
 
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
 `;
 
 const StSvgWrap = styled.div`

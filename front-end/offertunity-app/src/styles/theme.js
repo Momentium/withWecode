@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import { css } from "styled-components";
 import { createMuiTheme } from "@material-ui/core";
 
 const conWidth = css`

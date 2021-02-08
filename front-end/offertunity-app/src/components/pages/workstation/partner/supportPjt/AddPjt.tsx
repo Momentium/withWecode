@@ -4,7 +4,7 @@ import axios from 'axios';
 import * as Mt from "api/methods";
 import PjtBasicInfo from './PjtBasicInfo';
 import IntroForm from '../IntroForm';
-import BtnSet from '../../BtnSet';
+import BtnSet from '../../common/BtnSet';
 
 interface BasicState {
   host: string;

@@ -5,10 +5,10 @@ import BaseInfo from "./BaseInfo";
 import IntroForm from "./IntroForm";
 import IntroImg from "./IntroImg";
 import InvestDesire from "./InvestDesire";
-import InvestHist from "./InvestHist";
+import InvestInfo from "../../common/investHist/InvestInfo";
 import IntroTeam from "./IntroTeam";
 import News from "./News";
-import BtnSet from "../../BtnSet";
+import BtnSet from "../../common/BtnSet";
 
 interface BasicState {
   name: string;
@@ -128,10 +128,12 @@ const MyStartup = () => {
     const _target = e.currentTarget;
     switch (_target.className.split(" ")[2]) {
       case "startup":
-        _target.value.length < 500 && setIntroSU(_target.value);
+        setIntroSU(_target.value);
+        _target.value.length > 500 && setIntroSU(_target.value.substring(0, 500));
         break;
       case "item":
-        _target.value.length < 500 && setIntroItem(_target.value);
+        setIntroItem(_target.value)
+        _target.value.length > 500 && setIntroItem(_target.value.substring(0, 500));
         break;
     }
   };
@@ -216,7 +218,7 @@ const MyStartup = () => {
       <IntroImg />
 
       <InvestDesire />
-      <InvestHist />
+      <InvestInfo view={"startup"} data={[]} />
       <IntroTeam />
       <News />
       <BtnSet 

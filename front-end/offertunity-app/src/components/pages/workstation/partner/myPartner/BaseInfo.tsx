@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import SelectBtn from "../../SelectBtn";
+import SelectBtn from "../../common/SelectBtn";
 import Necessary from "components/common/message/Necessary";
 
 const BaseInfo: React.FC<any> = (props) => {
