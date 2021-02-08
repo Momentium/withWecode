@@ -15,12 +15,12 @@ import Newsletter from "./components/common/newsletter/Newsletter";
 import Footer from "./components/common/footer/Footer";
 import theme from "./components/styles/theme";
 import Auth from "./components/pages/auth/Auth";
-import StartupList from "./components/pages/startupList/StartupList";
-import StartupDetails from "./components/pages/startupDetails/StartupDetails";
+import StartupList from "./components/pages/startup/startupList/StartupList";
+import StartupDetails from "./components/pages/startup/startupDetails/StartupDetails";
 import MypageStartup from "./components/pages/mypage/MypageStartup";
 import EditMypageStartup from "./components/pages/mypage/EditMypageStartup";
-import PartnerList from "components/pages/partnerList/PartnerList";
-import PartnerDetails from "./components/pages/partnersDetails/PartnerDetails";
+import PartnerList from "components/pages/partner/partnerList/PartnerList";
+import PartnerDetails from "./components/pages/partner/partnersDetails/PartnerDetails";
 import WSPage from "./components/pages/workstation/WSPage";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {

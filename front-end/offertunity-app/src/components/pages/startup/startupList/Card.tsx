@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LikeBtn from "../../common/detail/buttons/Buttons";
+import LikeBtn from "../../../common/detail/buttons/Buttons";
 import Title from "./Title";
 
 const Card = ({ data, name, background }: any) => {

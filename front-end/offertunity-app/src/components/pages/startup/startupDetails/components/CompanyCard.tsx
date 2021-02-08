@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../../../common/detail/card/Card";
+import Card from "../../../../common/detail/card/Card";
 
 const CompanyCard = ({ data, type }: any) => {
   const { ceo, birth, field, technique, homepage } = data;

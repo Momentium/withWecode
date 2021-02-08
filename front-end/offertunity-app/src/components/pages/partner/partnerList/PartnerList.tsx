@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Title from "../../common/title/Title";
+import Title from "../../../common/title/Title";
 import Card from "./components/Card";
-import PaginationCmp from "../../common/pagination/PaginationCmp";
+import PaginationCmp from "../../../common/pagination/PaginationCmp";
 import axios from "axios";
 
 const PartnerList = () => {

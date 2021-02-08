@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TwStartup from "./TwStartup";
 import Startup from "./Startup";
-import PaginationCmp from "../../common/pagination/PaginationCmp";
+import PaginationCmp from "../../../common/pagination/PaginationCmp";
 import axios from "axios";
 import styled from "styled-components";
 

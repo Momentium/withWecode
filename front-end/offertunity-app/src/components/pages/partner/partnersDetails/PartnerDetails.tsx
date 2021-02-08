@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import MoveBar from "../../common/detail/MoveBar";
+import MoveBar from "../../../common/detail/MoveBar";
 import CompanyCard from "./compontents/PartnerCard";
 import CompanyDescription from "./compontents/PartnerDescription";
-import IRBtn from "../../common/detail/buttons/IRButton";
-import Buttons from "../../common/detail/buttons/Buttons";
+import IRBtn from "../../../common/detail/buttons/IRButton";
+import Buttons from "../../../common/detail/buttons/Buttons";
 
 const boxStyle = {
   width: "100%",

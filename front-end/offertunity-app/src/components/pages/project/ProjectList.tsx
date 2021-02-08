@@ -18,8 +18,6 @@ const DemodayList = () => {
     });
   }, []);
 
-  console.log(pjts.length < 10);
-
   return (
     <>
       <St.Section>{pjts}</St.Section>

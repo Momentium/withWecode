@@ -11,7 +11,6 @@ import SignupFormStartup from "./signUp/SignupFormStartup";
 import SignupFormPartner from "./signUp/SignupFormPartner";
 import SignupFinishStartup from "./signUp/SignupFinishStartup";
 import SignupFinishPartner from "./signUp/SignupFinishPartner";
-
 const Auth = () => {
   return (
     <Switch>
@@ -20,7 +19,6 @@ const Auth = () => {
       <Route path="/auth/FindPw" component={FindPw} />
       <Route path="/auth/FindIdResult" component={FindIdResult} />
       <Route path="/auth/FindIdAgain" component={FindIdAgain} />
-
       <Route path="/auth/SignUp" component={SignUp} />
       <Route path="/auth/SignupSelectmember" component={SignupSelectmember} />
       <Route path="/auth/SignupFormStartup" component={SignupFormStartup} />
@@ -30,5 +28,4 @@ const Auth = () => {
     </Switch>
   );
 };
-
 export default Auth;
