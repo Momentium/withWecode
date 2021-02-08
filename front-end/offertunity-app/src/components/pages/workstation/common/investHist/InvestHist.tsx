@@ -5,8 +5,10 @@ const InvestHist: React.FC<any> = ({ view, data, removeInvest }) => {
   return (
     <>
       <StHistWrap>
-        <div className="log">투자 {view === "startup" && "유치"} 이력</div>
-        <div className={`close-btn ${data.idx} ${data.temp}`} onClick={removeInvest}><Close/></div>
+        <div className="top-cont">
+          <div className="log">투자 {view === "startup" && "유치"} 이력</div>
+          <div className={`close-btn ${data.id} ${data.temp}`} onClick={removeInvest}><Close/></div>
+        </div>
         <div className="table-cont">
           <StTable>
             <tbody>
@@ -50,19 +52,29 @@ const StHistWrap = styled.div`
   padding: 48px 0;
 
   position: relative;
+
+  .top-cont {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 24px;
+  }
   
   .close-btn {
     cursor: pointer;
     display: flex;
-    position: absolute;
-    top: 8px;
-    right: 8px;
+    /* position: absolute; */
+    /* top: 8px;
+    right: 8px; */
+    .MuiSvgIcon-root {
+      color: #444444;
+    }
   }
 
   .log {
     font-size: 21px;
     font-weight: bold;
-    margin-bottom: 24px;
   }
 `;
 
