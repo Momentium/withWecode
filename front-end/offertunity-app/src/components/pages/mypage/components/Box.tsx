@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 type Props = {
@@ -8,13 +8,22 @@ type Props = {
 };
 
 const Box: React.FC<Props> = ({ success, interest, ir }) => {
+  let sessionData = JSON.parse(String(sessionStorage.getItem("userInfo")));
+
+  const { type_id } = sessionData;
+  const startup = type_id === 1;
+  const partner = type_id === 2;
+
   return (
     <Wrap>
       <Text>
         <p>
-          {success && "마이 스타트업 완성률"}
-          {interest && "관심 지원사업"}
-          {ir && "IR 자료 요청 건"}
+          {success && startup && "마이 스타트업 완성률"}
+          {interest && startup && "관심 지원사업"}
+          {ir && startup && "IR 자료 요청 건"}
+          {success && partner && "파트너 기관 정보 완성률"}
+          {interest && partner && "관리 중인 지원사업"}
+          {ir && partner && "요청받은 IR 검토"}
         </p>
         {success && <span>{success}%</span>}
         {interest && <span>{interest}개</span>}
@@ -22,9 +31,10 @@ const Box: React.FC<Props> = ({ success, interest, ir }) => {
       </Text>
       <div>
         <Button>
-          {success && "마이 스타트업 정보 관리"}
+          {success && startup && "마이 스타트업 정보 관리"}
           {interest && "지원 사업 관리"}
           {ir && "IR자료 요청/검토 현황"}
+          {success && partner && "파트너 기관 정보 관리"}
         </Button>
       </div>
     </Wrap>

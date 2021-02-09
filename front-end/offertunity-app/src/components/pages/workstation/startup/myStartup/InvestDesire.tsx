@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as St from 'styles/styledComp';
-import SelectBtn from '../../SelectBtn';
+import SelectBtn from '../../common/SelectBtn';
 
 const InvestDesire:React.FC<any> = () => {
   return (
@@ -47,7 +47,7 @@ const InvestDesire:React.FC<any> = () => {
 export default InvestDesire;
 
 const StCont = styled.div`
-  margin: 120px 0;
+  margin-top: 120px;
 
   .btn-cont {
     width: 100%;

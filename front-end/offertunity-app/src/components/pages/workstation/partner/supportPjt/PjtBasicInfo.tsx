@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import SelectBtn from "../../SelectBtn";
-import InputBox from "../../InputBox";
+import SelectBtn from "../../common/SelectBtn";
+import InputBox from "../../common/InputBox";
 
 const PjtBasicInfo: React.FC<any> = (props) => {
   const {
@@ -10,6 +10,7 @@ const PjtBasicInfo: React.FC<any> = (props) => {
     eligibilities,
     name,
     introduction,
+    application_url
   } = props.basicInfo;
 
   const uploadImg = (e: any) => {
@@ -90,13 +91,26 @@ const PjtBasicInfo: React.FC<any> = (props) => {
                 />
               </div>
             </div>
+
+            <div className="title">관련 링크</div>
+            <InputBox
+              cName="related-link"
+              type="text"
+              placeholder="관련 링크를 입력해주세요."
+              width={478}
+              height={48}
+              fSize={28}
+              fWeight={"bold"}
+              value={application_url}
+              changeVal={props.changeVal}
+            />
           </StFormWrap>
 
-          <div>
+          {/* <div>
             <StButtonWrap onClick={props.submit}>
               기본정보 임시 저장
             </StButtonWrap>
-          </div>
+          </div> */}
         </StFormCont>
       </StTopCont>
 

@@ -1,10 +1,10 @@
 import React, { useState,  } from 'react';
 import styled, { css } from 'styled-components';
 import BasicBtn from 'components/common/button/BasicBtn';
-import InputBox from '../../InputBox';
-import SelectBtn from '../../SelectBtn';
+import InputBox from '../../common/InputBox';
+import SelectBtn from '../../common/SelectBtn';
 
-const InputPjt:React.FC<any> = ({ handleSubmit }) => {
+const EditInfo:React.FC<any> = ({ handleSubmit }) => {
   const [img, setImg] = useState<any>();
   const [logo, setLogo] = useState<any>();
   const [name, setName] = useState<string>("");
@@ -123,7 +123,7 @@ const InputPjt:React.FC<any> = ({ handleSubmit }) => {
                 />
             </StFormWrap>
 
-            <StFormWrap dir>
+            {/* <StFormWrap dir>
               <div className="label">서비스 형태</div>
               <SelectBtn
                   cName={'service'}
@@ -132,7 +132,7 @@ const InputPjt:React.FC<any> = ({ handleSubmit }) => {
                   curVal={service} 
                   changeVal={changeVal}
                 />
-            </StFormWrap>
+            </StFormWrap> */}
           </div>
 
           <div>
@@ -236,7 +236,7 @@ const InputPjt:React.FC<any> = ({ handleSubmit }) => {
     </StCont>
   );
 }
-export default InputPjt;
+export default EditInfo;
 
 const StCont = styled.div`
   margin-bottom: 96px;

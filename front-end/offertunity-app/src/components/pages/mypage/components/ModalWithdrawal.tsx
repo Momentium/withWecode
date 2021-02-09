@@ -1,22 +1,40 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const ModalWithdrawal = () => {
   const [Modal, setModal] = useState(true);
+
+  const handleWithrawal = () => {
+    axios
+      .post(`${process.env.REACT_APP_URL}/users/mypage`, {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        alert("회원탈퇴 되었습니다");
+        console.log(res);
+      })
+      .catch((err) => {
+        alert("잘못된 비밀번호 입니다");
+        console.log(err);
+      });
+  };
   return (
     <ModalWrap style={{ display: Modal ? "inline-block" : "none" }}>
       <Box>
         <H1>회원 탈퇴를 하면 모든 데이터가 사라집니다.</H1>
         <InputBox>
           <p>비밀번호를 입력해주세요.</p>
-          <input type="text" placeholder="비밀호를 입력해주세요." />
+          <input type="password" placeholder="비밀호를 입력해주세요." />
         </InputBox>
         <Button
           onClick={() => {
             setModal(false);
           }}
         >
-          <Submit>확인</Submit>
+          <Submit onClick={handleWithrawal}>확인</Submit>
           <Cancel>취소</Cancel>
         </Button>
       </Box>

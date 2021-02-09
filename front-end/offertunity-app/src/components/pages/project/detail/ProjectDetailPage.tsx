@@ -49,6 +49,7 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
         setCurrApply(currApply);
       }
     });
+
   }, []);
 
   return (

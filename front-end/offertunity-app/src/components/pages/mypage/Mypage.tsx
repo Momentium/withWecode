@@ -8,7 +8,7 @@ import Box from "./components/Box";
 import Level from "./components/Level";
 import Card from "./components/Card";
 
-const MypageStartup: React.FC = () => {
+const Mypage: React.FC = () => {
   const [profileData, setProfileData] = useState({});
   const [successData, setSuccessData] = useState();
   const [interestData, setInterestData] = useState();
@@ -52,9 +52,15 @@ const MypageStartup: React.FC = () => {
   };
 
   const getCardData = () => {
-    axios.get("/data/mypageInterestList.json").then((res) => {
-      setCardData(res.data.data);
-    });
+    axios
+      .get("http://10.0.1.44:3000/likes/startup?offset=1", {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setCardData(res.data.startups);
+      });
   };
 
   return (
@@ -62,7 +68,7 @@ const MypageStartup: React.FC = () => {
       <Wrap>
         <Center>
           <Station>
-            <Link to="/">홈</Link> <i className="fas fa-chevron-right" />{" "}
+            <Link to="/">홈</Link> <i className="fas fa-chevron-right" />
             마이페이지
           </Station>
           <Profile data={profileData} />
@@ -76,7 +82,7 @@ const MypageStartup: React.FC = () => {
         </Center>
       </Wrap>
       <Title>내가 관심있는 스타트업</Title>
-      <Intertest>
+      <Intertest className="temp">
         {cardData.map((el: any, idx: number) => {
           return <Card data={el} key={idx} index={idx} />;
         })}
@@ -85,7 +91,7 @@ const MypageStartup: React.FC = () => {
   );
 };
 
-export default MypageStartup;
+export default Mypage;
 
 const Wrap = styled.div`
   background: #f9f8fa;

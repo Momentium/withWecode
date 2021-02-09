@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import { useHistory, Link } from "react-router-dom";
+import axios from "axios";
 import Tab from "../components/Tab";
 import Question from "../components/Question";
 import FinaAccountMainTxt from "../components/FinaAccountMainTxt";
@@ -9,14 +9,30 @@ import Modal from "../components/Modal";
 
 const FindPw = () => {
   const [modal, setModal] = useState(false);
-  const [email,setEmail] = useState("");
-  const handleInput =(event: any)=>{
-    setEmail(event.target.value)
-  }
+  const [email, setEmail] = useState("");
+  const history = useHistory();
+
+  const handleInput = (event: any) => {
+    setEmail(event.target.value);
+  };
+
+  const isPwExist = () => {
+    axios
+      .post("", {
+        email: email,
+      })
+      .then((res) => {
+        alert("새로운 비밀번호가 이메일로 발송 되었습니다");
+        history.push("/auth/SignIn");
+      })
+      .catch((err) => {
+        setModal(!modal);
+      });
+  };
   console.log(modal);
   return (
     <>
-      <Tab />
+      <Tab password="true" id="false" />
       <Con>
         <Wrap>
           <FinaAccountMainTxt />
@@ -24,16 +40,16 @@ const FindPw = () => {
             가입했던 이메일 계정을 입력하면, 새로운 비밀번호를 이메일로
             발송해드려요.
           </p>
-          <input type="text" placeholder="이메일 계정을 입력해주세요" onChange={handleInput}/>
+          <input
+            type="text"
+            placeholder="이메일 계정을 입력해주세요"
+            onChange={handleInput}
+          />
           <Buttons>
-            <ChkBtn
-              onClick={() => {
-                setModal(!modal);
-              }}
-            >
-              확인
-            </ChkBtn>
-            <CancleBtn>취소</CancleBtn>
+            <ChkBtn onClick={isPwExist}>확인</ChkBtn>
+            <Link to="/">
+              <CancleBtn>취소</CancleBtn>
+            </Link>
           </Buttons>
           <Link to="/auth/SignUp">
             <Question
@@ -57,11 +73,13 @@ const FindPw = () => {
 
 export default FindPw;
 
-const Con = styled.div``;
+const Con = styled.div`
+  text-align: center;
+`;
 
 const Wrap = styled.div`
   display: inline-block;
-  margin: 10.94rem 0 0 40rem;
+  margin-top: 7rem;
   text-align: left;
   p {
     font-size: 0.9rem;

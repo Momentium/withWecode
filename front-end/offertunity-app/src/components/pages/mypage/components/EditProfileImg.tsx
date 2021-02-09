@@ -10,6 +10,7 @@ type Props = {
 const EditProfileImg: React.FC<Props> = ({ data }) => {
   const [previewURL, setpreviewURL] = useState("");
   const [Modal, setModal] = useState(false);
+  const [removeImg, setRemoveImg] = useState(false);
   const { profile_picture } = data;
 
   // useEffect(() => {
@@ -34,7 +35,22 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     reader.onload = (event: any) => {
       setpreviewURL(event.target.result);
     };
-    reader.readAsDataURL(file);
+    if (file && file.type.match("image.*")) {
+      setRemoveImg(false);
+      reader.readAsDataURL(file);
+    } else {
+      ProfileImg = (
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
+          alt="프로필사진"
+        />
+      );
+    }
+  };
+
+  const removeImges = () => {
+    setRemoveImg(true);
+    console.log(removeImg);
   };
 
   let ProfileImg = null;
@@ -53,10 +69,22 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     ProfileImg = <img src={profile_picture} alt="프로필사진" />;
   }
 
+  if (removeImg) {
+    ProfileImg = (
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
+        alt="프로필사진"
+      />
+    );
+  }
+
   return (
     <Img>
       {/* <button onClick={SEND_IMG}>사진전송</button> */}
-      <span>{ProfileImg}</span>
+      <span>
+        <i className="fas fa-times" onClick={removeImges} />
+        {ProfileImg}
+      </span>
       <Label>
         프로필 사진등록
         <input
@@ -96,6 +124,12 @@ const Img = styled.div`
     img {
       width: 100%;
       height: 100%;
+    }
+    i {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
     }
   }
 `;
