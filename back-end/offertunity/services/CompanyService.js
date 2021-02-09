@@ -341,16 +341,19 @@ const irRequestedCount = async (field) => {
 const readByDocType = async (fields) => {
   const { companyId, docTypeId } = fields;
   return await prisma.company_documents.findMany({
-    where: { comapny_id: companyId, type_id: docTypeId },
+    where: { company_id: companyId, type_id: Number(docTypeId) },
   });
 };
+
 const registerDoc = async (fields) => {
-  const { companyId, docTypeId, startupDoc } = fields;
+  const { companyId, docTypeId, docURL, docName, fileType } = fields;
   return await prisma.company_documents.create({
     data: {
-      companies: { connect: { id: parseInt(companyId) } },
-      doc_url: startupDoc,
-      document_types: { connect: { id: parseInt(docTypeId) } },
+      companies: { connect: { id: Number(companyId) } },
+      doc_url: docURL,
+      document_types: { connect: { id: Number(docTypeId) } },
+      name: docName,
+      file_type: fileType
     },
   });
 };

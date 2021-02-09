@@ -91,6 +91,8 @@ model company_documents {
   company_id     Int
   doc_url        String
   type_id        Int
+  name           String
+  file_type      String
   created_at     DateTime?      @default(now())
   updated_at     DateTime?      @updatedAt
   deleted_at     DateTime?

@@ -47,6 +47,11 @@ const getOneApplication = errorWrapper(async (req, res) => {
   res.status(200).json({ ApplicationDetail })
 })
 
+const getDocuments = errorWrapper(async(req, res) => {
+  const companyId = req.foundUser.company_id;
+  ApplyService.findDocuments(req.query, companyId)
+})
+
 const getMyApplication = errorWrapper(async (req, res) => {
   const { projectId } = req.params
   if (!(req.foundUser.company_id === 1)) errorGenerator({ statusCode: 400, message: "this user is not startup user" });
@@ -122,5 +127,6 @@ module.exports = {
   getMyApplication,
   postApplication,
   updateApplication,
-  deleteApplication
+  deleteApplication,
+  getDocuments
 }
