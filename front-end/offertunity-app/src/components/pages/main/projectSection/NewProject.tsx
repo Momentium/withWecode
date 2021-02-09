@@ -8,8 +8,9 @@ const NewProject = () => {
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_URL}/projects/published`).then((res) => {
-      const _resData = res.data.projectList;
-      setNewProject(_resData);
+      const _resData = res.data.cleanedProjectList;
+      const slice = _resData.slice(0, 6);
+      setNewProject(slice);
     });
   }, []);
 

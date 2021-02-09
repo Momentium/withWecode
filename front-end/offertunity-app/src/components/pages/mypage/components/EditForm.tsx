@@ -33,6 +33,7 @@ const EditForm: React.FC<Props> = ({ data }) => {
         alert("올바른 정보를 입력해주세요");
       });
   };
+  console.log(nameInput, phoneNumber, sessionStorage.getItem("token"));
 
   const handleName = (event: any) => {
     event.preventDefault();

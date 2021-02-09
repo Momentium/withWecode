@@ -40,7 +40,7 @@ const Wrap = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15rem 0;
+  margin-top: 15rem;
 `;
 
 const Bg = styled.div`
