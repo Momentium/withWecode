@@ -14,9 +14,8 @@ const Profile: React.FC<Props> = ({ data }) => {
     signup_method_id,
     company_id,
     phone_number,
-    type_id
+    type_id,
   } = data;
-  console.log(data);
 
   let profileImg = null;
   if (!profile_picture) {
@@ -30,12 +29,6 @@ const Profile: React.FC<Props> = ({ data }) => {
     profileImg = <img src={profile_picture} alt="프로필사진" />;
   }
 
-  let typeId= null;
-  if(type_id === 2 ){
-    typeId =  <p>파트너 회원</p>
-  }else if (type_id === 1){
-    typeId = <p>스타트업 회원</p>
-  }
   return (
     <Wrap>
       <Img>
@@ -54,9 +47,12 @@ const Profile: React.FC<Props> = ({ data }) => {
           </Info>
           <Info>
             <span>회원 구분</span>
-            {typeId}
+            <p>
+              {type_id === 1 && "스타트업 회원"}
+              {type_id === 2 && "파트너 회원"}
+            </p>
           </Info>
-          <Link to="/EditMypageStartup">
+          <Link to="/EditMypage">
             <BtnOne>프로필 수정</BtnOne>
           </Link>
         </Box>
@@ -66,8 +62,16 @@ const Profile: React.FC<Props> = ({ data }) => {
             <p>{phone_number ? phone_number : "000-0000-0000"}</p>
           </Info>
           <Info>
-            <span>소속 스타트업</span>
-            <p>{company_id ? company_id : "MOMENTIUM"}</p>
+            <span>
+              {type_id === 1 && "소속 스타트업"}
+              {type_id === 2 && "파트너 기관"}
+            </span>
+            {type_id === 2 && (
+              <p>{company_id ? company_id : "파트너 기관을 등록해주세요"}</p>
+            )}
+            {type_id === 1 && (
+              <p>{company_id ? company_id : "마이 스타트업을 등록해주세요"}</p>
+            )}
           </Info>
           <BtnTwo>마이 스타트업 관리</BtnTwo>
         </Box>

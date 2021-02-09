@@ -6,7 +6,6 @@ import GlobalStyle from "./styles/globalStyles";
 import { StylesProvider } from "@material-ui/core/styles";
 import { BrowserRouter } from "react-router-dom";
 
-
 ReactDOM.render(
   <React.StrictMode>
     <StylesProvider injectFirst>

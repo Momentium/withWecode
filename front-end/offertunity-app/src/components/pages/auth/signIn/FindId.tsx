@@ -1,21 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
-
 import Tab from "../components/Tab";
 import Question from "../components/Question";
 import FinaAccountMainTxt from "../components/FinaAccountMainTxt";
 
 const FindId: React.FC = () => {
   const [email, setEmail] = useState("");
+  const history = useHistory();
 
   const handleInputValue = (event: any) => {
     setEmail(event.target.value);
+    console.log(email);
+  };
+
+  const handleIsPwExist = () => {
+    history.push("/auth/FindIdAgain");
+    sessionStorage.setItem("findEmail", email);
+    // axios.post(,{
+    //   email: email
+    // })
+    // .then((res)=>{
+    //   history.push("/auth/FindIdAgain")
+    // })
+    // .catch((err) => {
+    //   history.push("/auth/FindIdResult")
+    // })
   };
 
   return (
     <>
-      <Tab />
+      <Tab password="false" id="true" />
       <Con>
         <Wrap>
           <FinaAccountMainTxt />
@@ -23,14 +39,17 @@ const FindId: React.FC = () => {
           <p>
             이메일 정보를 입력하고 [확인]을 클릭하면 가입 여부를 알려드립니다.
           </p>
-          <input type="text" placeholder="이메일 계정을 입력해주세요" onChange={handleInputValue}/>
+          <input
+            type="text"
+            placeholder="이메일 계정을 입력해주세요"
+            onChange={handleInputValue}
+          />
           <Buttons>
-            <Link to="/auth/FindIdAgain" >
-              {/* 아이디가 있는 경우는  /auth/FindIdResult 로 이동 */}
-              <ChkBtn>확인</ChkBtn>
+            {/* 아이디가 있는 경우는  /auth/FindIdResult 로 이동 */}
+            <ChkBtn onClick={handleIsPwExist}>확인</ChkBtn>
+            <Link to="/">
+              <CancleBtn>취소</CancleBtn>
             </Link>
-            <Link to="/"></Link>
-            <CancleBtn>취소</CancleBtn>
           </Buttons>
           <Link to="/auth/SignUp">
             <Question
@@ -46,11 +65,13 @@ const FindId: React.FC = () => {
 
 export default FindId;
 
-const Con = styled.div``;
+const Con = styled.div`
+  text-align: center;
+`;
 
 const Wrap = styled.div`
   display: inline-block;
-  margin: 10.94rem 0 0 40rem;
+  margin-top: 7rem;
   text-align: left;
   p {
     font-size: 0.9rem;

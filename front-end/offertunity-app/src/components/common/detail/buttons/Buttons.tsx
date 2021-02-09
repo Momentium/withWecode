@@ -9,7 +9,37 @@ const boxStyle = {
   marginRight: "3.531rem",
 };
 
-const Buttons = ({ title, type, page, isLike, clickLike }: any) => {
+const Buttons = ({ data, title, type, companyId, page, isLogin }: any) => {
+  const [like, setLike] = useState<boolean>(data);
+
+  useEffect(() => {
+    getLikeData();
+  }, []);
+
+  const getLikeData = () => {
+    if (isLogin) {
+      axios
+        .get(`${process.env.REACT_APP_URL}/likes/company/${companyId}`, {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        })
+        .then((res) => setLike(res.data.result))
+        .catch((error) => console.log(error));
+    } else {
+      setLike(false);
+    }
+  };
+
+  const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (isLogin) {
+      getLikeData();
+    } else {
+      alert("로그인후에 이용 가능합니다.");
+    }
+  };
+
   return (
     <>
       {page === ("list" || "project" || "partner") ? (

@@ -1,24 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Tab from "../components/Tab";
 
-
-
 const FindIdAgain = () => {
+  const userEmail = sessionStorage.getItem("findEmail");
+  const removeSession = () => {
+    sessionStorage.removeItem("findEmail");
+  };
+
   return (
     <>
-      <Tab />
+      <Tab password="false" id="true" />
       <Con>
         <Wrap>
-          <span>yay@naver.com</span>
+          <span>{userEmail}</span>
           <p>OFFERTUNITY의 소중한 회원님이셨군요!</p>
           <p>아래 [로그인] 버트을 통해 OFFERTUNITY에 로그인해주세요.</p>
           <Link to="/auth/SignIn">
-            <ChkBtn>로그인</ChkBtn>
+            <ChkBtn onClick={removeSession}>로그인</ChkBtn>
           </Link>
           <Link to="/auth/FindId">
-            <CancleBtn>다시찾아보기</CancleBtn>
+            <CancleBtn onClick={removeSession}>다시찾아보기</CancleBtn>
           </Link>
         </Wrap>
       </Con>
@@ -46,10 +50,6 @@ const Wrap = styled.div`
     font-size: 0.9rem;
     line-height: 1.5rem;
   }
-`;
-
-const Buttons = styled.div`
-  margin-bottom: 3.5rem;
 `;
 
 const Btn = styled.button`

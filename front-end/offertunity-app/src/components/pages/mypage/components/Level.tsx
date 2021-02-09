@@ -15,13 +15,28 @@ const Level: React.FC = () => {
   const classTrue = document.getElementsByClassName("true");
   const numberOfClassTrue = (classTrue.length * 100) / 6;
 
+  let sessionData = JSON.parse(String(sessionStorage.getItem("userInfo")));
+  const { type_id } = sessionData;
+  const startup = type_id === 1;
+  const partner = type_id === 2;
+
   return (
     <Wrap>
       <Title>
-        <p>마이 스타트업 등록 단계</p>
-        <span>
-          마이 스타트업 정보 관리 <i className="fas fa-chevron-right" />
-        </span>
+        <p>
+          {startup && "마이 스타트업 등록 단계"}
+          {partner && "파트너 기관 정보 완성률"}
+        </p>
+        {startup && (
+          <span>
+            마이 스타트업 정보 관리 <i className="fas fa-chevron-right" />
+          </span>
+        )}
+        {partner && (
+          <span>
+            파트너 기관 정보 관리 <i className="fas fa-chevron-right" />
+          </span>
+        )}
       </Title>
       <ProgressBar success={numberOfClassTrue} />
       <BtnWrap id="number">
