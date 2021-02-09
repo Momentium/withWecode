@@ -21,7 +21,6 @@ const RequestModal = ({ title, onChange, handleRequest }: any) => {
       });
   }, []);
 
-  console.log(items);
   useEffect(() => {
     if (items?.length) {
       setSelectText("IR 자료 선택하기");

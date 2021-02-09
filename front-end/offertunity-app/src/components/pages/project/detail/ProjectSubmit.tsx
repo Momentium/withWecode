@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import InputForm from "./InputForm";
+import TitleWithMsg from "./TitleWithMsg";
 
-const ProjectSubmit: React.FC<any> = ({ onUploadFile, handleUploadFile }) => {
-  const [txt, setTxt] = useState<string>("");
+const ProjectSubmit: React.FC<any> = ({
+  handleUploadFile,
+  bizDescription,
+  setBizDescription,
+  bizModel,
+  setBizModel,
+  selectFile,
+  setSelectFile,
+}) => {
   const uploadList = [
     {
       title: "사업계획서",
@@ -23,41 +32,53 @@ const ProjectSubmit: React.FC<any> = ({ onUploadFile, handleUploadFile }) => {
   ];
 
   const changeVal = (e: any) => {
-    setTxt(e.currentTarget.value);
+    const _target = e.currentTarget;
+    switch (_target.className.split(" ")[2]) {
+      case "bizDescription":
+        _target.value.length < 1000 && setBizDescription(_target.value);
+        break;
+      case "bizModel":
+        _target.value.length < 1000 && setBizModel(_target.value);
+        break;
+    }
   };
+
   return (
     <ProjectSubmitCont>
       <PjSummary>
-        <Title>사업개요</Title>
-        <NoticeMsg>최대 1000자까지 작성할 수 있습니다.</NoticeMsg>
-        <TextArea onChange={changeVal} value={txt} />
-        <CurrText>{`${txt.length} / 500자`}</CurrText>
+        <TitleWithMsg title={"비즈니스 개요"} msg={"비즈 개요입니다"} />
+        <InputForm
+          className={"bizDescription"}
+          changeVal={changeVal}
+          txt={bizDescription}
+        />
       </PjSummary>
       <PjBizModel>
-        <Title>비즈니스 모델</Title>
-        <NoticeMsg>최대 1000자까지 작성할 수 있습니다.</NoticeMsg>
-        <TextArea onChange={changeVal} value={txt} />
-        <CurrText>{`${txt.length} / 500자`}</CurrText>
+        <TitleWithMsg title={"비즈니스 모델"} msg={"비즈 모델입니다"} />
+        <InputForm
+          className={"bizModel"}
+          changeVal={changeVal}
+          txt={bizModel}
+        />
       </PjBizModel>
       <PjSubmitDocu>
-        <Title>제출 서류</Title>
-        <NoticeMsg>제출 서류는 우측의 등록하기 버튼을 이용해주세요.</NoticeMsg>
+        <TitleWithMsg
+          title={"제출 서류"}
+          msg={"제출 서류는 우측의 등록하기 버튼을 이용해주세요."}
+        />
         <form onSubmit={handleUploadFile}>
           {uploadList.map((item, idx) => {
             return (
-              <FileUplaodBox key={idx}>
-                <span title="sub_title">{item.title}</span>
-                <FileBox>
-                  <input
-                    type="file"
-                    name={item.id}
-                    id="file"
-                    className="inputfile"
-                    onChange={onUploadFile}
-                  />
-                  <label htmlFor="file">+등록</label>
-                </FileBox>
-              </FileUplaodBox>
+              <FileUplaodCont>
+                <FileUplaodBox key={idx}>
+                  <span title="sub_title">{item.title}</span>
+                  {selectFile && (
+                    <span title="selected_title">{selectFile}</span>
+                  )}
+                  <FileBox className={`inputFile ${item}`}>등록</FileBox>
+                </FileUplaodBox>
+                {/* {fileVisible && <SelectFile />} */}
+              </FileUplaodCont>
             );
           })}
         </form>
@@ -74,39 +95,9 @@ const ProjectSubmitCont = styled.div`
   margin-top: 7.5rem;
 `;
 
-const TextArea = styled.textarea`
-  height: 19.5rem;
-  border: 1px solid #d4d1d8;
-  padding: 1.5rem;
-  resize: none;
-
-  /* &:focus {
-    outline: none !important;
-  } */
-`;
-
-const Title = styled.div`
-  margin-bottom: 1.5rem;
-  font-weight: bold;
-  font-size: 1.75rem;
-`;
-
 const PjSummary = styled.div`
   ${({ theme }) => theme.flexColumn}
   margin-bottom: 3rem;
-`;
-
-const NoticeMsg = styled.span`
-  margin-bottom: 1.5rem;
-  font-size: 1.125rem;
-  color: #9f9f9f;
-`;
-
-const CurrText = styled.p`
-  margin-top: 1rem;
-  font-size: 1.125rem;
-  text-align: right;
-  color: #5b5b5b;
 `;
 
 const PjBizModel = styled.div`
@@ -118,15 +109,22 @@ const PjSubmitDocu = styled.div`
   ${({ theme }) => theme.flexColumn}
 `;
 
-const FileUplaodBox = styled.div`
+const FileUplaodCont = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   height: 5.5rem;
   margin-bottom: 1rem;
+  margin-top: 20px;
   padding: 0 2.5rem;
   background-color: #fbfaff;
+`;
 
+const FileUplaodBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   span {
     font-size: 1.313rem;
     font-weight: bold;
@@ -134,23 +132,14 @@ const FileUplaodBox = styled.div`
 `;
 
 const FileBox = styled.div`
-  .inputfile {
-    width: 0.006rem;
-    height: 0.006rem;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
-
-  .inputfile + label {
-    display: inline-block;
-    padding: 0.625rem 1.063rem;
-    border-radius: 1.5rem;
-    font-size: 0.8em;
-    font-weight: 700;
-    color: white;
-    background-color: #c3bdf4;
-    cursor: pointer;
-  }
+  display: inline-block;
+  width: 2.438rem;
+  height: 1.563rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  font-size: 0.8em;
+  font-weight: 700;
+  color: white;
+  background-color: #c3bdf4;
+  cursor: pointer;
 `;

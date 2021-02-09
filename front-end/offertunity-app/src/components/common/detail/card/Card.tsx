@@ -3,8 +3,14 @@ import styled from "styled-components";
 import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
 
-const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
-  console.log(isLogin);
+const CompanyCard = ({
+  data,
+  detailInfo,
+  type,
+  isLogin,
+  isLike,
+  clickLike,
+}: any) => {
   const checkImg = () => {
     if (type === "startup") {
       return `url(${data.startups[0].thumbnail})`;
@@ -68,7 +74,8 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
         </DetailInfo>
         {type === "startup" && (
           <Buttons
-            data={data.startups[0].is_liked}
+            isLike={isLike}
+            clickLike={clickLike}
             title={data.name}
             type={type}
             companyId={data.id}
@@ -77,7 +84,8 @@ const CompanyCard = ({ data, detailInfo, type, isLogin }: any) => {
         )}
         {type === "partner" && (
           <Buttons
-            data={data.partners[0].is_liked}
+            isLike={isLike}
+            clickLike={clickLike}
             title={data.name}
             type={type}
             companyId={data.id}

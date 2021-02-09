@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Card from "../../../../common/detail/card/Card";
 
 const CompanyCard = ({ data, type, isLogin }: any) => {
