@@ -69,6 +69,7 @@ const EditInfo = () => {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       // props.setLogo(e.target.result);
+      setData({...data, ...{logoImg: e.target.result}})
     };
     reader.readAsDataURL(_imgFile);
   };
@@ -77,11 +78,16 @@ const EditInfo = () => {
     const _formData = new FormData();
     Object.keys(data).forEach((key) => {
       console.log((data as any)[key])
-      if((data as any)[key] === _nullTxt) {
-        _formData.append(key, "");
+      if(key === "logoImg") {
+        _formData.append(key, Mt.dataURLtoFile((data as any)[key], `${data.name}_logo`));
       }
       else {
-        _formData.append(key, (data as any)[key]);
+        if((data as any)[key] === _nullTxt) {
+          _formData.append(key, "");
+        }
+        else {
+          _formData.append(key, (data as any)[key]);
+        }
       }
     })
 
@@ -104,7 +110,10 @@ const EditInfo = () => {
         <div className="img-wrap">
           <div>이미지를 등록해 주세요</div>
         </div>
-        <StBtn>로고 이미지 등록</StBtn>
+        <input id="logoUpload" type="file" style={{display: "none"}} onChange={uploadLogo}/>
+        <label htmlFor="logoUpload">
+          <StBtn>로고 이미지 등록</StBtn>
+        </label>
       </StLogoCont>
 
       <StFormCont>

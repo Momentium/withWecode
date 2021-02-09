@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import * as Mt from "api/methods";
 import styled, { css } from "styled-components";
 
-const ViewPjt = () => {
+const ViewPjt:React.FC<any> = ({ match }) => {
+  const _params = match.params.tab;
   const _token = Mt.getUserInfo().token;
   const _nullTxt = "정보를 입력해 주세요.";
   const [logoImg, setLogo] = useState<any>();
@@ -68,9 +69,16 @@ const ViewPjt = () => {
         <div className="img-wrap">
           <div>이미지를 등록해 주세요</div>
         </div>
-        <Link to={`/workstation/myproject/editInfo`} onClick={sessionSave}>
-          <StBtn>제출 정보 편집</StBtn>
-        </Link>
+        {
+          _params === 'myproject' ?
+          <Link to={`/workstation/myproject/editInfo`} onClick={sessionSave}>
+            <StBtn>제출 정보 편집</StBtn>
+          </Link>
+          :
+          <Link to={`/workstation/myproject/editInfo`} onClick={sessionSave}>
+            <StBtn>기본 정보 편집</StBtn>
+          </Link>
+        }
       </StLogoCont>
 
       <StTableCont>
@@ -197,7 +205,7 @@ const ViewPjt = () => {
     </StCont>
   );
 };
-export default ViewPjt;
+export default withRouter(ViewPjt);
 
 const StCont = styled.div`
   margin-bottom: 96px;
