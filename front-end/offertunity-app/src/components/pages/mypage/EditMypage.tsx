@@ -5,15 +5,17 @@ import styled from "styled-components";
 import EditProfileImg from "./components/EditProfileImg";
 import EditForm from "./components/EditForm";
 import WorkStation from "./components/WorkStation";
+import * as Mt from "api/methods";
 
 const EditMypage: React.FC = () => {
   const [data, setData] = useState({});
+  const _token = Mt.getUserInfo().token;
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_URL}/users/mypage`, {
         headers: {
-          Authorization: `token ${sessionStorage.getItem("token")}`,
+          Authorization: _token,
         },
       })
       .then((res) => {

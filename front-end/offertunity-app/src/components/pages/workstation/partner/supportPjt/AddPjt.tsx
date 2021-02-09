@@ -41,17 +41,16 @@ const AddPjt:React.FC<any> = ({ id }) => {
     if(id) {
       axios.get(`${process.env.REACT_APP_URL}/projects/${id}`)
       .then((res) => {
-        console.log(res.data)
-        const _resData = res.data.projectDetail;
+        const _resData = res.data.cleanedProject;
         console.log(_resData)
+        console.log(_resData.application_url)
 
-        setPoster(_resData.project_images.length);
-        // setPoster(_resData.project_images.length === 0 ? "" : _resData.project_images[0].img_url);
+        setPoster(_resData.project_images);
         setBasicInfo({
           host: _resData.host,
           due_date: new Date(_resData.due_date).toISOString().substring(0, 10),
-          eligible_sectors: _resData.eligible_sectors.name,
-          eligibilities: _resData.eligibilities.name,
+          eligible_sectors: _resData.eligible_sectors,
+          eligibilities: _resData.eligibilities,
           name: _resData.name,
           introduction: _resData.introduction,
           application_url: _resData.application_url,
@@ -149,7 +148,7 @@ const AddPjt:React.FC<any> = ({ id }) => {
     setCheckDoc(checkDoc.filter((el:string) => el !== _target))
     :
     setCheckDoc([...checkDoc, _target])
-  }
+  };
 
   // const saveForm = () => {
   //   const _formData = new FormData();
