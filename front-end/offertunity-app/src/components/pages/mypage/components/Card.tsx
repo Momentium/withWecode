@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 import axios from "axios";
+import * as Mt from "api/methods";
 
 type Props = {
   data: any;
@@ -13,34 +14,33 @@ type Props = {
 const Card: React.FC<Props> = ({ data, key, index }) => {
   const [like, setLike] = useState<Boolean>(true);
   const { id, company_id, name, thumbnail, description } = data;
+  const _token = Mt.getUserInfo().token;
 
   const likeIt = () => {
     setLike(false);
-    axios.get(`http://10.0.1.44:3000/likes/company/${company_id}`, {
+    axios.get(`${process.env.REACT_APP_URL}/likes/company/${company_id}`, {
       headers: {
-        Authorization: `token ${sessionStorage.getItem("token")}`,
+        Authorization: _token,
       },
     });
   };
 
-  console.log(id);
-
   return (
-    <Link to={`/startup/detail/${id}`} key={index}>
-      <Wrap style={{ display: like ? "inline-block" : "none" }} id={id}>
-        <LikeBtn onClick={likeIt}>
-          <img src="/images/icons/heart_fill.png" alt="좋아요" />
-        </LikeBtn>
-        <Logo>
-          <img src={thumbnail} alt="로고" />
-        </Logo>
-        <Text>
-          <Title>{name}</Title>
-          <Sub>{name}</Sub>
-          <Info>{description}</Info>
-        </Text>
-      </Wrap>
-    </Link>
+    // <Link to={`/startup/detail/${id}`} key={index}>
+    <Wrap style={{ display: like ? "inline-block" : "none" }} id={id}>
+      <LikeBtn onClick={likeIt}>
+        <img src="/images/icons/heart_fill.png" alt="좋아요" />
+      </LikeBtn>
+      <Logo>
+        <img src={thumbnail} alt="로고" />
+      </Logo>
+      <Text>
+        <Title>{name}</Title>
+        <Sub>{name}</Sub>
+        <Info>{description}</Info>
+      </Text>
+    </Wrap>
+    // </Link>
   );
 };
 
@@ -88,6 +88,7 @@ const Info = styled.p`
 `;
 
 const LikeBtn = styled.div`
+  z-index: 10;
   position: absolute;
   top: 0.6rem;
   right: 0.6rem;

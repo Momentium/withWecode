@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ModalChangePw from "./ModalChangePw";
+import * as Mt from "api/methods";
 
 type Props = {
   data: any;
@@ -16,12 +17,13 @@ const EditForm: React.FC<Props> = ({ data }) => {
   });
   const { nameInput, phoneNumber } = inputs;
   const { email, name, phone_number, type_id } = data;
+  const _token = Mt.getUserInfo().token;
 
   const saveData = () => {
     axios
       .put(`${process.env.REACT_APP_URL}/users/mypage`, {
         headers: {
-          Authorization: sessionStorage.getItem("token"),
+          Authorization: _token,
         },
         name: nameInput,
         phone_number: phoneNumber,
@@ -33,7 +35,7 @@ const EditForm: React.FC<Props> = ({ data }) => {
         alert("올바른 정보를 입력해주세요");
       });
   };
-  console.log(nameInput, phoneNumber, sessionStorage.getItem("token"));
+  console.log(nameInput, phoneNumber, _token);
 
   const handleName = (event: any) => {
     event.preventDefault();

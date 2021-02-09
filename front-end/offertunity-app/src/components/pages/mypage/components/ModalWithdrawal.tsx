@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import * as Mt from "api/methods";
 
 const ModalWithdrawal = () => {
   const [Modal, setModal] = useState(true);
+  const [pw, setPw] = useState("");
+  const handlePw = (event: any) => {
+    const value = event.target.value;
+    setPw(value);
+    console.log(pw);
+  };
+  const _token = Mt.getUserInfo().token;
 
   const handleWithrawal = () => {
     axios
-      .post(`${process.env.REACT_APP_URL}/users/mypage`, {
+      .delete("http://10.0.1.29:3000/users/mypage", {
         headers: {
-          Authorization: `token ${sessionStorage.getItem("token")}`,
+          Authorization: _token,
+        },
+        data: {
+          password: pw,
         },
       })
       .then((res) => {
@@ -27,7 +38,11 @@ const ModalWithdrawal = () => {
         <H1>회원 탈퇴를 하면 모든 데이터가 사라집니다.</H1>
         <InputBox>
           <p>비밀번호를 입력해주세요.</p>
-          <input type="password" placeholder="비밀호를 입력해주세요." />
+          <input
+            type="password"
+            placeholder="비밀호를 입력해주세요."
+            onChange={handlePw}
+          />
         </InputBox>
         <Button
           onClick={() => {

@@ -18,15 +18,16 @@ const FindId: React.FC = () => {
   const handleIsPwExist = () => {
     history.push("/auth/FindIdAgain");
     sessionStorage.setItem("findEmail", email);
-    // axios.post(,{
-    //   email: email
-    // })
-    // .then((res)=>{
-    //   history.push("/auth/FindIdAgain")
-    // })
-    // .catch((err) => {
-    //   history.push("/auth/FindIdResult")
-    // })
+    axios
+      .post(`${process.env.REACT_APP_URL}/auths/emailfinder`, {
+        email: email,
+      })
+      .then((res) => {
+        history.push("/auth/FindIdAgain");
+      })
+      .catch((err) => {
+        history.push("/auth/FindIdResult");
+      });
   };
 
   return (
