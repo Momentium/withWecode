@@ -578,13 +578,13 @@ const getStartupSubmitInfo = errorWrapper(async(req, res) => {
     body.address = company.startups[0].address_road;
     body.sector = company.startups[0].sector_id ? await CompanyService.findInfoName("sectors", company.startups[0].sector_id) : null;
     body.technology = company.startups[0].core_technology_id ? await CompanyService.findInfoName("technologies", company.startups[0].core_technology_id) : null;
-    body.businessType = company.startups[0].business_type_id ? await CompanyService.findInfoName("   ", company.startups[0].business_type_id) : null;
-    body.businessLicenseNum = company.startups[0].business_type_id ? await CompanyService.findInfoName("   ", company.startups[0].business_license_number) : null;
+    body.businessType = company.startups[0].business_type_id ? await CompanyService.findInfoName("business_types", company.startups[0].business_type_id) : null;
+    body.businessLicenseNum = company.startups[0].business_license_number;
     body.email = company.startups[0].email;
     body.memberCount = company.member_count;
-    body.homepage = company.homepage;
-    body.instagram = company.instagram_url;
-    body.facebook = company.facebook_url;
+    body.homepage = company.homepage ? company.homepage : null;
+    body.instagram = company.startups[0].instagram_url;
+    body.facebook = company.startups[0].facebook_url;
 
   } else if (!req.foundUser.company_id) {
   }
@@ -603,10 +603,11 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     rep,
     address,
     sector,
-    coreTechnology,
+    technology,
     businessType,
     businessLicenseNum,
     email,
+    contact,
     memberCount,
     homepage,
     instagram,
@@ -617,8 +618,8 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
   const sectorId = sector
     ? await CompanyService.getRelatedInfoId("sectors", sector)
     : undefined;
-  const coreTechnologyId = coreTechnology
-    ? await CompanyService.getRelatedInfoId("technologies", coreTechnology)
+  const coreTechnologyId = technology
+    ? await CompanyService.getRelatedInfoId("technologies", technology)
     : undefined;
   const businessTypeId = businessType
     ? await CompanyService.getRelatedInfoId("business_types", businessType)
@@ -628,18 +629,18 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     name, 
     logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
     homepage,
-    team_intro: teamIntro,
-    member_count: memberCount,
+    member_count: Number(memberCount),
   };
   const startup_connect = {
     sectors: { connect: { id: Number(sectorId) } },
     technologies: { connect: { id: Number(coreTechnologyId) } },
-    business_type_id: { connect: { id: Number(businessTypeId) } },
+    business_types: { connect: { id: Number(businessTypeId) } },
   };
   const startup_field = {
     rep,
-    address,
+    address_road: address,
     email,
+    contact,
     business_license_number: businessLicenseNum,
     instagram_url: instagram,
     facebook_url: facebook,
@@ -1075,18 +1076,23 @@ const savePartnerInfo = errorWrapper(async (req, res) => {
 
 const getStartups = errorWrapper(async (req, res) => {
   const [companies, num] = await CompanyService.findStartups(req.query);
-  if (req.loggedIn) {
-    for (len = 0; len < companies.length; len++) {
-      const liked = await LikeService.findIsLiked(
-        "startup_likes",
-        req.foundUser.id,
-        companies[len].id
-      );
-      companies[len].startups[0].is_liked = liked ? liked.is_liked : false;
+
+  const determineLike = (liked) => {
+    if (liked) {
+      return liked.is_liked
+    } else {
+      return false
     }
+  };
+
+  if (req.loggedIn) {
+    for (let len = 0; len < companies.length; len++) {
+      const liked = await LikeService.findIsLiked("startup_likes", req.foundUser.id, companies[len].id);
+      companies[len].is_liked = await determineLike(liked);
+    };
   } else if (!req.loggedIn) {
-    for (len = 0; len < companies.length; len++) {
-      companies[len].startups[0].is_liked = false;
+    for (let len = 0; len < companies.length; len++) {
+      companies[len].is_liked=false;
     }
   }
   res.status(200).json({ companies, num });
@@ -1261,12 +1267,22 @@ const startupIRCount = errorWrapper(async (req, res) => {
 });
 
 const uploadStartupDoc = errorWrapper(async (req, res) => {
-  const { companyId, docTypeId } = req.body;
-  const startupDoc = req.file ? req.file.location : null;
+  const companyId = req.foundUser.company_id;
+  const { docType } = req.body;
+  const docTypeId = await CompanyService.getRelatedInfoId("document_types", docType)
+  if (!req.file) errorGenerator({ statusCode: 400, message: "No upload Data" });
+  const docURL = req.file.location;
+  const type = req.file.mimetype.split('/');
+  const fileType = type[type.length-1];
+  const name = req.file.originalname.split('.')
+  const docName = name.slice(0, name.length-1).join('.');
+
   const addInfo = await CompanyService.registerDoc({
     companyId,
     docTypeId,
-    startupDoc,
+    docURL,
+    docName,
+    fileType
   });
   res.status(201).json({
     message: "information successfully added",
@@ -1284,13 +1300,29 @@ const downloadStartupDoc = errorWrapper(async (req, res) => {
 });
 
 const readStartupDoc = errorWrapper(async (req, res) => {
-  const { companyId, docTypeId } = req.params;
+  const { docTypeId } = req.params;
+  const companyId = req.foundUser.company_id;
+
   const readStartupDoc = await CompanyService.readByDocType({
     companyId,
     docTypeId,
   });
+
+  documents = []
+  for (let len=0; len<readStartupDoc.length; len++) {
+    documents.push({});
+    documents[len].name = readStartupDoc[len].name;
+    documents[len].fileType = readStartupDoc[len].file_type.toUpperCase();
+    documents[len].updateDate = readStartupDoc[len].updated_at;
+    // 미리보기 & 다운로드 구현 
+    documents[len].download = readStartupDoc[len].doc_url
+    documents[len].preview = readStartupDoc[len].doc_url
+
+  }
+
   res.status(200).json({
     message: "documents successfully read",
+    documents
   });
 });
 
