@@ -1,30 +1,38 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 type Props = {
   data: any;
   key: number;
   index: number;
 };
+
 const Card: React.FC<Props> = ({ data, key, index }) => {
-  const [like, setLike] = useState<Boolean>();
-  const { logo, title, sub, info } = data;
+  const [like, setLike] = useState<Boolean>(true);
+  const { id, company_id, name, thumbnail, description } = data;
 
   const likeIt = () => {
     setLike(false);
+    axios.get(`http://10.0.1.44:3000/likes/company/${company_id}`, {
+      headers: {
+        Authorization: `token ${sessionStorage.getItem("token")}`,
+      },
+    });
+    console.log(company_id);
   };
   return (
-    <Wrap style={{ display: like ? "inline-block" : "none" }} key={index}>
+    <Wrap style={{ display: like ? "inline-block" : "none" }} id={id}>
       <LikeBtn onClick={likeIt}>
         <img src="/images/icons/heart_fill.png" alt="좋아요" />
       </LikeBtn>
       <Logo>
-        <img src={logo} alt="로고" />
+        <img src={thumbnail} alt="로고" />
       </Logo>
       <Text>
-        <Title>{title}</Title>
-        <Sub>{sub}</Sub>
-        <Info>{info}</Info>
+        <Title>{name}</Title>
+        <Sub>{name}</Sub>
+        <Info>{description}</Info>
       </Text>
     </Wrap>
   );
@@ -44,8 +52,9 @@ const Wrap = styled.div`
 
 const Logo = styled.div`
   img {
-    width: 19.9rem;
-    height: 13.88rem;
+    width: 100%;
+    height: 16.56rem;
+    margin-bottom: 1.375rem;
   }
 `;
 

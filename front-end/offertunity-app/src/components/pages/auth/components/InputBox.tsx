@@ -20,6 +20,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   const [showPwAlert, setShowPwAlert] = useState(false);
   const [emailData, setEmailData] = useState({});
   const [emailCertificateNumber, setEmailCertificateNumber] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
     emailCertification: "",
@@ -116,14 +117,18 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
   };
 
   const handlePw = (event: any) => {
-    // event.preventDefault();
-    const value = event.target.value;
+    const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    let value = event.target.value;
+    if (korean.test(value)) {
+      alert("영문 대소문자,숫자,특수문자 만 입력 가능합니다");
+    } else {
+      setInputs({
+        ...inputs,
+        password: value,
+        validatePassword: reg.test(value),
+      });
+    }
 
-    setInputs({
-      ...inputs,
-      password: value,
-      validatePassword: reg.test(value),
-    });
     console.log(value);
   };
 
@@ -239,10 +244,9 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         </p>
         <PwWrap>
           <input
-            type="password"
+            type="text"
             placeholder="비밀번호를 입력해주세요"
             onChange={handlePw}
-            // value=""
           />
 
           {validatePassword ? (
