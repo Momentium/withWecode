@@ -4,7 +4,7 @@ const upload = require("../utils/s3");
 const { ProjectController } = require("../controllers");
 const { validateToken, save, checkLogIn } = require("../middlewares");
 
-router.get("/published", ProjectController.getPublishedProjects);
+router.get("/published", checkLogIn, ProjectController.getPublishedProjects);
 
 router.get("/", checkLogIn, ProjectController.getMyProjects);
 

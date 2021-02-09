@@ -4,8 +4,8 @@ const { AUTH_TOKEN_SALT } = process.env;
 const jwt = require("jsonwebtoken");
 
 const validateToken = errorWrapper(async (req, res, next) => {
-  console.log(req.headers);
-  console.log(req.body);
+  console.log("headers: ", req.headers);
+  console.log("body: ",req.body);
   let token;
   if (req.headers.authorization.includes(" ")) {
     [bearer, token] = req.headers.authorization.split(" ");

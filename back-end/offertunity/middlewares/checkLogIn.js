@@ -4,7 +4,7 @@ const { AUTH_TOKEN_SALT } = process.env
 const jwt = require('jsonwebtoken')
 
 const checkLogIn = errorWrapper(async(req, res, next) => {
-    console.log(req.headers.authorization)
+    console.log("header: ",req.headers.authorization)
     if (req.headers.authorization) {
         console.log('온다', req.headers.authorization)
         let token

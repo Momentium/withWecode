@@ -68,6 +68,7 @@ const updateInfo = async (fields) => {
       id: Number(userId),
     },
     data: {
+      ...requestedFields,
       phone_number: requestedFields.phone_number,
       profile_picture,
     },
