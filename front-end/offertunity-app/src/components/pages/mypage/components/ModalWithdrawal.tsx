@@ -25,11 +25,11 @@ const ModalWithdrawal = () => {
       })
       .then((res) => {
         alert("회원탈퇴 되었습니다");
-        console.log(res);
+        sessionStorage.removeItem("userInfo");
+        window.location.href = "/";
       })
       .catch((err) => {
         alert("잘못된 비밀번호 입니다");
-        console.log(err);
       });
   };
   return (

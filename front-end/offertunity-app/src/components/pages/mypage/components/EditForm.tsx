@@ -20,20 +20,33 @@ const EditForm: React.FC<Props> = ({ data }) => {
   const _token = Mt.getUserInfo().token;
 
   const saveData = () => {
-    axios
-      .put(`${process.env.REACT_APP_URL}/users/mypage`, {
-        headers: {
-          Authorization: _token,
-        },
+    // axios
+    //   .post("http://10.0.1.29:3000/users/mypage", {
+    //     headers: {
+    //       Authorization: _token,
+    //     },
+    //     name: nameInput,
+    //     phone_number: phoneNumber,
+    //   })
+    //   .then((res) => {
+    //     alert("회원정보가 수정되었습니다");
+    //   });
+    // .catch((err) => {
+    //   alert("올바른 정보를 입력해주세요");
+    // });
+    axios({
+      method: "post",
+      url: "http://10.0.1.29:3000/users/mypage",
+      headers: {
+        authorization: _token,
+      },
+      data: {
         name: nameInput,
         phone_number: phoneNumber,
-      })
-      .then((res) => {
-        alert("회원정보가 수정되었습니다");
-      })
-      .catch((err) => {
-        alert("올바른 정보를 입력해주세요");
-      });
+      },
+    }).then((res) => {
+      alert("회원정보가 수정되었습니다");
+    });
   };
   console.log(nameInput, phoneNumber, _token);
 

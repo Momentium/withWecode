@@ -7,8 +7,9 @@ import EditForm from "./components/EditForm";
 import WorkStation from "./components/WorkStation";
 import * as Mt from "api/methods";
 
-const EditMypage: React.FC = () => {
+const EditMypage: React.FC = (Props) => {
   const [data, setData] = useState({});
+
   const _token = Mt.getUserInfo().token;
 
   useEffect(() => {
