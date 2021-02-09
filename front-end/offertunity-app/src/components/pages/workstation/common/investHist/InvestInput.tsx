@@ -7,11 +7,12 @@ const InvestInput: React.FC<any> = ({ view, value, changeVal, addInvest }) => {
   const {
     investedDates,
     investedStartups,
+    investedInstitutions,
     investedFunds,
     investedValues,
     investedSeries,
   } = value;
-  
+
   return (
     <StInputCont>
       <div className="table-cont">
@@ -46,7 +47,9 @@ const InvestInput: React.FC<any> = ({ view, value, changeVal, addInvest }) => {
                   height={44}
                   fSize={18}
                   fWeight={"normal"}
-                  value={investedStartups}
+                  value={
+                    view === "startup" ? investedInstitutions : investedStartups
+                  }
                   changeVal={changeVal}
                 />
               </td>

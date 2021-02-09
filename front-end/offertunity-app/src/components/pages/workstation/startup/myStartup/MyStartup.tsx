@@ -39,7 +39,7 @@ const MyStartup = () => {
   const [newInvest, setNewInvest] = useState<{}>({
     temp: 0,
     investedDates: "",
-    investedStartups: "",
+    investedInstitutions: "",
     investedFunds: "1천만원 - 5천만원",
     investedValues: "",
     investedSeries: "엔젤투자"
@@ -155,7 +155,7 @@ const MyStartup = () => {
         setNewInvest({ ...newInvest, ...{ investedDates: _target.value } });
         break;
       case "invest_depart":
-        setNewInvest({ ...newInvest, ...{ investedStartups: _target.value } });
+        setNewInvest({ ...newInvest, ...{ investedInstitutions: _target.value } });
         break;
       case "invest-cost":
         setNewInvest({ ...newInvest, ...{ investedFunds: _target.textContent } });
@@ -175,7 +175,7 @@ const MyStartup = () => {
     setNewInvest({
       temp: (newInvest as any).temp + 1,
       investedDates: "",
-      investedStartups: "",
+      investedInstitutions: "",
       investedFunds: "1천만원 - 5천만원",
       investedValues: "",
       investedSeries: "엔젤투자"
@@ -236,6 +236,7 @@ const MyStartup = () => {
     });
     _formData.append("description", introSU);
     _formData.append("itemDescription", introItem);
+    _formData.append("investedFrom" , JSON.stringify(submitInvest));
 
     axios.post(
       `${process.env.REACT_APP_URL}/companies/info/startup/save`,
