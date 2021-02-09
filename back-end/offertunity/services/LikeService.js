@@ -1,4 +1,5 @@
 const prisma = require('../prisma')
+const { makeQueryOption } = require('../utils')
 
 const like = (async(table, where, data) => {
     const likeInfo = await prisma[table].findFirst({ where })
@@ -37,7 +38,44 @@ const findIsLiked = async(table, userId, objectId) => {
     })
 }
 
+const findLikedStartups = async(query, userId) => {
+    const { offset, limit, ...fields } = query
+    const where = makeQueryOption(fields)
+
+    const ARTICLES_DEFAULT_OFFSET = 0
+    const ARTICLES_DEFAULT_LIMIT = limit ? limit : 6
+    
+    const likedStartups = await prisma.startup_likes.findMany({
+        where: {
+            user_id: userId,
+            is_liked: true
+        },
+        include: {
+            companies: {
+                include: {
+                    startups: true
+                }
+            }
+        },
+        skip: (Number(offset) - 1) * ARTICLES_DEFAULT_LIMIT || ARTICLES_DEFAULT_OFFSET,
+        take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
+        orderBy: {
+            updated_at: 'desc'
+        }
+    })
+
+    const num = (await prisma.startup_likes.findMany({
+        where: {
+            user_id: userId,
+            is_liked: true
+        }
+    })).length
+
+    return [likedStartups, num]
+}
+
 module.exports = {
     like,
-    findIsLiked
+    findIsLiked,
+    findLikedStartups
 }

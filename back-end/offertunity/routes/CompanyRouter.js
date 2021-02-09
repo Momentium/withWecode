@@ -49,8 +49,15 @@ router.post(
     CompanyController.saveStartupInfo
 )
 
-router.post(
+router.get(
     '/project_info/startup',
+    validateToken,
+    CompanyController.getStartupSubmitInfo
+)
+
+
+router.post(
+    '/project_info/startup/save',
     validateToken,
     upload.fields([
         { name: 'logoImg', maxCount: 1 }

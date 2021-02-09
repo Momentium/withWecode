@@ -56,11 +56,7 @@ const deleteNews = errorWrapper(async (req, res) => {
 // startup -------------------------------------------------------------------------------
 // startup Info Read
 const getStartupInfo = errorWrapper(async (req, res) => {
-  if (req.foundUser.type_id === 2)
-    errorGenerator({
-      statusCode: 400,
-      message: "this user is not startup user",
-    });
+  if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: "this user is not startup user"});
   const body = {};
   if (req.foundUser.company_id) {
     const companyId = req.foundUser.company_id;
@@ -578,12 +574,39 @@ const saveStartupInfo = errorWrapper(async (req, res) => {
   });
 });
 
+const getStartupSubmitInfo = errorWrapper(async(req, res) => {
+  if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: "this user is not startup user"});
+  const body = {};
+  if (req.foundUser.company_id) {
+    const companyId = req.foundUser.company_id;
+    const company = await CompanyService.findStartup({ id: companyId });
+
+    body.name = company.name;
+    body.rep = company.startups[0].rep;
+    body.contact = company.startups[0].contact;
+    body.address = company.startups[0].address_road;
+    body.sector = company.startups[0].sector_id ? await CompanyService.findInfoName("sectors", company.startups[0].sector_id) : null;
+    body.technology = company.startups[0].core_technology_id ? await CompanyService.findInfoName("technologies", company.startups[0].core_technology_id) : null;
+    body.businessType = company.startups[0].business_type_id ? await CompanyService.findInfoName("   ", company.startups[0].business_type_id) : null;
+    body.businessLicenseNum = company.startups[0].business_type_id ? await CompanyService.findInfoName("   ", company.startups[0].business_license_number) : null;
+    body.email = company.startups[0].email;
+    body.memberCount = company.member_count;
+    body.homepage = company.homepage;
+    body.instagram = company.instagram_url;
+    body.facebook = company.facebook_url;
+
+  } else if (!req.foundUser.company_id) {
+  }
+
+  await res.status(201).json({
+    message: "startup submit info",
+    body,
+  });
+
+})
+
 const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
-  if (req.foundUser.type_id === 2)
-    errorGenerator({
-      statusCode: 400,
-      message: "this user is not startup user",
-    });
+  if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: "this user is not startup user"});
   const {
     name,
     rep,
@@ -591,14 +614,12 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     sector,
     coreTechnology,
     businessType,
-    servcieType,
     businessLicenseNum,
     email,
     memberCount,
     homepage,
     instagramUrl,
     facebookUrl,
-    logoImgURL,
   } = req.body;
   const { logoImg } = req.files;
 
@@ -607,9 +628,6 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     : undefined;
   const coreTechnologyId = coreTechnology
     ? await CompanyService.getRelatedInfoId("technologies", coreTechnology)
-    : undefined;
-  const servcieTypeId = servcieType
-    ? await CompanyService.getRelatedInfoId("service_types", servcieType)
     : undefined;
   const businessTypeId = businessType
     ? await CompanyService.getRelatedInfoId("business_types", businessType)
@@ -846,11 +864,6 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
     interedtedTechnology,
     homepage,
     description,
-    investedDates,
-    investedStartups,
-    investedFunds,
-    investedValues,
-    investedSeries,
     teamIntro,
     memberCount,
     memberInfoNames,
@@ -1313,22 +1326,28 @@ module.exports = {
   tempSaveStartupInfo,
   tempSaveStartupBasicInfo,
   saveStartupInfo,
+  getStartupSubmitInfo,
   saveStartupSubmitInfo,
+
   getPartnerInfo,
+  tempSavePartnerBasicInfo,
   tempSavePartnerInfo,
   savePartnerInfo,
+
   getStartups,
   getPartners,
-  likeCompany,
   getOnePartner,
   getOnestartup,
+
+  likeCompany,
+
   deleteMember,
   deleteImage,
   deleteNews,
+  
   startupIRCount,
   uploadStartupDoc,
   downloadStartupDoc,
   readStartupDoc,
   deleteStartupDoc,
-  tempSavePartnerBasicInfo,
 };

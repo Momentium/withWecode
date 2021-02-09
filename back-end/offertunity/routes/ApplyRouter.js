@@ -12,7 +12,7 @@ router.post(
     validateToken, 
     upload.fields([
         { name: 'businessPlan', maxCount: 1 },
-        { name: 'businessCertification', maxCount: 1 },
+        { name: 'businessLicense', maxCount: 1 },
         { name: 'repID', maxCount: 1 },
         { name: 'IRdocuments', maxCount: 1 },
         { name: 'etc', maxCount: 1 },
