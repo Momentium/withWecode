@@ -28,7 +28,7 @@ const MyStartup = () => {
     name: "",
     rep: "",
     establishedDate: new Date().toISOString().substring(0, 10),
-    sector: "플랫폼",
+    sector: "서비스",
     coreTechnology: "블록체인",
     homepage: "",
   });
@@ -39,7 +39,7 @@ const MyStartup = () => {
   const [newInvest, setNewInvest] = useState<{}>({
     temp: 0,
     investedDates: "",
-    investedStartups: "",
+    investedInstitutions: "",
     investedFunds: "1천만원 - 5천만원",
     investedValues: "",
     investedSeries: "엔젤투자"
@@ -75,6 +75,7 @@ const MyStartup = () => {
           });
           setIntroSU(_resData.description ? _resData.description : "");
           setIntroItem(_resData.itemDescription ? _resData.itemDescription : "");
+          setInvestInfo(_resData.investedFrom);
         }
       })
       .catch((err) => {
@@ -155,7 +156,7 @@ const MyStartup = () => {
         setNewInvest({ ...newInvest, ...{ investedDates: _target.value } });
         break;
       case "invest_depart":
-        setNewInvest({ ...newInvest, ...{ investedStartups: _target.value } });
+        setNewInvest({ ...newInvest, ...{ investedInstitutions: _target.value } });
         break;
       case "invest-cost":
         setNewInvest({ ...newInvest, ...{ investedFunds: _target.textContent } });
@@ -175,7 +176,7 @@ const MyStartup = () => {
     setNewInvest({
       temp: (newInvest as any).temp + 1,
       investedDates: "",
-      investedStartups: "",
+      investedInstitutions: "",
       investedFunds: "1천만원 - 5천만원",
       investedValues: "",
       investedSeries: "엔젤투자"
@@ -188,7 +189,7 @@ const MyStartup = () => {
       setInvestInfo(investInfo.filter((el:any) => 
         el.id !== Number(_target[1])
       ));
-      setSubmitInvest(submitInvest.concat({ id: _target[1] }));
+      setSubmitInvest(submitInvest.concat({ id: Number(_target[1]) }));
     }
 
     else if(_target[2] !== "undefined") {
@@ -236,6 +237,7 @@ const MyStartup = () => {
     });
     _formData.append("description", introSU);
     _formData.append("itemDescription", introItem);
+    _formData.append("investedFrom" , JSON.stringify(submitInvest));
 
     axios.post(
       `${process.env.REACT_APP_URL}/companies/info/startup/save`,

@@ -10,7 +10,7 @@ const boxStyle = {
 };
 
 const Buttons = ({ data, title, type, companyId, page, isLogin }: any) => {
-  const [like, setLike] = useState<boolean>(data);
+  const [isLike, setLike] = useState<boolean>(data);
 
   useEffect(() => {
     getLikeData();

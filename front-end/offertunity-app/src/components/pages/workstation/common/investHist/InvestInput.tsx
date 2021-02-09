@@ -7,11 +7,12 @@ const InvestInput: React.FC<any> = ({ view, value, changeVal, addInvest }) => {
   const {
     investedDates,
     investedStartups,
+    investedInstitutions,
     investedFunds,
     investedValues,
     investedSeries,
   } = value;
-  
+
   return (
     <StInputCont>
       <div className="table-cont">
@@ -43,10 +44,12 @@ const InvestInput: React.FC<any> = ({ view, value, changeVal, addInvest }) => {
                       : "이상한 나라의 엘리스"
                   }`}
                   width={265}
-                  height={44}
+                  height={46}
                   fSize={18}
                   fWeight={"normal"}
-                  value={investedStartups}
+                  value={
+                    view === "startup" ? investedInstitutions : investedStartups
+                  }
                   changeVal={changeVal}
                 />
               </td>
@@ -58,7 +61,7 @@ const InvestInput: React.FC<any> = ({ view, value, changeVal, addInvest }) => {
                 <SelectBtn
                   cName="invest-cost"
                   mode={"investCost"}
-                  width={208}
+                  width={265}
                   curVal={investedFunds}
                   changeVal={changeVal}
                 />
@@ -71,7 +74,7 @@ const InvestInput: React.FC<any> = ({ view, value, changeVal, addInvest }) => {
                   type="text"
                   placeholder="숫자만 입력해주세요."
                   width={265}
-                  height={44}
+                  height={46}
                   fSize={18}
                   fWeight={"normal"}
                   value={investedValues}
