@@ -29,6 +29,15 @@ const getPublishedProjects = errorWrapper(async (req, res) => {
     const required_documents = reqDocExists.length > 0 ? reqDocExists.map((el) => el.document_types.name) : reqDocExists;
     const tag = projectList[len].tag? projectList[len].tag: undefined;
 
+  let hasLiked;
+  const userInfofromToken = req.foundUser ? req.foundUser : undefined;
+  if (userInfofromToken) {
+    const isStartup = userInfofromToken.type_id === 1;
+    const findLiked = isStartup? await LikeService.findIsLiked("project_likes",userInfofromToken.user_id, id ):false;
+    hasLiked = findLiked? true : false;
+  }else{
+    hasLiked = false
+  }
   let cleanedProject = {};
   cleanedProject.id = id
   cleanedProject.name = name
@@ -46,10 +55,12 @@ const getPublishedProjects = errorWrapper(async (req, res) => {
   cleanedProject.project_images = project_images
   cleanedProject.required_documents = required_documents
   cleanedProject.tag = tag
+  cleanedProject.hasLiked = hasLiked
 
   cleanedProjectList.push(cleanedProject);
   
-}   res.status(200).json({ cleanedProjectList });
+} 
+res.status(200).json( {cleanedProjectList} );
 }else {res.status(200).json({ message: "no project to show"})}
 
 });
@@ -129,6 +140,33 @@ const getOneProject = errorWrapper(async (req, res) => {
     const required_documents = reqDocExists.length > 0 ? reqDocExists.map((el) => el.document_types.name) : reqDocExists;
     const tag = projectDetail.tag? projectDetail.tag: undefined;
 
+
+    let hasApplied;
+    const userInfofromToken = req.foundUser ? req.foundUser : undefined;
+    if (userInfofromToken) {
+      const isStartup = userInfofromToken.type_id === 1;
+      const findApplied = isStartup
+        ? await ApplyService.findMyApplication({
+            company_id: userInfofromToken.company_id,
+            project_id: Number(projectId),
+          })
+        : false;
+      console.log(findApplied);
+      hasApplied = findApplied ? true : false;
+    } else {
+      hasApplied = false;
+    }
+  
+    let hasLiked;
+    if (userInfofromToken) {
+      const isStartup = userInfofromToken.type_id === 1;
+      const findLiked = isStartup? await LikeService.findIsLiked("project_likes",userInfofromToken.user_id, projectId ):false;
+      console.log(findLiked)
+      hasLiked = findLiked? true : false;
+    }else{
+      hasLiked = false
+    }
+
   cleanedProject.id = id
   cleanedProject.name = name
   cleanedProject.introduction = introduction
@@ -145,27 +183,13 @@ const getOneProject = errorWrapper(async (req, res) => {
   cleanedProject.project_images = project_images
   cleanedProject.required_documents = required_documents
   cleanedProject.tag = tag
+  cleanedProject.hasApplied = hasApplied
+  cleanedProject.hasLiked = hasLiked
 
+  res.status(200).json({ cleanedProject });
 
 }else {res.status(200).json({ message: "no project to show"})}
 
-  let hasApplied;
-  const userInfofromToken = req.foundUser ? req.foundUser : undefined;
-  if (userInfofromToken) {
-    const isStartup = userInfofromToken.type_id === 1;
-    const findApplied = isStartup
-      ? await ApplyService.findMyApplication({
-          company_id: userInfofromToken.company_id,
-          project_id: Number(projectId),
-        })
-      : false;
-    console.log(findApplied);
-    hasApplied = findApplied ? true : false;
-  } else {
-    hasApplied = false;
-  }
-
-  res.status(200).json({ cleanedProject, hasApplied });
 });
 
 const tempSaveProjectInfo = errorWrapper(async (req, res, next) => {

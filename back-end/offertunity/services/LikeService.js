@@ -25,7 +25,7 @@ const findIsLiked = async(table, userId, objectId) => {
     const where = {}
     if (table === 'project_likes') {
         where.user_id = userId,
-            where.project_id = Number(objectId)
+        where.project_id = Number(objectId)
     } else if (table === 'startup_likes' || table === 'partner_likes') {
         where.user_id = userId,
             where.company_id = Number(objectId)
