@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const { validateToken } = require('../middlewares')
-const { CompanyController, ProjectController } = require('../controllers')
+const { CompanyController, ProjectController, LikeController } = require('../controllers')
 
 // company like
 router.get(
@@ -16,6 +16,13 @@ router.get(
     '/project/:partnerId',
     validateToken,
     ProjectController.likeProject
+)
+
+// Startup like 조회
+router.get(
+    '/startup',
+    validateToken,
+    LikeController.getLikeStartups
 )
 
 module.exports = router

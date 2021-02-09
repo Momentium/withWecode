@@ -44,12 +44,21 @@ router.post(
   CompanyController.saveStartupInfo
 );
 
+router.get(
+    '/project_info/startup',
+    validateToken,
+    CompanyController.getStartupSubmitInfo
+)
+
+
 router.post(
-  "/project_info/startup",
-  validateToken,
-  upload.fields([{ name: "logoImg", maxCount: 1 }]),
-  CompanyController.saveStartupSubmitInfo
-);
+    '/project_info/startup/save',
+    validateToken,
+    upload.fields([
+        { name: 'logoImg', maxCount: 1 }
+    ]),
+    CompanyController.saveStartupSubmitInfo
+)
 
 // partner info
 router.get("/info/partner", validateToken, CompanyController.getPartnerInfo);
@@ -93,13 +102,16 @@ router.delete(
 );
 
 // IR_count
-router.get("/IR_count/:companyId", CompanyController.startupIRCount);
+router.get(
+    '/IR_count/:companyId',
+    CompanyController.startupIRCount
+)
 
 router.delete(
-  "/del/image/:imageId",
-  validateToken,
-  CompanyController.deleteImage
-);
+    '/del/image/:imageId',
+    validateToken,
+    CompanyController.deleteImage
+)
 
 router.delete("/del/news/:newsId", validateToken, CompanyController.deleteNews);
 

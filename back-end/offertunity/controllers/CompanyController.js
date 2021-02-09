@@ -56,11 +56,7 @@ const deleteNews = errorWrapper(async (req, res) => {
 // startup -------------------------------------------------------------------------------
 // startup Info Read
 const getStartupInfo = errorWrapper(async (req, res) => {
-  if (req.foundUser.type_id === 2)
-    errorGenerator({
-      statusCode: 400,
-      message: "this user is not startup user",
-    });
+  if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: "this user is not startup user"});
   const body = {};
   if (req.foundUser.company_id) {
     const companyId = req.foundUser.company_id;
@@ -69,49 +65,19 @@ const getStartupInfo = errorWrapper(async (req, res) => {
     body.name = company.name;
     body.rep = company.startups[0].rep;
     body.establishedDate = company.established_date;
-    body.sector = company.startups[0].sector_id
-      ? await CompanyService.findInfoName(
-          "sectors",
-          company.startups[0].sector_id
-        )
-      : null;
-    body.coreTechnology = company.startups[0].core_technology_id
-      ? await CompanyService.findInfoName(
-          "technologies",
-          company.startups[0].core_technology_id
-        )
-      : null;
+    body.sector = company.startups[0].sector_id ? await CompanyService.findInfoName("sectors", company.startups[0].sector_id) : null;
+    body.coreTechnology = company.startups[0].core_technology_id ? await CompanyService.findInfoName("technologies", company.startups[0].core_technology_id) : null;
     body.homepage = company.homepage;
     body.description = company.description;
     body.itemDescription = company.startups[0].item_description;
-    if (
-      company.startups[0].investment_series_id &&
-      !(company.startups[0].wish_investment_series === []) &&
-      company.startups[0].investment_fund_id
-    ) {
-      body.investmentSeries = company.startups[0].investment_series_id
-        ? await CompanyService.findInfoName(
-            "investment_series",
-            company.startups[0].investment_series_id
-          )
-        : null;
+
+    if (company.startups[0].investment_series_id && !(company.startups[0].wish_investment_series === []) && company.startups[0].investment_fund_id) {
+      body.investmentSeries = company.startups[0].investment_series_id ? await CompanyService.findInfoName("investment_series",company.startups[0].investment_series_id) : null;
       body.wishInvestmentSeriesIds = [];
-      for (
-        len = 0;
-        len < company.startups[0].wish_investment_series.length;
-        len++
-      ) {
-        body.wishInvestmentSeriesIds.push(
-          await CompanyService.findInfoName(
-            "investment_series",
-            company.startups[0].wish_investment_series[len].investment_series_id
-          )
-        );
-      }
-      body.investmentFundId = await CompanyService.findInfoName(
-        "investment_funds",
-        company.startups[0].investment_fund_id
-      );
+      for (len = 0; len < company.startups[0].wish_investment_series.length;len++) {
+        body.wishInvestmentSeriesIds.push(await CompanyService.findInfoName("investment_series", company.startups[0].wish_investment_series[len].investment_series_id));
+      };
+      body.investmentFundId = await CompanyService.findInfoName("investment_funds", company.startups[0].investment_fund_id);
     }
     body.teamIntro = company.team_intro;
     body.memberCount = company.member_count;
@@ -120,18 +86,17 @@ const getStartupInfo = errorWrapper(async (req, res) => {
     body.investedFrom = company.startups[0].invested_from;
     if (!(body.investedFrom.length === 0)) {
       for (len = 0; len < body.investedFrom.length; len++) {
-        body.investedFrom[
-          len
-        ].invested_fund = await CompanyService.findInfoName(
-          "investment_funds",
-          body.investedFrom[len].invested_fund_id
-        );
-        body.investedFrom[
-          len
-        ].investment_series = await CompanyService.findInfoName(
-          "investment_series",
-          body.investedFrom[len].invested_series_id
-        );
+        body.investedFrom[len].invested_fund = await CompanyService.findInfoName("investment_funds",body.investedFrom[len].invested_fund_id);
+        body.investedFrom[len].investment_series = await CompanyService.findInfoName("investment_series", body.investedFrom[len].invested_series_id);
+        body.investedTo[len].investedDates = `${body.investedTo[len].date.getUTCFullYear()}.${body.investedTo[len].date.getUTCMonth()+1}`
+        body.investedTo[len].investedValues = body.investedTo[len].corporate_value
+        body.investedTo[len].investedInstitutions = body.investedTo[len].invested_institution
+
+        delete body.investedTo[len].date
+        delete body.investedTo[len].invested_institution
+        delete body.investedTo[len].corporate_value
+        delete body.investedTo[len].invested_fund_id
+        delete body.investedTo[len].series_id
       }
     }
     body.images = company.startups[0].startup_images;
@@ -225,14 +190,9 @@ const tempSaveStartupBasicInfo = errorWrapper(async (req, res, next) => {
     await CompanyService.updateStartup(companyInfo.id, startupFields);
   }
 
-  // save 기능 연결
-  if (req.save) {
-    next();
-  } else {
     await res.status(201).json({
       message: "startup basic info temporary saved",
     });
-  }
 });
 
 const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
@@ -470,11 +430,10 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
 
   // 투자 유치 이력 프로세싱
   const investedFromProcess = async (investedFrom) => {
-    const jsonInvestedFrom = JSON.parse(investedFrom);
-    if (jsonInvestedFrom.id) {
+    if (investedFrom.id) {
       const existData = CompanyService.readRelatedInfo(
         "invested_from",
-        jsonInvestedFrom.id
+        investedFrom.id
       );
       if (existData === [])
         errorGenerator({ statusCode: 400, message: "Invalid Invest Data" });
@@ -485,27 +444,27 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
         });
       CompanyService.deleteRelatedInfo(
         "invested_to",
-        Number(jsonInvestedFrom.id)
+        Number(investedFrom.id)
       );
-    } else if (!jsonInvestedFrom.id) {
+    } else if (!investedFrom.id) {
       const investedFundId = await CompanyService.getRelatedInfoId(
         "investment_funds",
-        jsonInvestedFrom.investedFunds
+        investedFrom.investedFunds
       );
       const investedSeriesId = await CompanyService.getRelatedInfoId(
         "investment_series",
-        jsonInvestedFrom.investedSeries
+        investedFrom.investedSeries
       );
-      const datesList = jsonInvestedFrom.investedDates.split(".");
+      const datesList = investedFrom.investedDates.split(".");
       const Dates = `${datesList[0]}-${datesList[1]}-01`;
       CompanyService.createRelatedInfo(
         "invested_to",
         (data = {
           partners: { connect: { id: partnerInfo.id } },
           date: await dateForm(Dates),
-          invested_institution: jsonInvestedFrom.investedInstitutions,
+          invested_institution: investedFrom.investedInstitutions,
           investment_funds: { connect: { id: Number(investedFundId) } },
-          corporate_value: Number(jsonInvestedFrom.investedValues),
+          corporate_value: Number(investedFrom.investedValues),
           investment_series: { connect: { id: Number(investedSeriesId) } },
         })
       );
@@ -514,14 +473,9 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
 
   // 투자 이력 추가 및 삭제
   if (investedFrom) {
-    if (Object.prototype.toString.call(investedFrom) === "[object String]") {
-      await investedFromProcess(JSON.parse(investedFrom));
-    } else if (
-      Object.prototype.toString.call(investedFrom) === "[object Array]"
-    ) {
-      for (let len = 0; len < investedFrom.length; len++) {
-        await investedFromProcess(JSON.parse(investedFrom[len]));
-      }
+    jsonInvestedTo = JSON.parse(investedFrom)
+    for (let len = 0; len < investedFrom.length; len++) {
+      await investedFromProcess(jsonInvestedTo[len]);
     }
   }
 
@@ -620,12 +574,39 @@ const saveStartupInfo = errorWrapper(async (req, res) => {
   });
 });
 
+const getStartupSubmitInfo = errorWrapper(async(req, res) => {
+  if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: "this user is not startup user"});
+  const body = {};
+  if (req.foundUser.company_id) {
+    const companyId = req.foundUser.company_id;
+    const company = await CompanyService.findStartup({ id: companyId });
+
+    body.name = company.name;
+    body.rep = company.startups[0].rep;
+    body.contact = company.startups[0].contact;
+    body.address = company.startups[0].address_road;
+    body.sector = company.startups[0].sector_id ? await CompanyService.findInfoName("sectors", company.startups[0].sector_id) : null;
+    body.technology = company.startups[0].core_technology_id ? await CompanyService.findInfoName("technologies", company.startups[0].core_technology_id) : null;
+    body.businessType = company.startups[0].business_type_id ? await CompanyService.findInfoName("   ", company.startups[0].business_type_id) : null;
+    body.businessLicenseNum = company.startups[0].business_type_id ? await CompanyService.findInfoName("   ", company.startups[0].business_license_number) : null;
+    body.email = company.startups[0].email;
+    body.memberCount = company.member_count;
+    body.homepage = company.homepage;
+    body.instagram = company.instagram_url;
+    body.facebook = company.facebook_url;
+
+  } else if (!req.foundUser.company_id) {
+  }
+
+  await res.status(201).json({
+    message: "startup submit info",
+    body,
+  });
+
+})
+
 const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
-  if (req.foundUser.type_id === 2)
-    errorGenerator({
-      statusCode: 400,
-      message: "this user is not startup user",
-    });
+  if (req.foundUser.type_id === 2) errorGenerator({statusCode: 400, message: "this user is not startup user"});
   const {
     name,
     rep,
@@ -633,14 +614,12 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     sector,
     coreTechnology,
     businessType,
-    servcieType,
     businessLicenseNum,
     email,
     memberCount,
     homepage,
     instagramUrl,
     facebookUrl,
-    logoImgURL,
   } = req.body;
   const { logoImg } = req.files;
 
@@ -649,9 +628,6 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     : undefined;
   const coreTechnologyId = coreTechnology
     ? await CompanyService.getRelatedInfoId("technologies", coreTechnology)
-    : undefined;
-  const servcieTypeId = servcieType
-    ? await CompanyService.getRelatedInfoId("service_types", servcieType)
     : undefined;
   const businessTypeId = businessType
     ? await CompanyService.getRelatedInfoId("business_types", businessType)
@@ -888,11 +864,6 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
     interedtedTechnology,
     homepage,
     description,
-    investedDates,
-    investedStartups,
-    investedFunds,
-    investedValues,
-    investedSeries,
     teamIntro,
     memberCount,
     memberInfoNames,
@@ -993,30 +964,13 @@ const tempSavePartnerInfo = errorWrapper(async (req, res, next) => {
 
   const investedToProcess = async (jsonInvestedTo) => {
     if (jsonInvestedTo.id) {
-      const existData = CompanyService.readRelatedInfo(
-        "invested_to",
-        Number(jsonInvestedTo.id)
-      );
-      if (existData === [])
-        errorGenerator({ statusCode: 400, message: "Invalid Invest Data" });
-      if (jsonInvestedTo.partner_id === partnerInfo.id)
-        errorGenerator({
-          statusCode: 400,
-          message: "this invest record is not beloged to this company",
-        });
-      await CompanyService.deleteRelatedInfo(
-        "invested_to",
-        Number(jsonInvestedTo.id)
-      );
+      const existData = CompanyService.readRelatedInfo("invested_to", Number(jsonInvestedTo.id));
+      if (existData === []) errorGenerator({ statusCode: 400, message: "Invalid Invest Data" });
+      if (existData.partner_id === partnerInfo.id) errorGenerator({ statusCode: 400, message: "this invest record is not beloged to this company" });
+      await CompanyService.deleteRelatedInfo("invested_to", Number(existData.id));
     } else if (!jsonInvestedTo.id) {
-      const investedFundId = await CompanyService.getRelatedInfoId(
-        "investment_funds",
-        jsonInvestedTo.investedFunds
-      );
-      const investedSeriesId = await CompanyService.getRelatedInfoId(
-        "investment_series",
-        jsonInvestedTo.investedSeries
-      );
+      const investedFundId = await CompanyService.getRelatedInfoId("investment_funds", jsonInvestedTo.investedFunds);
+      const investedSeriesId = await CompanyService.getRelatedInfoId("investment_series", jsonInvestedTo.investedSeries);
       const datesList = jsonInvestedTo.investedDates.split(".");
       const Dates = `${datesList[0]}-${datesList[1]}-01`;
       await CompanyService.createRelatedInfo(
@@ -1372,22 +1326,28 @@ module.exports = {
   tempSaveStartupInfo,
   tempSaveStartupBasicInfo,
   saveStartupInfo,
+  getStartupSubmitInfo,
   saveStartupSubmitInfo,
+
   getPartnerInfo,
+  tempSavePartnerBasicInfo,
   tempSavePartnerInfo,
   savePartnerInfo,
+
   getStartups,
   getPartners,
-  likeCompany,
   getOnePartner,
   getOnestartup,
+
+  likeCompany,
+
   deleteMember,
   deleteImage,
   deleteNews,
+  
   startupIRCount,
   uploadStartupDoc,
   downloadStartupDoc,
   readStartupDoc,
   deleteStartupDoc,
-  tempSavePartnerBasicInfo,
 };

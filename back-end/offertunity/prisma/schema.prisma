@@ -324,7 +324,7 @@ model projects {
   id                   Int                    @id @default(autoincrement())
   name                 String?
   introduction         String?
-  company              Int?
+  company_id           Int?
   host                 String?
   due_date             DateTime?
   eligible_sector      Int?
@@ -334,8 +334,7 @@ model projects {
   application_method   String?
   caution              String?
   contact              String?
-  request_open         Boolean?
-  is_opened            Boolean
+  is_opened            Boolean                @default(false) 
   hit                  Int
   application_url      String?
   is_saved             Boolean                @default(false) 
@@ -344,14 +343,14 @@ model projects {
   deleted_at           DateTime?
   eligible_sectors     eligible_sectors?      @relation(fields: [eligible_sector], references: [id])
   eligibilities        eligibilities?         @relation(fields: [eligibility], references: [id])
-  companies            companies?             @relation(fields: [company], references: [id])
+  companies            companies?             @relation(fields: [company_id], references: [id])
   applicants           applicants[]
   project_images       project_images[]
   project_likes        project_likes[]
   recent_views_project recent_views_project[]
   required_documents   required_documents[]
 
-  @@index([company], name: "FK_projects_company_companies_id")
+  @@index([company_id], name: "FK_projects_company_companies_id")
   @@index([eligible_sector], name: "FK_projects_eligible_sector_eligible_sectors_id")
   @@index([eligibility], name: "FK_projects_eligibility_eligibilities_id")
 }

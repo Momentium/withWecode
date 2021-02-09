@@ -17,6 +17,6 @@ router.use("/initials", InitialRouter);
 router.use("/companies", CompanyRouter);
 router.use("/auths", AuthRouter);
 router.use('/likes', LikeRouter);
-router.use("/apply", ApplyRouter);
+router.use("/applies", ApplyRouter);
 
 module.exports = router;
