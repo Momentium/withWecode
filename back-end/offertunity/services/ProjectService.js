@@ -9,7 +9,7 @@ const ARTICLES_DEFAULT_LIMIT = 5;
 const findPublishedProjects = async (query, field) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
-  console.log(where);
+  where.AND[2]= {is_opened : 1}
 
   const projects = await prisma.projects.findMany({
     include: {
@@ -28,6 +28,15 @@ const findPublishedProjects = async (query, field) => {
           name: true,
         },
       },
+      required_documents: {
+        include: {
+          document_types: {
+            select: {
+            name: true
+          }
+        }
+        }
+      }
     },
     where,
     //   skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
@@ -60,6 +69,25 @@ const findMyProjects = (query, companyId) => {
           img_url: true,
         },
       },
+      eligible_sectors: {
+        select: {
+          name: true,
+        },
+      },
+      eligibilities: {
+        select: {
+          name: true,
+        },
+      },
+      required_documents: {
+        include: {
+          document_types: {
+            select: {
+            name: true
+          }
+        }
+        }
+      }
     },
     where,
     // skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
@@ -68,6 +96,7 @@ const findMyProjects = (query, companyId) => {
       created_at: "asc",
     },
   });
+  
 };
 
 const findOneProject = async (field) => {
@@ -97,6 +126,15 @@ const findOneProject = async (field) => {
           name: true,
         },
       },
+      required_documents: {
+        include: {
+          document_types: {
+            select: {
+            name: true
+          }
+        }
+        }
+      }
     },
     where: {
       [uniqueKey]: value,
@@ -125,12 +163,10 @@ const resetChoices = async (field) => {
   });
 };
 
-const createRelatedDoc = async (fields) => {
-  const { required_documents, projectAction } = fields;
-
+const createRelatedDoc = async (requiredDocId, projectAction) => {
   return await prisma.required_documents.create({
     data: {
-      document_types: { connect: { id: Number(required_documents[len]) } },
+      document_types: { connect: { id: Number(requiredDocId) } },
       projects: { connect: { id: Number(projectAction.id) } },
     },
   });
@@ -153,35 +189,43 @@ const createProject = async (field) => {
 const updateProject = async (fields) => {
   const {
     projectId,
-    requestedFields,
-    project_picture,
+    name,
+    introduction,
+    host,
     due_date,
     eligible_sectors,
     eligibilities,
+    outline,
+    detail,
+    application_method,
+    caution,
+    contact,
+    application_url,
+    project_images,
   } = fields;
-  requestedFields.required_documents = undefined;
-  requestedFields.eligibility = undefined;
-  requestedFields.eligible_sectors = undefined;
 
   return await prisma.projects.update({
     where: {
       id: Number(projectId),
     },
     data: {
-      ...requestedFields,
-      eligibilities: eligibilities
-        ? { connect: { id: eligibilities.id } }
-        : undefined,
-      eligible_sectors: eligible_sectors
-        ? { connect: { id: eligible_sectors.id } }
-        : undefined,
+      name,
+      introduction,
+      host,
+      due_date,
+      eligible_sectors: eligible_sectors? { connect: { id: eligible_sectors } }: undefined,      
+      eligibilities: eligibilities? { connect: { id: eligibilities } }: undefined,
+      outline,
+      detail,
+      application_method,
+      caution,
+      contact,
+      application_url,
       is_opened: 0,
       is_saved: false,
-      project_images: project_picture
-        ? { create: [{ img_url: project_picture }] }
-        : undefined,
-      due_date,
+      project_images: project_images? { create: [{ img_url: project_images }] }: undefined,
       is_saved: true,
+      request_open: 0,
     },
   });
 };

@@ -13,21 +13,21 @@ router.get("/:projectId", checkLogIn, ProjectController.getOneProject);
 router.post(
   "/allinfo/save",
   validateToken,
-  upload.single("project_picture"),
+  upload.single("project_images"),
   ProjectController.tempSaveProjectInfo
 );
 
 router.put(
   "/allinfo/save/:projectId",
   validateToken,
-  upload.single("project_picture"),
+  upload.single("project_images"),
   ProjectController.tempSaveProjectInfo
 );
 
 router.put(
   "/publish/:projectId",
   validateToken,
-  upload.single("project_picture"),
+  upload.single("project_images"),
   ProjectController.openOneProject
 );
 

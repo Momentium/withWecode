@@ -324,7 +324,7 @@ model projects {
   id                   Int                    @id @default(autoincrement())
   name                 String?
   introduction         String?
-  company               Int?
+  company              Int?
   host                 String?
   due_date             DateTime?
   eligible_sector      Int?
@@ -334,8 +334,8 @@ model projects {
   application_method   String?
   caution              String?
   contact              String?
-  request_open         Int?
-  is_opened            Int
+  request_open         Boolean?
+  is_opened            Boolean
   hit                  Int
   application_url      String?
   is_saved             Boolean                @default(false) 
