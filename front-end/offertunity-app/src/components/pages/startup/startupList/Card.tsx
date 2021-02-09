@@ -5,7 +5,7 @@ import Title from "./Title";
 import axios from "axios";
 
 const Card = ({ data, name, background, service, isLogin, id }: any) => {
-  const [like, setLike] = useState<boolean>(data.like);
+  const [like, setLike] = useState<boolean>();
   const cardImage = {
     backgroundImage: `url(${data.startups[0].thumbnail})`,
     backgroundSize: background,
@@ -14,10 +14,24 @@ const Card = ({ data, name, background, service, isLogin, id }: any) => {
   };
 
   useEffect(() => {
-    isLogin && getLikeData();
+    isLogin && getLikeData(id);
   }, []);
 
-  const getLikeData = () => {
+  const getLikeData = (id: any) => {
+    if (isLogin) {
+      axios
+        .get(`http://10.0.1.44:3000/likes/company/${id}`, {
+          headers: {
+            Authorization: sessionStorage.getItem("token"),
+          },
+        })
+        .then((res) => setLike(res.data.result))
+        .catch((error) => console.log(error));
+    }
+  };
+
+  const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
     if (isLogin) {
       axios
         .get(`${process.env.REACT_APP_URL}/likes/company/${id}`, {
@@ -25,19 +39,10 @@ const Card = ({ data, name, background, service, isLogin, id }: any) => {
             Authorization: sessionStorage.getItem("token"),
           },
         })
-        .then((res) => setLike(res.data.result))
+        .then((res) => setLike(!res.data.result))
         .catch((error) => console.log(error));
     } else {
-      setLike(false);
-    }
-  };
-
-  const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (isLogin) {
-      getLikeData();
-    } else {
-      alert("다시해봐...제발..");
+      alert("오퍼튜니티에 로그인 하신 후 이용해 주시기 바랍니다.");
     }
   };
 

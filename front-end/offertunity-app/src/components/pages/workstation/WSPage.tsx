@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import * as St from "styles/styledComp";
-import * as Mt from 'api/methods'
-import GuideBar from "./GuideBar";
+import * as Mt from "api/methods";
+import GuideBar from "./common/GuideBar";
 import MyStartup from "./startup/myStartup/MyStartup";
-import SupportPjt from "./startup/supportPjt/SupportPjt";
+import StartupPjt from "./startup/applyPjt/StartupPjt";
 import AdminIRReq from "./AdminIRReq";
 import MyPartner from "./partner/myPartner/MyPartner";
 import PartnerPjt from "./partner/supportPjt/PartnerPjt";
@@ -75,7 +75,7 @@ const WSPage: React.FC<any> = ({ match }) => {
       {_curType === 1 ? (
         <>
           {_curTab === "mystartup" && <MyStartup />}
-          {_curTab === "myproject" && <SupportPjt />}
+          {_curTab === "myproject" && <StartupPjt />}
           {_curTab === "myrequest" && <AdminIRReq />}
           {_curTab === "mydocument" && <></>}
         </>

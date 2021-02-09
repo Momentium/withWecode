@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import * as Mt from "api/methods";
 
 const ModalWithdrawal = () => {
   const [Modal, setModal] = useState(true);
@@ -10,14 +11,17 @@ const ModalWithdrawal = () => {
     setPw(value);
     console.log(pw);
   };
+  const _token = Mt.getUserInfo().token;
 
   const handleWithrawal = () => {
     axios
-      .post("http://10.0.1.29:3000/users/mypage", {
+      .delete("http://10.0.1.29:3000/users/mypage", {
         headers: {
-          Authorization: `token ${sessionStorage.getItem("token")}`,
+          Authorization: _token,
         },
-        password: pw,
+        data: {
+          password: pw,
+        },
       })
       .then((res) => {
         alert("회원탈퇴 되었습니다");

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import SelectBtn from "../../SelectBtn";
-import InputBox from '../../InputBox';
+import SelectBtn from "../../common/SelectBtn";
+import InputBox from '../../common/InputBox';
 import Necessary from "components/common/message/Necessary";
 
 const BaseInfo: React.FC<any> = (props) => {

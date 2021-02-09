@@ -54,7 +54,7 @@ const SignIn: React.FC = () => {
           name: _resData.name,
           type_id: _resData.type_id,
         };
-        sessionStorage.setItem("token", response.data.token);
+        // sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("userInfo", JSON.stringify(_resData));
         if (saveId) {
           localStorage.setItem("userId", email);

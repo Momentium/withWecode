@@ -7,6 +7,7 @@ import WorkStation from "./components/WorkStation";
 import Box from "./components/Box";
 import Level from "./components/Level";
 import Card from "./components/Card";
+import * as Mt from "api/methods";
 
 const Mypage: React.FC = () => {
   const [profileData, setProfileData] = useState({});
@@ -14,6 +15,7 @@ const Mypage: React.FC = () => {
   const [interestData, setInterestData] = useState();
   const [irData, setIrData] = useState();
   const [cardData, setCardData] = useState([]);
+  const _token = Mt.getUserInfo().token;
 
   useEffect(() => {
     getProfileData();
@@ -27,7 +29,7 @@ const Mypage: React.FC = () => {
     axios
       .get(`${process.env.REACT_APP_URL}/users/mypage`, {
         headers: {
-          Authorization: `token ${sessionStorage.getItem("token")}`,
+          Authorization: _token,
         },
       })
       .then((res) => {
@@ -55,7 +57,7 @@ const Mypage: React.FC = () => {
     axios
       .get(`${process.env.REACT_APP_URL}/likes/startup?offset=1`, {
         headers: {
-          Authorization: `token ${sessionStorage.getItem("token")}`,
+          Authorization: _token,
         },
       })
       .then((res) => {

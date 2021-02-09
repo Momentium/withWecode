@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as St from 'styles/styledComp';
-import InputBox from '../../InputBox';
+import InputBox from '../../common/InputBox';
 import IntroMember from './IntroMember';
 
 const IntroTeam:React.FC<any> = () => {

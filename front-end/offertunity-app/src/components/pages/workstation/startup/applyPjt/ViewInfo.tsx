@@ -1,8 +1,9 @@
 import React, { useState,  } from 'react';
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import BasicBtn from 'components/common/button/BasicBtn';
-import InputBox from '../../InputBox';
-import SelectBtn from '../../SelectBtn';
+import InputBox from '../../common/InputBox';
+import SelectBtn from '../../common/SelectBtn';
 
 const ViewPjt:React.FC<any> = ({ handleSubmit }) => {
   const [img, setImg] = useState<any>();
@@ -55,7 +56,9 @@ const ViewPjt:React.FC<any> = ({ handleSubmit }) => {
       <StLogoCont>
         {/* <img src="" alt=""/> */}
         <div className="img-wrap">이미지를 등록해 주세요</div>
-        <StBtn onClick={handleSubmit}>제출 정보 편집</StBtn>
+        <Link to={`/workstation/myproject/editInfo`}>
+          <StBtn>제출 정보 편집</StBtn>
+        </Link>
       </StLogoCont>
 
       <StFormCont>

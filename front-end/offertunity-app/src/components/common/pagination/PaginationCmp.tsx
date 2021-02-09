@@ -26,11 +26,12 @@ const PaginationCmp = ({
 }: any) => {
   const classes = useStyles();
   const noOfPages = Math.ceil(totalLength / itemsPerPage);
-  
+
   return (
     <>
       {(currPage === "partner" && totalLength > 12) ||
-      (currPage === "startup" && totalLength > 16) ? (
+      (currPage === "startup" && totalLength > 16) ||
+      (currPage === "reqList" && totalLength > 10) ? (
         <Box className="pagenation-span" component="span">
           <Pagination
             className="pagenation-comp"

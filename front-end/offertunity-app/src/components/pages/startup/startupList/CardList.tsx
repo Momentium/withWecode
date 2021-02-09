@@ -17,6 +17,7 @@ const CardList = ({ list, data, name, boxName, background }: any) => {
           <Link to={`/startup/detail/${data.id}`} key={idx}>
             <Card
               data={data}
+              id={data.id}
               key={idx}
               name={name}
               background={background}
