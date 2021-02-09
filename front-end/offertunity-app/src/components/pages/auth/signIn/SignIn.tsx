@@ -29,9 +29,17 @@ const SignIn: React.FC = () => {
     }
   }, []);
 
-  const SIGNIN = () => {
-    const { email, password } = inputs;
+  // const enterSignIn = (window: any) => {
+  //   const keyCode = window.this.event.keyCode;
 
+  //   if (keyCode == 13) {
+  //     signIn();
+  //   }
+  //   console.log(keyCode);
+  // };
+
+  const signIn = () => {
+    const { email, password } = inputs;
     axios
       .post(`${process.env.REACT_APP_URL}/users/signin`, {
         email: email,
@@ -46,7 +54,7 @@ const SignIn: React.FC = () => {
           name: _resData.name,
           type_id: _resData.type_id,
         };
-        sessionStorage.setItem("token", response.data.token);
+        // sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("userInfo", JSON.stringify(_resData));
         if (saveId) {
           localStorage.setItem("userId", email);
@@ -56,6 +64,7 @@ const SignIn: React.FC = () => {
       .catch(function (error) {
         alert("로그인 실패");
       });
+    console.log(email, password);
   };
 
   const handleEmail = (event: any) => {
@@ -123,7 +132,7 @@ const SignIn: React.FC = () => {
               <button>아이디 / 비밀번호 찾기</button>
             </Link>
           </FindAccount>
-          <BtnEmail onClick={SIGNIN}>로그인</BtnEmail>
+          <BtnEmail onClick={signIn}>로그인</BtnEmail>
           <Or />
           <BtnGoogle onClick={handleGOOGLE}>Google 계정 로그인</BtnGoogle>
           <Icon>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // import axios from "axios";
 import styled from "styled-components";
 import ModalWrap from "./ModalWithdrawal";
+import * as Mt from "api/methods";
 
 type Props = {
   data: any;
@@ -12,6 +13,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
   const [Modal, setModal] = useState(false);
   const [removeImg, setRemoveImg] = useState(false);
   const { profile_picture } = data;
+  const _token = Mt.getUserInfo().token;
 
   // useEffect(() => {
   //   SEND_IMG();
@@ -20,7 +22,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
   // const SEND_IMG = () => {
   //   axios.post("http://10.0.1.29:3000/users/mypage", {
   //     headers: {
-  //       Authorization: `token ${sessionStorage.getItem("token")}`,
+  //       Authorization: _token,
   //     },
   //     profile_picture: previewURL,
   //   });

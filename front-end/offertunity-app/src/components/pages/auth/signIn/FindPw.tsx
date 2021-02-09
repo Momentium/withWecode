@@ -18,7 +18,7 @@ const FindPw = () => {
 
   const isPwExist = () => {
     axios
-      .post("", {
+      .post(`${process.env.REACT_APP_URL}/auths/emailresetpassword`, {
         email: email,
       })
       .then((res) => {

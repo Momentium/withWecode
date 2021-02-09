@@ -17,20 +17,22 @@ const ProgressingCard: React.FC<Props> = ({ data, index }) => {
 
   return (
     <Card key={index} id={id}>
-      <img
-        src={project_images ? project_images : "/images/header/logo.png"}
-        alt={name}
-      />
-      {!project_images && <span className="noImg">이미지가 없습니다</span>}
-      <div className={project_images ? "txtBox" : "noProgectImg"}>
-        <Subtitle>{host}</Subtitle>
-        <Date>~{dueDate} 까지</Date>
-      </div>
-      <Title>{introduction}</Title>
+      <Link to={`/project/detail/${id}`} key={index}>
+        <img
+          src={project_images ? project_images : "/images/header/logo.png"}
+          alt={name}
+        />
+        {!project_images && <span className="noImg">이미지가 없습니다</span>}
+        <div className={project_images ? "txtBox" : "noProgectImg"}>
+          <Subtitle>{host}</Subtitle>
+          <Date>~{dueDate} 까지</Date>
+        </div>
+        <Title>{introduction}</Title>
 
-      {tag.map((tag: any, idx: number) => {
-        return <Tag key={idx}>{tag}</Tag>;
-      })}
+        {tag.map((tag: any, idx: number) => {
+          return <Tag key={idx}>{tag}</Tag>;
+        })}
+      </Link>
     </Card>
   );
 };
