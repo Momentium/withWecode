@@ -2,6 +2,7 @@ const { body } = require("express-validator");
 const { errorGenerator } = require("../errors");
 const prisma = require("../prisma");
 const { makeQueryOption } = require("../utils");
+const CompanyService = require("./CompanyService");
 
 const findRequiredDoc = async (proejctId) => {
   const requiredDocuments = await prisma.required_documents.findMany({
@@ -63,9 +64,19 @@ const findOneApplication = async (field) => {
   return application
 };
 
-const findMyApplication = (where) => {
+const findMyApplication = async (where) => {
   return prisma.applicants.findFirst({ where });
 };
+
+const findDocuments = async (query, companyId) => {
+  const { offset, limit, ...fields } = query;
+  const where = makeQueryOption(fields);
+  where.company_id = Number(companyId)
+  delete where.AND[0]
+  return prisma.company_documents.findMany({
+    where
+  })
+}
 
 const createApplication = async (data, files) => {
   const { businessPlan, businessLicense, repID, IRdocuments, etc } = files
@@ -76,6 +87,23 @@ const createApplication = async (data, files) => {
   // 파일 처리
   const requiredDoc = findRequiredDoc(application.project_id)
   const incomeDoc = Object.keys(files)
+
+  for (let len=0; len < incomeDoc; len++) {
+    switch (incomeDoc[len]) {
+      case 'businessPlan' :
+        if (requiredDoc.includes(await CompanyService.readRelatedInfoId('document_types', '사업계획서'))) {
+          
+        }
+      case 'businessLicense' :
+        if (requiredDoc.includes(await CompanyService.readRelatedInfoId('document_types', '사업자등록 사본'))) {
+
+        }
+      case 'businessLicense' :
+        if (requiredDoc.includes(await CompanyService.readRelatedInfoId('document_types', '대표자 주민등록증 (운전면허증)'))) {
+            
+        }  
+    }
+  }
 
   // applicant_document 생성
   if (incomeDoc) {
@@ -118,4 +146,5 @@ module.exports = {
   createApplication,
   updateApplication,
   deleteApplication,
+  findDocuments
 };

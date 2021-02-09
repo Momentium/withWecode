@@ -135,7 +135,7 @@ router.post(
 );
 
 router.get(
-  "/:companyId/doc/:docTypeId",
+  "/doc/:docTypeId",
   validateToken,
   CompanyController.readStartupDoc
 );
