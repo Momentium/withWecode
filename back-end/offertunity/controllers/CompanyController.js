@@ -458,9 +458,9 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
       const datesList = investedFrom.investedDates.split(".");
       const Dates = `${datesList[0]}-${datesList[1]}-01`;
       CompanyService.createRelatedInfo(
-        "invested_to",
+        "invested_from",
         (data = {
-          partners: { connect: { id: partnerInfo.id } },
+          startups: { connect: { id: startupInfo.id } },
           date: await dateForm(Dates),
           invested_institution: investedFrom.investedInstitutions,
           investment_funds: { connect: { id: Number(investedFundId) } },

@@ -338,6 +338,7 @@ model projects {
   hit                  Int
   application_url      String?
   is_saved             Boolean                @default(false) 
+  request_open         Boolean                @default(false)
   created_at           DateTime?              @default(now())
   updated_at           DateTime?              @updatedAt
   deleted_at           DateTime?

@@ -9,7 +9,7 @@ const ARTICLES_DEFAULT_LIMIT = 5;
 const findPublishedProjects = async (query, field) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
-  console.log(where);
+  where.AND[2]= {is_opened : true}
 
   const projects = await prisma.projects.findMany({
     include: {
@@ -28,6 +28,15 @@ const findPublishedProjects = async (query, field) => {
           name: true,
         },
       },
+      required_documents: {
+        include: {
+          document_types: {
+            select: {
+            name: true
+          }
+        }
+        }
+      }
     },
     where,
     //   skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
@@ -51,7 +60,7 @@ const findMyProjects = (query, companyId) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
   delete where.AND[0];
-  where.company = companyId;
+  where.company_id = companyId;
 
   return prisma.projects.findMany({
     include: {
@@ -60,6 +69,25 @@ const findMyProjects = (query, companyId) => {
           img_url: true,
         },
       },
+      eligible_sectors: {
+        select: {
+          name: true,
+        },
+      },
+      eligibilities: {
+        select: {
+          name: true,
+        },
+      },
+      required_documents: {
+        include: {
+          document_types: {
+            select: {
+            name: true
+          }
+        }
+        }
+      }
     },
     where,
     // skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
@@ -68,12 +96,14 @@ const findMyProjects = (query, companyId) => {
       created_at: "asc",
     },
   });
+  
 };
 
 const findOneProject = async (field) => {
   const [uniqueKey] = Object.keys(field);
   const isKeyId = uniqueKey === "id";
   const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
+  console.log(field);
   const projects = await prisma.projects.findUnique({
     where: {
       [uniqueKey]: value,
@@ -96,6 +126,15 @@ const findOneProject = async (field) => {
           name: true,
         },
       },
+      required_documents: {
+        include: {
+          document_types: {
+            select: {
+            name: true
+          }
+        }
+        }
+      }
     },
     where: {
       [uniqueKey]: value,
@@ -114,22 +153,20 @@ const findOneProject = async (field) => {
 };
 
 const resetChoices = async (field) => {
-  const { projectAction } = field;
+  const { projectDetail } = field;
   return await prisma.required_documents.deleteMany({
     where: {
       projects: {
-        id: Number(projectAction.id),
+        id: Number(projectDetail.id),
       },
     },
   });
 };
 
-const createRelatedDoc = async (fields) => {
-  const { required_documents, projectAction } = fields;
-
+const createRelatedDoc = async (requiredDocId, projectAction) => {
   return await prisma.required_documents.create({
     data: {
-      document_types: { connect: { id: Number(required_documents[len]) } },
+      document_types: { connect: { id: Number(requiredDocId) } },
       projects: { connect: { id: Number(projectAction.id) } },
     },
   });
@@ -142,8 +179,9 @@ const createProject = async (field) => {
       companies: userInfofromToken
         ? { connect: { id: userInfofromToken.company_id } }
         : undefined,
-      is_opened: 0,
+      is_opened: false,
       is_saved: false,
+      request_open: false,
       hit: 0,
     },
   });
@@ -152,44 +190,50 @@ const createProject = async (field) => {
 const updateProject = async (fields) => {
   const {
     projectId,
-    requestedFields,
-    project_picture,
+    name,
+    introduction,
+    host,
     due_date,
     eligible_sectors,
     eligibilities,
+    outline,
+    detail,
+    application_method,
+    caution,
+    contact,
+    application_url,
+    project_images,
   } = fields;
-  requestedFields.required_documents = undefined;
-  requestedFields.eligibility = undefined;
-  requestedFields.eligible_sectors = undefined;
 
   return await prisma.projects.update({
     where: {
       id: Number(projectId),
     },
     data: {
-      ...requestedFields,
-      eligibilities: eligibilities
-        ? { connect: { id: eligibilities.id } }
-        : undefined,
-      eligible_sectors: eligible_sectors
-        ? { connect: { id: eligible_sectors.id } }
-        : undefined,
-      is_opened: 0,
-      is_saved: false,
-      project_images: project_picture
-        ? { create: [{ img_url: project_picture }] }
-        : undefined,
+      name,
+      introduction,
+      host,
       due_date,
+      eligible_sectors: eligible_sectors? { connect: { id: eligible_sectors } }: undefined,      
+      eligibilities: eligibilities? { connect: { id: eligibilities } }: undefined,
+      outline,
+      detail,
+      application_method,
+      caution,
+      contact,
+      application_url,
+      project_images: project_images? { create: [{ img_url: project_images }] }: undefined,
+      is_saved: true,
     },
   });
 };
 
-const saveInfo = async (field) => {
+const openRequest = async (field) => {
   const { projectId } = field;
 
   return await prisma.projects.update({
     where: { id: Number(projectId) },
-    data: { is_saved: true },
+    data: { request_open: true },
   });
 };
 
@@ -199,7 +243,7 @@ const openProject = (projectId) => {
       id: Number(projectId),
     },
     data: {
-      is_opened: 1,
+      is_opened: true,
       updated_at: new Date(),
     },
   });
@@ -233,8 +277,8 @@ module.exports = {
   createRelatedDoc,
   createProject,
   updateProject,
-  saveInfo,
   openProject,
+  openRequest,
   deleteImage,
   deleteProject,
 };
