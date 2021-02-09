@@ -124,19 +124,18 @@ const findStartups = async (query) => {
   const where = makeQueryOption(fields);
   where.type_id = 1;
   const ARTICLES_DEFAULT_OFFSET = 0;
-  const ARTICLES_DEFAULT_LIMIT = 16;
+  const ARTICLES_DEFAULT_LIMIT = offset ? offset : 16;
   const companies = await prisma.companies.findMany({
     include: {
       startups: true,
     },
     where,
-    skip: (Number(offset) - 1) * Number(limit) || ARTICLES_DEFAULT_OFFSET,
+    skip: (Number(offset) - 1) * ARTICLES_DEFAULT_LIMIT || ARTICLES_DEFAULT_OFFSET,
     take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     orderBy: {
       id: "desc",
     },
   });
-  console.log(companies);
   const num = (
     await prisma.companies.findMany({
       where,
@@ -171,6 +170,7 @@ const findStartups = async (query) => {
   }
   return [companies, num];
 };
+
 const findStartup = async (field) => {
   const [uniqueKey] = Object.keys(field);
   const isKeyId = uniqueKey === "id";
@@ -220,13 +220,13 @@ const findPartners = async (query) => {
   const where = makeQueryOption(fields);
   where.type_id = 2;
   const ARTICLES_DEFAULT_OFFSET = 0;
-  const ARTICLES_DEFAULT_LIMIT = 12;
+  const ARTICLES_DEFAULT_LIMIT = offset ? offset : 12;
   const companies = await prisma.companies.findMany({
     include: {
       partners: true,
     },
     where,
-    skip: (Number(offset) - 1) * Number(limit) || ARTICLES_DEFAULT_OFFSET,
+    skip: (Number(offset) - 1) * ARTICLES_DEFAULT_LIMIT || ARTICLES_DEFAULT_OFFSET,
     take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     orderBy: {
       id: "desc",
