@@ -3,13 +3,15 @@ import axios from "axios";
 import styled from "styled-components";
 import ProgressingCard from "./ProgressingCard";
 
-const ProgressingProject = () => {
+const ProgressingProject: React.FC = () => {
   const [projectData, setProjectData] = useState([]);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_URL}/projects/published`).then((res) => {
-      const _resData = res.data.projectList;
-      setProjectData(_resData);
+      const _resData = res.data.cleanedProjectList;
+      const slice = _resData.slice(0, 6);
+      setProjectData(slice);
+      console.log(_resData);
     });
   }, []);
 
