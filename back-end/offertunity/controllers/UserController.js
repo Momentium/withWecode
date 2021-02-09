@@ -63,6 +63,7 @@ const showMemberInfo = errorWrapper(async (req, res) => {
 
 const addMemberInfo = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
+  console.log(userId)
   const requestedFields = req.body;
   const userInfo = await UserService.findUserInfo({ id: userId });
   const profile_picture = req.file
