@@ -36,6 +36,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
       setpreviewURL(event.target.result);
     };
     if (file && file.type.match("image.*")) {
+      setRemoveImg(false);
       reader.readAsDataURL(file);
     } else {
       ProfileImg = (
@@ -48,7 +49,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
   };
 
   const removeImges = () => {
-    setRemoveImg(!removeImg);
+    setRemoveImg(true);
     console.log(removeImg);
   };
 

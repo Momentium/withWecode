@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -12,12 +12,26 @@ import Question from "../components/Question";
 
 const SignIn: React.FC = () => {
   const history = useHistory();
+  const [saveId, setSaveId] = useState(false);
+
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
+
+  const getUserId: string | any = localStorage.getItem("userId");
+  useEffect(() => {
+    if (getUserId) {
+      setInputs({
+        ...inputs,
+        email: getUserId,
+      });
+    }
+  }, []);
+
   const SIGNIN = () => {
     const { email, password } = inputs;
+
     axios
       .post(`${process.env.REACT_APP_URL}/users/signin`, {
         email: email,
@@ -34,14 +48,16 @@ const SignIn: React.FC = () => {
         };
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("userInfo", JSON.stringify(_resData));
-        console.log(JSON.parse(String(sessionStorage.getItem("userInfo"))));
-
+        if (saveId) {
+          localStorage.setItem("userId", email);
+        }
         window.location.href = "/";
       })
       .catch(function (error) {
         alert("로그인 실패");
       });
   };
+
   const handleEmail = (event: any) => {
     event.preventDefault();
     const { value } = event.target;
@@ -51,12 +67,17 @@ const SignIn: React.FC = () => {
     });
   };
   const handlePw = (event: any) => {
-    event.preventDefault();
+    const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
     const { value } = event.target;
-    setInputs({
-      ...inputs,
-      password: value,
-    });
+    if (korean.test(value)) {
+      alert("영문 대소문자,숫자,특수문자 만 입력 가능합니다");
+      event.target.value = null;
+    } else {
+      setInputs({
+        ...inputs,
+        password: value,
+      });
+    }
   };
   const handleGOOGLE = () => {
     window.location.href = `${process.env.REACT_APP_URL}/users/google`;
@@ -77,19 +98,25 @@ const SignIn: React.FC = () => {
             <input
               id="id"
               type="text"
-              placeholder="이메일 아이디를 입력해주세요"
+              placeholder="아이디를 입력해 주세요"
               onChange={handleEmail}
+              value={getUserId}
             />
             <input
               id="password"
               type="password"
-              placeholder="비밀번호(영문,숫자,특수문자 포함 8자 이상)"
+              placeholder="비밀번호를 입력해주세요"
               onChange={handlePw}
             />
           </InputBox>
           <FindAccount>
             <label>
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                onClick={() => {
+                  setSaveId(!saveId);
+                }}
+              />
               아이디 저장
             </label>
             <Link to="/auth/FindId">

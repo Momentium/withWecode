@@ -9,7 +9,6 @@ interface Props {
 const NewCard: React.FC<Props> = ({ data, index }) => {
   const { id, name, project_images, due_date, host, introduction } = data;
   const dueDate = due_date.split("T")[0];
-  // const image = data.project_images[0].img_url;
 
   return (
     <Card key={index}>
@@ -19,7 +18,10 @@ const NewCard: React.FC<Props> = ({ data, index }) => {
         <NewMinititle>{host}</NewMinititle>
         <NewDate>~{dueDate} 까지</NewDate>
       </TxtWrap>
-      {/* <img src={image} alt={name} /> */}
+      <img
+        src={project_images ? project_images : "/images/header/logo.png"}
+        alt={name}
+      />
     </Card>
   );
 };

@@ -8,25 +8,29 @@ interface Props {
 }
 
 const ProgressingCard: React.FC<Props> = ({ data, index }) => {
-  const { id, name, project_images, due_date, host, introduction } = data;
-
+  const { id, name, project_images, due_date, host, introduction, tag } = data;
   const dueDate = due_date.split("T")[0];
-  const image = data.project_images;
 
-  console.log(image);
+  const noImg = {
+    paddingTop: "0",
+  };
 
   return (
-    <Card key={id}>
-      {/* <img src={image} alt={name} /> */}
-      <div className="txtBox">
+    <Card key={index} id={id}>
+      <img
+        src={project_images ? project_images : "/images/header/logo.png"}
+        alt={name}
+      />
+      {!project_images && <span className="noImg">이미지가 없습니다</span>}
+      <div className={project_images ? "txtBox" : "noProgectImg"}>
         <Subtitle>{host}</Subtitle>
         <Date>~{dueDate} 까지</Date>
       </div>
       <Title>{introduction}</Title>
 
-      {/* {tag.map((tag:any,idx: number) => {
-          return <Tag key={idx}>{tag}</Tag>
-        })} */}
+      {tag.map((tag: any, idx: number) => {
+        return <Tag key={idx}>{tag}</Tag>;
+      })}
     </Card>
   );
 };
@@ -39,16 +43,26 @@ const Card = styled.li`
   width: 16rem;
   cursor: pointer;
   img {
+    display: inline-block;
     width: 100%;
     height: 11rem;
   }
   .txtBox {
     display: flex;
-    padding: 0.75rem 0;
+    padding: 1rem 0;
     justify-content: space-between;
   }
   &:nth-child(3n) {
     margin-right: 0;
+  }
+  .noImg {
+    font-size: 0.5rem;
+    color: #9f9f9f;
+  }
+  .noProgectImg {
+    display: flex;
+    padding-bottom: 1rem;
+    justify-content: space-between;
   }
 `;
 

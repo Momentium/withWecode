@@ -32,7 +32,6 @@ const Mypage: React.FC = () => {
       })
       .then((res) => {
         setProfileData(res.data.userInfo);
-        console.log(res.data);
       });
   };
 
@@ -53,9 +52,15 @@ const Mypage: React.FC = () => {
   };
 
   const getCardData = () => {
-    axios.get("/data/mypageInterestList.json").then((res) => {
-      setCardData(res.data.data);
-    });
+    axios
+      .get("http://10.0.1.44:3000/likes/startup?offset=1", {
+        headers: {
+          Authorization: `token ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setCardData(res.data.startups);
+      });
   };
 
   return (
@@ -77,7 +82,7 @@ const Mypage: React.FC = () => {
         </Center>
       </Wrap>
       <Title>내가 관심있는 스타트업</Title>
-      <Intertest>
+      <Intertest className="temp">
         {cardData.map((el: any, idx: number) => {
           return <Card data={el} key={idx} index={idx} />;
         })}
