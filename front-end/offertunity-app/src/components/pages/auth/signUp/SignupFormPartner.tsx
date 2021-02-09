@@ -32,8 +32,7 @@ const Wrap = styled.section`
   ${({ theme }) => theme.conWidth};
   display: flex;
   justify-content: space-between;
-  padding-top: 15rem;
-  padding-bottom: 10rem;
+  padding-top: 5rem;
 `;
 
 const TxtWrap = styled.div`

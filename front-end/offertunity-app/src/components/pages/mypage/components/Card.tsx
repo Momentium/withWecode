@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 import styled from "styled-components";
 import axios from "axios";
 
@@ -19,22 +21,26 @@ const Card: React.FC<Props> = ({ data, key, index }) => {
         Authorization: `token ${sessionStorage.getItem("token")}`,
       },
     });
-    console.log(company_id);
   };
+
+  console.log(id);
+
   return (
-    <Wrap style={{ display: like ? "inline-block" : "none" }} id={id}>
-      <LikeBtn onClick={likeIt}>
-        <img src="/images/icons/heart_fill.png" alt="좋아요" />
-      </LikeBtn>
-      <Logo>
-        <img src={thumbnail} alt="로고" />
-      </Logo>
-      <Text>
-        <Title>{name}</Title>
-        <Sub>{name}</Sub>
-        <Info>{description}</Info>
-      </Text>
-    </Wrap>
+    <Link to={`/startup/detail/${id}`} key={index}>
+      <Wrap style={{ display: like ? "inline-block" : "none" }} id={id}>
+        <LikeBtn onClick={likeIt}>
+          <img src="/images/icons/heart_fill.png" alt="좋아요" />
+        </LikeBtn>
+        <Logo>
+          <img src={thumbnail} alt="로고" />
+        </Logo>
+        <Text>
+          <Title>{name}</Title>
+          <Sub>{name}</Sub>
+          <Info>{description}</Info>
+        </Text>
+      </Wrap>
+    </Link>
   );
 };
 
@@ -87,7 +93,7 @@ const LikeBtn = styled.div`
   right: 0.6rem;
 
   img {
-    width: 2.5rem;
-    height: 2.9rem;
+    width: 1.875rem;
+    height: 2rem;
   }
 `;
