@@ -11,7 +11,6 @@ const ProjectDetailInfo: React.FC<any> = ({ data }) => {
     application_method,
     caution,
     contact,
-    document,
   } = data;
   return (
     <DetailInfoCont>

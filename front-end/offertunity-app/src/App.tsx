@@ -23,6 +23,8 @@ import PartnerList from "components/pages/partner/partnerList/PartnerList";
 import PartnerDetails from "./components/pages/partner/partnersDetails/PartnerDetails";
 import WSPage from "./components/pages/workstation/WSPage";
 import DemodayPage from "./components/pages/demoday/DemodayPage";
+import ProjectContent from "./components/pages/project/detail/ProjectContent";
+import ProjectRequestList from "./components/pages/project/detail/ProjectRequestList";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
@@ -48,6 +50,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
         <Switch>
+          <Route path="/project/detail/list" component={ProjectRequestList} />
           <Route path="/project/detail/:id" component={ProjectDetailPage} />
           <Route path="/project" component={ProjectPage} />
           <Route path="/startup/detail/:id" component={StartupDetails} />
@@ -61,7 +64,6 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
 
           <Route path="/workstation/:tab/:addon" component={WSPage} />
           <Route path="/workstation/:tab" component={WSPage} />
-
         </Switch>
 
         <Route path="/auth/:name" component={Auth} />
