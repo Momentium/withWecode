@@ -118,9 +118,10 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
 
   const handlePw = (event: any) => {
     const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-    let value = event.target.value;
+    const value = event.target.value;
     if (korean.test(value)) {
       alert("영문 대소문자,숫자,특수문자 만 입력 가능합니다");
+      event.target.value = null;
     } else {
       setInputs({
         ...inputs,
@@ -244,7 +245,7 @@ const InputBox: React.FC<Props> = ({ typeId }) => {
         </p>
         <PwWrap>
           <input
-            type="text"
+            type="password"
             placeholder="비밀번호를 입력해주세요"
             onChange={handlePw}
           />

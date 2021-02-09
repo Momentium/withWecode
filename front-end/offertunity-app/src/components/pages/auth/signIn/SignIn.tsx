@@ -67,12 +67,17 @@ const SignIn: React.FC = () => {
     });
   };
   const handlePw = (event: any) => {
-    event.preventDefault();
+    const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
     const { value } = event.target;
-    setInputs({
-      ...inputs,
-      password: value,
-    });
+    if (korean.test(value)) {
+      alert("영문 대소문자,숫자,특수문자 만 입력 가능합니다");
+      event.target.value = null;
+    } else {
+      setInputs({
+        ...inputs,
+        password: value,
+      });
+    }
   };
   const handleGOOGLE = () => {
     window.location.href = `${process.env.REACT_APP_URL}/users/google`;
