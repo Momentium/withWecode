@@ -39,7 +39,7 @@ router.post(
 
 router.get("/mypage", cors(), validateToken, UserController.showMemberInfo);
 
-router.put(
+router.post(
   "/mypage",
   validateToken,
   upload.single("profile_picture"),
