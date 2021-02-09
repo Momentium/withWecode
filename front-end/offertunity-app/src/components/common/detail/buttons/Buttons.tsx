@@ -44,14 +44,14 @@ const Buttons = ({ data, title, type, companyId, page, isLogin }: any) => {
     <>
       {page === ("list" || "project" || "partner") ? (
         <span>
-          <LikeBtn isLike={like} clickLike={clickLike} />
+          <LikeBtn isLike={isLike} clickLike={clickLike} />
         </span>
       ) : (
         <BtnBox>
           <IRBtn boxStyle={boxStyle} title={title} type={type} />
           <ShareAndLike>
             <span>
-              <LikeBtn isLike={like} clickLike={clickLike} />
+              <LikeBtn isLike={isLike} clickLike={clickLike} />
             </span>
             <ShareBtn />
           </ShareAndLike>

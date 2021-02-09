@@ -10,21 +10,13 @@ const ProjectOverview: React.FC<any> = ({
   like,
   clickLike,
 }) => {
-  const sessionPjrData = () => {
-    sessionStorage.setItem("pjt_overview_data", JSON.stringify(data));
-  };
-
   return page === "list" ? (
     <StPjtWrap>
       <StImgWrap imgUrl={data.img} />
 
       <StContentsCont>
         <div className="up-wrap">
-          <StNameCont
-            className="name"
-            to={`/project/detail/${data.id}`}
-            onClick={sessionPjrData}
-          >
+          <StNameCont className="name" to={`/project/detail/${data.id}`}>
             {data.name}
           </StNameCont>
           <IconBtns page={page} like={like} clickLike={clickLike} />

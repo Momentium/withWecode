@@ -11,7 +11,7 @@ const DemodayList = () => {
     axios
       .get(`${process.env.REACT_APP_URL}/projects`)
       .then((res) => {
-        const _resData = res.data.projectList;
+        const _resData = res.data.cleanedProjectList;
         setPjts(
           _resData.map((el: {}, idx: number) => (
             <Project key={idx} data={el} page={"list"} />
@@ -22,8 +22,6 @@ const DemodayList = () => {
         console.log(err);
       });
   }, []);
-
-  console.log(pjts.length < 10);
 
   return (
     <>
