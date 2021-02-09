@@ -39,8 +39,11 @@ const findOneApplication = (field) => {
   const isKeyId = uniqueKey === "id";
   const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
 
-  return prisma.applicants.findUnique({ where: {
-    [uniqueKey]: value } });
+  return prisma.applicants.findUnique({
+    where: {
+      [uniqueKey]: value,
+    },
+  });
 };
 
 const findMyApplication = (where) => {
@@ -67,10 +70,10 @@ const createApplication = async (data, files) => {
         if (companyDocument === []) errorGenerator({ statusCode: 400, message: "Undefined Document Id" });
         await prisma.applicant_documents.create({
           data: {
-            applicants: {connect: {id: application.id}},
-            company_documents: {connect: {id: companyDocument.id}}
-          }
-        })  
+            applicants: { connect: { id: application.id } },
+            company_documents: { connect: { id: companyDocument.id } },
+          },
+        });
       }
     }
   };
