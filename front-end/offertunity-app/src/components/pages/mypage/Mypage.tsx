@@ -53,7 +53,7 @@ const Mypage: React.FC = () => {
 
   const getCardData = () => {
     axios
-      .get("http://10.0.1.44:3000/likes/startup?offset=1", {
+      .get(`${process.env.REACT_APP_URL}/likes/startup?offset=1`, {
         headers: {
           Authorization: `token ${sessionStorage.getItem("token")}`,
         },

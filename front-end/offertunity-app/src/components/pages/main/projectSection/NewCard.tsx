@@ -47,6 +47,7 @@ const Number = styled.span`
 
 const TxtWrap = styled.div`
   display: inline-block;
+  width: 15rem;
   padding: 0 1.25rem;
 `;
 

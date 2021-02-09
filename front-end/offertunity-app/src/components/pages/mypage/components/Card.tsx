@@ -16,7 +16,7 @@ const Card: React.FC<Props> = ({ data, key, index }) => {
 
   const likeIt = () => {
     setLike(false);
-    axios.get(`http://10.0.1.44:3000/likes/company/${company_id}`, {
+    axios.get(`${process.env.REACT_APP_URL}/${company_id}`, {
       headers: {
         Authorization: `token ${sessionStorage.getItem("token")}`,
       },
