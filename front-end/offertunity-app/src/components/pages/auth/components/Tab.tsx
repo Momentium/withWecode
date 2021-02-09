@@ -8,14 +8,21 @@ type Props = {
 };
 
 const Tab: React.FC<Props> = ({ id, password }) => {
+  const removeSession = () => {
+    sessionStorage.removeItem("findEmail");
+  };
   return (
     <Wrap>
       <TabMenu>
         <Link to="/auth/FindId">
-          <Id className={id}>아이디 찾기</Id>
+          <Id className={id} onClick={removeSession}>
+            아이디 찾기
+          </Id>
         </Link>
         <Link to="/auth/FindPw">
-          <Password className={password}>비밀번호 찾기</Password>
+          <Password className={password} onClick={removeSession}>
+            비밀번호 찾기
+          </Password>
         </Link>
       </TabMenu>
     </Wrap>
