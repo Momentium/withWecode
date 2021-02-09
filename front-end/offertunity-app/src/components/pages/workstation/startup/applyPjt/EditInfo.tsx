@@ -1,4 +1,6 @@
 import React, { useState,  } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import styled, { css } from 'styled-components';
 import BasicBtn from 'components/common/button/BasicBtn';
 import InputBox from '../../common/InputBox';
@@ -50,6 +52,11 @@ const EditInfo:React.FC<any> = ({ handleSubmit }) => {
         break;
     }
   }
+
+  const submit = () => {
+
+  }
+
   return (
     <StCont>
       <StLogoCont>
@@ -218,8 +225,8 @@ const EditInfo:React.FC<any> = ({ handleSubmit }) => {
             fSize={18}
             fWeight={"bold"}  
             txt={"프로필 저장"}
-            click={handleSubmit}
-          />
+            onClick={submit}
+          /> 
           
           <BasicBtn
             width={275}

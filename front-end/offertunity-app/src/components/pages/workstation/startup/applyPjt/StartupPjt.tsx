@@ -33,7 +33,6 @@ const StartupPjt:React.FC<any> = ({ match }) => {
                   fSize={18}
                   fWeight={'bold'}
                   txt={"워크스테이션 바로가기"}
-                  onClick={()=>{}}
                 />
               </Link>
             </div>
