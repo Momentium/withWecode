@@ -4,23 +4,23 @@ const { dateForm } = require("../utils");
 
 const InitialDataSetting = errorWrapper(async (req, res) => {
   await InitialService.createDatas("business_types", ["개인", "법인"]);
-  console.log("business_types")
-  
+  console.log("business_types");
+
   await InitialService.createDatas("user_types", [
     "스타트업",
     "파트너",
     "admin",
   ]);
-  console.log("user_types")
+  console.log("user_types");
 
   await InitialService.createDatas("document_types", [
     "사업계획서",
     "사업자등록 사본",
     "대표자 주민등록증(운전면허증)",
     "IR 자료",
-    "기타"
+    "기타",
   ]);
-  console.log("document_types")
+  console.log("document_types");
 
   await InitialService.createDatas("investment_funds", [
     "1천만원 - 5천만원",
@@ -28,9 +28,9 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "2억원 - 5억원",
     "6억원 - 10억원",
     "11억원 - 50억원",
-    "51억원 이상"
+    "51억원 이상",
   ]);
-  console.log("investment_funds")
+  console.log("investment_funds");
 
   await InitialService.createDatas("investment_series", [
     "엔젤투자",
@@ -38,9 +38,9 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "프리 시리즈 A",
     "시리즈 A",
     "시리즈 B",
-    "시리즈 C"
+    "시리즈 C",
   ]);
-  console.log("investment_series")
+  console.log("investment_series");
 
   await InitialService.createDatas("sectors", [
     "라이프스타일",
@@ -59,9 +59,9 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "게임",
     "농축수산업",
     "방송/통신",
-    "기타"
+    "기타",
   ]);
-  console.log("sectors")
+  console.log("sectors");
 
   await InitialService.createDatas("technologies", [
     "빅데이터",
@@ -74,9 +74,9 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "AR/VR",
     "플랫폼",
     "데이터솔루션",
-    "기타"
+    "기타",
   ]);
-  console.log("technologies")
+  console.log("technologies");
 
   await InitialService.createDatas("signup_methods", [
     "email",
@@ -84,47 +84,44 @@ const InitialDataSetting = errorWrapper(async (req, res) => {
     "kakao",
     "naver",
   ]);
-  console.log("signup_methods")
+  console.log("signup_methods");
 
   await InitialService.createDatas("eligibilities", [
-    "업력 무관",
+    "예비창업자",
     "3년 미만",
+    "5년 미만",
     "7년 미만",
+    "제한없음",
   ]);
-  console.log("eligibilities")
+  console.log("eligibilities");
 
-  await InitialService.createDatas("company_types", [
-    "스타트업",
-    "파트너",
-  ]);
-  console.log("company_types")
+  await InitialService.createDatas("eligibile_sectors", ["자금", "시설 공간", "사업화", "멘토링, 컨설팅", "해외진출", "마케팅", "R&D", "기타"]);
+  console.log("eligibile_sectors");
 
-  await InitialService.createDatas("service_types", [
-    "홈페이지",
-    "앱",
-  ]);
-  console.log("company_types")
+  await InitialService.createDatas("company_types", ["스타트업", "파트너"]);
+  console.log("company_types");
 
+  await InitialService.createDatas("service_types", ["홈페이지", "앱"]);
+  console.log("company_types");
 
   await InitialService.createTerms([
     {
       name: "service",
       content: "",
-      required: true
+      required: true,
     },
     {
       name: "personal_info",
       content: "",
-      required: true
+      required: true,
     },
     {
       name: "marketing",
       content: "",
-      required: false
+      required: false,
     },
-
   ]);
-  console.log("terms")
+  console.log("terms");
 
   res.status(201).json({
     message: "data created",
