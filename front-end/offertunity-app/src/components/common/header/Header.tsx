@@ -14,6 +14,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
 
     const logOut = () => {
       sessionStorage.removeItem("userInfo");
+      sessionStorage.removeItem("token");
       window.location.href = "/";
     };
 

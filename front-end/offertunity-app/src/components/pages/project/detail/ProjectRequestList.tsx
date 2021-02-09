@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import StartupReqList from "./StartupReqList";
+import * as Mt from "api/methods";
 
-const ProjectRequestList = ({ data, text }: any) => {
+const ProjectRequestList = ({ data, text, id }: any) => {
   const [reqList, setReqList] = useState();
-
-  const totalCompany = 30;
 
   const stepBy = [
     {
@@ -31,8 +30,16 @@ const ProjectRequestList = ({ data, text }: any) => {
     },
   ];
 
+  const _token = Mt.getUserInfo().token;
+
   useEffect(() => {
-    axios.get("/data/reqList.json").then((res) => setReqList(res.data.result));
+    axios
+      .get(`http://10.0.1.44:3000/applies/${id}`, {
+        headers: {
+          Authorization: `${_token}`,
+        },
+      })
+      .then((res) => setReqList(res.data.applicants));
   }, []);
 
   return (

@@ -25,6 +25,7 @@ import WSPage from "./components/pages/workstation/WSPage";
 import DemodayPage from "./components/pages/demoday/DemodayPage";
 import ProjectContent from "./components/pages/project/detail/ProjectContent";
 import ProjectRequestList from "./components/pages/project/detail/ProjectRequestList";
+import ApplyDetail from "./components/pages/project/detail/ApplyDetail";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
@@ -50,6 +51,7 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
         <Switch>
+          <Route path="/project/apply/:id" component={ApplyDetail} />
           <Route path="/project/detail/list" component={ProjectRequestList} />
           <Route path="/project/detail/:id" component={ProjectDetailPage} />
           <Route path="/project" component={ProjectPage} />

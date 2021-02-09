@@ -4,12 +4,21 @@ import CardList from "./CardList";
 import axios from "axios";
 import styled from "styled-components";
 
-const TwStartup = (props: any) => {
+const TwStartup = ({ token }: any) => {
   const [startupList, setStartupList] = useState<any>([]);
 
   useEffect(() => {
+    let config = {};
+    if (token) {
+      config = {
+        Accept: "application/json",
+        Authorization: `${token}`,
+      };
+    }
     axios
-      .get(`${process.env.REACT_APP_URL}/companies/list/startup`)
+      .get(`http://10.0.1.44:3000/companies/list/startup`, {
+        headers: config,
+      })
       .then((res) => {
         const _data = res.data.companies;
         setStartupList(_data.slice(0, 3));

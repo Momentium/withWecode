@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import LikeBtn from "../../../common/detail/buttons/Buttons";
 import Title from "./Title";
 import axios from "axios";
+import * as Mt from "api/methods";
 
 const Card = ({ data, name, background, service, isLogin, id }: any) => {
-  const [like, setLike] = useState<boolean>();
+  const [like, setLike] = useState<boolean>(data.is_liked);
+  const _token = Mt.getUserInfo().token;
   const cardImage = {
     backgroundImage: `url(${data.startups[0].thumbnail})`,
     backgroundSize: background,
@@ -13,33 +15,16 @@ const Card = ({ data, name, background, service, isLogin, id }: any) => {
     backgroundPosition: "center",
   };
 
-  useEffect(() => {
-    isLogin && getLikeData(id);
-  }, []);
-
-  const getLikeData = (id: any) => {
-    if (isLogin) {
-      axios
-        .get(`http://10.0.1.44:3000/likes/company/${id}`, {
-          headers: {
-            Authorization: sessionStorage.getItem("token"),
-          },
-        })
-        .then((res) => setLike(res.data.result))
-        .catch((error) => console.log(error));
-    }
-  };
-
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (isLogin) {
       axios
-        .get(`${process.env.REACT_APP_URL}/likes/company/${id}`, {
+        .get(`http://10.0.1.44:3000/likes/company/${id}`, {
           headers: {
-            Authorization: sessionStorage.getItem("token"),
+            Authorization: `${_token}`,
           },
         })
-        .then((res) => setLike(!res.data.result))
+        .then((res) => setLike(!like))
         .catch((error) => console.log(error));
     } else {
       alert("오퍼튜니티에 로그인 하신 후 이용해 주시기 바랍니다.");

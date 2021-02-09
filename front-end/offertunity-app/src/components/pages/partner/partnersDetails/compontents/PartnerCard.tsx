@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "../../../../common/detail/card/Card";
 
-const PartnerCard = ({ data, type, isLogin }: any) => {
+const PartnerCard = ({ data, type, isLogin, token }: any) => {
   const detailInfo = [
     {
       title: "설립일",
@@ -26,7 +26,13 @@ const PartnerCard = ({ data, type, isLogin }: any) => {
   ];
 
   return (
-    <Card data={data} detailInfo={detailInfo} type={type} isLogin={isLogin} />
+    <Card
+      data={data}
+      detailInfo={detailInfo}
+      type={type}
+      isLogin={isLogin}
+      token={token}
+    />
   );
 };
 

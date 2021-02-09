@@ -90,7 +90,7 @@ const ProjectContent: React.FC<any> = ({
             userType={userInfo}
           />
         );
-        setCurrJsx(<ProjectRequestList data={data} />);
+        setCurrJsx(<ProjectRequestList data={data} id={data.id} />);
       }
     }
 
@@ -121,6 +121,10 @@ const ProjectContent: React.FC<any> = ({
     }
 
     if (text === "지원자 보기") {
+      setToggle(!toggle);
+    }
+
+    if (text === "공고보기") {
       setToggle(!toggle);
     }
   };

@@ -1,16 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Labels from "../../../common/label/Labels";
 import Buttons from "../buttons/Buttons";
+import axios from "axios";
 
-const CompanyCard = ({
-  data,
-  detailInfo,
-  type,
-  isLogin,
-  isLike,
-  clickLike,
-}: any) => {
+const CompanyCard = ({ data, detailInfo, type, isLogin, token }: any) => {
   const checkImg = () => {
     if (type === "startup") {
       return `url(${data.startups[0].thumbnail})`;
@@ -34,6 +28,34 @@ const CompanyCard = ({
 
   const handleUrlClick = (url: string) => {
     window.open(url, "_blank");
+  };
+
+  useEffect(() => {
+    if (type === "startup") {
+      setLike(data.startups[0].is_liked);
+    }
+
+    if (type === "partner") {
+      setLike(data.partners[0].is_liked);
+    }
+  }, []);
+
+  const [like, setLike] = useState<boolean>();
+
+  const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (isLogin) {
+      axios
+        .get(`http://10.0.1.44:3000/likes/company/${data.id}`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        })
+        .then((res) => setLike(!like))
+        .catch((error) => console.log(error));
+    } else {
+      alert("오퍼튜니티에 로그인 하신 후 이용해 주시기 바랍니다.");
+    }
   };
 
   return (
@@ -72,26 +94,14 @@ const CompanyCard = ({
             <Labels label={data.tag} detailName={"detailLabels"} />
           </RightBox>
         </DetailInfo>
-        {type === "startup" && (
-          <Buttons
-            isLike={isLike}
-            clickLike={clickLike}
-            title={data.name}
-            type={type}
-            companyId={data.id}
-            isLogin={isLogin}
-          />
-        )}
-        {type === "partner" && (
-          <Buttons
-            isLike={isLike}
-            clickLike={clickLike}
-            title={data.name}
-            type={type}
-            companyId={data.id}
-            isLogin={isLogin}
-          />
-        )}
+        <Buttons
+          isLike={like}
+          clickLike={clickLike}
+          title={data.name}
+          type={type}
+          companyId={data.id}
+          isLogin={isLogin}
+        />
       </CompanyInfo>
     </CardBox>
   );
