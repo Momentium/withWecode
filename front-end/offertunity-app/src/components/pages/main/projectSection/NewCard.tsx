@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 interface Props {
   data: any;
@@ -11,18 +12,20 @@ const NewCard: React.FC<Props> = ({ data, index }) => {
   const dueDate = due_date.split("T")[0];
 
   return (
-    <Card key={index}>
-      <Number>{index}</Number>
-      <TxtWrap>
-        <Newtitle>{name}</Newtitle>
-        <NewMinititle>{host}</NewMinititle>
-        <NewDate>~{dueDate} 까지</NewDate>
-      </TxtWrap>
-      <img
-        src={project_images ? project_images : "/images/header/logo.png"}
-        alt={name}
-      />
-    </Card>
+    <Link to={`/project/detail/${id}`} key={index}>
+      <Card key={index}>
+        <Number>{index}</Number>
+        <TxtWrap>
+          <Newtitle>{name}</Newtitle>
+          <NewMinititle>{host}</NewMinititle>
+          <NewDate>~{dueDate} 까지</NewDate>
+        </TxtWrap>
+        <img
+          src={project_images ? project_images : "/images/header/logo.png"}
+          alt={name}
+        />
+      </Card>
+    </Link>
   );
 };
 
