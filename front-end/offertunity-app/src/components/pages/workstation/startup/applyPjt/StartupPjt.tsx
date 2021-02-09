@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import * as St from 'styles/styledComp';
-import * as Mt from 'api/methods';
 import BasicBtn from 'components/common/button/BasicBtn';
 import InputPjt from './EditInfo';
 import ViewInfo from './ViewInfo';
 
 const StartupPjt:React.FC<any> = ({ match }) => {
   const _params = match.params;
-  const _userType = Mt.getUserInfo().type_id;
 
   return (
     <StCont curMode={_params.addon !== "editInfo"}>

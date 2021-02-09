@@ -28,7 +28,7 @@ const MyStartup = () => {
     name: "",
     rep: "",
     establishedDate: new Date().toISOString().substring(0, 10),
-    sector: "플랫폼",
+    sector: "서비스",
     coreTechnology: "블록체인",
     homepage: "",
   });
@@ -75,6 +75,7 @@ const MyStartup = () => {
           });
           setIntroSU(_resData.description ? _resData.description : "");
           setIntroItem(_resData.itemDescription ? _resData.itemDescription : "");
+          setInvestInfo(_resData.investedFrom);
         }
       })
       .catch((err) => {
@@ -188,7 +189,7 @@ const MyStartup = () => {
       setInvestInfo(investInfo.filter((el:any) => 
         el.id !== Number(_target[1])
       ));
-      setSubmitInvest(submitInvest.concat({ id: _target[1] }));
+      setSubmitInvest(submitInvest.concat({ id: Number(_target[1]) }));
     }
 
     else if(_target[2] !== "undefined") {
