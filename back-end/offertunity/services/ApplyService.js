@@ -22,10 +22,18 @@ const ARTICLES_DEFAULT_LIMIT = 5;
 const findApplications = (query, projectId) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
-  where.project_id = projectId
+  where.project_id = Number(projectId)
+  delete where.AND[0]
 
   return prisma.applicants.findMany({
     where,
+    include: {
+      companies: {
+        include: {
+          startups: true
+        }
+      }
+    },
     skip: Number(offset) || ARTICLES_DEFAULT_OFFSET,
     take: Number(limit) || ARTICLES_DEFAULT_LIMIT,
     orderBy: {
@@ -34,16 +42,25 @@ const findApplications = (query, projectId) => {
   });
 };
 
-const findOneApplication = (field) => {
+const findOneApplication = async (field) => {
   const [uniqueKey] = Object.keys(field);
   const isKeyId = uniqueKey === "id";
   const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
 
-  return prisma.applicants.findUnique({
-    where: {
-      [uniqueKey]: value,
+  console.log(uniqueKey, value, typeof value)
+
+  const application = await prisma.applicants.findUnique({
+    where: { [uniqueKey] : value },
+    include: {
+      companies: {
+        include: {
+          startups: true
+        }
+      }
     },
   });
+  console.log(application)
+  return application
 };
 
 const findMyApplication = (where) => {

@@ -86,17 +86,17 @@ const getStartupInfo = errorWrapper(async (req, res) => {
     body.investedFrom = company.startups[0].invested_from;
     if (!(body.investedFrom.length === 0)) {
       for (len = 0; len < body.investedFrom.length; len++) {
-        body.investedFrom[len].invested_fund = await CompanyService.findInfoName("investment_funds",body.investedFrom[len].invested_fund_id);
-        body.investedFrom[len].investment_series = await CompanyService.findInfoName("investment_series", body.investedFrom[len].invested_series_id);
-        body.investedTo[len].investedDates = `${body.investedTo[len].date.getUTCFullYear()}.${body.investedTo[len].date.getUTCMonth()+1}`
-        body.investedTo[len].investedValues = body.investedTo[len].corporate_value
-        body.investedTo[len].investedInstitutions = body.investedTo[len].invested_institution
+        body.investedFrom[len].investedFunds = body.investedFrom[len].invested_fund_id ? await CompanyService.findInfoName("investment_funds", body.investedFrom[len].invested_fund_id) : null;
+        body.investedFrom[len].investedSeries = body.investedFrom[len].series_id ? await CompanyService.findInfoName("investment_series", body.investedFrom[len].series_id) : null;
+        body.investedFrom[len].investedDates = `${body.investedFrom[len].date.getUTCFullYear()}.${body.investedFrom[len].date.getUTCMonth()+1}`
+        body.investedFrom[len].investedValues = body.investedFrom[len].corporate_value
+        body.investedFrom[len].investedInstitutions = body.investedFrom[len].invested_institution
 
-        delete body.investedTo[len].date
-        delete body.investedTo[len].invested_institution
-        delete body.investedTo[len].corporate_value
-        delete body.investedTo[len].invested_fund_id
-        delete body.investedTo[len].series_id
+        delete body.investedFrom[len].date
+        delete body.investedFrom[len].invested_institution
+        delete body.investedFrom[len].corporate_value
+        delete body.investedFrom[len].invested_fund_id
+        delete body.investedFrom[len].series_id
       }
     }
     body.images = company.startups[0].startup_images;
@@ -240,11 +240,7 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
 
   const companyFields = {
     name,
-    logo_img: logoImg
-      ? logoImg[0].location
-      : req.body.logoImg
-      ? req.body.logoImg
-      : null,
+    logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
     established_date: await dateForm(establishedDate),
     homepage,
     description,
@@ -431,21 +427,15 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
   // 투자 유치 이력 프로세싱
   const investedFromProcess = async (investedFrom) => {
     if (investedFrom.id) {
-      const existData = CompanyService.readRelatedInfo(
-        "invested_from",
-        investedFrom.id
-      );
+      const existData = await CompanyService.readRelatedInfo("invested_from", Number(investedFrom.id));
       if (existData === [])
         errorGenerator({ statusCode: 400, message: "Invalid Invest Data" });
-      if (existData[0].startup_id === startupInfo.id)
+      if (!(existData.startup_id === startupInfo.id))
         errorGenerator({
           statusCode: 400,
           message: "this invest record is not beloged to this company",
         });
-      CompanyService.deleteRelatedInfo(
-        "invested_to",
-        Number(investedFrom.id)
-      );
+      CompanyService.deleteRelatedInfo("invested_from", Number(investedFrom.id));
     } else if (!investedFrom.id) {
       const investedFundId = await CompanyService.getRelatedInfoId(
         "investment_funds",
@@ -458,9 +448,9 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
       const datesList = investedFrom.investedDates.split(".");
       const Dates = `${datesList[0]}-${datesList[1]}-01`;
       CompanyService.createRelatedInfo(
-        "invested_to",
+        "invested_from",
         (data = {
-          partners: { connect: { id: partnerInfo.id } },
+          startups: { connect: { id: startupInfo.id } },
           date: await dateForm(Dates),
           invested_institution: investedFrom.investedInstitutions,
           investment_funds: { connect: { id: Number(investedFundId) } },
@@ -473,9 +463,9 @@ const tempSaveStartupInfo = errorWrapper(async (req, res, next) => {
 
   // 투자 이력 추가 및 삭제
   if (investedFrom) {
-    jsonInvestedTo = JSON.parse(investedFrom)
-    for (let len = 0; len < investedFrom.length; len++) {
-      await investedFromProcess(jsonInvestedTo[len]);
+    jsonInvestedFrom = JSON.parse(investedFrom)
+    for (let len = 0; len < jsonInvestedFrom.length; len++) {
+      await investedFromProcess(jsonInvestedFrom[len]);
     }
   }
 
@@ -582,6 +572,7 @@ const getStartupSubmitInfo = errorWrapper(async(req, res) => {
     const company = await CompanyService.findStartup({ id: companyId });
 
     body.name = company.name;
+    body.logoImg = company.logo_img;
     body.rep = company.startups[0].rep;
     body.contact = company.startups[0].contact;
     body.address = company.startups[0].address_road;
@@ -618,8 +609,8 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     email,
     memberCount,
     homepage,
-    instagramUrl,
-    facebookUrl,
+    instagram,
+    facebook,
   } = req.body;
   const { logoImg } = req.files;
 
@@ -634,12 +625,8 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     : undefined;
 
   const company_fields = {
-    name,
-    logo_img: logoImg
-      ? logoImg[0].location
-      : req.body.logoImg
-      ? req.body.logoImg
-      : null,
+    name, 
+    logo_img: logoImg ? logoImg[0].location : req.body.logoImg ? req.body.logoImg : null,
     homepage,
     team_intro: teamIntro,
     member_count: memberCount,
@@ -647,7 +634,6 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
   const startup_connect = {
     sectors: { connect: { id: Number(sectorId) } },
     technologies: { connect: { id: Number(coreTechnologyId) } },
-    service_types: { connect: { id: Number(servcieTypeId) } },
     business_type_id: { connect: { id: Number(businessTypeId) } },
   };
   const startup_field = {
@@ -655,8 +641,8 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
     address,
     email,
     business_license_number: businessLicenseNum,
-    instagram_url: instagramUrl,
-    facebook_url: facebookUrl,
+    instagram_url: instagram,
+    facebook_url: facebook,
   };
 
   Object.keys(company_fields).forEach((key) =>
