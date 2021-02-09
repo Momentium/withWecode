@@ -1,10 +1,11 @@
 import React, { useState,  } from 'react';
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import BasicBtn from 'components/common/button/BasicBtn';
 import InputBox from '../../common/InputBox';
 import SelectBtn from '../../common/SelectBtn';
 
-const InputPjt:React.FC<any> = ({ handleSubmit }) => {
+const ViewPjt:React.FC<any> = ({ handleSubmit }) => {
   const [img, setImg] = useState<any>();
   const [logo, setLogo] = useState<any>();
   const [name, setName] = useState<string>("");
@@ -55,7 +56,9 @@ const InputPjt:React.FC<any> = ({ handleSubmit }) => {
       <StLogoCont>
         {/* <img src="" alt=""/> */}
         <div className="img-wrap">이미지를 등록해 주세요</div>
-        <StBtn>로고 이미지 등록</StBtn>
+        <Link to={`/workstation/myproject/editInfo`}>
+          <StBtn>제출 정보 편집</StBtn>
+        </Link>
       </StLogoCont>
 
       <StFormCont>
@@ -63,180 +66,69 @@ const InputPjt:React.FC<any> = ({ handleSubmit }) => {
           <div>
             <StFormWrap>
               <div className="label">기업명</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
             </StFormWrap>
 
             <StFormWrap>
               <div className="label">대표자명</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
             </StFormWrap>
             
             <StFormWrap>
               <div className="label">대표자연락처</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
             </StFormWrap>
 
             <StFormWrap>
               <div className="label">기업 주소</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
             </StFormWrap>
 
             <StFormWrap dir>
               <div className="label">산업 영역</div>
-              <SelectBtn
-                cName={'sector'}
-                mode={'sector'} 
-                width={186} 
-                curVal={sector} 
-                changeVal={changeVal}
-              />
             </StFormWrap>
             
             <StFormWrap dir>
               <div className="label">기술</div>
-              <SelectBtn
-                  cName={'tech'}
-                  mode={'tech'} 
-                  width={186} 
-                  curVal={tech} 
-                  changeVal={changeVal}
-                />
             </StFormWrap>
 
             <StFormWrap dir>
               <div className="label">서비스 형태</div>
-              <SelectBtn
-                  cName={'service'}
-                  mode={'tech'} 
-                  width={186} 
-                  curVal={service} 
-                  changeVal={changeVal}
-                />
             </StFormWrap>
           </div>
 
           <div>
             <StFormWrap dir>
               <div className="label">사업자 구분</div>
-              <SelectBtn
-                cName={'corp'}
-                  mode={'corp'} 
-                  width={186} 
-                  curVal={corp} 
-                  changeVal={changeVal}
-                />
             </StFormWrap>
 
             <StFormWrap>
               <div className="label">사업자 등록 번호</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
             </StFormWrap>
 
             <StFormWrap>
               <div className="label">대표 이메일</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
             </StFormWrap>
 
             <StFormWrap dir>
               <div className="label">직원 수</div>
-              <SelectBtn
-                cName={'employees'}
-                  mode={'employees'} 
-                  width={186} 
-                  curVal={employees} 
-                  changeVal={changeVal}
-                />
             </StFormWrap>
 
             <StFormWrap>
               <div className="label">홈페이지</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
             </StFormWrap>
 
             <StFormWrap>
               <div className="label">인스타그램</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
-
             </StFormWrap>
             
             <StFormWrap>
               <div className="label">페이스북</div>
-              <InputBox
-                type={"text"}
-                width={314}
-                height={48}
-                fSize={18}
-              />
             </StFormWrap>
           </div>
         </div>
-
-        <div className="btn-cont">
-          <BasicBtn
-            width={335}
-            height={56}
-            fSize={18}
-            fWeight={"bold"}  
-            txt={"프로필 저장"}
-            click={handleSubmit}
-          />
-          
-          <BasicBtn
-            width={275}
-            height={56}
-            backColor={"white"}
-            fSize={18}
-            fWeight={"bold"}
-            txt={"취소하기"}
-          />
-        </div>
+        
       </StFormCont>
-
-
     </StCont>
   );
 }
-export default InputPjt;
+export default ViewPjt;
 
 const StCont = styled.div`
   margin-bottom: 96px;
@@ -281,8 +173,8 @@ const StBtn = styled.span`
   width: 224px;
   line-height: 56px;
 
-  background: white;  
-  color: #192334;
+  background: #192334;  
+  color: white;
   border: 1px solid #192334;
   
   font-size: 18px;

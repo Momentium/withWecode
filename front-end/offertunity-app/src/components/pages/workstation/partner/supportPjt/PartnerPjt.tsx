@@ -1,56 +1,53 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
-import { withRouter, Link, useParams } from "react-router-dom";
+import axios from "axios";
+import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import * as St from "styles/styledComp";
-import * as Mt from 'api/methods'
+import * as Mt from "api/methods";
 import AddPjt from "./AddPjt";
-import EditPjt from "./EditPjt";
-import PjtList from './PjtList';
+// import EditPjt from "./EditPjt";
+import PjtList from "./PjtList";
 
-const PartnerPjt:React.FC<any> = ({ match }) => {
+const PartnerPjt: React.FC<any> = ({ match }) => {
   const _params = match.params;
   const _userInfo = Mt.getUserInfo();
   const [pjtList, setPjtList] = useState<any[]>([]);
 
   useEffect(() => {
     // console.log(_userInfo.company_id)
-    console.log(_params)
-    axios.get(`${process.env.REACT_APP_URL}/projects`,
-      {
+    axios
+      .get(`${process.env.REACT_APP_URL}/projects`, {
         headers: {
-          Authorization: `Basic ${_userInfo.token}`
-        }
-      }
-    )
-    .then((res) => {
-      const _resData:any = res.data.projectList;
-      console.log(_resData)
-      setPjtList(_resData.map((el:any, idx:number) => 
-        <Link to={`/project/${el.id}`} key={idx}>
-          <StADWrap img={el.project_images.length !== 0 ? el.project_images[0].img_url : null}>
-            <PjtList
-              data={el}
-            />
-          </StADWrap>
-        </Link>
-      ))
-    })
-  }, [match])
-
+          Authorization: `Basic ${_userInfo.token}`,
+        },
+      })
+      .then((res) => {
+        const _resData: any = res.data.cleanedProjectList;
+        console.log(_resData);
+        setPjtList(
+          _resData.map((el: any, idx: number) => (
+            <StADWrap
+              img={
+                el.project_images
+                // el.project_images !== ""
+                //   ? el.project_images[0].img_url
+                //   : null
+              }
+            >
+              <Link to={`/project/${el.id}`} key={idx}>
+                <PjtList data={el} />
+              </Link>
+            </StADWrap>
+          ))
+        );
+      });
+  }, [match]);
 
   return (
     <>
-      {_params.addon ? (
-        <>
-        {
-          _params.addon === 'addPjt'?
-          <AddPjt />
-          :
-          <EditPjt id={_params.id}/>
-        }
-        </>
-      ) : (
+      {_params.addon ? 
+        <AddPjt id={_params.id}/>
+       : 
         <>
           <St.SectionTitle>지원사업 관리</St.SectionTitle>
           <StADCont>
@@ -60,12 +57,11 @@ const PartnerPjt:React.FC<any> = ({ match }) => {
                 <div className="msg">지원사업 공고 등록</div>
               </StADWrap>
             </Link>
-            
-            {pjtList}
 
+            {pjtList}
           </StADCont>
         </>
-      )}
+      }
     </>
   );
 };
@@ -118,4 +114,3 @@ const StADWrap = styled.div<any>`
     font-size: 18px;
   }
 `;
-

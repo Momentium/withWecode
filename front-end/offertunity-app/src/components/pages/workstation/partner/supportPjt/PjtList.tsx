@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const PjtList:React.FC<any> = ({ data, editPjt }) => {
+const PjtList:React.FC<any> = ({ data }) => {
   return (
     <StHoverCont className="hover-cont">
       <div className="title">{data.name}</div>
@@ -20,16 +20,16 @@ const PjtList:React.FC<any> = ({ data, editPjt }) => {
           </tr>
           <tr>
             <th>지원분야</th>
-            <td>{(selectData as any)["supportField"][data.eligible_sector]}</td>
+            <td>{data.eligible_sector}</td>
           </tr>
           <tr>
             <th>지원대상</th>
-            <td>{(selectData as any)["eligibility"][data.eligibility]}</td>
+            <td>{data.eligibility}</td>
           </tr>
         </tbody>
       </StInfoTable>
       <div className="btn-cont">
-        <Link to={`/workstation/myproject/editPjt/${data.id}`}>
+        <Link to={`/workstation/myproject/addPjt/${data.id}`}>
           <StBtn>수정하기</StBtn>
         </Link>
         <StBtn>삭제하기</StBtn>
@@ -44,17 +44,18 @@ const StHoverCont = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background: black;
   width: 600px;
   height: 400px;
 
   padding: 32px;
 
-  transition: opacity 0.33s ease-in-out;
+  transition: all 0.33s ease-in-out;
   opacity: 0;
+  background: rgba(0, 0, 0, 0);
 
   &:hover {
-    opacity: 0.9;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.9);
   }
 
   color: white;
@@ -95,6 +96,7 @@ const StInfoTable = styled.table`
 `;
 
 const StBtn = styled.span`
+  display: inline-block;
   width: 135px;
   line-height: 34px;
 

@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import * as St from 'styles/styledComp';
+import * as Mt from 'api/methods';
 import BasicBtn from 'components/common/button/BasicBtn';
-import InputPjt from './InputPjt';
-import ViewPjt from './ViewPjt';
+import InputPjt from './EditInfo';
+import ViewInfo from './ViewInfo';
 
-const SupportPjt = () => {
-
-  const [curMode, setCurMode] = useState<boolean>(true);
-  const handleSubmit = () => {
-    setCurMode(!curMode);
-  }
+const StartupPjt:React.FC<any> = ({ match }) => {
+  const _params = match.params;
+  const _userType = Mt.getUserInfo().type_id;
 
   return (
-    <StCont curMode={curMode}>
+    <StCont curMode={_params.addon !== "editInfo"}>
       <St.SectionTitle>지원사업 제출 정보</St.SectionTitle>
       {
-        curMode ? 
+        _params.addon !== "editInfo" ? 
         <>
-          <ViewPjt handleSubmit={handleSubmit}/>
+          <ViewInfo/>
+
           <div className="line"/>
           <StBotCont>
             <div>
@@ -27,7 +26,7 @@ const SupportPjt = () => {
               <div>스타트업 정보, 지원사업, 투자 관리 등은 [워크스테이션]을 이용해 주세요!</div>
             </div>
             <div>
-              <Link to={`/workstation`}>
+              <Link to={`/workstation/mystartup`}>
                 <BasicBtn
                   width={335}
                   height={56}
@@ -41,12 +40,12 @@ const SupportPjt = () => {
           </StBotCont>
         </>
         :
-        <InputPjt handleSubmit={handleSubmit}/>
+        <InputPjt/>
       }
     </StCont>
   );
 };
-export default SupportPjt;
+export default withRouter(StartupPjt);
 
 const StCont = styled.div<{curMode:boolean}>`
   padding: 0 56px;
