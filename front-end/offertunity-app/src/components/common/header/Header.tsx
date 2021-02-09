@@ -88,6 +88,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                     <img src="/images/icons/person.png" alt="person-icon" />
                   </Link>
 
+                  <div className="workstation-cont">
                   {info.type_id === 1 ? (
                     <>
                       <Link
@@ -99,7 +100,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                       <Modal className="modal">
                         <ul>
                           <Link to="/workstation/mystartup">
-                            <li> 스타트업</li>
+                            <li>스타트업</li>
                           </Link>
                           <Link to="/workstation/myproject">
                             <li>지원사업 프로젝트</li>
@@ -150,6 +151,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                       </Modal>
                     </>
                   )}
+                  </div>
                 </StLogInCont>
               ) : (
                 <Auth>
@@ -172,7 +174,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
 export default withRouterAndRef(Header);
 
 const StLogInCont = styled.div`
-  position: relative;
+  /* position: relative; */
 
   display: flex;
   align-items: center;
@@ -202,6 +204,9 @@ const StLogInCont = styled.div`
     font-weight: normal;
   }
 
+  .workstation-cont {
+    position: relative;
+  }
   .link-workstation:hover + .modal {
     display: inline-block;
   }
@@ -215,8 +220,8 @@ const Modal = styled.div`
   z-index: 10;
   position: absolute;
   top: 100%;
-  /* left: 73%; */
-  transform: translateX(50%);
+  left: 50%;
+  transform: translateX(-50%);
   padding: 1rem 2rem;
   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
   background: #ffffff 0% 0% no-repeat padding-box;

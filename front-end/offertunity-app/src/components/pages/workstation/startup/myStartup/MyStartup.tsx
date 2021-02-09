@@ -32,6 +32,18 @@ const MyStartup = () => {
     coreTechnology: "블록체인",
     homepage: "",
   });
+  const [introSU, setIntroSU] = useState<string>("");
+  const [introItem, setIntroItem] = useState<string>("");
+  const [investInfo, setInvestInfo] = useState<any[]>([]);
+  const [submitInvest, setSubmitInvest] = useState<any[]>([]);
+  const [newInvest, setNewInvest] = useState<{}>({
+    temp: 0,
+    investedDates: "",
+    investedStartups: "",
+    investedFunds: "1천만원 - 5천만원",
+    investedValues: "",
+    investedSeries: "엔젤투자"
+  });
 
   useEffect(() => {
     const _token = sessionStorage.getItem("token");
@@ -122,8 +134,6 @@ const MyStartup = () => {
     })
   };
 
-  const [introSU, setIntroSU] = useState<string>("");
-  const [introItem, setIntroItem] = useState<string>("");
   const changeIntroForm = (e: any) => {
     const _target = e.currentTarget;
     switch (_target.className.split(" ")[2]) {
@@ -138,31 +148,85 @@ const MyStartup = () => {
     }
   };
 
-  const saveForm = () => {
-    const _formData = new FormData();
-    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`));
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
-    Object.keys(basicInfo).forEach((key) => {
-      _formData.append(key, (basicInfo as any)[key]);
-    });
-    _formData.append("description", introSU);
-    _formData.append("itemDescription", introItem);
+  const changeInvestForm = (e: any) => {
+    const _target = e.currentTarget;
+    switch (_target.className.split(" ")[2]) {
+      case "invest_day":
+        setNewInvest({ ...newInvest, ...{ investedDates: _target.value } });
+        break;
+      case "invest_depart":
+        setNewInvest({ ...newInvest, ...{ investedStartups: _target.value } });
+        break;
+      case "invest-cost":
+        setNewInvest({ ...newInvest, ...{ investedFunds: _target.textContent } });
+        break;
+      case "company_value":
+        setNewInvest({ ...newInvest, ...{ investedValues: _target.value } });
+      break;
+      case "invest-series":
+        setNewInvest({ ...newInvest, ...{ investedSeries: _target.textContent } });
+        break;
+    }
+  }
 
-    axios.post(
-      `${process.env.REACT_APP_URL}/companies/info/startup/temp`,
-      _formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Basic ${_token}`,
-        },
-      }
-    )
-    .then((res) => { 
-      console.log(res) 
-      alert('임시 저장 성공')
-    });
-  };
+  const addInvest = () => {
+    setInvestInfo([newInvest].concat(investInfo));
+    setSubmitInvest(submitInvest.concat(newInvest));
+    setNewInvest({
+      temp: (newInvest as any).temp + 1,
+      investedDates: "",
+      investedStartups: "",
+      investedFunds: "1천만원 - 5천만원",
+      investedValues: "",
+      investedSeries: "엔젤투자"
+    })
+  }
+  const removeInvest = (e:any) => {
+    const _target = e.currentTarget.className.split(" ");
+
+    if(_target[1] !== "undefined") {
+      setInvestInfo(investInfo.filter((el:any) => 
+        el.id !== Number(_target[1])
+      ));
+      setSubmitInvest(submitInvest.concat({ id: _target[1] }));
+    }
+
+    else if(_target[2] !== "undefined") {
+      setInvestInfo(investInfo.filter((el:any) => 
+        el.temp !== Number(_target[2])
+      ));
+      setSubmitInvest(submitInvest.filter((el:any) => 
+        el.temp !== Number(_target[2])
+      ));
+    }
+  }
+
+  // const saveForm = () => {
+  //   const _formData = new FormData();
+  //   _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`));
+  //   _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
+  //   Object.keys(basicInfo).forEach((key) => {
+  //     _formData.append(key, (basicInfo as any)[key]);
+  //   });
+  //   _formData.append("description", introSU);
+  //   _formData.append("itemDescription", introItem);
+
+  //   axios.post(
+  //     `${process.env.REACT_APP_URL}/companies/info/startup/temp`,
+  //     _formData,
+  //     {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Basic ${_token}`,
+  //       },
+  //     }
+  //   )
+  //   .then((res) => { 
+  //     console.log(res) 
+  //     alert('임시 저장 성공')
+  //   });
+  // };
+
   const submitForm = () => {
     const _formData = new FormData();
     _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`));
@@ -218,11 +282,21 @@ const MyStartup = () => {
       <IntroImg />
 
       <InvestDesire />
-      {/* <InvestInfo view={"startup"} data={[]} /> */}
+
+      <InvestInfo 
+        view={"startup"} 
+        data={investInfo}
+        value={newInvest}
+        changeVal={changeInvestForm} 
+
+        addInvest={addInvest}
+        removeInvest={removeInvest}
+      />
+
       {/* <IntroTeam /> */}
       {/* <News /> */}
       <BtnSet 
-        save={saveForm}
+        // save={saveForm}
         submit={submitForm} 
       />
     </>
