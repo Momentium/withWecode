@@ -9,7 +9,7 @@ const ARTICLES_DEFAULT_LIMIT = 5;
 const findPublishedProjects = async (query, field) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
-  where.AND[2]= {is_opened : 1}
+  where.AND[2]= {is_opened : true}
 
   const projects = await prisma.projects.findMany({
     include: {
@@ -60,7 +60,7 @@ const findMyProjects = (query, companyId) => {
   const { offset, limit, ...fields } = query;
   const where = makeQueryOption(fields);
   delete where.AND[0];
-  where.company = companyId;
+  where.company_id = companyId;
 
   return prisma.projects.findMany({
     include: {
@@ -179,8 +179,9 @@ const createProject = async (field) => {
       companies: userInfofromToken
         ? { connect: { id: userInfofromToken.company_id } }
         : undefined,
-      is_opened: 0,
+      is_opened: false,
       is_saved: false,
+      request_open: false,
       hit: 0,
     },
   });
@@ -221,11 +222,8 @@ const updateProject = async (fields) => {
       caution,
       contact,
       application_url,
-      is_opened: 0,
-      is_saved: false,
       project_images: project_images? { create: [{ img_url: project_images }] }: undefined,
       is_saved: true,
-      request_open: 0,
     },
   });
 };
@@ -235,7 +233,7 @@ const openRequest = async (field) => {
 
   return await prisma.projects.update({
     where: { id: Number(projectId) },
-    data: { request_open: 1 },
+    data: { request_open: true },
   });
 };
 
@@ -245,7 +243,7 @@ const openProject = (projectId) => {
       id: Number(projectId),
     },
     data: {
-      is_opened: 1,
+      is_opened: true,
       updated_at: new Date(),
     },
   });

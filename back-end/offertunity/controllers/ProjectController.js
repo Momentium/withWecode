@@ -28,14 +28,6 @@ const getPublishedProjects = errorWrapper(async (req, res) => {
     const reqDocExists = projectList[len].required_documents? projectList[len].required_documents: undefined;
     const required_documents = reqDocExists.length > 0 ? reqDocExists.map((el) => el.document_types.name) : reqDocExists;
     const tag = projectList[len].tag? projectList[len].tag: undefined;
-    //   if (reqDocExists.length>0) {
-  //   let required_documents = [];
-  //   // for (let x = 0; x < reqDocExists.length; x++) {
-  //   //   required_documents.push(reqDocExists[x].document_types.name)
-  //   //   console.log("여긴 좋아",required_documents)
-  //   // }
-  //   const required_documents = 
-  // }else{const required_documents=reqDocExists}
 
   let cleanedProject = {};
   cleanedProject.id = id
@@ -162,7 +154,7 @@ const getOneProject = errorWrapper(async (req, res) => {
   if (userInfofromToken) {
     const isStartup = userInfofromToken.type_id === 1;
     const findApplied = isStartup
-      ? await ApplyService.findRelatedApplication({
+      ? await ApplyService.findMyApplication({
           company_id: userInfofromToken.company_id,
           project_id: Number(projectId),
         })
