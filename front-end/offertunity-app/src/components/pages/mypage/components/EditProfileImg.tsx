@@ -39,14 +39,29 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     setRemoveImg(true);
     axios({
       method: "delete",
-      url: `${process.env.REACT_APP_URL}/mypage/profilepic`,
+      url: `${process.env.REACT_APP_URL}/users/mypage/profilepic`,
       headers: {
-        // "Content-Type": "multipart/form-data",
+        //"Content-Type": "application/json",
         authorization: _token,
       },
-    }).then((res) => {
-      alert("프로필 이미지가 삭제되었습니다");
-    });
+    })
+      .then((res) => {
+        alert("프로필 이미지가 삭제되었습니다");
+      })
+      .catch((err) => {
+        alert("ERROR");
+      });
+
+    // axios
+    //   .delete(`${process.env.REACT_APP_URL}/mypage/profilepic`, {
+    //     headers: { Authorization: _token },
+    //   })
+    //   .then((res) => {
+    //     alert("프로필 이미지가 삭제되었습니다");
+    //   })
+    //   .catch((err) => {
+    //     alert("ERROR");
+    //   });
   };
 
   let ProfileImg = null;
@@ -68,7 +83,6 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
   }
 
   const profile_img = ProfileImg?.props.src;
-  console.log(profile_img);
 
   return (
     <>

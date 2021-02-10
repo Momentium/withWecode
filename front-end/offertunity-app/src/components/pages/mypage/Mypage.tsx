@@ -75,12 +75,12 @@ const Mypage: React.FC = () => {
           </Station>
           <Profile data={profileData} />
           <WorkStation />
-          <BoxWrap>
+          {/* <BoxWrap>
             <Box success={successData} interest={""} ir={""} />
             <Box success={""} interest={interestData} ir={""} />
             <Box success={""} interest={""} ir={irData} />
           </BoxWrap>
-          <Level />
+          <Level /> */}
         </Center>
       </Wrap>
       <Title>내가 관심있는 스타트업</Title>
@@ -128,5 +128,6 @@ const Title = styled.p`
 `;
 
 const Intertest = styled.div`
+  display: flex;
   ${({ theme }) => theme.conWidth};
 `;

@@ -20,7 +20,8 @@ const EditMypage: React.FC = (Props) => {
         },
       })
       .then((res) => {
-        setData(res.data.userInfo);
+        setData(res.data);
+        console.log(data);
       });
   }, []);
 
