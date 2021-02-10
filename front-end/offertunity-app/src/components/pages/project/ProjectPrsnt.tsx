@@ -9,11 +9,13 @@ import axios from "axios";
 const ProjectPrsnt: React.FC<any> = ({ data, token, isLogin }) => {
   const [like, setLike] = useState<boolean>(data.hasLiked);
 
+  console.log(like);
+
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (isLogin) {
       axios
-        .get(`${process.env.REACT_APP_URL}/likes/project/${data.id}`, {
+        .get(`http://10.0.1.29:3000/likes/project/${data.id}`, {
           headers: {
             Authorization: `${token}`,
           },
@@ -25,6 +27,8 @@ const ProjectPrsnt: React.FC<any> = ({ data, token, isLogin }) => {
     }
     console.log("click");
   };
+
+  console.log(data);
 
   return (
     <StPjtWrap>
