@@ -6,8 +6,6 @@ import * as Mt from "api/methods";
 import MoveBar from "../../../common/detail/MoveBar";
 import ProjectContent from "./ProjectContent";
 
-import StButton from "./StButton";
-
 const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
   const getUserInfo = sessionStorage.getItem("userInfo");
   const userInfo = JSON.parse(String(getUserInfo))?.type_id;
@@ -39,6 +37,7 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
         Authorization: `${_token}`,
       };
     }
+
     axios
       .get(`${process.env.REACT_APP_URL}/projects/${_resId}`, {
         headers: config,

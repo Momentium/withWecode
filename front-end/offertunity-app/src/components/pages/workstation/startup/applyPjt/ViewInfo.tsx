@@ -4,7 +4,7 @@ import axios from "axios";
 import * as Mt from "api/methods";
 import styled, { css } from "styled-components";
 
-const ViewPjt: React.FC<any> = ({ match, handleModal }) => {
+const ViewPjt: React.FC<any> = ({ match, handleModal, modal, applyResult }) => {
   const _params = match.params.tab;
   const _token = Mt.getUserInfo().token;
   const _nullTxt = "정보를 입력해 주세요.";
@@ -50,7 +50,7 @@ const ViewPjt: React.FC<any> = ({ match, handleModal }) => {
         setInsta(_resData.instagram ? _resData.instagram : _nullTxt);
         setFacebook(_resData.facebook ? _resData.facebook : _nullTxt);
       });
-  }, []);
+  }, [modal]);
 
   const sessionSave = () => {
     const _data = {
@@ -82,8 +82,17 @@ const ViewPjt: React.FC<any> = ({ match, handleModal }) => {
           <Link to={`/workstation/myproject/editInfo`} onClick={sessionSave}>
             <StBtn>제출 정보 편집</StBtn>
           </Link>
+        ) : applyResult ? (
+          <StBtn>기본 정보 편집</StBtn>
         ) : (
-          <StBtn onClick={handleModal}>기본 정보 편집</StBtn>
+          <StBtn
+            onClick={() => {
+              handleModal();
+              sessionSave();
+            }}
+          >
+            기본 정보 편집
+          </StBtn>
         )}
       </StLogoCont>
 

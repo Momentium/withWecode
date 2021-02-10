@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import Buttons from "../../../common/detail/buttons/Buttons";
-import StButton from "./StButton";
 import BasicBtn from "components/common/button/BasicBtn";
 import ProjectDetailInfo from "./ProjectDetailInfo";
 import ProjectSubmit from "./ProjectSubmit";
 import ProjectRequestList from "./ProjectRequestList";
 import ProjectContentCard from "./ProjectContentCard";
-import { withRouter } from "react-router-dom";
+import * as Mt from "api/methods";
 
 const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
   const [like, setLike] = useState<boolean>(data.hasLiked);
+  const [currPage, setCurrPage] = useState("article");
+  const [bizDescription, setBizDescription] = useState<string>("");
+  const [bizModel, setBizModel] = useState<string>();
 
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (isLogin) {
       axios
-        .get(`${process.env.REACT_APP_URL}/likes/project/${data.id}`, {
+        .get(`http://10.0.1.29:3000/likes/project/${data.id}`, {
           headers: {
             Authorization: `${token}`,
           },
@@ -29,13 +30,25 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
     }
   };
 
+  console.log(data);
+
   const handleStartupArticleBtn = () => {
     setCurrPage("submit");
-    console.log("hi");
+  };
+
+  const _data = {
+    businessBrief: bizDescription,
+    businessModel: bizModel,
   };
 
   const handleStartupSubmitBtn = () => {
-    console.log("bye");
+    axios
+      .post(`${process.env.REACT_APP_URL}/applies/${data.id}`, _data, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
+      .then((res) => console.log(res));
   };
 
   const handlePartnerArticleBtn = () => {
@@ -45,8 +58,6 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
   const handlePartnerReqBtn = () => {
     console.log("sdfsdf");
   };
-
-  const [currPage, setCurrPage] = useState("article");
 
   const ctrlBtn = () => {
     if (userInfo === 1 && currPage === "article") {
@@ -118,7 +129,15 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
         <ProjectDetailInfo data={data} btn={ctrlBtn()} />
       )}
       {userInfo === 1 && currPage === "submit" && (
-        <ProjectSubmit data={data} btn={ctrlBtn()} />
+        <ProjectSubmit
+          data={data}
+          btn={ctrlBtn()}
+          bizDescription={bizDescription}
+          setBizDescription={setBizDescription}
+          bizModel={bizModel}
+          setBizModel={setBizModel}
+          token={token}
+        />
       )}
       {userInfo === 2 && currPage === "article" && (
         <ProjectDetailInfo data={data} btn={ctrlBtn()} />
