@@ -21,17 +21,20 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
   const _token = Mt.getUserInfo().token;
 
   const saveData = () => {
+    const formData = new FormData();
+    formData.append("profile_picture", Mt.dataURLtoFile(profileSrc, "profile"));
+    formData.append("name", nameInput);
+    formData.append("phone_number", phoneNumber);
+    console.log(profileSrc);
+
     axios({
       method: "post",
-      url: "http://10.0.1.29:3000/users/mypage",
+      url: `${process.env.REACT_APP_URL}/users/mypage`,
       headers: {
+        "Content-Type": "multipart/form-data",
         authorization: _token,
       },
-      data: {
-        name: nameInput,
-        phone_number: phoneNumber,
-        profile_picture: profileSrc,
-      },
+      data: formData,
     }).then((res) => {
       alert("회원정보가 수정되었습니다");
     });
@@ -54,12 +57,16 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
     });
   };
 
-  const validatePhoneNumber = () => {
-    const regPhone = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
-    if (!regPhone.test(phoneNumber)) {
-      alert("휴대전화번호 형식에 맞지 않는 번호 입니다");
-    }
+  const openModal = () => {
+    setModal(!Modal);
   };
+
+  // const validatePhoneNumber = () => {
+  //   const regPhone = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+  //   if (!regPhone.test(phoneNumber)) {
+  //     alert("휴대전화번호 형식에 맞지 않는 번호 입니다");
+  //   }
+  // };
 
   const BtnTrue = nameInput.length > 2;
 
@@ -77,13 +84,7 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
       </ID>
       <Pw>
         <Title>비밀번호</Title>
-        <button
-          onClick={() => {
-            setModal(!Modal);
-          }}
-        >
-          비밀번호 변경
-        </button>
+        <button onClick={openModal}>비밀번호 변경</button>
       </Pw>
       <Name>
         <Title>이름</Title>
@@ -100,7 +101,7 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
             onChange={handlePhonenumber}
           />
         </Input>
-        <button onClick={validatePhoneNumber}>인증하기</button>
+        {/* <button onClick={validatePhoneNumber}>인증하기</button> */}
       </Phone>
       <BtnWrap>
         {/* <Link to="/Mypage"> */}
@@ -115,6 +116,7 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
           <CancleBtn>취소</CancleBtn>
         </Link>
       </BtnWrap>
+
       {Modal && <ModalChangePw />}
     </Wrap>
   );

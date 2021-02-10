@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import EditProfileImg from "./components/EditProfileImg";
-
 import WorkStation from "./components/WorkStation";
 import * as Mt from "api/methods";
 
@@ -20,7 +19,8 @@ const EditMypage: React.FC = (Props) => {
         },
       })
       .then((res) => {
-        setData(res.data.userInfo);
+        setData(res.data);
+        console.log(data);
       });
   }, []);
 

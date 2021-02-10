@@ -12,9 +12,9 @@ const Profile: React.FC<Props> = ({ data }) => {
     profile_picture,
     email,
     signup_method_id,
-    company_id,
     phone_number,
     type_id,
+    company,
   } = data;
 
   let profileImg = null;
@@ -67,13 +67,20 @@ const Profile: React.FC<Props> = ({ data }) => {
               {type_id === 2 && "파트너 기관"}
             </span>
             {type_id === 2 && (
-              <p>{company_id ? company_id : "파트너 기관을 등록해주세요"}</p>
+              <p>{company ? company : "파트너 기관을 등록해주세요"}</p>
             )}
             {type_id === 1 && (
-              <p>{company_id ? company_id : "마이 스타트업을 등록해주세요"}</p>
+              <p>{company ? company : "마이 스타트업을 등록해주세요"}</p>
             )}
           </Info>
-          <BtnTwo>마이 스타트업 관리</BtnTwo>
+          <BtnTwo>
+            {type_id === 1 && (
+              <Link to="/workstation/mystartup">마이 스타트업 관리</Link>
+            )}
+            {type_id === 2 && (
+              <Link to="/workstation/mypartner">파트너 기관 관리</Link>
+            )}
+          </BtnTwo>
         </Box>
       </Text>
     </Wrap>

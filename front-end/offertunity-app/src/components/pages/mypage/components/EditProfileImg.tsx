@@ -21,53 +21,68 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
+
     reader.onload = (event: any) => {
       setpreviewURL(event.target.result);
     };
+
     if (file && file.type.match("image.*")) {
       setRemoveImg(false);
       reader.readAsDataURL(file);
     } else {
       ProfileImg = (
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
-          alt="프로필사진"
-        />
+        <img src="/images/mypage/noProfileImg.png" alt="프로필사진" />
       );
     }
   };
-
   const removeImges = () => {
     setRemoveImg(true);
+    axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_URL}/users/mypage/profilepic`,
+      headers: {
+        //"Content-Type": "application/json",
+        authorization: _token,
+      },
+    })
+      .then((res) => {
+        alert("프로필 이미지가 삭제되었습니다");
+      })
+      .catch((err) => {
+        alert("ERROR");
+      });
+
+    // axios
+    //   .delete(`${process.env.REACT_APP_URL}/mypage/profilepic`, {
+    //     headers: { Authorization: _token },
+    //   })
+    //   .then((res) => {
+    //     alert("프로필 이미지가 삭제되었습니다");
+    //   })
+    //   .catch((err) => {
+    //     alert("ERROR");
+    //   });
   };
 
   let ProfileImg = null;
-  if (!profile_picture && !previewURL) {
-    ProfileImg = (
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
-        alt="프로필사진"
-      />
-    );
-  }
-  if (!profile_picture && previewURL) {
-    ProfileImg = <img src={previewURL} alt="프로필사진" />;
-  }
+
   if (profile_picture) {
     ProfileImg = <img src={profile_picture} alt="프로필사진" />;
   }
 
-  if (removeImg) {
-    ProfileImg = (
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
-        alt="프로필사진"
-      />
-    );
+  if (previewURL) {
+    ProfileImg = <img src={previewURL} alt="프로필사진" />;
   }
 
-  const profile_img = ProfileImg?.props;
-  console.log(profile_img);
+  if (removeImg) {
+    ProfileImg = <img src="/images/mypage/noProfileImg.png" alt="프로필사진" />;
+  }
+
+  if (!profile_picture && !previewURL) {
+    ProfileImg = <img src="/images/mypage/noProfileImg.png" alt="프로필사진" />;
+  }
+
+  const profile_img = ProfileImg?.props.src;
 
   return (
     <>
