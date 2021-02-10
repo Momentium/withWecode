@@ -20,11 +20,11 @@ const PjtList:React.FC<any> = ({ data }) => {
           </tr>
           <tr>
             <th>지원분야</th>
-            <td>{data.eligible_sector}</td>
+            <td>{data.eligible_sectors}</td>
           </tr>
           <tr>
             <th>지원대상</th>
-            <td>{data.eligibility}</td>
+            <td>{data.eligibilities}</td>
           </tr>
         </tbody>
       </StInfoTable>

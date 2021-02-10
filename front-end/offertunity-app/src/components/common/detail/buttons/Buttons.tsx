@@ -7,6 +7,7 @@ import IRBtn from "./IRButton";
 const boxStyle = {
   marginRight: "3.531rem",
 };
+
 const Buttons = ({ title, type, page, isLike, clickLike }: any) => {
   return (
     <>

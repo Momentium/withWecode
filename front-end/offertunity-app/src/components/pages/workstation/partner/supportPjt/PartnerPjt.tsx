@@ -5,7 +5,6 @@ import styled, { css } from "styled-components";
 import * as St from "styles/styledComp";
 import * as Mt from "api/methods";
 import AddPjt from "./AddPjt";
-// import EditPjt from "./EditPjt";
 import PjtList from "./PjtList";
 
 const PartnerPjt: React.FC<any> = ({ match }) => {

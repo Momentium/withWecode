@@ -1,137 +1,215 @@
-import React, { useState,  } from 'react';
-import { Link } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import BasicBtn from 'components/common/button/BasicBtn';
-import InputBox from '../../common/InputBox';
-import SelectBtn from '../../common/SelectBtn';
+import React, { useState, useEffect } from "react";
+import { Link, withRouter } from "react-router-dom";
+import axios from "axios";
+import * as Mt from "api/methods";
+import styled, { css } from "styled-components";
 
-const ViewPjt:React.FC<any> = ({ handleSubmit }) => {
-  const [img, setImg] = useState<any>();
-  const [logo, setLogo] = useState<any>();
+const ViewPjt:React.FC<any> = ({ match }) => {
+  const _params = match.params.tab;
+  const _token = Mt.getUserInfo().token;
+  const _nullTxt = "정보를 입력해 주세요.";
+  const [logoImg, setLogo] = useState<any>();
   const [name, setName] = useState<string>("");
   const [rep, setRep] = useState<string>("");
-  const [estDate, setEstDate] = useState<string>("");
+  const [contact, setContact] = useState<string>("");
+  const [address, setAddr] = useState<string>("");
+  const [sector, setSector] = useState<string>("마케팅");
+  const [technology, setTech] = useState<string>("블록체인");
+  const [businessType, setBizType] = useState<string>("개인");
+  const [businessLicenseNum, setBizLicense] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [memberCount, setMemberCnt] = useState<number>(0);
   const [homepage, setHompage] = useState<string>("");
-  const [sector, setSector] = useState<string>("플랫폼");
-  const [tech, setTech] = useState<string>("블록체인");
-  const [service, setService] = useState<string>("블록체인");
-  const [corp, setCorp] = useState<string>("개인");
-  const [employees, setEmployees] = useState<string>("1 - 10명");
+  const [instagram, setInsta] = useState<string>("");
+  const [facebook, setFacebook] = useState<string>("");
 
-  const changeVal = (e:any) => {
-    const _target = e.currentTarget;
-    console.log(_target)
-    switch(_target.className.split(" ")[2]) {
-      case 'startup-name':
-        setName(_target.value);
-        break;
-      case 'ceo-name':
-        setRep(_target.value);
-        break;
-      case 'establish':
-        setEstDate(_target.value);
-        break;
-      case 'homepage':
-        setHompage(_target.value);
-        break;
-      case 'sector':
-        setSector(_target.textContent);
-        break;
-      case 'tech':
-        setTech(_target.textContent);
-        break;
-      case 'service':
-        setService(_target.textContent);
-        break;
-      case 'corp':
-        setCorp(_target.textContent);
-        break;
-      case 'employees':
-        setEmployees(_target.textContent);
-        break;
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_URL}/companies/project_info/startup`, {
+        headers: {
+          Authorization: `Basic ${_token}`,
+        },
+      })
+      .then((res) => {
+        const _resData = res.data.body;
+        console.log(_resData);
+        setLogo(_resData.logoImg);
+        setName(_resData.name ? _resData.name : _nullTxt);
+        setRep(_resData.rep ? _resData.rep : _nullTxt);
+        setContact(_resData.contact ? _resData.contact : _nullTxt);
+        setAddr(_resData.address ? _resData.address : _nullTxt);
+        setSector(_resData.sector);
+        setTech(_resData.technology);
+        setBizType(_resData.businessType ? _resData.businessType : "개인");
+        setBizLicense(
+          _resData.businessLicenseNum ? _resData.businessLicenseNum : _nullTxt
+        );
+        setEmail(_resData.email ? _resData.email : _nullTxt);
+        setMemberCnt(_resData.memberCount ? _resData.memberCount : 0);
+        setHompage(_resData.homepage ? _resData.homepage : _nullTxt);
+        setInsta(_resData.instagram ? _resData.instagram : _nullTxt);
+        setFacebook(_resData.facebook ? _resData.facebook : _nullTxt);
+      });
+  }, []);
+
+  const sessionSave = () => {
+    const _data = {
+      logoImg, name, rep,
+      contact, address, sector,
+      technology, businessType, businessLicenseNum,
+      email, memberCount, homepage,
+      instagram, facebook
     }
+    sessionStorage.setItem("sessionSave", JSON.stringify(_data))
   }
+
   return (
     <StCont>
-      <StLogoCont>
-        {/* <img src="" alt=""/> */}
-        <div className="img-wrap">이미지를 등록해 주세요</div>
-        <Link to={`/workstation/myproject/editInfo`}>
-          <StBtn>제출 정보 편집</StBtn>
-        </Link>
+      <StLogoCont logo={logoImg}>
+        <div className="img-wrap">
+          <div>이미지를 등록해 주세요</div>
+        </div>
+        {
+          _params === 'myproject' ?
+          <Link to={`/workstation/myproject/editInfo`} onClick={sessionSave}>
+            <StBtn>제출 정보 편집</StBtn>
+          </Link>
+          :
+          <Link to={`/workstation/myproject/editInfo`} onClick={sessionSave}>
+            <StBtn>기본 정보 편집</StBtn>
+          </Link>
+        }
       </StLogoCont>
 
-      <StFormCont>
+      <StTableCont>
         <div className="form-cont">
           <div>
-            <StFormWrap>
+            <StTableWrap>
               <div className="label">기업명</div>
-            </StFormWrap>
+              <div className={name === _nullTxt ? "null" : "element"}>
+                {name}
+              </div>
+            </StTableWrap>
 
-            <StFormWrap>
+            <StTableWrap>
               <div className="label">대표자명</div>
-            </StFormWrap>
-            
-            <StFormWrap>
+              <div className={rep === _nullTxt ? "null" : "element"}>{rep}</div>
+            </StTableWrap>
+
+            <StTableWrap>
               <div className="label">대표자연락처</div>
-            </StFormWrap>
+              <div className={contact === _nullTxt ? "null" : "element"}>
+                {contact}
+              </div>
+            </StTableWrap>
 
-            <StFormWrap>
+            <StTableWrap>
               <div className="label">기업 주소</div>
-            </StFormWrap>
+              <div className={address === _nullTxt ? "null" : "element"}>
+                {address}
+              </div>
+            </StTableWrap>
 
-            <StFormWrap dir>
+            <StTableWrap>
               <div className="label">산업 영역</div>
-            </StFormWrap>
-            
-            <StFormWrap dir>
-              <div className="label">기술</div>
-            </StFormWrap>
+              <div className={sector === _nullTxt ? "null" : "element"}>
+                {sector}
+              </div>
+            </StTableWrap>
 
-            <StFormWrap dir>
-              <div className="label">서비스 형태</div>
-            </StFormWrap>
+            <StTableWrap>
+              <div className="label">기술</div>
+              <div className={technology === _nullTxt ? "null" : "element"}>
+                {technology}
+              </div>
+            </StTableWrap>
           </div>
 
           <div>
-            <StFormWrap dir>
+            <StTableWrap>
               <div className="label">사업자 구분</div>
-            </StFormWrap>
+              <div className={businessType === _nullTxt ? "null" : "element"}>
+                {businessType}
+              </div>
+            </StTableWrap>
 
-            <StFormWrap>
+            <StTableWrap>
               <div className="label">사업자 등록 번호</div>
-            </StFormWrap>
+              <div className={businessLicenseNum === _nullTxt ? "null" : "element"}>
+                {businessLicenseNum}
+              </div>
+            </StTableWrap>
 
-            <StFormWrap>
+            <StTableWrap>
               <div className="label">대표 이메일</div>
-            </StFormWrap>
+              <div className={email === _nullTxt ? "null" : "element"}>
+                {email}
+              </div>
+            </StTableWrap>
 
-            <StFormWrap dir>
+            <StTableWrap>
               <div className="label">직원 수</div>
-            </StFormWrap>
+              <div className={"element"}>{memberCount}</div>
+            </StTableWrap>
 
-            <StFormWrap>
+            <StTableWrap>
               <div className="label">홈페이지</div>
-            </StFormWrap>
+              {homepage === _nullTxt ? (
+                <div className="null">{homepage}</div>
+              ) : (
+                <a
+                  className="element"
+                  href={`//${homepage}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {homepage}
+                </a>
+              )}
+            </StTableWrap>
 
-            <StFormWrap>
+            <StTableWrap>
               <div className="label">인스타그램</div>
-            </StFormWrap>
-            
-            <StFormWrap>
+              {instagram === _nullTxt ? (
+                <div className="null">{instagram}</div>
+              ) : (
+                <a
+                  className="element"
+                  href={`//${instagram}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {instagram}
+                </a>
+              )}
+            </StTableWrap>
+
+            <StTableWrap>
               <div className="label">페이스북</div>
-            </StFormWrap>
+              {facebook === _nullTxt ? (
+                <div className="null">{facebook}</div>
+              ) : (
+                <a
+                  className="element"
+                  href={`//${facebook}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {facebook}
+                </a>
+              )}
+            </StTableWrap>
           </div>
         </div>
-        
-      </StFormCont>
+      </StTableCont>
     </StCont>
   );
-}
-export default ViewPjt;
+};
+export default withRouter(ViewPjt);
 
 const StCont = styled.div`
   margin-bottom: 96px;
+  padding: 0 50px;
 
   width: 100%;
   display: flex;
@@ -139,7 +217,7 @@ const StCont = styled.div`
   align-items: flex-start;
 `;
 
-const StLogoCont = styled.div`
+const StLogoCont = styled.div<any>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,7 +233,20 @@ const StLogoCont = styled.div`
 
     border-radius: 50%;
 
-    background: #f2f2f2;
+    ${(props) =>
+      props.logo === ""
+        ? css`
+            background: #f2f2f2;
+          `
+        : css`
+            background-image: url(${props.logo});
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            div {
+              display: none;
+            }
+          `}
 
     margin: 48px 0;
   }
@@ -163,7 +254,7 @@ const StLogoCont = styled.div`
 
 const StBtn = styled.span`
   cursor: pointer;
-  user-select:none;
+  user-select: none;
   display: inline-block;
 
   border-radius: 5px;
@@ -173,15 +264,15 @@ const StBtn = styled.span`
   width: 224px;
   line-height: 56px;
 
-  background: #192334;  
+  background: #192334;
   color: white;
   border: 1px solid #192334;
-  
+
   font-size: 18px;
   font-weight: bold;
 `;
 
-const StFormCont = styled.div`
+const StTableCont = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -189,8 +280,11 @@ const StFormCont = styled.div`
 
   .form-cont {
     display: flex;
+    & > div {
+      min-width: 265px;
+    }
     & > div:first-child {
-      margin-right: 48px;
+      margin-right: 88px;
     }
   }
 
@@ -202,25 +296,20 @@ const StFormCont = styled.div`
   }
 `;
 
-const StFormWrap = styled.div<any>`
-  margin-bottom: 24px;
+const StTableWrap = styled.div<any>`
+  margin-bottom: 32px;
   &:last-child {
     margin: 0;
   }
 
-  ${props => props.dir ? 
-  css`
-    width: 314px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  `
-  :
-  css`
-    .label {
-      margin-bottom: 8px;
-    }
-  `  
+  font-size: 18px;
+  .label {
+    margin-bottom: 16px;
+  }
+  .element {
+    font-weight: bold;
+  }
+  .null {
+    color: gray;
   }
 `;
-
