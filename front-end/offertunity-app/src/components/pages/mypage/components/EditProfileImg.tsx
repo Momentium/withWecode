@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import ModalWrap from "./ModalWithdrawal";
 import * as Mt from "api/methods";
+import EditForm from "./EditForm";
 
 type Props = {
   data: any;
@@ -38,7 +39,6 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
 
   const removeImges = () => {
     setRemoveImg(true);
-    console.log(removeImg);
   };
 
   let ProfileImg = null;
@@ -66,34 +66,38 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     );
   }
 
-  console.log(ProfileImg?.props.src);
+  const profile_img = ProfileImg?.props;
+  console.log(profile_img);
 
   return (
-    <Img>
-      <span>
-        <i className="fas fa-times" onClick={removeImges} />
-        {ProfileImg}
-      </span>
-      <Label>
-        프로필 사진등록
-        <input
-          id="upload"
-          type="file"
-          accept="image/jpg,image/png,image/jpeg,image/gif"
-          onChange={handleImg}
-        />
-      </Label>
-      <Notion>*권장 사이즈 : 400x400</Notion>
-      <Button
-        onClick={() => {
-          setModal(!Modal);
-        }}
-      >
-        <p>회원탈퇴</p>
-        <i className="fas fa-chevron-right" />
-      </Button>
-      {Modal && <ModalWrap />}
-    </Img>
+    <>
+      <Img>
+        <span>
+          <i className="fas fa-times" onClick={removeImges} />
+          {ProfileImg}
+        </span>
+        <Label>
+          프로필 사진등록
+          <input
+            id="upload"
+            type="file"
+            accept="image/jpg,image/png,image/jpeg,image/gif"
+            onChange={handleImg}
+          />
+        </Label>
+        <Notion>*권장 사이즈 : 400x400</Notion>
+        <Button
+          onClick={() => {
+            setModal(!Modal);
+          }}
+        >
+          <p>회원탈퇴</p>
+          <i className="fas fa-chevron-right" />
+        </Button>
+        {Modal && <ModalWrap />}
+      </Img>
+      <EditForm data={data} profileSrc={profile_img} />
+    </>
   );
 };
 
@@ -101,8 +105,8 @@ export default EditProfileImg;
 
 const Img = styled.div`
   position: relative;
-  width: 20%;
-  margin: 3rem 10.5rem 0 10.06rem;
+  width: 30%;
+  margin: 3rem 7.5rem 0 6.06rem;
   text-align: center;
   span {
     display: inline-block;
@@ -146,7 +150,7 @@ const Notion = styled.p`
 const Label = styled.label`
   position: absolute;
   top: 14rem;
-  left: 2rem;
+  left: 6rem;
   width: 11.5rem;
   height: 2.5rem;
   line-height: 2.5rem;

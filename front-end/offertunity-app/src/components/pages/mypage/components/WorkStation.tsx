@@ -5,7 +5,6 @@ import * as Mt from "api/methods";
 
 const WorkStation = () => {
   const typeId = Mt.getUserInfo().type_id;
-  console.log(typeId);
   return (
     <Wrap>
       <Text>
