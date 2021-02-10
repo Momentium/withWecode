@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ProgressBar from "./ProgressBar";
 import CheckBtn from "./CheckBtn";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Level: React.FC = () => {
   const [checked, setChecked] = useState([]);
@@ -28,14 +29,18 @@ const Level: React.FC = () => {
           {partner && "파트너 기관 정보 완성률"}
         </p>
         {startup && (
-          <span>
-            마이 스타트업 정보 관리 <i className="fas fa-chevron-right" />
-          </span>
+          <Link to="/workstation/mystartup">
+            <span>
+              마이 스타트업 정보 관리 <i className="fas fa-chevron-right" />
+            </span>
+          </Link>
         )}
         {partner && (
-          <span>
-            파트너 기관 정보 관리 <i className="fas fa-chevron-right" />
-          </span>
+          <Link to="/workstation/mypartner">
+            <span>
+              파트너 기관 정보 관리 <i className="fas fa-chevron-right" />
+            </span>
+          </Link>
         )}
       </Title>
       <ProgressBar success={numberOfClassTrue} />
