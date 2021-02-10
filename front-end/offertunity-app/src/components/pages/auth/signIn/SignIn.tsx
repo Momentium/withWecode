@@ -29,15 +29,6 @@ const SignIn: React.FC = () => {
     }
   }, []);
 
-  // const enterSignIn = (window: any) => {
-  //   const keyCode = window.this.event.keyCode;
-
-  //   if (keyCode == 13) {
-  //     signIn();
-  //   }
-  //   console.log(keyCode);
-  // };
-
   const signIn = () => {
     const { email, password } = inputs;
     axios
@@ -54,7 +45,7 @@ const SignIn: React.FC = () => {
           name: _resData.name,
           type_id: _resData.type_id,
         };
-        // sessionStorage.setItem("token", response.data.token);
+
         sessionStorage.setItem("userInfo", JSON.stringify(_resData));
         if (saveId) {
           localStorage.setItem("userId", email);
@@ -66,6 +57,15 @@ const SignIn: React.FC = () => {
       });
     console.log(email, password);
   };
+
+  // const enterSignIn = (window: any) => {
+  //   const keyCode = window.this.event.keyCode;
+  //   if (keyCode == 13) {
+  //     signIn();
+  //   }
+  //   console.log(keyCode);
+  //onKeyPress={enterSignIn}
+  // };
 
   const handleEmail = (event: any) => {
     event.preventDefault();

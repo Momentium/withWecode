@@ -14,20 +14,22 @@ const FindId: React.FC = () => {
     setEmail(event.target.value);
     console.log(email);
   };
-
+  const on = email.length > 0;
   const handleIsPwExist = () => {
-    history.push("/auth/FindIdAgain");
-    sessionStorage.setItem("findEmail", email);
-    axios
-      .post(`${process.env.REACT_APP_URL}/auths/emailfinder`, {
-        email: email,
-      })
-      .then((res) => {
-        history.push("/auth/FindIdAgain");
-      })
-      .catch((err) => {
-        history.push("/auth/FindIdResult");
-      });
+    if (on) {
+      history.push("/auth/FindIdAgain");
+      sessionStorage.setItem("findEmail", email);
+      axios
+        .post(`${process.env.REACT_APP_URL}/auths/emailfinder`, {
+          email: email,
+        })
+        .then((res) => {
+          history.push("/auth/FindIdAgain");
+        })
+        .catch((err) => {
+          history.push("/auth/FindIdResult");
+        });
+    }
   };
 
   return (
@@ -47,7 +49,9 @@ const FindId: React.FC = () => {
           />
           <Buttons>
             {/* 아이디가 있는 경우는  /auth/FindIdResult 로 이동 */}
-            <ChkBtn onClick={handleIsPwExist}>확인</ChkBtn>
+            <ChkBtn onClick={handleIsPwExist} className={on ? "on" : ""}>
+              확인
+            </ChkBtn>
             <Link to="/">
               <CancleBtn>취소</CancleBtn>
             </Link>
@@ -108,8 +112,11 @@ const Btn = styled.button`
 
 const ChkBtn = styled(Btn)`
   margin-right: 1rem;
-  background: #5541ed;
+  background: #9f9f9f;
   color: #fff;
+  &.on {
+    background: #5541ed;
+  }
 `;
 const CancleBtn = styled(Btn)`
   background: #fff;

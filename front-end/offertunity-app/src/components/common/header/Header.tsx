@@ -59,7 +59,8 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                 <StLinkWrap
                   curPage={location.pathname.split("/")[1] === "team"}
                 >
-                  <Link to="/team">팀빌딩</Link>
+                  <Link to="/team" style={{visibility: "hidden"}}>팀빌딩</Link>
+                  {/* <Link to="/team">팀빌딩</Link> */}
                 </StLinkWrap>
               </StNavCont>
 
@@ -88,6 +89,8 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                     <img src="/images/icons/person.png" alt="person-icon" />
                   </Link>
 
+
+                  <div className="workstation-cont">
                   {info.type_id === 1 ? (
                     <>
                       <Link
@@ -150,6 +153,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                       </Modal>
                     </>
                   )}
+                  </div>
                 </StLogInCont>
               ) : (
                 <Auth>
@@ -172,8 +176,6 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
 export default withRouterAndRef(Header);
 
 const StLogInCont = styled.div`
-  position: relative;
-
   display: flex;
   align-items: center;
 
@@ -202,6 +204,9 @@ const StLogInCont = styled.div`
     font-weight: normal;
   }
 
+  .workstation-cont {
+    position: relative;
+  }
   .link-workstation:hover + .modal {
     display: inline-block;
   }
@@ -214,8 +219,9 @@ const Modal = styled.div`
   display: none;
   z-index: 10;
   position: absolute;
-  top: 43px;
-  left: 118px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 1rem 2rem;
   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
   background: #ffffff 0% 0% no-repeat padding-box;

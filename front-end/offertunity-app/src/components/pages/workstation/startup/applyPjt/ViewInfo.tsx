@@ -32,7 +32,7 @@ const ViewPjt: React.FC<any> = ({ match, handleModal, modal, applyResult }) => {
       })
       .then((res) => {
         const _resData = res.data.body;
-        console.log(_resData);
+        // console.log(_resData);
         setLogo(_resData.logoImg);
         setName(_resData.name ? _resData.name : _nullTxt);
         setRep(_resData.rep ? _resData.rep : _nullTxt);
@@ -87,7 +87,7 @@ const ViewPjt: React.FC<any> = ({ match, handleModal, modal, applyResult }) => {
         ) : (
           <StBtn
             onClick={() => {
-              handleModal();
+              handleModal('editInfo');
               sessionSave();
             }}
           >

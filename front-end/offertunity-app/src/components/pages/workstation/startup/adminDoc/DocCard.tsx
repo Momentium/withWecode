@@ -4,7 +4,7 @@ import * as Mt from 'api/methods';
 import styled from "styled-components";
 import { Close } from "@material-ui/icons";
 
-const DocCard: React.FC<any> = ({ data, deleteFile }) => {
+const DocCard: React.FC<any> = ({ data, deleteFile, selectable }) => {
 
   const viewFile = () => {
 
@@ -19,8 +19,17 @@ const DocCard: React.FC<any> = ({ data, deleteFile }) => {
         <div className="close-btn" onClick={() => { deleteFile(data.id) }}><Close/></div>
         {data.name}
         <div className="btn-cont">
-          <StBtn onClick={viewFile}>미리보기</StBtn>
-          <StBtn onClick={downloadFile}>다운로드</StBtn>
+          {
+            selectable ? 
+            <>
+              <StBtn onClick={() => {}}>선택하기</StBtn>
+            </>
+            :
+            <>
+              {/* <StBtn onClick={viewFile}>미리보기</StBtn> */}
+              <StBtn onClick={downloadFile}>다운로드</StBtn>
+            </>
+          }
         </div>
       </StCont>
     </div>

@@ -16,20 +16,23 @@ const FindPw = () => {
     setEmail(event.target.value);
   };
 
+  const on = email.length > 0;
   const isPwExist = () => {
-    axios
-      .post(`${process.env.REACT_APP_URL}/auths/emailresetpassword`, {
-        email: email,
-      })
-      .then((res) => {
-        alert("새로운 비밀번호가 이메일로 발송 되었습니다");
-        history.push("/auth/SignIn");
-      })
-      .catch((err) => {
-        setModal(!modal);
-      });
+    if (on) {
+      axios
+        .post(`${process.env.REACT_APP_URL}/auths/emailresetpassword`, {
+          email: email,
+        })
+        .then((res) => {
+          alert("새로운 비밀번호가 이메일로 발송 되었습니다");
+          history.push("/auth/SignIn");
+        })
+        .catch((err) => {
+          setModal(!modal);
+        });
+    }
   };
-  console.log(modal);
+
   return (
     <>
       <Tab password="true" id="false" />
@@ -46,7 +49,9 @@ const FindPw = () => {
             onChange={handleInput}
           />
           <Buttons>
-            <ChkBtn onClick={isPwExist}>확인</ChkBtn>
+            <ChkBtn onClick={isPwExist} className={on ? "on" : ""}>
+              확인
+            </ChkBtn>
             <Link to="/">
               <CancleBtn>취소</CancleBtn>
             </Link>
@@ -115,8 +120,11 @@ const Btn = styled.button`
 
 const ChkBtn = styled(Btn)`
   margin-right: 1rem;
-  background: #5541ed;
+  background: #9f9f9f;
   color: #fff;
+  &.on {
+    background: #5541ed;
+  }
 `;
 const CancleBtn = styled(Btn)`
   background: #fff;
