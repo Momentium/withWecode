@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import * as Mt from "api/methods";
-import BaseInfo from './BaseInfo';
-import IntroForm from '../IntroForm';
-import IntroImg from './IntroImg';
-import InvestInfo from '../../common/investHist/InvestInfo';
-import IntroTeam from './IntroTeam';
-import News from './News';
-import BtnSet from '../../common/BtnSet';
+import BaseInfo from "./BaseInfo";
+import IntroForm from "../IntroForm";
+import IntroImg from "./IntroImg";
+import InvestInfo from "../../common/investHist/InvestInfo";
+import IntroTeam from "./IntroTeam";
+import News from "./News";
+import BtnSet from "../../common/BtnSet";
 
 interface BasicState {
   name: string;
@@ -39,7 +39,7 @@ const MyPartner = () => {
     investedStartups: "",
     investedFunds: "1천만원 - 5천만원",
     investedValues: "",
-    investedSeries: "엔젤투자"
+    investedSeries: "엔젤투자",
   });
 
   useEffect(() => {
@@ -52,18 +52,24 @@ const MyPartner = () => {
       .then((res) => {
         const _resData = res.data.body;
         if (Object.keys(_resData).length === 0) {
-          alert("정보가 아직 등록 되어있지 않습니다.")
+          alert("정보가 아직 등록 되어있지 않습니다.");
         } else {
-          console.log(_resData)
+          console.log(_resData);
           setLogo(_resData.logoImg ? _resData.logoImg : "");
           setBasicInfo({
             ...basicInfo,
             ...{
               name: _resData.name,
-              establishedDate: new Date(_resData.establishedDate).toISOString().substring(0, 10),
+              establishedDate: new Date(_resData.establishedDate)
+                .toISOString()
+                .substring(0, 10),
               investedCounts: _resData.investedCounts,
-              totalInvested: _resData.totalInvested ? _resData.totalInvested : "1천만원 - 5천만원",
-              interedtedTechnology: _resData.interedtedTechnology ? _resData.interedtedTechnology : "블록체인",
+              totalInvested: _resData.totalInvested
+                ? _resData.totalInvested
+                : "1천만원 - 5천만원",
+              interedtedTechnology: _resData.interedtedTechnology
+                ? _resData.interedtedTechnology
+                : "블록체인",
               homepage: _resData.homepage ? _resData.homepage : "",
             },
           });
@@ -72,8 +78,8 @@ const MyPartner = () => {
         }
       })
       .catch((err) => {
-        alert(`데이터 전송에 실패했습니다.\n ${err}`)
-      })
+        alert(`데이터 전송에 실패했습니다.\n ${err}`);
+      });
   }, []);
 
   const changeBasicInfo = (e: any) => {
@@ -90,10 +96,16 @@ const MyPartner = () => {
         setBasicInfo({ ...basicInfo, ...{ investedCounts: _target.value } });
         break;
       case "total":
-        setBasicInfo({ ...basicInfo, ...{ totalInvested: _target.textContent } });
+        setBasicInfo({
+          ...basicInfo,
+          ...{ totalInvested: _target.textContent },
+        });
         break;
       case "tech":
-        setBasicInfo({ ...basicInfo, ...{ interedtedTechnology: _target.textContent } });
+        setBasicInfo({
+          ...basicInfo,
+          ...{ interedtedTechnology: _target.textContent },
+        });
         break;
       case "homepage":
         setBasicInfo({ ...basicInfo, ...{ homepage: _target.value } });
@@ -107,33 +119,38 @@ const MyPartner = () => {
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });
-    
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
 
-    axios.post(
-      `${process.env.REACT_APP_URL}/companies/info/partner/basic/temp`,
-      _formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Basic ${_token}`,
-        },
-      }
-    )
-    .then(() => {
-      alert("기본 정보가 임시 저장 되었습니다.");
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    _formData.append(
+      "logoImg",
+      Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`)
+    );
+
+    axios
+      .post(
+        `${process.env.REACT_APP_URL}/companies/info/partner/basic/temp`,
+        _formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Basic ${_token}`,
+          },
+        }
+      )
+      .then(() => {
+        alert("기본 정보가 임시 저장 되었습니다.");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const changeIntroForm = (e: any) => {
     const _target = e.currentTarget;
     switch (_target.className.split(" ")[2]) {
       case "invest-partner":
-        setintroTxt(_target.value)
-        _target.value.length > 500 && setintroTxt(_target.value.substring(0, 500));
+        setintroTxt(_target.value);
+        _target.value.length > 500 &&
+          setintroTxt(_target.value.substring(0, 500));
         break;
     }
   };
@@ -148,16 +165,22 @@ const MyPartner = () => {
         setNewInvest({ ...newInvest, ...{ investedStartups: _target.value } });
         break;
       case "invest-cost":
-        setNewInvest({ ...newInvest, ...{ investedFunds: _target.textContent } });
+        setNewInvest({
+          ...newInvest,
+          ...{ investedFunds: _target.textContent },
+        });
         break;
       case "company_value":
         setNewInvest({ ...newInvest, ...{ investedValues: _target.value } });
-      break;
+        break;
       case "invest-series":
-        setNewInvest({ ...newInvest, ...{ investedSeries: _target.textContent } });
+        setNewInvest({
+          ...newInvest,
+          ...{ investedSeries: _target.textContent },
+        });
         break;
     }
-  }
+  };
 
   const addInvest = () => {
     setInvestInfo([newInvest].concat(investInfo));
@@ -168,76 +191,82 @@ const MyPartner = () => {
       investedStartups: "",
       investedFunds: "1천만원 - 5천만원",
       investedValues: "",
-      investedSeries: "엔젤투자"
-    })
-  }
-  const removeInvest = (e:any) => {
+      investedSeries: "엔젤투자",
+    });
+  };
+  const removeInvest = (e: any) => {
     const _target = e.currentTarget.className.split(" ");
 
-    if(_target[1] !== "undefined") {
-      setInvestInfo(investInfo.filter((el:any) => 
-        el.id !== Number(_target[1])
-      ));
+    if (_target[1] !== "undefined") {
+      setInvestInfo(
+        investInfo.filter((el: any) => el.id !== Number(_target[1]))
+      );
       setSubmitInvest(submitInvest.concat({ id: _target[1] }));
+    } else if (_target[2] !== "undefined") {
+      setInvestInfo(
+        investInfo.filter((el: any) => el.temp !== Number(_target[2]))
+      );
+      setSubmitInvest(
+        submitInvest.filter((el: any) => el.temp !== Number(_target[2]))
+      );
     }
-
-    else if(_target[2] !== "undefined") {
-      setInvestInfo(investInfo.filter((el:any) => 
-        el.temp !== Number(_target[2])
-      ));
-      setSubmitInvest(submitInvest.filter((el:any) => 
-        el.temp !== Number(_target[2])
-      ));
-    }
-  }
+  };
 
   const saveForm = () => {
     const _formData = new FormData();
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
+    _formData.append(
+      "logoImg",
+      Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`)
+    );
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });
     _formData.append("description", introTxt);
 
-    axios.post(
-      `${process.env.REACT_APP_URL}/companies/info/partner/temp`,
-      _formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Basic ${_token}`,
-        },
-      }
-    )
-    .then((res) => { 
-      console.log(res) 
-      alert('임시 저장 성공')
-    });
+    axios
+      .post(
+        `${process.env.REACT_APP_URL}/companies/info/partner/temp`,
+        _formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Basic ${_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        alert("임시 저장 성공");
+      });
   };
 
   const submitForm = () => {
     const _formData = new FormData();
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
+    _formData.append(
+      "logoImg",
+      Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`)
+    );
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });
     _formData.append("description", introTxt);
-    _formData.append("investedTo" , JSON.stringify(submitInvest));
+    _formData.append("investedTo", JSON.stringify(submitInvest));
 
-    axios.post(
-      `${process.env.REACT_APP_URL}/companies/info/partner/save`,
-      _formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Basic ${_token}`,
-        },
-      }
-    )
-    .then((res) => { 
-      console.log(res) 
-      alert('저장 성공')
-    });
+    axios
+      .post(
+        `${process.env.REACT_APP_URL}/companies/info/partner/save`,
+        _formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Basic ${_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        alert("저장 성공");
+      });
   };
 
   return (
@@ -250,34 +279,29 @@ const MyPartner = () => {
         submit={saveBasicInfo}
       />
 
-      <IntroForm 
+      <IntroForm
         cName={"invest-partner"}
         title={"투자 파트너 소개"}
         txt={introTxt}
         changeVal={changeIntroForm}
       />
 
-      <IntroImg/>
+      <IntroImg />
 
-      <InvestInfo 
-        view={"partner"} 
+      <InvestInfo
+        view={"partner"}
         data={investInfo}
         value={newInvest}
-        changeVal={changeInvestForm} 
-
+        changeVal={changeInvestForm}
         addInvest={addInvest}
         removeInvest={removeInvest}
       />
-      
-      <IntroTeam/>
-      <News/>
-      <BtnSet 
-        save={saveForm}
-        submit={submitForm} 
-      />
+
+      <IntroTeam />
+      <News />
+      <BtnSet save={saveForm} submit={submitForm} />
     </>
   );
-}
+};
 
 export default MyPartner;
-

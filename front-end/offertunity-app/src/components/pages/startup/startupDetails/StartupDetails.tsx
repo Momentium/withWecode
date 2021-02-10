@@ -5,6 +5,7 @@ import MoveBar from "../../../common/detail/MoveBar";
 import CompanyCard from "./components/CompanyCard";
 import CompanyDescription from "./components/CompanyDescription";
 import IRBtn from "../../../common/detail/buttons/IRButton";
+import * as Mt from "api/methods";
 
 const boxStyle = {
   width: "100%",
@@ -17,15 +18,25 @@ const boxStyle = {
 const StartupDetails = ({ match }: any) => {
   const [companyData, setCompanyData] = useState();
   const [isLogin, setIsLogin] = useState<boolean>();
+  const _token = Mt.getUserInfo().token;
 
   useEffect(() => {
-    sessionStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
+    _token ? setIsLogin(true) : setIsLogin(false);
   }, []);
 
   useEffect(() => {
     const _resId = match.params.id;
+    let config = {};
+    if (_token) {
+      config = {
+        Accept: "application/json",
+        Authorization: `${_token}`,
+      };
+    }
     axios
-      .get(`${process.env.REACT_APP_URL}/companies/startup/${_resId}`)
+      .get(`${process.env.REACT_APP_URL}/companies/startup/${_resId}`, {
+        headers: config,
+      })
       .then((res) => {
         const _data = res.data.company;
         setCompanyData(_data);
@@ -37,7 +48,12 @@ const StartupDetails = ({ match }: any) => {
       <MoveBar data={companyData} />
       {companyData && (
         <>
-          <CompanyCard data={companyData} type={"startup"} isLogin={isLogin} />
+          <CompanyCard
+            data={companyData}
+            type={"startup"}
+            isLogin={isLogin}
+            token={_token}
+          />
           <CompanyDescription data={companyData} />
         </>
       )}

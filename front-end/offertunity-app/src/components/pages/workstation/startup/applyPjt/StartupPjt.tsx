@@ -1,26 +1,31 @@
-import { Link, withRouter } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import * as St from 'styles/styledComp';
-import BasicBtn from 'components/common/button/BasicBtn';
-import InputPjt from './EditInfo';
-import ViewInfo from './ViewInfo';
+import { Link, withRouter } from "react-router-dom";
+import styled, { css } from "styled-components";
+import * as St from "styles/styledComp";
+import BasicBtn from "components/common/button/BasicBtn";
+import InputPjt from "./EditInfo";
+import ViewInfo from "./ViewInfo";
 
-const StartupPjt:React.FC<any> = ({ match }) => {
+const StartupPjt: React.FC<any> = ({ match }) => {
   const _params = match.params;
 
   return (
     <StCont curMode={_params.addon !== "editInfo"}>
       <St.SectionTitle>지원사업 제출 정보</St.SectionTitle>
-      {
-        _params.addon !== "editInfo" ? 
+      {_params.addon !== "editInfo" ? (
         <>
-          <ViewInfo/>
+          <ViewInfo />
 
-          <div className="line"/>
+          <div className="line" />
           <StBotCont>
             <div>
-              <div>마이페이지는 프로필 관리와 간략한 프로젝트 현황 정보를 포함하고 있습니다.</div>
-              <div>스타트업 정보, 지원사업, 투자 관리 등은 [워크스테이션]을 이용해 주세요!</div>
+              <div>
+                마이페이지는 프로필 관리와 간략한 프로젝트 현황 정보를 포함하고
+                있습니다.
+              </div>
+              <div>
+                스타트업 정보, 지원사업, 투자 관리 등은 [워크스테이션]을 이용해
+                주세요!
+              </div>
             </div>
             <div>
               <Link to={`/workstation/mystartup`}>
@@ -28,22 +33,22 @@ const StartupPjt:React.FC<any> = ({ match }) => {
                   width={335}
                   height={56}
                   fSize={18}
-                  fWeight={'bold'}
+                  fWeight={"bold"}
                   txt={"워크스테이션 바로가기"}
                 />
               </Link>
             </div>
           </StBotCont>
         </>
-        :
-        <InputPjt/>
-      }
+      ) : (
+        <InputPjt />
+      )}
     </StCont>
   );
 };
 export default withRouter(StartupPjt);
 
-const StCont = styled.div<{curMode:boolean}>`
+const StCont = styled.div<{ curMode: boolean }>`
   padding: 0 56px;
 
   .line {
@@ -55,17 +60,15 @@ const StCont = styled.div<{curMode:boolean}>`
 
   .label {
     font-size: 18px;
-    ${
-      props => props.curMode ?
-      css`
-        color: black;
-      `
-      :
-      css`
-        color: #898989;
-        font-weight: bold;
-      `
-    }
+    ${(props) =>
+      props.curMode
+        ? css`
+            color: black;
+          `
+        : css`
+            color: #898989;
+            font-weight: bold;
+          `}
   }
 `;
 

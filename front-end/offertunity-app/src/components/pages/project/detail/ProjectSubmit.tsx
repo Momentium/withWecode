@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import InputForm from "./InputForm";
 import TitleWithMsg from "./TitleWithMsg";
+import ViewInfo from "../../workstation/startup/applyPjt/ViewInfo";
+import Modal from "./Modal";
+import UploadModal from "./UploadModal";
+import axios from "axios";
 
 const ProjectSubmit: React.FC<any> = ({
+  selectFile,
   handleUploadFile,
   bizDescription,
   setBizDescription,
   bizModel,
   setBizModel,
-  selectFile,
-  setSelectFile,
+  btn,
+  data,
+  token,
 }) => {
   const uploadList = [
     {
@@ -30,66 +36,173 @@ const ProjectSubmit: React.FC<any> = ({
       id: "license",
     },
   ];
+  const [modal, setModal] = useState<boolean>(false);
+  const [uploadModal, setUploadModal] = useState<boolean>(false);
+
+  const handleModal = () => {
+    setModal(!modal);
+  };
+
+  const handleFileUploadModal = () => {
+    setUploadModal(!uploadModal);
+  };
+
+  const [applyResult, setApplyResult] = useState({
+    is_applied: false,
+    id: "",
+    businessBrief: "",
+    businessModel: "",
+  });
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_URL}/applies/${data.id}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
+      .then((res) =>
+        setApplyResult({
+          ...applyResult,
+          ...{
+            is_applied: res.data.data.is_applied,
+            id: res.data.data.id,
+            businessBrief: res.data.data.businessBrief,
+            businessModel: res.data.data.businessModel,
+          },
+        })
+      );
+  }, []);
 
   const changeVal = (e: any) => {
     const _target = e.currentTarget;
     switch (_target.className.split(" ")[2]) {
       case "bizDescription":
-        _target.value.length < 1000 && setBizDescription(_target.value);
+        setBizDescription(_target.value);
+        _target.value.length > 1000 &&
+          setBizDescription(_target.value.substring(0, 1000));
         break;
       case "bizModel":
-        _target.value.length < 1000 && setBizModel(_target.value);
+        setBizModel(_target.value);
+        _target.value.length > 1000 &&
+          setBizModel(_target.value.substring(0, 1000));
         break;
     }
   };
 
+  useEffect(() => {
+    console.log(applyResult);
+  }, [applyResult]);
+
   return (
-    <ProjectSubmitCont>
-      <PjSummary>
-        <TitleWithMsg title={"비즈니스 개요"} msg={"비즈 개요입니다"} />
-        <InputForm
-          className={"bizDescription"}
-          changeVal={changeVal}
-          txt={bizDescription}
+    <>
+      <ProjectSubmitCont>
+        <ViewInfo
+          handleModal={handleModal}
+          modal={modal}
+          applyResult={applyResult?.is_applied}
         />
-      </PjSummary>
-      <PjBizModel>
-        <TitleWithMsg title={"비즈니스 모델"} msg={"비즈 모델입니다"} />
-        <InputForm
-          className={"bizModel"}
-          changeVal={changeVal}
-          txt={bizModel}
-        />
-      </PjBizModel>
-      <PjSubmitDocu>
-        <TitleWithMsg
-          title={"제출 서류"}
-          msg={"제출 서류는 우측의 등록하기 버튼을 이용해주세요."}
-        />
-        <form onSubmit={handleUploadFile}>
-          {uploadList.map((item, idx) => {
-            return (
-              <FileUplaodCont>
-                <FileUplaodBox key={idx}>
-                  <span title="sub_title">{item.title}</span>
-                  {selectFile && (
-                    <span title="selected_title">{selectFile}</span>
-                  )}
-                  <FileBox className={`inputFile ${item}`}>등록</FileBox>
-                </FileUplaodBox>
-                {/* {fileVisible && <SelectFile />} */}
-              </FileUplaodCont>
-            );
-          })}
-        </form>
-      </PjSubmitDocu>
-    </ProjectSubmitCont>
+        <PjSummary>
+          <TitleWithMsg title={"비즈니스 개요"} msg={"비즈 개요입니다"} />
+          {applyResult?.is_applied ? (
+            <>
+              <TextArea
+                onChange={changeVal}
+                value={applyResult.businessBrief}
+                className={"bizDescription"}
+                placeholder="텍스트를 작성해주세요"
+                readOnly
+              />
+              <CurrText>{`${
+                bizDescription ? bizDescription.length : 0
+              } / 1000자`}</CurrText>
+            </>
+          ) : (
+            <>
+              <TextArea
+                onChange={changeVal}
+                value={bizDescription}
+                className={"bizDescription"}
+                placeholder="텍스트를 작성해주세요"
+              />
+              <CurrText>{`${
+                bizDescription ? bizDescription.length : 0
+              } / 1000자`}</CurrText>
+            </>
+          )}
+        </PjSummary>
+        <PjBizModel>
+          <TitleWithMsg title={"비즈니스 모델"} msg={"비즈 모델입니다"} />
+          {applyResult?.is_applied ? (
+            <>
+              <TextArea
+                onChange={changeVal}
+                value={applyResult?.businessModel}
+                className={"bizModel"}
+                placeholder="텍스트를 작성해주세요"
+                readOnly
+              />
+              <CurrText>{`${
+                bizModel ? bizModel.length : 0
+              } / 1000자`}</CurrText>
+            </>
+          ) : (
+            <>
+              <TextArea
+                onChange={changeVal}
+                value={bizModel}
+                className={"bizModel"}
+                placeholder="텍스트를 작성해주세요"
+              />
+              <CurrText>{`${
+                bizModel ? bizModel.length : 0
+              } / 1000자`}</CurrText>
+            </>
+          )}
+        </PjBizModel>
+        <PjSubmitDocu>
+          <TitleWithMsg
+            title={"제출 서류"}
+            msg={"제출 서류는 우측의 등록하기 버튼을 이용해주세요."}
+          />
+          <form onSubmit={handleUploadFile}>
+            {uploadList.map((item, idx) => {
+              return (
+                <FileUplaodCont key={idx}>
+                  <FileUplaodBox>
+                    <span title="sub_title">{item.title}</span>
+                    {selectFile && (
+                      <span title="selected_title">{selectFile}</span>
+                    )}
+                    <FileBox
+                      className={`inputFile ${item}`}
+                      onClick={handleFileUploadModal}
+                    >
+                      등록
+                    </FileBox>
+                  </FileUplaodBox>
+                  {/* {fileVisible && <SelectFile />} */}
+                </FileUplaodCont>
+              );
+            })}
+          </form>
+        </PjSubmitDocu>
+        <ButtonCont>
+          {btn}
+          <PrevBtn>취소</PrevBtn>
+        </ButtonCont>
+      </ProjectSubmitCont>
+      {modal && <Modal handleModal={handleModal} />}
+      {uploadModal && (
+        <UploadModal handleFileUploadModal={handleFileUploadModal} />
+      )}
+    </>
   );
 };
 
 export default ProjectSubmit;
 
 const ProjectSubmitCont = styled.div`
+  position: relative;
   ${({ theme }) => theme.flexColumn}
   width: 100%;
   margin-top: 7.5rem;
@@ -112,7 +225,6 @@ const PjSubmitDocu = styled.div`
 const FileUplaodCont = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: column;
   height: 5.5rem;
   margin-bottom: 1rem;
   margin-top: 20px;
@@ -136,6 +248,7 @@ const FileBox = styled.div`
   width: 2.438rem;
   height: 1.563rem;
   border-radius: 1.5rem;
+  padding-top: 6px;
   text-align: center;
   font-size: 0.8em;
   font-weight: 700;
@@ -143,3 +256,29 @@ const FileBox = styled.div`
   background-color: #c3bdf4;
   cursor: pointer;
 `;
+
+const TextArea = styled.textarea`
+  height: 19.5rem;
+  border: 1px solid #d4d1d8;
+  padding: 1.5rem;
+  resize: none;
+
+  /* &:focus {
+    outline: none !important;
+  } */
+`;
+
+const CurrText = styled.p`
+  margin-top: 1rem;
+  font-size: 1.125rem;
+  text-align: right;
+  color: #5b5b5b;
+`;
+
+const ButtonCont = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+`;
+
+const PrevBtn = styled.button``;

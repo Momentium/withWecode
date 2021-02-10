@@ -1,14 +1,41 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import * as St from "styles/styledComp";
 import LikeBtn from "components/common/button/iconBtn/LikeBtn";
 import ShareBtn from "components/common/button/iconBtn/ShareBtn";
+import axios from "axios";
 
-const ProjectPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
+const ProjectPrsnt: React.FC<any> = ({ data, token, isLogin }) => {
+  const [like, setLike] = useState<boolean>(data.hasLiked);
+
+  console.log(like);
+
+  const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (isLogin) {
+      axios
+        .get(`http://10.0.1.29:3000/likes/project/${data.id}`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        })
+        .then((res) => setLike(!like))
+        .catch((error) => console.log(error));
+    } else {
+      alert("오퍼튜니티에 로그인 하신 후 이용해 주시기 바랍니다.");
+    }
+    console.log("click");
+  };
+
+  console.log(data);
+
   return (
     <StPjtWrap>
       <StImgWrap
-        imgUrl={`https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80`}
+        imgUrl={
+          data.project_images ? data.project_images : "/images/header/logo.png"
+        }
       />
 
       <StContentsCont>
@@ -17,14 +44,19 @@ const ProjectPrsnt: React.FC<any> = ({ data, tags, like, clickLike }) => {
             {data.name}
           </StNameCont>
           <div className="iconBtn-cont">
-            {/* <LikeBtn isLike={like} clickLike={clickLike} /> */}
+            <LikeBtn isLike={like} clickLike={clickLike} />
             <ShareBtn />
           </div>
         </div>
         <div className="mid-wrap">
           <p>{data.introduction}</p>
         </div>
-        {/* <div className="bot-wrap">{tags}</div> */}
+        <div className="bot-wrap">
+          {data.tag &&
+            data.tag.map((el: string, idx: number) => {
+              return <St.Tag key={idx}>{el}</St.Tag>;
+            })}
+        </div>
       </StContentsCont>
 
       <StInfoCont>

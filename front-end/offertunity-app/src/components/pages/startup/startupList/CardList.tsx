@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Card from "./Card";
+import * as Mt from "api/methods";
 
 const CardList = ({ list, data, name, boxName, background }: any) => {
   const [isLogin, setIsLogin] = useState<boolean>();
+  const _token = Mt.getUserInfo().token;
 
   useEffect(() => {
-    sessionStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
+    _token ? setIsLogin(true) : setIsLogin(false);
   }, []);
 
   return (
