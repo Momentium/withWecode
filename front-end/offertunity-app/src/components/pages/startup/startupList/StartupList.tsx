@@ -36,9 +36,11 @@ const StartupList = () => {
   }, [page]);
 
   useEffect(() => {
-    axios.get(`http://10.0.1.44:3000/companies/list/startup`).then((res) => {
-      setTotalLength(res.data.num);
-    });
+    axios
+      .get(`${process.env.REACT_APP_URL}/companies/list/startup`)
+      .then((res) => {
+        setTotalLength(res.data.num);
+      });
   }, []);
 
   const handleClickPage = (event: any, value: any) => {

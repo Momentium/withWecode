@@ -11,23 +11,6 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
   const userInfo = JSON.parse(String(getUserInfo))?.type_id;
   const _token = Mt.getUserInfo().token;
 
-  const [isLogin, setIsLogin] = useState<boolean>();
-  useEffect(() => {
-    _token ? setIsLogin(true) : setIsLogin(false);
-  }, []);
-
-  // 데이터를 가져옴
-  const [data, setData] = useState<any>({
-    name: "",
-    due_date: "0000-00-00",
-    outline: "정보가 아직 없습니다.",
-    detail: "정보가 아직 없습니다",
-    created_at: "2020-02-04T06:17:00.837Z",
-    deleted_at: "2021-02-04T06:17:00.837Z",
-  });
-
-  const [currApply, setCurrApply] = useState<any>();
-
   useEffect(() => {
     const _resId = match.params.id;
     let config = {};
@@ -44,7 +27,7 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
       })
       .then((res) => {
         const _data = res.data.cleanedProject;
-        const currApply = res.data.hasApplied;
+        const currApply = res.data.cleanedProject.hasApplied;
         if (Object.keys(_data).length === 0) {
           alert("정보가 아직 등록 되어있지 않습니다.");
         } else {
@@ -63,12 +46,30 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
               deleted_at: _data.deleted_at
                 ? _data.deleted_at
                 : "2021-00-00T06:17:00.837Z",
+              hasLiked: _data.hasLiked,
             },
           });
           setCurrApply(currApply);
         }
       });
   }, []);
+
+  const [isLogin, setIsLogin] = useState<boolean>();
+  useEffect(() => {
+    _token ? setIsLogin(true) : setIsLogin(false);
+  }, []);
+
+  // 데이터를 가져옴
+  const [data, setData] = useState<any>({
+    name: "",
+    due_date: "0000-00-00",
+    outline: "정보가 아직 없습니다.",
+    detail: "정보가 아직 없습니다",
+    created_at: "2020-02-04T06:17:00.837Z",
+    deleted_at: "2021-02-04T06:17:00.837Z",
+  });
+
+  const [currApply, setCurrApply] = useState<any>();
 
   return (
     <ProjectDetailPageCont>
@@ -77,7 +78,6 @@ const ProjectDetailPage: React.FC<any> = ({ match }: any) => {
         data={data}
         userInfo={userInfo}
         setCurrApply={setCurrApply}
-        currApply={currApply}
         isLogin={isLogin}
         token={_token}
       />
