@@ -34,8 +34,8 @@ const ProjectRequestList = ({ data, text, id, btn }: any) => {
 
   useEffect(() => {
     axios
-      .get(`http://10.0.1.44:3000/applies/${id}`, {
-      // .get(`${process.env.REACT_APP_URL}/applies/${id}`, {
+      // .get(`http://10.0.1.44:3000/applies/${id}`, {
+      .get(`${process.env.REACT_APP_URL}/applies/${id}`, {
         headers: {
           Authorization: `${_token}`,
         },

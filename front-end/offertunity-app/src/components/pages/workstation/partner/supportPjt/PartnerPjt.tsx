@@ -73,10 +73,12 @@ const StADCont = styled.div`
   justify-content: space-between;
 
   background: white;
+
+  position: relative;
 `;
 
 const StADWrap = styled.div<any>`
-  /* position: relative; */
+  position: relative;
 
   cursor: pointer;
   user-select: none;
