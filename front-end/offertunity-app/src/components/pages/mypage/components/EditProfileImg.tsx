@@ -31,10 +31,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
       reader.readAsDataURL(file);
     } else {
       ProfileImg = (
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
-          alt="프로필사진"
-        />
+        <img src="/images/mypage/noProfileImg.png" alt="프로필사진" />
       );
     }
   };
@@ -63,21 +60,11 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
   }
 
   if (removeImg) {
-    ProfileImg = (
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
-        alt="프로필사진"
-      />
-    );
+    ProfileImg = <img src="/images/mypage/noProfileImg.png" alt="프로필사진" />;
   }
 
   if (!profile_picture && !previewURL) {
-    ProfileImg = (
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
-        alt="프로필사진"
-      />
-    );
+    ProfileImg = <img src="/images/mypage/noProfileImg.png" alt="프로필사진" />;
   }
 
   const profile_img = ProfileImg?.props.src;
