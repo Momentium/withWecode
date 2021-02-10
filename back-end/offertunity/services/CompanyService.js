@@ -1,5 +1,6 @@
 const { upsertConnection, makeQueryOption, calcYear } = require("../utils");
 const prisma = require("../prisma");
+
 const createCompany = async (userId, companyFields) => {
   const companyInfo = await prisma.companies.create({ data: companyFields });
   await prisma.users.update({
@@ -8,9 +9,11 @@ const createCompany = async (userId, companyFields) => {
   });
   return companyInfo;
 };
+
 const readCompany = async (companyId) => {
   return await prisma.companies.findUnique({ where: { id: companyId } });
 };
+
 const updateCompany = async (companyId, companyFields) => {
   const companyInfo = await prisma.companies.update({
     where: { id: companyId },
@@ -18,13 +21,16 @@ const updateCompany = async (companyId, companyFields) => {
   });
   return companyInfo;
 };
+
 const createCompanyDetail = async (companyId, table, fields) => {
-  fields.companies = { connect: { id: companyId } };
+  fields.companies = {connect: {id: companyId}}
   return await prisma[table].create({ data: fields });
 };
+
 const readCompanyDetail = async (table, companyId) => {
   return await prisma[table].findUnique({ where: { company_id: companyId } });
 };
+
 const updateStartup = async (companyId, startupFields) => {
   const startupInfo = await readCompanyDetail("startups", companyId);
   const updatedStartupInfo = await prisma.startups.update({
@@ -326,23 +332,39 @@ const getRelatedInfoId = async (table, name) => {
   });
   return data.id;
 };
+
 const irRegisteredCount = async (field) => {
   companyId = Object.values(field)[0];
   return prisma.$queryRaw`select count(*) from company_documents where company_id = ${companyId} && type_id = 1;`;
 };
+
 const irSentCount = async (field) => {
   startupId = Object.values(field)[0];
   return prisma.$queryRaw`select count(*) from IR_requests where startup_id = ${startupId} && document_id is not null;`;
 };
+
 const irRequestedCount = async (field) => {
   startupId = Object.values(field)[0];
   return prisma.$queryRaw`select count(*) from IR_requests where startup_id = ${startupId} && is_sent=1 && is_checked = 0;`;
 };
-const readByDocType = async (fields) => {
+
+const readDocuments = async (fields) => {
   const { companyId, docTypeId } = fields;
-  return await prisma.company_documents.findMany({
-    where: { company_id: companyId, type_id: Number(docTypeId) },
-  });
+  if (typeof docTypeId === 'number') {
+    return await prisma.company_documents.findMany({
+      where: { company_id: companyId, type_id: docTypeId },
+    });
+  } else if (typeof docTypeId === 'object') {
+    where = {OR: []}
+    for (let len=0; len< docTypeId.length; len++) {
+      where.OR.push({
+        company_id: companyId, type_id: docTypeId[len]
+      })
+    }
+    return await prisma.company_documents.findMany({
+      where
+    });
+  }
 };
 
 const registerDoc = async (fields) => {
@@ -357,16 +379,15 @@ const registerDoc = async (fields) => {
     },
   });
 };
-const deleteDoc = async (fields) => {
-  const { company_id, doc_url, type_id } = fields;
-  return await prisma.company_documents.delete({
+
+const deleteDoc = (docId) => {
+  return prisma.company_documents.delete({
     where: {
-      company_id: company_id,
-      doc_url: doc_url,
-      type_id: type_id,
+      id: Number(docId)
     },
   });
 };
+
 module.exports = {
   createCompany,
   updateCompany,
@@ -394,7 +415,7 @@ module.exports = {
   irRegisteredCount,
   irSentCount,
   irRequestedCount,
-  readByDocType,
+  readDocuments,
   registerDoc,
   deleteDoc,
 };

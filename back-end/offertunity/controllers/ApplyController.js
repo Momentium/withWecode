@@ -33,18 +33,33 @@ const getOneApplication = errorWrapper(async (req, res) => {
 
   const application = await ApplyService.findOneApplication({id: applicationId})
   
-  console.log(application)
   const foundProject = await ProjectService.findOneProject({id: application.project_id })
 
   if (!(foundProject.company_id === userInfo.company_id)) errorGenerator({ statusCode: 404, message: 'Unauthorized'})
 
   const applicant = {}
 
-  // applicant.logoImg = 
+  const data = {}
+  if (application) {
+      data.is_applied = true
+      data.id = application.id;
+      data.businessBrief = application.business_brief;
+      data.businessModel = application.business_model;
+      if (application.applicant_documents) {
+        data.documents = []
+        for (let len=0; len<application.applicant_documents.length; len++) {
+          data.documents.push({})
+          data.documents[len].id = application.applicant_documents[len].document_id;
+          data.documents[len].name = application.applicant_documents[len].company_documents.name;
+          data.documents[len].docType = application.applicant_documents[len].company_documents.file_type ? await CompanyService.findInfoName('document_types', application.applicant_documents[len].company_documents.type_id) : null;
+          data.documents[len].docURL = application.applicant_documents[len].company_documents.doc_url;
+        }
+      }
+  } else if (!application) {
+      data.is_applied = false
+  }
 
-
-
-  res.status(200).json({ ApplicationDetail })
+  res.status(200).json({ data })
 })
 
 const getDocuments = errorWrapper(async(req, res) => {
@@ -54,27 +69,74 @@ const getDocuments = errorWrapper(async(req, res) => {
 
 const getMyApplication = errorWrapper(async (req, res) => {
   const { projectId } = req.params
-  if (!(req.foundUser.company_id === 1)) errorGenerator({ statusCode: 400, message: "this user is not startup user" });
+  if (req.foundUser.type_id === 2) errorGenerator({ statusCode: 400, message: "this user is not startup user" });
   const companyId = req.foundUser.company_id
+
   const ApplicationDetail = await ApplyService.findMyApplication({
     company_id: companyId,
-    project_id: projectId
+    project_id: Number(projectId)
   })
-  res.status(200).json({ ApplicationDetail })
+
+  const data = {}
+  if (ApplicationDetail) {
+      data.is_applied = true
+      data.id = ApplicationDetail.id;
+      data.businessBrief = ApplicationDetail.business_brief;
+      data.businessModel = ApplicationDetail.business_model;
+      if (ApplicationDetail.applicant_documents) {
+        data.documents = []
+        for (let len=0; len<ApplicationDetail.applicant_documents.length; len++) {
+          data.documents.push({})
+          data.documents[len].id = ApplicationDetail.applicant_documents[len].document_id;
+          data.documents[len].name = ApplicationDetail.applicant_documents[len].company_documents.name;
+          data.documents[len].docType = ApplicationDetail.applicant_documents[len].company_documents.file_type ? await CompanyService.findInfoName('document_types', ApplicationDetail.applicant_documents[len].company_documents.type_id) : null
+        }
+      }
+  } else if (!ApplicationDetail) {
+      data.is_applied = false
+  }
+  res.status(200).json({ data })
 })
 
 const postApplication = errorWrapper(async (req, res) => {
   const { projectId } = req.params
   const userInfo = req.foundUser
-  const { businessBrief, businessModel } = req.body
+  const { businessBrief, businessModel, plan, etc } = req.body
 
   // 미오픈 프로젝트 예외 처리
-  const proejct = ProjectService.findOneProject({id: projectId})
+  const proejct = await ProjectService.findOneProject({id: Number(projectId)})
   if (proejct.is_opened === 0) errorGenerator({ statusCode: 400, message: "this project is not opend" });
   
   // Partner 회원사 예외 처리
-  const company = CompanyService.readCompany(userInfo.company_id);
+  const company = await CompanyService.readCompany(Number(userInfo.company_id));
   if (company.type_id === 2) errorGenerator({ statusCode: 400, message: "Partner Company Can not apply" });
+
+  // 기신청 Startup 예외 처리
+  const existApplication = await ApplyService.findMyApplication({
+    company_id: userInfo.company_id,
+    project_id: proejct.id
+  })
+  if (existApplication) errorGenerator({ statusCode: 400, message: "this company already submit application" });
+
+  // 신청 회사 파일 여부 확인
+  if (plan) {
+    const planData = await CompanyService.readRelatedInfo('company_documents', Number(plan));
+    docTypeId = await CompanyService.getRelatedInfoId('document_types', '사업계획서')
+    if (!(planData.type_id === docTypeId)) errorGenerator({ statusCode: 400, message: "This Document is not Businedd Plac document" })
+    if (!(planData.company_id === userInfo.company_id)) errorGenerator({ statusCode: 400, message: "This Document is not belonged to company" })
+  }
+  if (etc) {
+    for (let len=0; len< etc.length; len++) {
+      const etcData = await CompanyService.readRelatedInfo('company_documents', etc[len]);
+      docTypeId = []
+      docTypeId.push(await CompanyService.getRelatedInfoId('document_types', '기타서류'))
+      docTypeId.push(await CompanyService.getRelatedInfoId('document_types', '대표자 주민등록증(운전면허증)'))
+      docTypeId.push(await CompanyService.getRelatedInfoId('document_types', '사업자등록 사본'))
+      docTypeId.push(await CompanyService.getRelatedInfoId('document_types', 'IR 자료'))
+      if (!(docTypeId.includes(etcData.type_id))) errorGenerator({ statusCode: 400, message: "This Document is not Businedd Plac document" })
+      if (!(etcData.company_id === userInfo.company_id)) errorGenerator({ statusCode: 400, message: "This Document is not belonged to company" })
+    }
+  }
 
   const data = {
     companies: {connect: {id: Number(userInfo.company_id)}},
@@ -82,8 +144,25 @@ const postApplication = errorWrapper(async (req, res) => {
     business_brief: businessBrief,
     business_model: businessModel
   }
-
   const createApplication = await ApplyService.createApplication(data, req.files)
+
+  // plan etc 파일 연결 - applicant_documents에다가
+  if (plan) {
+    console.log(plan)
+    await ApplyService.createApplicationDocument({
+      applicants: {connect: {id: createApplication.id}},
+      company_documents: {connect: {id: Number(plan)}}
+    })
+  }
+  if (etc) {
+      console.log(etc)
+      for (let len=0; len< etc.length; len++) {
+        await ApplyService.createApplicationDocument({
+          applicants: {connect: {id: createApplication.id}},
+          company_documents: {connect: {id: Number(etc[len])}}
+      })
+    }
+  }
   res.status(201).json({ message: 'information successfully added'})
 })
 

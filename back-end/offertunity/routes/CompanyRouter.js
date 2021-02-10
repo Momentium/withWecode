@@ -5,6 +5,10 @@ const { validateToken, save, checkLogIn } = require("../middlewares");
 const { CompanyController } = require("../controllers");
 
 // startup info
+router.get(
+    '/IR_count/:companyId',
+    CompanyController.startupIRCount
+)
 
 router.get("/info/startup", validateToken, CompanyController.getStartupInfo);
 
@@ -102,10 +106,6 @@ router.delete(
 );
 
 // IR_count
-router.get(
-    '/IR_count/:companyId',
-    CompanyController.startupIRCount
-)
 
 router.delete(
     '/del/image/:imageId',
@@ -117,39 +117,10 @@ router.delete("/del/news/:newsId", validateToken, CompanyController.deleteNews);
 
 // startup 정보 조회
 router.get("/list/startup", checkLogIn, CompanyController.getStartups);
-
 router.get("/startup/:companyId", checkLogIn, CompanyController.getOnestartup);
 
 // partner 정보 조회
 router.get("/list/partner", checkLogIn, CompanyController.getPartners);
-
 router.get("/partner/:companyId", checkLogIn, CompanyController.getOnePartner);
-
-//startup doc
-
-router.post(
-  "/registerdoc",
-  validateToken,
-  upload.single("startupDoc"),
-  CompanyController.uploadStartupDoc
-);
-
-router.get(
-  "/doc/:docTypeId",
-  validateToken,
-  CompanyController.readStartupDoc
-);
-
-router.get(
-  "/download/:companyId/:docTypeId",
-  validateToken,
-  CompanyController.downloadStartupDoc
-);
-
-router.delete(
-  "/company/:companyId/doc/:docTypeId",
-  validateToken,
-  CompanyController.deleteStartupDoc
-);
 
 module.exports = router;

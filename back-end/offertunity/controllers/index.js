@@ -5,6 +5,7 @@ const ProjectController = require("./ProjectController");
 const InitialController = require("./InitialController");
 const ApplyController = require("./ApplyController")
 const LikeController = require("./LikeController")
+const DocController = require("./DocController")
 
 module.exports = {
   UserController,
@@ -13,5 +14,6 @@ module.exports = {
   ProjectController,
   InitialController,
   ApplyController,
-  LikeController
+  LikeController,
+  DocController
 };

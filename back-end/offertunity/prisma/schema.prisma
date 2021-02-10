@@ -30,6 +30,7 @@ model applicants {
   deleted_at         DateTime?
   companies          companies @relation(fields: [company_id], references: [id])
   projects           projects  @relation(fields: [project_id], references: [id])
+  applicant_documents      applicant_documents[]
 
   @@index([company_id], name: "FK_applicants_company_id_companies_id")
   @@index([project_id], name: "FK_applicants_project_id_projects_id")
