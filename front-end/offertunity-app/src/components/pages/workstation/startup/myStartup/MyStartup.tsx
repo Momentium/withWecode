@@ -42,7 +42,7 @@ const MyStartup = () => {
     investedInstitutions: "",
     investedFunds: "1천만원 - 5천만원",
     investedValues: "",
-    investedSeries: "엔젤투자"
+    investedSeries: "엔젤투자",
   });
 
   useEffect(() => {
@@ -55,10 +55,10 @@ const MyStartup = () => {
       })
       .then((res) => {
         const _resData = res.data.body;
-        console.log(_resData)
+        console.log(_resData);
 
         if (Object.keys(_resData).length === 0) {
-          alert("정보가 아직 등록 되어있지 않습니다.")
+          alert("정보가 아직 등록 되어있지 않습니다.");
         } else {
           setThumb(_resData.thumbnail ? _resData.thumbnail : "");
           setLogo(_resData.logoImg ? _resData.logoImg : "");
@@ -67,20 +67,26 @@ const MyStartup = () => {
             ...{
               name: _resData.name,
               rep: _resData.rep,
-              establishedDate: new Date(_resData.establishedDate).toISOString().substring(0, 10),
+              establishedDate: new Date(_resData.establishedDate)
+                .toISOString()
+                .substring(0, 10),
               sector: _resData.sector ? _resData.sector : "플랫폼",
-              coreTechnology: _resData.coreTechnology ? _resData.coreTechnology : "블록체인",
+              coreTechnology: _resData.coreTechnology
+                ? _resData.coreTechnology
+                : "블록체인",
               homepage: _resData.homepage ? _resData.homepage : "",
             },
           });
           setIntroSU(_resData.description ? _resData.description : "");
-          setIntroItem(_resData.itemDescription ? _resData.itemDescription : "");
+          setIntroItem(
+            _resData.itemDescription ? _resData.itemDescription : ""
+          );
           setInvestInfo(_resData.investedFrom);
         }
       })
       .catch((err) => {
-        alert(`데이터 전송에 실패했습니다.\n ${err}`)
-      })
+        alert(`데이터 전송에 실패했습니다.\n ${err}`);
+      });
   }, []);
 
   const changeBasicInfo = (e: any) => {
@@ -116,23 +122,30 @@ const MyStartup = () => {
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });
-    
-    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`));
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
 
-    axios.post(
-      `${process.env.REACT_APP_URL}/companies/info/startup/basic/temp`,
-      _formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Basic ${_token}`,
-        },
-      }
-    )
-    .then(() => {
-      alert("기본 정보가 임시 저장 되었습니다.");
-    })
+    _formData.append(
+      "thumbnail",
+      Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`)
+    );
+    _formData.append(
+      "logoImg",
+      Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`)
+    );
+
+    axios
+      .post(
+        `${process.env.REACT_APP_URL}/companies/info/startup/basic/temp`,
+        _formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Basic ${_token}`,
+          },
+        }
+      )
+      .then(() => {
+        alert("기본 정보가 임시 저장 되었습니다.");
+      });
   };
 
   const changeIntroForm = (e: any) => {
@@ -140,11 +153,13 @@ const MyStartup = () => {
     switch (_target.className.split(" ")[2]) {
       case "startup":
         setIntroSU(_target.value);
-        _target.value.length > 500 && setIntroSU(_target.value.substring(0, 500));
+        _target.value.length > 500 &&
+          setIntroSU(_target.value.substring(0, 500));
         break;
       case "item":
-        setIntroItem(_target.value)
-        _target.value.length > 500 && setIntroItem(_target.value.substring(0, 500));
+        setIntroItem(_target.value);
+        _target.value.length > 500 &&
+          setIntroItem(_target.value.substring(0, 500));
         break;
     }
   };
@@ -156,19 +171,28 @@ const MyStartup = () => {
         setNewInvest({ ...newInvest, ...{ investedDates: _target.value } });
         break;
       case "invest_depart":
-        setNewInvest({ ...newInvest, ...{ investedInstitutions: _target.value } });
+        setNewInvest({
+          ...newInvest,
+          ...{ investedInstitutions: _target.value },
+        });
         break;
       case "invest-cost":
-        setNewInvest({ ...newInvest, ...{ investedFunds: _target.textContent } });
+        setNewInvest({
+          ...newInvest,
+          ...{ investedFunds: _target.textContent },
+        });
         break;
       case "company_value":
         setNewInvest({ ...newInvest, ...{ investedValues: _target.value } });
-      break;
+        break;
       case "invest-series":
-        setNewInvest({ ...newInvest, ...{ investedSeries: _target.textContent } });
+        setNewInvest({
+          ...newInvest,
+          ...{ investedSeries: _target.textContent },
+        });
         break;
     }
-  }
+  };
 
   const addInvest = () => {
     setInvestInfo([newInvest].concat(investInfo));
@@ -179,28 +203,26 @@ const MyStartup = () => {
       investedInstitutions: "",
       investedFunds: "1천만원 - 5천만원",
       investedValues: "",
-      investedSeries: "엔젤투자"
-    })
-  }
-  const removeInvest = (e:any) => {
+      investedSeries: "엔젤투자",
+    });
+  };
+  const removeInvest = (e: any) => {
     const _target = e.currentTarget.className.split(" ");
 
-    if(_target[1] !== "undefined") {
-      setInvestInfo(investInfo.filter((el:any) => 
-        el.id !== Number(_target[1])
-      ));
-      setSubmitInvest(submitInvest.concat({ id: Number(_target[1]) }));
+    if (_target[1] !== "undefined") {
+      setInvestInfo(
+        investInfo.filter((el: any) => el.id !== Number(_target[1]))
+      );
+      setSubmitInvest(submitInvest.concat({ id: _target[1] }));
+    } else if (_target[2] !== "undefined") {
+      setInvestInfo(
+        investInfo.filter((el: any) => el.temp !== Number(_target[2]))
+      );
+      setSubmitInvest(
+        submitInvest.filter((el: any) => el.temp !== Number(_target[2]))
+      );
     }
-
-    else if(_target[2] !== "undefined") {
-      setInvestInfo(investInfo.filter((el:any) => 
-        el.temp !== Number(_target[2])
-      ));
-      setSubmitInvest(submitInvest.filter((el:any) => 
-        el.temp !== Number(_target[2])
-      ));
-    }
-  }
+  };
 
   // const saveForm = () => {
   //   const _formData = new FormData();
@@ -222,37 +244,44 @@ const MyStartup = () => {
   //       },
   //     }
   //   )
-  //   .then((res) => { 
-  //     console.log(res) 
+  //   .then((res) => {
+  //     console.log(res)
   //     alert('임시 저장 성공')
   //   });
   // };
 
   const submitForm = () => {
     const _formData = new FormData();
-    _formData.append("thumbnail", Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`));
-    _formData.append("logoImg", Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`));
+    _formData.append(
+      "thumbnail",
+      Mt.dataURLtoFile(thumbnail, `${basicInfo.name}_img`)
+    );
+    _formData.append(
+      "logoImg",
+      Mt.dataURLtoFile(logoImg, `${basicInfo.name}_logo`)
+    );
     Object.keys(basicInfo).forEach((key) => {
       _formData.append(key, (basicInfo as any)[key]);
     });
     _formData.append("description", introSU);
     _formData.append("itemDescription", introItem);
-    _formData.append("investedFrom" , JSON.stringify(submitInvest));
+    _formData.append("investedFrom", JSON.stringify(submitInvest));
 
-    axios.post(
-      `${process.env.REACT_APP_URL}/companies/info/startup/save`,
-      _formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Basic ${_token}`,
-        },
-      }
-    )
-    .then((res) => { 
-      console.log(res) 
-      alert('저장 성공')
-    });
+    axios
+      .post(
+        `${process.env.REACT_APP_URL}/companies/info/startup/save`,
+        _formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Basic ${_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        alert("저장 성공");
+      });
   };
 
   return (
@@ -285,21 +314,20 @@ const MyStartup = () => {
 
       <InvestDesire />
 
-      <InvestInfo 
-        view={"startup"} 
+      <InvestInfo
+        view={"startup"}
         data={investInfo}
         value={newInvest}
-        changeVal={changeInvestForm} 
-
+        changeVal={changeInvestForm}
         addInvest={addInvest}
         removeInvest={removeInvest}
       />
 
       {/* <IntroTeam /> */}
       {/* <News /> */}
-      <BtnSet 
+      <BtnSet
         // save={saveForm}
-        submit={submitForm} 
+        submit={submitForm}
       />
     </>
   );

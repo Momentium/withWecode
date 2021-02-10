@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "../modal/Modal";
+import * as Mt from "api/methods";
 
 const Buttons = ({ boxStyle, title, type }: any) => {
   const [visible, setVisible] = useState(false);
   const [btnInvisible, setBtnInvisible] = useState(false);
   const [text, setText] = useState("");
+  const _token = Mt.getUserInfo().token;
 
   useEffect(() => {
-    if (!sessionStorage.getItem("token")) {
+    if (!_token) {
       setBtnInvisible(true);
     }
   }, []);

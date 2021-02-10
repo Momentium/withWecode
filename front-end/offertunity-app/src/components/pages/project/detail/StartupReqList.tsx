@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import ApplyDetail from "./ApplyDetail";
 
 const StartupReqList = ({ reqList }: any) => {
-  const tabs = ["스타트업", "산업", "기술", "지원날짜", "평가점수", "지원날짜"];
+  const [visiblePopUp, setVisiblePopUp] = useState(false);
+  const tabs = ["", "스타트업", "산업", "기술", "지원날짜"];
+
+  const handleDetailInfo = (e: any) => {
+    const id = e.currentTarget.id;
+    window.open(`/project/apply/${id}`, "_blank");
+  };
+
   return (
     <List>
       <div className="top">
@@ -15,19 +23,23 @@ const StartupReqList = ({ reqList }: any) => {
         })}
       </TabCont>
       <StartupList>
-        {reqList?.map((el: any, idx: any) => {
+        {reqList?.map((el: any) => {
           return (
             <>
-              <Startup key={idx}>
-                <span>{el.title}</span>
-                <span>{el.sanup}</span>
-                <span>{el.tech}</span>
-                <span>{el.date}</span>
+              <Startup id={el.id} onClick={handleDetailInfo}>
+                <ImageLogo>
+                  <img src={el.logoImg} />
+                </ImageLogo>
+                <span>{el.name}</span>
+                <span>{el.sector}</span>
+                <span>{el.technology}</span>
+                <span>{el.appliedDate.slice(0, 10)}</span>
               </Startup>
             </>
           );
         })}
       </StartupList>
+      {visiblePopUp && <ApplyDetail />}
     </List>
   );
 };
@@ -44,7 +56,7 @@ const TabCont = styled.div`
   display: grid;
   align-items: center;
   justify-items: center;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
 `;
 
@@ -63,7 +75,7 @@ const Startup = styled.div`
   display: grid;
   align-items: center;
   justify-items: center;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   padding: 0px 15px;
 
@@ -74,31 +86,21 @@ const Startup = styled.div`
   }
 `;
 
-const PassOrFail = styled.div`
-  display: flex;
-`;
-
-const PFBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 80px;
-  font-weight: bold;
-  box-shadow: 0;
-  transition: box-shadow 1s ease-in-out;
-
-  &.hover {
-    background: #f9f9fc 0% 0% no-repeat padding-box;
-    box-shadow: 0px 6px 16px #dfdfea;
-    border-radius: 39px;
-  }
-`;
-
 const DownloadAll = styled.span`
   margin-left: 24px;
   font-size: 21px;
   font-weight: bold;
   text-decoration: underline;
   color: #5541ed;
+`;
+
+const ImageLogo = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
