@@ -33,11 +33,12 @@ const getPublishedProjects = errorWrapper(async (req, res) => {
   const userInfofromToken = req.foundUser ? req.foundUser : undefined;
   if (userInfofromToken) {
     const isStartup = userInfofromToken.type_id === 1;
-    const findLiked = isStartup? await LikeService.findIsLiked("project_likes",userInfofromToken.user_id, id ):false;
-    hasLiked = findLiked? true : false;
+    const findLiked = isStartup? await LikeService.findIsLiked("project_likes", userInfofromToken.id, projectList[len].id ):false;
+    hasLiked = findLiked? findLiked.is_liked : false;
   }else{
     hasLiked = false
   }
+
   let cleanedProject = {};
   cleanedProject.id = id
   cleanedProject.name = name
@@ -159,8 +160,8 @@ const getOneProject = errorWrapper(async (req, res) => {
     let hasLiked;
     if (userInfofromToken) {
       const isStartup = userInfofromToken.type_id === 1;
-      const findLiked = isStartup? await LikeService.findIsLiked("project_likes",userInfofromToken.user_id, projectId ):false;
-      hasLiked = findLiked? true : false;
+      const findLiked = isStartup? await LikeService.findIsLiked("project_likes", userInfofromToken.id, projectId ):false;
+      hasLiked = findLiked? findLiked.is_liked : false;
     }else{
       hasLiked = false
     }
@@ -320,14 +321,15 @@ const deleteOneProject = errorWrapper(async (req, res) => {
 
 const likeProject = errorWrapper(async (req, res) => {
   const { projectId } = req.params;
-  const userId = req.foundUser.id;
+  const {id: userId, company_id: companyId} = req.foundUser;
   const where = {
-    user_id: Number(userId),
-    company_id: Number(projectId),
+    companiesId: Number(companyId),
+    project_id: Number(projectId),
   };
   const data = {
     users: { connect: { id: Number(userId) } },
-    companies: { connect: { id: Number(projectId) } },
+    companies: { connect: { id: Number(companyId) } },
+    projects: { connect: { id: Number(projectId) } }
   };
   const like = await LikeService.like("project_likes", where, data);
   res.status(201).json({
