@@ -1,16 +1,29 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import * as Mt from "api/methods";
 
 const WorkStation = () => {
+  const typeId = Mt.getUserInfo().type_id;
   return (
     <Wrap>
       <Text>
         마이페이지는 프로필 관리와 간략한 프로젝트 현황 정보를 포함하고
         있습니다. <br />
-        스타트업 정보, 지원사업. 투자 관리 등은 <span>[워크스테이션]</span> 을
-        이용해주세요!
+        스타트업 정보, 지원사업. 투자 관리 등은
+        <Link
+          to={
+            typeId === 2 ? "/workstation/mypartner" : "/workstation/mystartup"
+          }
+        >
+          <span>[워크스테이션]</span> 을 이용해주세요!
+        </Link>
       </Text>
-      <Button>워크 스테이션 바로가기</Button>
+      <Link
+        to={typeId === 2 ? "/workstation/mypartner" : "/workstation/mystartup"}
+      >
+        <Button>워크 스테이션 바로가기</Button>
+      </Link>
     </Wrap>
   );
 };
