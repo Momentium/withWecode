@@ -4,7 +4,7 @@ import styled from "styled-components";
 import StartupReqList from "./StartupReqList";
 import * as Mt from "api/methods";
 
-const ProjectRequestList = ({ data, text, id }: any) => {
+const ProjectRequestList = ({ data, text, id, btn }: any) => {
   const [reqList, setReqList] = useState();
 
   const stepBy = [
@@ -65,6 +65,7 @@ const ProjectRequestList = ({ data, text, id }: any) => {
         <h2>지원자 현황</h2>
         <StartupReqList reqList={reqList} />
       </CurrReq>
+      <ButtonCont>{btn}</ButtonCont>
     </ReqListCon>
   );
 };
@@ -130,4 +131,10 @@ const CurrReq = styled.div`
       font-size: 21px;
     }
   }
+`;
+
+const ButtonCont = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 `;

@@ -46,7 +46,7 @@ const CompanyCard = ({ data, detailInfo, type, isLogin, token }: any) => {
     e.preventDefault();
     if (isLogin) {
       axios
-        .get(`http://10.0.1.44:3000/likes/company/${data.id}`, {
+        .get(`${process.env.REACT_APP_URL}/likes/company/${data.id}`, {
           headers: {
             Authorization: `${token}`,
           },

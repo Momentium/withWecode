@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import StButton from "./StButton";
 
-const ProjectDetailInfo: React.FC<any> = ({ data }) => {
+const ProjectDetailInfo: React.FC<any> = ({ data, btn }) => {
   const {
     outline,
     detail,
@@ -40,7 +40,6 @@ const ProjectDetailInfo: React.FC<any> = ({ data }) => {
               <span>신청기간</span>
             </div>
             <div className="content">
-              {/* {created_at}~{deleted_at} */}
               {created_at.slice(0, 10)}~{deleted_at.slice(0, 10)}
             </div>
           </div>
@@ -74,6 +73,7 @@ const ProjectDetailInfo: React.FC<any> = ({ data }) => {
           </div>
         </div>
       </PjSummaryInfo>
+      <ButtonCont>{btn}</ButtonCont>
     </DetailInfoCont>
   );
 };
@@ -190,4 +190,10 @@ const PjSummaryInfo = styled.div`
   .information:last-child {
     border-bottom: 2px solid #cdcdcd;
   }
+`;
+
+const ButtonCont = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 `;

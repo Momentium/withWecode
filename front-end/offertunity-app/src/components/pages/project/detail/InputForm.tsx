@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const InputForm = ({ txt, changeVal, className }: any) => {
+  console.log(txt);
   return (
     <>
       <TextArea

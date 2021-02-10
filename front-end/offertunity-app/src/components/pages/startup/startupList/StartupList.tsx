@@ -25,7 +25,7 @@ const StartupList = () => {
     }
     axios
       .get(
-        `http://10.0.1.44:3000/companies/list/startup?offset=${page}&limit=${LIMIT}`,
+        `${process.env.REACT_APP_URL}/companies/list/startup?offset=${page}&limit=${LIMIT}`,
         {
           headers: config,
         }

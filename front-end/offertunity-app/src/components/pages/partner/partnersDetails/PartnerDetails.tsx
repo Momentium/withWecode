@@ -35,7 +35,7 @@ const PartnerDetails = ({ match }: any) => {
       };
     }
     axios
-      .get(`http://10.0.1.44:3000/companies/partner/${_resId}`, {
+      .get(`${process.env.REACT_APP_URL}/companies/partner/${_resId}`, {
         headers: config,
       })
       .then((res) => {
@@ -46,6 +46,8 @@ const PartnerDetails = ({ match }: any) => {
         console.log(err);
       });
   }, []);
+
+  console.log(_token);
 
   return (
     <DetailBox>

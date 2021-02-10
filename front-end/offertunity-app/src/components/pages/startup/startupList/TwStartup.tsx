@@ -16,7 +16,7 @@ const TwStartup = ({ token }: any) => {
       };
     }
     axios
-      .get(`http://10.0.1.44:3000/companies/list/startup`, {
+      .get(`${process.env.REACT_APP_URL}/companies/list/startup`, {
         headers: config,
       })
       .then((res) => {

@@ -45,7 +45,7 @@ const Card = () => {
       <div>
         <Profile>
           <Image>
-            <img src="haga.jpg" />
+            <img src="/images/profile.png" />
           </Image>
           <UserInfo>
             <h2>오퍼튜니티</h2>
@@ -85,16 +85,32 @@ export default Card;
 
 const CardBox = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 const Profile = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 680px;
+  height: 280px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #c2bdf0;
+  border-radius: 24px;
+
+  h2 {
+    margin-bottom: 32px;
+  }
+  span {
+    margin-bottom: 16px;
+  }
 `;
 
 const Image = styled.div`
   width: 142px;
   height: 142px;
   border-radius: 100%;
+  margin-right: 64px;
 
   img {
     width: 100%;
@@ -119,16 +135,49 @@ const UserInfo = styled.div`
 
 const CompanyStack = styled.div`
   display: flex;
+  margin-top: 16px;
 
   .stackWrapper {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 16px;
+
+    width: 216px;
+    height: 216px;
+
+    background-color: #f9f9fc;
+    border-radius: 24px;
+
+    span {
+      margin-bottom: 32px;
+    }
+
+    .content {
+      font-weight: bold;
+    }
   }
 `;
 
 const CompanyInfo = styled.div`
+  width: 416px;
+  height: 512px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #c2bdf0;
+  border-radius: 24px;
   .stackWrapper {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    margin: 40px 48px;
+
+    span {
+      margin-bottom: 10px;
+    }
+
+    .content {
+      font-weight: bold;
+    }
   }
 `;

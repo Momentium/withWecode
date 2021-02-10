@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ShareBtn from "../../../common/button/iconBtn/ShareBtn";
 import Card from "./Card";
 import Description from "./Description";
 import Files from "./Files";
+import ShareIcon from "@material-ui/icons/Share";
+import GetAppIcon from "@material-ui/icons/GetApp";
 
 const ApplyDetail = ({ match }: any) => {
   const _resId = match.params.id;
@@ -13,18 +14,23 @@ const ApplyDetail = ({ match }: any) => {
     <Cont>
       <Header>
         <Link to="/">
-          <img src="/images/header/logo.png" alt="로고" />
+          <div className="logoBox">
+            <img src="/images/header/logo.png" alt="로고" />
+          </div>
         </Link>
         <ShareAndDown>
-          <ShareBtn />
+          <ShareIcon />
+          <GetAppIcon />
         </ShareAndDown>
       </Header>
-      <Card />
-      <Description />
-      <Files />
-      <ButtonCont>
-        <Button>저장</Button>
-      </ButtonCont>
+      <Content>
+        <Card />
+        <Description />
+        <Files />
+        <ButtonCont>
+          <Button>저장</Button>
+        </ButtonCont>
+      </Content>
     </Cont>
   );
 };
@@ -34,16 +40,46 @@ export default ApplyDetail;
 const Cont = styled.div``;
 
 const Header = styled.div`
+  width: 100%;
+  height: 64px;
+  padding: 0px 80px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fbfaff 0% 0% no-repeat padding-box;
+
+  .logoBox {
+    width: 154px;
+    height: 19px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 `;
 
-const ShareAndDown = styled.div``;
+const Content = styled.div`
+  width: 100%;
+  padding: 0px 80px;
+  margin-top: 40px;
+`;
+
+const ShareAndDown = styled.div`
+  display: flex;
+
+  svg {
+    margin-right: 10px;
+    font-size: 33px;
+    color: #5542ed;
+  }
+`;
 
 const ButtonCont = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 30px;
 `;
 
 const Button = styled.button`

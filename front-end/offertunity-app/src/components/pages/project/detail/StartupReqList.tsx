@@ -7,8 +7,8 @@ const StartupReqList = ({ reqList }: any) => {
   const tabs = ["", "스타트업", "산업", "기술", "지원날짜"];
 
   const handleDetailInfo = (e: any) => {
-    console.log(e.currentTarget);
-    setVisiblePopUp(!visiblePopUp);
+    const id = e.currentTarget.id;
+    window.open(`/project/apply/${id}`, "_blank");
   };
 
   return (
