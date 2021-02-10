@@ -13,7 +13,7 @@ router.get(
 
 // project like
 router.get(
-    '/project/:partnerId',
+    '/project/:projectId',
     validateToken,
     ProjectController.likeProject
 )

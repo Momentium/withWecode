@@ -46,6 +46,8 @@ router.post(
   UserController.addMemberInfo
 );
 
+router.post("/resetpassword", validateToken, UserController.resetPassword)
+
 router.delete(
   "/mypage/profilepic",
   validateToken,
