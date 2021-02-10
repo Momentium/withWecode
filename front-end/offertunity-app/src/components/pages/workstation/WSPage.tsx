@@ -6,6 +6,7 @@ import GuideBar from "./common/GuideBar";
 import MyStartup from "./startup/myStartup/MyStartup";
 import StartupPjt from "./startup/applyPjt/StartupPjt";
 import AdminIRReq from "./AdminIRReq";
+import AdminDoc from './startup/adminDoc/AdminDoc';
 import MyPartner from "./partner/myPartner/MyPartner";
 import PartnerPjt from "./partner/supportPjt/PartnerPjt";
 
@@ -42,11 +43,16 @@ const WSPage: React.FC<any> = ({ match }) => {
             <StTabWrap isChecked={_curTab === "myproject"}>
               <Link to="/workstation/myproject">{navi["myproject"]}</Link>
             </StTabWrap>
-            <StTabWrap isChecked={_curTab === "myrequest"}>
+            {/* <StTabWrap isChecked={_curTab === "myrequest"}>
               <Link to="/workstation/myrequest">{navi["myrequest"]}</Link>
-            </StTabWrap>
+            </StTabWrap> */}
             <StTabWrap isChecked={_curTab === "mydocument"}>
               <Link to="/workstation/mydocument">{navi["mydocument"]}</Link>
+            </StTabWrap>
+            <StTabWrap 
+              isChecked={_curTab === "mydocument"}
+              style={{ visibility: "hidden" }}>
+              {navi["mydocument"]}
             </StTabWrap>
           </>
         ) : (
@@ -74,15 +80,15 @@ const WSPage: React.FC<any> = ({ match }) => {
 
       {_curType === 1 ? (
         <>
-          {_curTab === "mystartup" && <MyStartup />}
-          {_curTab === "myproject" && <StartupPjt />}
-          {_curTab === "myrequest" && <AdminIRReq />}
-          {_curTab === "mydocument" && <></>}
+          {_curTab === "mystartup" && <MyStartup/>}
+          {_curTab === "myproject" && <StartupPjt/>}
+          {_curTab === "myrequest" && <AdminIRReq/>}
+          {_curTab === "mydocument" && <AdminDoc/>}
         </>
       ) : (
         <>
-          {_curTab === "mypartner" && <MyPartner />}
-          {_curTab === "myproject" && <PartnerPjt />}
+          {_curTab === "mypartner" && <MyPartner/>}
+          {_curTab === "myproject" && <PartnerPjt/>}
           {_curTab === "myrequest" && <></>}
         </>
       )}
