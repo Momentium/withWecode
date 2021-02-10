@@ -103,10 +103,10 @@ const EditInfo = ({ handleModal }: any) => {
       )
       .then((res) => {
         alert("저장 성공");
-        if (_history.location.pathname.includes("workstation")) {
-          _history.replace("/workstation/myproject");
+        if (handleModal) {
+          return handleModal("close");
         } else {
-          return handleModal();
+          _history.replace("/workstation/myproject");
         }
       });
   };
@@ -344,9 +344,11 @@ const EditInfo = ({ handleModal }: any) => {
             txt={"취소하기"}
             click={() => {
               if (handleModal) {
-                return handleModal();
+                return handleModal("close");
               }
-              _history.replace("/workstation/myproject");
+              else {
+                _history.replace("/workstation/myproject");
+              }
             }}
           />
         </div>

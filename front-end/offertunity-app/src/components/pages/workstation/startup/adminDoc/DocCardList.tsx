@@ -109,7 +109,7 @@ const DocCardList: React.FC<any> = ({ mode, label, selectable }) => {
           const _date = new Date(el.updateDate).toLocaleDateString("ko-KR");
           return (
             <StCardWrap key={idx}>
-              <DocCard data={el} deleteFile={deleteFile}/>
+              <DocCard data={el} deleteFile={deleteFile} selectable/>
               <StTable>
                 <tbody>
                   <tr>

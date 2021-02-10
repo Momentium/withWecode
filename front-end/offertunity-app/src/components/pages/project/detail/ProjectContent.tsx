@@ -19,6 +19,7 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
     if (isLogin) {
       axios
         .get(`http://10.0.1.29:3000/likes/project/${data.id}`, {
+        // .get(`${process.env.REACT_APP_URL}/likes/project/${data.id}`, {
           headers: {
             Authorization: `${token}`,
           },

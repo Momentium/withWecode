@@ -19,7 +19,8 @@ const Card = ({ data, name, background, service, isLogin, id }: any) => {
     e.preventDefault();
     if (isLogin) {
       axios
-        .get(`http://10.0.1.44:3000/likes/company/${id}`, {
+        // .get(`http://10.0.1.44:3000/likes/company/${id}`, {
+        .get(`${process.env.REACT_APP_URL}/likes/company/${id}`, {
           headers: {
             Authorization: `${_token}`,
           },

@@ -18,34 +18,45 @@ const ProjectSubmit: React.FC<any> = ({
   data,
   token,
 }) => {
-  const uploadList = [
-    {
-      title: "사업계획서",
-      id: "plane",
-    },
-    {
-      title: "사업자등록 사본",
-      id: "bizLicense",
-    },
-    {
-      title: "대표자 주민등록증 (운전면허증)",
-      id: "idCard",
-    },
-    {
-      title: "자격 보유 현황 (지적재산권 포함)",
-      id: "license",
-    },
-  ];
+  // const uploadList = [
+  //   {
+  //     title: "사업계획서",
+  //     id: "plane",
+  //   },
+  //   {
+  //     title: "사업자등록 사본",
+  //     id: "bizLicense",
+  //   },
+  //   {
+  //     title: "대표자 주민등록증 (운전면허증)",
+  //     id: "idCard",
+  //   },
+  //   {
+  //     title: "자격 보유 현황 (지적재산권 포함)",
+  //     id: "license",
+  //   },
+  // ];
   const [modal, setModal] = useState<boolean>(false);
+  const [curModal, setCurModal] = useState<string>("");
+  const [curDoc, setCurDoc] = useState<string>("");
   const [uploadModal, setUploadModal] = useState<boolean>(false);
 
-  const handleModal = () => {
+  const handleModal = (_mode:string) => {
+    
+    switch(_mode) {
+      case 'editInfo':
+        setCurModal("editInfo");
+        break;
+      case 'checkDoc':
+        setCurModal("checkDoc");
+        break;
+    }
     setModal(!modal);
   };
 
-  const handleFileUploadModal = () => {
-    setUploadModal(!uploadModal);
-  };
+  // const handleFileUploadModal = () => {
+  //   setUploadModal(!uploadModal);
+  // };
 
   const [applyResult, setApplyResult] = useState({
     is_applied: false,
@@ -55,21 +66,25 @@ const ProjectSubmit: React.FC<any> = ({
   });
   useEffect(() => {
     axios
+    // .get(`http://10.0.1.29:3000/applies/${data.id}`, {
       .get(`${process.env.REACT_APP_URL}/applies/${data.id}`, {
         headers: {
           Authorization: `${token}`,
         },
       })
       .then((res) =>
-        setApplyResult({
-          ...applyResult,
-          ...{
-            is_applied: res.data.data.is_applied,
-            id: res.data.data.id,
-            businessBrief: res.data.data.businessBrief,
-            businessModel: res.data.data.businessModel,
-          },
-        })
+        {
+          // console.log(res.data.data)
+          setApplyResult({
+            ...applyResult,
+            ...{
+              is_applied: res.data.data.is_applied,
+              id: res.data.data.id,
+              businessBrief: res.data.data.businessBrief,
+              businessModel: res.data.data.businessModel,
+            },
+          })
+        }
       );
   }, []);
 
@@ -89,9 +104,9 @@ const ProjectSubmit: React.FC<any> = ({
     }
   };
 
-  useEffect(() => {
-    console.log(applyResult);
-  }, [applyResult]);
+  // useEffect(() => {
+  //   console.log(applyResult);
+  // }, [applyResult]);
 
   return (
     <>
@@ -160,22 +175,28 @@ const ProjectSubmit: React.FC<any> = ({
           )}
         </PjBizModel>
         <PjSubmitDocu>
+          {
+            data.required_documents.length !== 0 &&
+          <>
           <TitleWithMsg
             title={"제출 서류"}
             msg={"제출 서류는 우측의 등록하기 버튼을 이용해주세요."}
           />
           <form onSubmit={handleUploadFile}>
-            {uploadList.map((item, idx) => {
+            {data.required_documents.map((item:string, idx:number) => {
               return (
                 <FileUplaodCont key={idx}>
                   <FileUplaodBox>
-                    <span title="sub_title">{item.title}</span>
+                    <span title="sub_title">{item}</span>
                     {selectFile && (
                       <span title="selected_title">{selectFile}</span>
                     )}
                     <FileBox
                       className={`inputFile ${item}`}
-                      onClick={handleFileUploadModal}
+                      onClick={() => { 
+                        setCurDoc(item);
+                        handleModal('checkDoc')
+                      }}
                     >
                       등록
                     </FileBox>
@@ -185,16 +206,21 @@ const ProjectSubmit: React.FC<any> = ({
               );
             })}
           </form>
+          </>
+          }
         </PjSubmitDocu>
         <ButtonCont>
           {btn}
           <PrevBtn>취소</PrevBtn>
         </ButtonCont>
       </ProjectSubmitCont>
-      {modal && <Modal handleModal={handleModal} />}
-      {uploadModal && (
+
+      {modal && curModal==='editInfo' && <Modal mode={curModal} handleModal={handleModal} />}
+      {modal && curModal==='checkDoc' && <Modal mode={curModal} data={curDoc} handleModal={handleModal} />}
+      
+      {/* {uploadModal && (
         <UploadModal handleFileUploadModal={handleFileUploadModal} />
-      )}
+      )} */}
     </>
   );
 };
