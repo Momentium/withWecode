@@ -76,7 +76,7 @@ const StADCont = styled.div`
 `;
 
 const StADWrap = styled.div<any>`
-  position: relative;
+  /* position: relative; */
 
   cursor: pointer;
   user-select: none;
