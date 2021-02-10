@@ -20,6 +20,11 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
   const { email, name, phone_number, type_id } = data;
   const _token = Mt.getUserInfo().token;
 
+  const formData = new FormData();
+  formData.append("file", profileSrc);
+  formData.append("name", nameInput);
+  formData.append("phone_number", phoneNumber);
+
   const saveData = () => {
     axios({
       method: "post",
@@ -27,15 +32,13 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
       headers: {
         authorization: _token,
       },
-      data: {
-        name: nameInput,
-        phone_number: phoneNumber,
-        profile_picture: profileSrc,
-      },
+      data: formData,
     }).then((res) => {
       alert("회원정보가 수정되었습니다");
     });
   };
+
+  console.log(profileSrc);
 
   const handleName = (event: any) => {
     event.preventDefault();

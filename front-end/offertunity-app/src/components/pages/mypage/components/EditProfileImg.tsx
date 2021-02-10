@@ -14,16 +14,21 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
   const [Modal, setModal] = useState(false);
   const [removeImg, setRemoveImg] = useState(false);
   const { profile_picture } = data;
-
+  console.log(profile_picture);
   const _token = Mt.getUserInfo().token;
 
   const handleImg = (event: any) => {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
+
     reader.onload = (event: any) => {
-      setpreviewURL(event.target.result);
+      const base64 = reader.result;
+      if (base64) {
+        setpreviewURL(base64.toString());
+      }
     };
+
     if (file && file.type.match("image.*")) {
       setRemoveImg(false);
       reader.readAsDataURL(file);
@@ -36,7 +41,6 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
       );
     }
   };
-
   const removeImges = () => {
     setRemoveImg(true);
   };
@@ -66,8 +70,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     );
   }
 
-  const profile_img = ProfileImg?.props;
-  console.log(profile_img);
+  const profile_img = ProfileImg?.props.src;
 
   return (
     <>

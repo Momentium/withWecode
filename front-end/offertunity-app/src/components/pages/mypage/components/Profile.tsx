@@ -16,6 +16,7 @@ const Profile: React.FC<Props> = ({ data }) => {
     phone_number,
     type_id,
   } = data;
+  console.log(data);
 
   let profileImg = null;
   if (!profile_picture) {
@@ -73,7 +74,14 @@ const Profile: React.FC<Props> = ({ data }) => {
               <p>{company_id ? company_id : "마이 스타트업을 등록해주세요"}</p>
             )}
           </Info>
-          <BtnTwo>마이 스타트업 관리</BtnTwo>
+          <BtnTwo>
+            {type_id === 1 && (
+              <Link to="/workstation/mystartup">마이 스타트업 관리</Link>
+            )}
+            {type_id === 2 && (
+              <Link to="/workstation/mypartner">파트너 기관 관리</Link>
+            )}
+          </BtnTwo>
         </Box>
       </Text>
     </Wrap>

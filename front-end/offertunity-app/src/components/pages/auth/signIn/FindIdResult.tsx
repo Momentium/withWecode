@@ -5,22 +5,26 @@ import styled from "styled-components";
 import Tab from "../components/Tab";
 
 const FindIdResult = () => {
+  const email = sessionStorage.getItem("findEmail");
+  const remove = () => {
+    sessionStorage.removeItem("findEmail");
+  };
   return (
     <>
       <Tab password="false" id="true" />
       <Con>
         <Wrap>
-          <span>asdhadjh@dlksjld</span>
+          <span>{email}</span>
           <p>입력하신 이메일 주소는 OFFERTUNITY에 등록되어 있지 않습니다.</p>
           <p>
             아직 회원이 아니라면 아래 [회원가입하기] 버튼을 통해 회원가입을
             완료해 주세요.
           </p>
           <reactRouterDom.Link to="/auth/SignUp">
-            <ChkBtn>회원가입</ChkBtn>
+            <ChkBtn onClick={remove}>회원가입</ChkBtn>
           </reactRouterDom.Link>
           <reactRouterDom.Link to="/auth/FindId">
-            <CancleBtn>다시찾아보기</CancleBtn>
+            <CancleBtn onClick={remove}>다시찾아보기</CancleBtn>
           </reactRouterDom.Link>
         </Wrap>
       </Con>
