@@ -58,7 +58,14 @@ const findUserInfo = (field) => {
   const [uniqueKey] = Object.keys(field);
   const isKeyId = uniqueKey === "id";
   const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
-  return prisma.users.findUnique({    
+  return prisma.users.findUnique({
+    include: {
+      companies: {
+        select: {
+          name: true,
+        },
+      },
+    },    
       where: 
       { [uniqueKey]: value } 
     });

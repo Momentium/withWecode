@@ -58,8 +58,18 @@ const signIn = errorWrapper(async (req, res) => {
 const showMemberInfo = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
   const userInfo = await UserService.findUserInfo({ id: userId });
-  
-  res.status(200).json({ userInfo });
+  let cleanedUser = {};
+  cleanedUser.id = userInfo.id
+  cleanedUser.sns_id = userInfo.sns_id
+  cleanedUser.name = userInfo.name
+  cleanedUser.type_id = userInfo.type_id
+  cleanedUser.profile_picture = userInfo.profile_picture
+  cleanedUser.email = userInfo.email
+  cleanedUser.signup_method_id = userInfo.signup_method_id
+  cleanedUser.phone_number = userInfo.phone_number
+  cleanedUser.is_verified = userInfo.is_verified
+  cleanedUser.company = userInfo.companies.name
+  res.status(200).json(cleanedUser);
 });
 
 const addMemberInfo = errorWrapper(async (req, res) => {
@@ -105,7 +115,6 @@ const resetPassword = errorWrapper(async (req, res) => {
   res.status(201).json({
     message: "password reset successful",
   });
-
 
 })
 
