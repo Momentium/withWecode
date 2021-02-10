@@ -14,7 +14,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
   const [Modal, setModal] = useState(false);
   const [removeImg, setRemoveImg] = useState(false);
   const { profile_picture } = data;
-  console.log(profile_picture);
+
   const _token = Mt.getUserInfo().token;
 
   const handleImg = (event: any) => {
@@ -23,10 +23,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     let file = event.target.files[0];
 
     reader.onload = (event: any) => {
-      const base64 = reader.result;
-      if (base64) {
-        setpreviewURL(base64.toString());
-      }
+      setpreviewURL(event.target.result);
     };
 
     if (file && file.type.match("image.*")) {
@@ -43,22 +40,26 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
   };
   const removeImges = () => {
     setRemoveImg(true);
+    axios({
+      method: "delete",
+      url: "http://10.0.1.29:3000/users/mypage/profilepic",
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        authorization: _token,
+      },
+    }).then((res) => {
+      alert("프로필 이미지가 삭제되었습니다");
+    });
   };
 
   let ProfileImg = null;
-  if (!profile_picture && !previewURL) {
-    ProfileImg = (
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
-        alt="프로필사진"
-      />
-    );
-  }
-  if (!profile_picture && previewURL) {
-    ProfileImg = <img src={previewURL} alt="프로필사진" />;
-  }
+
   if (profile_picture) {
     ProfileImg = <img src={profile_picture} alt="프로필사진" />;
+  }
+
+  if (previewURL) {
+    ProfileImg = <img src={previewURL} alt="프로필사진" />;
   }
 
   if (removeImg) {
@@ -70,7 +71,17 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     );
   }
 
+  if (!profile_picture && !previewURL) {
+    ProfileImg = (
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-JdoMKl_cBoE-qqWZjn7OH-dvmZK73uVZ9w&usqp=CAU"
+        alt="프로필사진"
+      />
+    );
+  }
+
   const profile_img = ProfileImg?.props.src;
+  console.log(profile_img);
 
   return (
     <>

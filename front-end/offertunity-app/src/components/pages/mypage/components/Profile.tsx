@@ -12,11 +12,10 @@ const Profile: React.FC<Props> = ({ data }) => {
     profile_picture,
     email,
     signup_method_id,
-    company_id,
     phone_number,
     type_id,
+    company,
   } = data;
-  console.log(data);
 
   let profileImg = null;
   if (!profile_picture) {
@@ -68,10 +67,10 @@ const Profile: React.FC<Props> = ({ data }) => {
               {type_id === 2 && "파트너 기관"}
             </span>
             {type_id === 2 && (
-              <p>{company_id ? company_id : "파트너 기관을 등록해주세요"}</p>
+              <p>{company ? company : "파트너 기관을 등록해주세요"}</p>
             )}
             {type_id === 1 && (
-              <p>{company_id ? company_id : "마이 스타트업을 등록해주세요"}</p>
+              <p>{company ? company : "마이 스타트업을 등록해주세요"}</p>
             )}
           </Info>
           <BtnTwo>

@@ -27,13 +27,13 @@ const Mypage: React.FC = () => {
 
   const getProfileData = () => {
     axios
-      .get(`${process.env.REACT_APP_URL}/users/mypage`, {
+      .get("http://10.0.1.29:3000/users/mypage", {
         headers: {
           Authorization: _token,
         },
       })
       .then((res) => {
-        setProfileData(res.data.userInfo);
+        setProfileData(res.data);
       });
   };
 

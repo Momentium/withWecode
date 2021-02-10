@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ModalChangePw from "./ModalChangePw";
 import * as Mt from "api/methods";
+import { dataURLtoFile } from "api/methods";
 
 type Props = {
   data: any;
@@ -20,16 +21,18 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
   const { email, name, phone_number, type_id } = data;
   const _token = Mt.getUserInfo().token;
 
-  const formData = new FormData();
-  formData.append("file", profileSrc);
-  formData.append("name", nameInput);
-  formData.append("phone_number", phoneNumber);
-
   const saveData = () => {
+    const formData = new FormData();
+    formData.append("profile_picture", Mt.dataURLtoFile(profileSrc, "profile"));
+    formData.append("name", nameInput);
+    formData.append("phone_number", phoneNumber);
+    console.log(profileSrc);
+
     axios({
       method: "post",
       url: "http://10.0.1.29:3000/users/mypage",
       headers: {
+        "Content-Type": "multipart/form-data",
         authorization: _token,
       },
       data: formData,
@@ -37,8 +40,6 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
       alert("회원정보가 수정되었습니다");
     });
   };
-
-  console.log(profileSrc);
 
   const handleName = (event: any) => {
     event.preventDefault();
@@ -57,12 +58,12 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
     });
   };
 
-  const validatePhoneNumber = () => {
-    const regPhone = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
-    if (!regPhone.test(phoneNumber)) {
-      alert("휴대전화번호 형식에 맞지 않는 번호 입니다");
-    }
-  };
+  // const validatePhoneNumber = () => {
+  //   const regPhone = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+  //   if (!regPhone.test(phoneNumber)) {
+  //     alert("휴대전화번호 형식에 맞지 않는 번호 입니다");
+  //   }
+  // };
 
   const BtnTrue = nameInput.length > 2;
 
@@ -103,7 +104,7 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
             onChange={handlePhonenumber}
           />
         </Input>
-        <button onClick={validatePhoneNumber}>인증하기</button>
+        {/* <button onClick={validatePhoneNumber}>인증하기</button> */}
       </Phone>
       <BtnWrap>
         {/* <Link to="/Mypage"> */}
