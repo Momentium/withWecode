@@ -58,28 +58,56 @@ const signIn = errorWrapper(async (req, res) => {
 const showMemberInfo = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
   const userInfo = await UserService.findUserInfo({ id: userId });
+  
   res.status(200).json({ userInfo });
 });
 
 const addMemberInfo = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
-  console.log(userId)
-  const requestedFields = req.body;
+  console.log("file: ", req.file)
+  let requestedFields = req.body;
+
   const userInfo = await UserService.findUserInfo({ id: userId });
   const profile_picture = req.file
     ? req.file.location
     : userInfo.profile_picture
     ? userInfo.profile_picture
     : null;
+
+  requestedFields.profile_picture = profile_picture
+  console.log(requestedFields)
   const addInfo = await UserService.updateInfo({
     userId,
     requestedFields,
-    profile_picture,
   });
   res.status(201).json({
     message: "information successfully added",
   });
 });
+
+const resetPassword = errorWrapper(async (req, res) => {
+  const { id: userId } = req.foundUser;
+  const { password: inputPassword, newpassword: newpassword } = req.body;
+
+  const foundUser = await UserService.findUser({ id:userId });
+  if (!foundUser)
+    errorGenerator({ statusCode: 400, message: "client input invalid" });
+  const { password: hashedPassword } = foundUser;
+  const isValidPassword = await bcrypt.compare(inputPassword, hashedPassword);
+  if (!isValidPassword)
+    errorGenerator({ statusCode: 400, message: "client input invalid" });
+  const newPassword = await bcrypt.hash(newpassword, 10);
+  let requestedFields = {};
+  requestedFields.password = newPassword
+  await UserService.updateInfo({
+    userId,
+    requestedFields  });
+  res.status(201).json({
+    message: "password reset successful",
+  });
+
+
+})
 
 const deleteProfilePic = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
@@ -91,6 +119,16 @@ const deleteProfilePic = errorWrapper(async (req, res) => {
 
 const deleteMember = errorWrapper(async (req, res) => {
   const { id: userId } = req.foundUser;
+  const { password: inputPassword } = req.body;
+
+  const foundUser = await UserService.findUser({ id:userId });
+  if (!foundUser)
+    errorGenerator({ statusCode: 400, message: "client input invalid" });
+  const { password: hashedPassword } = foundUser;
+  const isValidPassword = await bcrypt.compare(inputPassword, hashedPassword);
+  if (!isValidPassword)
+    errorGenerator({ statusCode: 400, message: "client input invalid" });
+
   const deleteMemberInfo = await UserService.deleteMember({ id: userId });
   res.status(201).json({
     message: "user successfully deleted",
@@ -102,6 +140,7 @@ module.exports = {
   signUp,
   showMemberInfo,
   addMemberInfo,
+  resetPassword,
   deleteProfilePic,
   deleteMember,
 };

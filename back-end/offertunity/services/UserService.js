@@ -58,19 +58,22 @@ const findUserInfo = (field) => {
   const [uniqueKey] = Object.keys(field);
   const isKeyId = uniqueKey === "id";
   const value = isKeyId ? Number(field[uniqueKey]) : field[uniqueKey];
-  return prisma.users.findUnique({ where: { [uniqueKey]: value } });
+  return prisma.users.findUnique({    
+      where: 
+      { [uniqueKey]: value } 
+    });
 };
 
+
+
 const updateInfo = async (fields) => {
-  const { userId, requestedFields, profile_picture } = fields;
+  const { userId, requestedFields } = fields;
   return prisma.users.update({
     where: {
       id: Number(userId),
     },
     data: {
       ...requestedFields,
-      phone_number: requestedFields.phone_number,
-      profile_picture,
     },
   });
 };
