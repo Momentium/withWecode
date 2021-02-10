@@ -84,7 +84,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                     alt="bell-icon"
                     className="bell"
                   />
-                  <Link to="/MypageStartup">
+                  <Link to="/Mypage">
                     <img src="/images/icons/person.png" alt="person-icon" />
                   </Link>
 
@@ -110,7 +110,7 @@ const Header = React.forwardRef<HTMLDivElement, RouteComponentProps>(
                           <Link to="/workstation/mydocument">
                             <li>IR자료 및 지원서류 관리</li>
                           </Link>
-                          <Link to="/EditMypageStartup">
+                          <Link to="/EditMypage">
                             <li style={{ borderTop: "1px solid #0000004a" }}>
                               회원정보 수정
                             </li>

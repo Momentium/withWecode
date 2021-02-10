@@ -18,7 +18,7 @@ const DemodayList = () => {
       };
     }
     axios
-      .get(`${process.env.REACT_APP_URL}/projects/published`, {
+      .get(`http://10.0.1.29:3000/projects/published`, {
         headers: config,
       })
       .then((res) => {

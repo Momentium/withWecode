@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import * as Mt from "api/methods";
 import styled, { css } from "styled-components";
 import EditInfo from "../../workstation/startup/applyPjt/EditInfo";
 
-const Modal = ({ handleModal }: any) => {
+const UploadModal = ({ handleFileUploadModal }: any) => {
   const noScroll = () => {
     window.scrollTo(0, 0);
   };
@@ -16,13 +15,11 @@ const Modal = ({ handleModal }: any) => {
   }, []);
   return (
     <ModalContainer>
-      <ModalCont>
-        <EditInfo handleModal={handleModal} />
-      </ModalCont>
+      <ModalCont></ModalCont>
     </ModalContainer>
   );
 };
-export default Modal;
+export default UploadModal;
 
 const ModalContainer = styled.div`
   position: fixed;

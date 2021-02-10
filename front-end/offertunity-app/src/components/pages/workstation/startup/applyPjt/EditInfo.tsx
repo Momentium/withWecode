@@ -7,58 +7,57 @@ import BasicBtn from "components/common/button/BasicBtn";
 import InputBox from "../../common/InputBox";
 import SelectBtn from "../../common/SelectBtn";
 
-const EditInfo = () => {
+const EditInfo = ({ handleModal }: any) => {
   const _token = Mt.getUserInfo().token;
   const sessionSave = JSON.parse(String(sessionStorage.getItem("sessionSave")));
   const _history = useHistory();
   const _nullTxt = "정보를 입력해 주세요.";
   const [data, setData] = useState<any>(sessionSave);
   useEffect(() => {
-    sessionStorage.removeItem("sessionSave")
-  }, [])
+    sessionStorage.removeItem("sessionSave");
+  }, []);
 
   const changeVal = (e: any) => {
     const _target = e.currentTarget;
-    // console.log(_target);
     switch (_target.className.split(" ")[2]) {
       case "name":
-        setData({ ...data, ...{name:_target.value}});
+        setData({ ...data, ...{ name: _target.value } });
         break;
       case "rep":
-        setData({ ...data, ...{rep:_target.value}});
+        setData({ ...data, ...{ rep: _target.value } });
         break;
       case "contact":
-        setData({ ...data, ...{contact:_target.value}});
+        setData({ ...data, ...{ contact: _target.value } });
         break;
       case "address":
-        setData({ ...data, ...{address:_target.value}});
+        setData({ ...data, ...{ address: _target.value } });
         break;
       case "sector":
-        setData({ ...data, ...{sector:_target.textContent}});
+        setData({ ...data, ...{ sector: _target.textContent } });
         break;
       case "tech":
-        setData({ ...data, ...{technology:_target.textContent}});
+        setData({ ...data, ...{ technology: _target.textContent } });
         break;
       case "bizType":
-        setData({ ...data, ...{businessType:_target.textContent}});
+        setData({ ...data, ...{ businessType: _target.textContent } });
         break;
       case "bizLicense":
-        setData({ ...data, ...{businessLicenseNum:_target.value}});
+        setData({ ...data, ...{ businessLicenseNum: _target.value } });
         break;
       case "email":
-        setData({ ...data, ...{email:_target.value}});
+        setData({ ...data, ...{ email: _target.value } });
         break;
       case "memberCount":
-        setData({ ...data, ...{memberCount:Number(_target.value)}});
+        setData({ ...data, ...{ memberCount: Number(_target.value) } });
         break;
       case "homepage":
-        setData({ ...data, ...{homepage:_target.value}});
+        setData({ ...data, ...{ homepage: _target.value } });
         break;
       case "insta":
-        setData({ ...data, ...{instagram:_target.value}});
+        setData({ ...data, ...{ instagram: _target.value } });
         break;
       case "facebook":
-        setData({ ...data, ...{facebook:_target.value}});
+        setData({ ...data, ...{ facebook: _target.value } });
         break;
     }
   };
@@ -69,7 +68,7 @@ const EditInfo = () => {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       // props.setLogo(e.target.result);
-      setData({...data, ...{logoImg: e.target.result}})
+      setData({ ...data, ...{ logoImg: e.target.result } });
     };
     reader.readAsDataURL(_imgFile);
   };
@@ -77,31 +76,39 @@ const EditInfo = () => {
   const submit = () => {
     const _formData = new FormData();
     Object.keys(data).forEach((key) => {
-      console.log((data as any)[key])
-      if(key === "logoImg") {
-        _formData.append(key, Mt.dataURLtoFile((data as any)[key], `${data.name}_logo`));
-      }
-      else {
-        if((data as any)[key] === _nullTxt) {
+      console.log((data as any)[key]);
+      if (key === "logoImg") {
+        _formData.append(
+          key,
+          Mt.dataURLtoFile((data as any)[key], `${data.name}_logo`)
+        );
+      } else {
+        if ((data as any)[key] === _nullTxt) {
           _formData.append(key, "");
-        }
-        else {
+        } else {
           _formData.append(key, (data as any)[key]);
         }
       }
-    })
+    });
 
-    axios.post(`${process.env.REACT_APP_URL}/companies/project_info/startup/save`,
-    _formData,
-    {
-      headers: {
-        Authorization: `Basic ${_token}`
-      }
-    })
-    .then((res) => {
-      alert("저장 성공")
-      _history.replace('/workstation/myproject')
-    })
+    axios
+      .post(
+        `${process.env.REACT_APP_URL}/companies/project_info/startup/save`,
+        _formData,
+        {
+          headers: {
+            Authorization: `Basic ${_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        alert("저장 성공");
+        if (_history.location.pathname.includes("workstation")) {
+          _history.replace("/workstation/myproject");
+        } else {
+          return handleModal();
+        }
+      });
   };
 
   return (
@@ -110,7 +117,12 @@ const EditInfo = () => {
         <div className="img-wrap">
           <div>이미지를 등록해 주세요</div>
         </div>
-        <input id="logoUpload" type="file" style={{display: "none"}} onChange={uploadLogo}/>
+        <input
+          id="logoUpload"
+          type="file"
+          style={{ display: "none" }}
+          onChange={uploadLogo}
+        />
         <label htmlFor="logoUpload">
           <StBtn>로고 이미지 등록</StBtn>
         </label>
@@ -229,7 +241,11 @@ const EditInfo = () => {
                 height={48}
                 fSize={18}
                 cName={"bizLicense"}
-                value={data.businessLicenseNum !== _nullTxt ? data.businessLicenseNum : ""}
+                value={
+                  data.businessLicenseNum !== _nullTxt
+                    ? data.businessLicenseNum
+                    : ""
+                }
                 placeholder={_nullTxt}
                 changeVal={changeVal}
               />
@@ -326,7 +342,12 @@ const EditInfo = () => {
             fSize={18}
             fWeight={"bold"}
             txt={"취소하기"}
-            click={() => {_history.replace('/workstation/myproject')}}
+            click={() => {
+              if (handleModal) {
+                return handleModal();
+              }
+              _history.replace("/workstation/myproject");
+            }}
           />
         </div>
       </StFormCont>
