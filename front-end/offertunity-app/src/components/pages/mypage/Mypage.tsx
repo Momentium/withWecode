@@ -4,8 +4,8 @@ import axios from "axios";
 import styled from "styled-components";
 import Profile from "./components/Profile";
 import WorkStation from "./components/WorkStation";
-import Box from "./components/Box";
-import Level from "./components/Level";
+// import Box from "./components/Box";
+// import Level from "./components/Level";
 import Card from "./components/Card";
 import * as Mt from "api/methods";
 
