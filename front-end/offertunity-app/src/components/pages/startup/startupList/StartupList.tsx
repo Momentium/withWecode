@@ -4,6 +4,7 @@ import Startup from "./Startup";
 import PaginationCmp from "../../../common/pagination/PaginationCmp";
 import axios from "axios";
 import styled from "styled-components";
+import * as Mt from "api/methods";
 
 const StartupList = () => {
   const [startupList, setStartupList] = useState<any[]>([]);
@@ -11,11 +12,23 @@ const StartupList = () => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 16;
 
+  const _token = Mt.getUserInfo().token;
+
   useEffect(() => {
     const LIMIT = 16;
+    let config = {};
+    if (_token) {
+      config = {
+        Accept: "application/json",
+        Authorization: `${_token}`,
+      };
+    }
     axios
       .get(
-        `${process.env.REACT_APP_URL}/companies/list/startup?offset=${page}&limit=${LIMIT}`
+        `${process.env.REACT_APP_URL}/companies/list/startup?offset=${page}&limit=${LIMIT}`,
+        {
+          headers: config,
+        }
       )
       .then((res) => {
         setStartupList(res.data.companies);
@@ -23,11 +36,9 @@ const StartupList = () => {
   }, [page]);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_URL}/companies/list/startup`)
-      .then((res) => {
-        setTotalLength(res.data.num);
-      });
+    axios.get(`http://10.0.1.44:3000/companies/list/startup`).then((res) => {
+      setTotalLength(res.data.num);
+    });
   }, []);
 
   const handleClickPage = (event: any, value: any) => {
@@ -42,7 +53,7 @@ const StartupList = () => {
 
   return (
     <StartupCompanyList>
-      <TwStartup />
+      <TwStartup token={_token} />
       <Banner style={bannerImg} />
       <Startup data={startupList} itemsPerPage={itemsPerPage} page={page} />
       <PaginationCmp

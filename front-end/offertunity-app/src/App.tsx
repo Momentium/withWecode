@@ -25,6 +25,7 @@ import WSPage from "./components/pages/workstation/WSPage";
 import DemodayPage from "./components/pages/demoday/DemodayPage";
 import ProjectContent from "./components/pages/project/detail/ProjectContent";
 import ProjectRequestList from "./components/pages/project/detail/ProjectRequestList";
+import ApplyDetail from "./components/pages/project/detail/ApplyDetail";
 
 const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const [headMargin, setHeadMargin] = useState<number | undefined>(0);
@@ -39,17 +40,21 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
   return (
     <ThemeProvider theme={{ ...theme, ...location }}>
       {/* Header 들어갈 자리 */}
-      <Header ref={headerRef} />
+      {!location.pathname.includes("project/apply") && (
+        <Header ref={headerRef} />
+      )}
       <StAppCont className="app" headMargin={headMargin}>
         {!location.pathname.includes("auth") &&
           !location.pathname.includes("detail") &&
           !location.pathname.includes("workstation") &&
           !location.pathname.includes("workstation") &&
-          !location.pathname.includes("Mypage") && <Banner />}
+          !location.pathname.includes("Mypage") &&
+          !location.pathname.includes("project/apply") && <Banner />}
 
         {/* Route 들어갈 자리 */}
         <Route exact path="/" component={Main} />
         <Switch>
+          <Route path="/project/apply/:id" component={ApplyDetail} />
           <Route path="/project/detail/list" component={ProjectRequestList} />
           <Route path="/project/detail/:id" component={ProjectDetailPage} />
           <Route path="/project" component={ProjectPage} />
@@ -73,8 +78,9 @@ const App: React.FC<RouteComponentProps<any>> = ({ location }) => {
       {/* Footer 들어갈 자리 */}
       {!location.pathname.includes("auth") && (
         <>
-          {!location.pathname.includes("workstation") && <Newsletter />}
-          <Footer />
+          {!location.pathname.includes("workstation") &&
+            !location.pathname.includes("project/apply") && <Newsletter />}
+          {!location.pathname.includes("project/apply") && <Footer />}
         </>
       )}
     </ThemeProvider>

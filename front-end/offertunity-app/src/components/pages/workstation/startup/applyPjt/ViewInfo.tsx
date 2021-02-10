@@ -4,7 +4,7 @@ import axios from "axios";
 import * as Mt from "api/methods";
 import styled, { css } from "styled-components";
 
-const ViewPjt:React.FC<any> = ({ match }) => {
+const ViewPjt: React.FC<any> = ({ match, handleModal }) => {
   const _params = match.params.tab;
   const _token = Mt.getUserInfo().token;
   const _nullTxt = "정보를 입력해 주세요.";
@@ -54,14 +54,23 @@ const ViewPjt:React.FC<any> = ({ match }) => {
 
   const sessionSave = () => {
     const _data = {
-      logoImg, name, rep,
-      contact, address, sector,
-      technology, businessType, businessLicenseNum,
-      email, memberCount, homepage,
-      instagram, facebook
-    }
-    sessionStorage.setItem("sessionSave", JSON.stringify(_data))
-  }
+      logoImg,
+      name,
+      rep,
+      contact,
+      address,
+      sector,
+      technology,
+      businessType,
+      businessLicenseNum,
+      email,
+      memberCount,
+      homepage,
+      instagram,
+      facebook,
+    };
+    sessionStorage.setItem("sessionSave", JSON.stringify(_data));
+  };
 
   return (
     <StCont>
@@ -69,16 +78,13 @@ const ViewPjt:React.FC<any> = ({ match }) => {
         <div className="img-wrap">
           <div>이미지를 등록해 주세요</div>
         </div>
-        {
-          _params === 'myproject' ?
+        {_params === "myproject" ? (
           <Link to={`/workstation/myproject/editInfo`} onClick={sessionSave}>
             <StBtn>제출 정보 편집</StBtn>
           </Link>
-          :
-          <Link to={`/workstation/myproject/editInfo`} onClick={sessionSave}>
-            <StBtn>기본 정보 편집</StBtn>
-          </Link>
-        }
+        ) : (
+          <StBtn onClick={handleModal}>기본 정보 편집</StBtn>
+        )}
       </StLogoCont>
 
       <StTableCont>
@@ -135,7 +141,9 @@ const ViewPjt:React.FC<any> = ({ match }) => {
 
             <StTableWrap>
               <div className="label">사업자 등록 번호</div>
-              <div className={businessLicenseNum === _nullTxt ? "null" : "element"}>
+              <div
+                className={businessLicenseNum === _nullTxt ? "null" : "element"}
+              >
                 {businessLicenseNum}
               </div>
             </StTableWrap>

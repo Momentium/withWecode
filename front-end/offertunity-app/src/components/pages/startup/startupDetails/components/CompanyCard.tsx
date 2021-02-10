@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../../../../common/detail/card/Card";
 
-const CompanyCard = ({ data, type, isLogin }: any) => {
+const CompanyCard = ({ data, type, isLogin, token }: any) => {
   const detailInfo = [
     {
       title: "대표자명",
@@ -27,7 +27,13 @@ const CompanyCard = ({ data, type, isLogin }: any) => {
   ];
 
   return (
-    <Card data={data} detailInfo={detailInfo} type={type} isLogin={isLogin} />
+    <Card
+      data={data}
+      detailInfo={detailInfo}
+      type={type}
+      isLogin={isLogin}
+      token={token}
+    />
   );
 };
 

@@ -10,12 +10,6 @@ const PartnerModal = ({ goToMypage, title, onClick }: any) => {
   const [btnDisabled, setBtnDisabled] = useState<Boolean>(false);
   const [selectData, setSelectData] = useState<object>();
 
-  // useEffect(() => {
-  //   if (!checkPhoneNumber || !sessionStorage.getItem("token")) {
-  //     setCurrentModal(2);
-  //   }
-  // }, []);
-
   const handleChange = (btnDisabled: Boolean) => {
     setBtnDisabled(btnDisabled);
   };
