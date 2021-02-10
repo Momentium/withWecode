@@ -143,7 +143,7 @@ const getOneProject = errorWrapper(async (req, res) => {
 
     let hasApplied;
     const userInfofromToken = req.foundUser ? req.foundUser : undefined;
-    if (userInfofromToken) {
+    if (userInfofromToken && userInfofromToken.company_id) {
       const isStartup = userInfofromToken.type_id === 1;
       const findApplied = isStartup
         ? await ApplyService.findMyApplication({
@@ -151,7 +151,6 @@ const getOneProject = errorWrapper(async (req, res) => {
             project_id: Number(projectId),
           })
         : false;
-      console.log(findApplied);
       hasApplied = findApplied ? true : false;
     } else {
       hasApplied = false;
@@ -161,7 +160,6 @@ const getOneProject = errorWrapper(async (req, res) => {
     if (userInfofromToken) {
       const isStartup = userInfofromToken.type_id === 1;
       const findLiked = isStartup? await LikeService.findIsLiked("project_likes",userInfofromToken.user_id, projectId ):false;
-      console.log(findLiked)
       hasLiked = findLiked? true : false;
     }else{
       hasLiked = false
@@ -234,7 +232,6 @@ const tempSaveProjectInfo = errorWrapper(async (req, res, next) => {
 
   await ProjectService.resetChoices({ projectDetail });
   const required_documents = requestedFields.required_documents? requestedFields.required_documents: null;
-  console.log(required_documents)
   if (required_documents) {
     for (len = 0; len < required_documents.length; len++) {
       let requiredDocId = await CompanyService.getRelatedInfoId("document_types", required_documents[len]);

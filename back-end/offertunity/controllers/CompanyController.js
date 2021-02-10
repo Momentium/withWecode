@@ -665,7 +665,7 @@ const saveStartupSubmitInfo = errorWrapper(async (req, res) => {
       req.foundUser.id,
       company_fields
     );
-    await CompanyService.createStartup(companyInfo.id, startup_fields);
+    await CompanyService.createCompanyDetail(companyInfo.id, 'startups', startup_fields);
   } else {
     const companyInfo = await CompanyService.updateCompany(
       req.foundUser.company_id,
@@ -1266,78 +1266,6 @@ const startupIRCount = errorWrapper(async (req, res) => {
   });
 });
 
-const uploadStartupDoc = errorWrapper(async (req, res) => {
-  const companyId = req.foundUser.company_id;
-  const { docType } = req.body;
-  const docTypeId = await CompanyService.getRelatedInfoId("document_types", docType)
-  if (!req.file) errorGenerator({ statusCode: 400, message: "No upload Data" });
-  const docURL = req.file.location;
-  const type = req.file.mimetype.split('/');
-  const fileType = type[type.length-1];
-  const name = req.file.originalname.split('.')
-  const docName = name.slice(0, name.length-1).join('.');
-
-  const addInfo = await CompanyService.registerDoc({
-    companyId,
-    docTypeId,
-    docURL,
-    docName,
-    fileType
-  });
-  res.status(201).json({
-    message: "information successfully added",
-    addInfo,
-  });
-});
-
-const downloadStartupDoc = errorWrapper(async (req, res) => {
-  const { companyId, docTypeId } = req.params;
-  const fileKey = req.query["fileKey"];
-  const fileStream = s3.getObject(options).createReadStream();
-  fileStream.pipe(res);
-
-  res.download(file);
-});
-
-const readStartupDoc = errorWrapper(async (req, res) => {
-  const { docTypeId } = req.params;
-  const companyId = req.foundUser.company_id;
-
-  const readStartupDoc = await CompanyService.readByDocType({
-    companyId,
-    docTypeId,
-  });
-
-  documents = []
-  for (let len=0; len<readStartupDoc.length; len++) {
-    documents.push({});
-    documents[len].name = readStartupDoc[len].name;
-    documents[len].fileType = readStartupDoc[len].file_type.toUpperCase();
-    documents[len].updateDate = readStartupDoc[len].updated_at;
-    // 미리보기 & 다운로드 구현 
-    documents[len].download = readStartupDoc[len].doc_url
-    documents[len].preview = readStartupDoc[len].doc_url
-
-  }
-
-  res.status(200).json({
-    message: "documents successfully read",
-    documents
-  });
-});
-
-const deleteStartupDoc = errorWrapper(async (req, res) => {
-  const { docURL } = req.body;
-  const { companyId, docTypeId } = req.params;
-  const deleteStartupDoc = await CompanyService.deleteSDoc({
-    companyId,
-    docTypeId,
-    docURL,
-  });
-  res.status(204).json({
-    message: "document successfully deleted",
-  });
-});
 
 module.exports = {
   getStartupInfo,
@@ -1362,10 +1290,6 @@ module.exports = {
   deleteMember,
   deleteImage,
   deleteNews,
-  
-  startupIRCount,
-  uploadStartupDoc,
-  downloadStartupDoc,
-  readStartupDoc,
-  deleteStartupDoc,
+
+  startupIRCount
 };

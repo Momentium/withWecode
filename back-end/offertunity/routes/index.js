@@ -10,6 +10,7 @@ const AuthRouter = require("./AuthRouter");
 const UserRouter = require("./UserRouter");
 const LikeRouter = require('./LikeRouter')
 const ApplyRouter = require("./ApplyRouter")
+const DocRouter = require("./DocRouter")
 
 router.use('/users', UserRouter)
 router.use("/projects", ProjectRouter);
@@ -18,5 +19,7 @@ router.use("/companies", CompanyRouter);
 router.use("/auths", AuthRouter);
 router.use('/likes', LikeRouter);
 router.use("/applies", ApplyRouter);
+router.use("/doc", DocRouter);
+
 
 module.exports = router;

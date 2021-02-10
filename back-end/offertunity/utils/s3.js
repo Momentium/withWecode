@@ -12,7 +12,7 @@ const { AWS_config_region, AWS_IDENTITYPOOLID } = process.env
 const bucket = 'offertunity'
 
 multer({
-    limits: { fieldSize: 25 * 1024 * 1024 }
+    limits: { fieldSize: 2000 * 1024 * 1024 }
 })
 
 
@@ -42,6 +42,9 @@ const upload = multer({
                 let extension = path.extname(file.originalname)
                 cb(null, 'companyDoc/' + Date.now().toString() + extension)
             } else if (file.mimetype === 'application/msword' || file.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document " || file.mimetype === "application/vnd.hancom.hwp") {
+                let extension = path.extname(file.originalname)
+                cb(null, 'companyDoc/' + Date.now().toString() + extension)
+            } else if (file.mimetype === 'application/zip' || file.mimetype === 'application/octet-stream' || file.mimetype === 'application/x-zip-compressed' || file.mimetype === 'multipart/x-zip') {
                 let extension = path.extname(file.originalname)
                 cb(null, 'companyDoc/' + Date.now().toString() + extension)
             } else {

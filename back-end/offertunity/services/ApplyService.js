@@ -55,17 +55,31 @@ const findOneApplication = async (field) => {
     include: {
       companies: {
         include: {
-          startups: true
+          startups: true,
+        }
+      },
+      applicant_documents: {
+        include: {
+          company_documents: true
         }
       }
-    },
+    }
   });
   console.log(application)
   return application
 };
 
 const findMyApplication = async (where) => {
-  return prisma.applicants.findFirst({ where });
+  return prisma.applicants.findFirst({ 
+    where,
+    include: {
+      applicant_documents: {
+        include: {
+          company_documents: true
+        }
+      }
+    }
+  });
 };
 
 const findDocuments = async (query, companyId) => {
@@ -78,50 +92,13 @@ const findDocuments = async (query, companyId) => {
   })
 }
 
-const createApplication = async (data, files) => {
-  const { businessPlan, businessLicense, repID, IRdocuments, etc } = files
+const createApplication = (data, files) => {
+  return prisma.applicants.create({ data });
+};
 
-  // application 생성
-  const application = await prisma.applicants.create({ data });
-
-  // 파일 처리
-  const requiredDoc = findRequiredDoc(application.project_id)
-  const incomeDoc = Object.keys(files)
-
-  for (let len=0; len < incomeDoc; len++) {
-    switch (incomeDoc[len]) {
-      case 'businessPlan' :
-        if (requiredDoc.includes(await CompanyService.readRelatedInfoId('document_types', '사업계획서'))) {
-          
-        }
-      case 'businessLicense' :
-        if (requiredDoc.includes(await CompanyService.readRelatedInfoId('document_types', '사업자등록 사본'))) {
-
-        }
-      case 'businessLicense' :
-        if (requiredDoc.includes(await CompanyService.readRelatedInfoId('document_types', '대표자 주민등록증 (운전면허증)'))) {
-            
-        }  
-    }
-  }
-
-  // applicant_document 생성
-  if (incomeDoc) {
-    for (let len=0; len < incomeDoc.length; len++) {
-      const companyDocument = await prisma.company_documents.findFirst({
-        where: id = Number(incomeDoc[len])
-      })
-        if (!(companyDocument.company_id === userInfo.company_id)) errorGenerator({ statusCode: 400, message: "This Document is not Belonged to This Company" });
-        if (companyDocument === []) errorGenerator({ statusCode: 400, message: "Undefined Document Id" });
-        await prisma.applicant_documents.create({
-          data: {
-            applicants: { connect: { id: application.id } },
-            company_documents: { connect: { id: companyDocument.id } },
-          },
-        });
-      }
-    }
-  };
+const createApplicationDocument = (data, files) => {
+  return prisma.applicant_documents.create({ data });
+};
 
 const updateApplication = (data, applicationId) => {
   return prisma.applicants.update({
@@ -146,5 +123,6 @@ module.exports = {
   createApplication,
   updateApplication,
   deleteApplication,
-  findDocuments
+  findDocuments,
+  createApplicationDocument
 };
