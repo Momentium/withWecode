@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import * as Mt from "api/methods";
 
 const ModalChangePw = () => {
   const [Modal, setModal] = useState(true);
@@ -8,36 +10,78 @@ const ModalChangePw = () => {
     newPassword: "",
     chkPassword: "",
   });
-  const { newPassword, chkPassword } = inputs;
+  const { password, newPassword, chkPassword } = inputs;
+  const _token = Mt.getUserInfo().token;
+  const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 
   const handlePassword = (event: any) => {
     event.preventDefault();
-    setInputs({
-      ...inputs,
-      password: event.target.value,
-    });
+    const { value } = event.target;
+    if (korean.test(value)) {
+      alert("영문 대소문자,숫자,특수문자 만 입력 가능합니다");
+      event.target.value = null;
+    } else {
+      setInputs({
+        ...inputs,
+        password: value,
+      });
+    }
   };
 
   const handleNewPassword = (event: any) => {
     event.preventDefault();
-    setInputs({
-      ...inputs,
-      newPassword: event.target.value,
-    });
+    const { value } = event.target;
+    if (korean.test(value)) {
+      alert("영문 대소문자,숫자,특수문자 만 입력 가능합니다");
+      event.target.value = null;
+    } else {
+      setInputs({
+        ...inputs,
+        newPassword: value,
+      });
+    }
   };
 
   const handleChkPassword = (event: any) => {
     event.preventDefault();
-    setInputs({
-      ...inputs,
-      chkPassword: event.target.value,
-    });
+    const { value } = event.target;
+    if (korean.test(value)) {
+      alert("영문 대소문자,숫자,특수문자 만 입력 가능합니다");
+      event.target.value = null;
+    } else {
+      setInputs({
+        ...inputs,
+        chkPassword: value,
+      });
+    }
+  };
+
+  const chagePw = () => {
+    regPassword && samePassword && setModal(false);
+
+    axios({
+      method: "post",
+      url: "http://10.0.1.29:3000/users/resetpassword",
+      headers: {
+        authorization: _token,
+      },
+      data: {
+        password: password,
+        newpassword: newPassword,
+      },
+    })
+      .then((res) => {
+        alert("비밀번호가 변경되었습니다");
+      })
+      .catch((err) => {
+        alert("비밀번호 재설정에 실패하였습니다");
+      });
   };
 
   const reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$+ %^&*-]).{8,}$/;
   const regPassword = reg.test(newPassword);
   const samePassword = newPassword === chkPassword;
-
+  console.log(password, newPassword, chkPassword);
   return (
     <ModalWrap style={{ display: Modal ? "inline-block" : "none" }}>
       <Box>
@@ -79,9 +123,7 @@ const ModalChangePw = () => {
           style={{
             background: regPassword && samePassword ? "#1a2536" : "#ccc",
           }}
-          onClick={() => {
-            regPassword && samePassword && setModal(false);
-          }}
+          onClick={chagePw}
         >
           확인
         </Button>

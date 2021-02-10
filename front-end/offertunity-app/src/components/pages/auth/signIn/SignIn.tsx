@@ -29,14 +29,14 @@ const SignIn: React.FC = () => {
     }
   }, []);
 
-  // const enterSignIn = (window: any) => {
-  //   const keyCode = window.this.event.keyCode;
+  const enterSignIn = (window: any) => {
+    const keyCode = window.this.event.keyCode;
 
-  //   if (keyCode == 13) {
-  //     signIn();
-  //   }
-  //   console.log(keyCode);
-  // };
+    if (keyCode == 13) {
+      signIn();
+    }
+    console.log(keyCode);
+  };
 
   const signIn = () => {
     const { email, password } = inputs;
@@ -54,7 +54,7 @@ const SignIn: React.FC = () => {
           name: _resData.name,
           type_id: _resData.type_id,
         };
-        // sessionStorage.setItem("token", response.data.token);
+
         sessionStorage.setItem("userInfo", JSON.stringify(_resData));
         if (saveId) {
           localStorage.setItem("userId", email);
@@ -132,7 +132,9 @@ const SignIn: React.FC = () => {
               <button>아이디 / 비밀번호 찾기</button>
             </Link>
           </FindAccount>
-          <BtnEmail onClick={signIn}>로그인</BtnEmail>
+          <BtnEmail onClick={signIn} onKeyPress={enterSignIn}>
+            로그인
+          </BtnEmail>
           <Or />
           <BtnGoogle onClick={handleGOOGLE}>Google 계정 로그인</BtnGoogle>
           <Icon>
