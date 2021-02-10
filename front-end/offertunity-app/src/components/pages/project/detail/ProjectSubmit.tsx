@@ -5,6 +5,7 @@ import TitleWithMsg from "./TitleWithMsg";
 import ViewInfo from "../../workstation/startup/applyPjt/ViewInfo";
 import Modal from "./Modal";
 import UploadModal from "./UploadModal";
+import BasicBtn from "components/common/button/BasicBtn";
 import axios from "axios";
 
 const ProjectSubmit: React.FC<any> = ({
@@ -87,6 +88,10 @@ const ProjectSubmit: React.FC<any> = ({
           setBizModel(_target.value.substring(0, 1000));
         break;
     }
+  };
+
+  const moveToBeforePage = () => {
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -188,7 +193,15 @@ const ProjectSubmit: React.FC<any> = ({
         </PjSubmitDocu>
         <ButtonCont>
           {btn}
-          <PrevBtn>취소</PrevBtn>
+          <BasicBtn
+            width="300"
+            height="56"
+            backColor="white"
+            fSize="18px"
+            fWeight="bold"
+            txt="취소하기"
+            click={moveToBeforePage}
+          />
         </ButtonCont>
       </ProjectSubmitCont>
       {modal && <Modal handleModal={handleModal} />}
@@ -279,6 +292,10 @@ const ButtonCont = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 50px;
+
+  span {
+    margin-right: 20px;
+  }
 `;
 
 const PrevBtn = styled.button``;
