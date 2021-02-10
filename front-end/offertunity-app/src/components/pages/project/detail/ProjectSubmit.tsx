@@ -5,7 +5,6 @@ import TitleWithMsg from "./TitleWithMsg";
 import ViewInfo from "../../workstation/startup/applyPjt/ViewInfo";
 import Modal from "./Modal";
 import UploadModal from "./UploadModal";
-import BasicBtn from "components/common/button/BasicBtn";
 import axios from "axios";
 
 const ProjectSubmit: React.FC<any> = ({
@@ -19,34 +18,44 @@ const ProjectSubmit: React.FC<any> = ({
   data,
   token,
 }) => {
-  const uploadList = [
-    {
-      title: "사업계획서",
-      id: "plane",
-    },
-    {
-      title: "사업자등록 사본",
-      id: "bizLicense",
-    },
-    {
-      title: "대표자 주민등록증 (운전면허증)",
-      id: "idCard",
-    },
-    {
-      title: "자격 보유 현황 (지적재산권 포함)",
-      id: "license",
-    },
-  ];
+  // const uploadList = [
+  //   {
+  //     title: "사업계획서",
+  //     id: "plane",
+  //   },
+  //   {
+  //     title: "사업자등록 사본",
+  //     id: "bizLicense",
+  //   },
+  //   {
+  //     title: "대표자 주민등록증 (운전면허증)",
+  //     id: "idCard",
+  //   },
+  //   {
+  //     title: "자격 보유 현황 (지적재산권 포함)",
+  //     id: "license",
+  //   },
+  // ];
   const [modal, setModal] = useState<boolean>(false);
+  const [curModal, setCurModal] = useState<string>("");
+  const [curDoc, setCurDoc] = useState<string>("");
   const [uploadModal, setUploadModal] = useState<boolean>(false);
 
-  const handleModal = () => {
+  const handleModal = (_mode: string) => {
+    switch (_mode) {
+      case "editInfo":
+        setCurModal("editInfo");
+        break;
+      case "checkDoc":
+        setCurModal("checkDoc");
+        break;
+    }
     setModal(!modal);
   };
 
-  const handleFileUploadModal = () => {
-    setUploadModal(!uploadModal);
-  };
+  // const handleFileUploadModal = () => {
+  //   setUploadModal(!uploadModal);
+  // };
 
   const [applyResult, setApplyResult] = useState({
     is_applied: false,
@@ -56,12 +65,14 @@ const ProjectSubmit: React.FC<any> = ({
   });
   useEffect(() => {
     axios
+      // .get(`http://10.0.1.29:3000/applies/${data.id}`, {
       .get(`${process.env.REACT_APP_URL}/applies/${data.id}`, {
         headers: {
           Authorization: `${token}`,
         },
       })
-      .then((res) =>
+      .then((res) => {
+        // console.log(res.data.data)
         setApplyResult({
           ...applyResult,
           ...{
@@ -70,8 +81,8 @@ const ProjectSubmit: React.FC<any> = ({
             businessBrief: res.data.data.businessBrief,
             businessModel: res.data.data.businessModel,
           },
-        })
-      );
+        });
+      });
   }, []);
 
   const changeVal = (e: any) => {
@@ -90,13 +101,9 @@ const ProjectSubmit: React.FC<any> = ({
     }
   };
 
-  const moveToBeforePage = () => {
-    window.location.reload();
-  };
-
-  useEffect(() => {
-    console.log(applyResult);
-  }, [applyResult]);
+  // useEffect(() => {
+  //   console.log(applyResult);
+  // }, [applyResult]);
 
   return (
     <>
@@ -165,49 +172,55 @@ const ProjectSubmit: React.FC<any> = ({
           )}
         </PjBizModel>
         <PjSubmitDocu>
-          <TitleWithMsg
-            title={"제출 서류"}
-            msg={"제출 서류는 우측의 등록하기 버튼을 이용해주세요."}
-          />
-          <form onSubmit={handleUploadFile}>
-            {uploadList.map((item, idx) => {
-              return (
-                <FileUplaodCont key={idx}>
-                  <FileUplaodBox>
-                    <span title="sub_title">{item.title}</span>
-                    {selectFile && (
-                      <span title="selected_title">{selectFile}</span>
-                    )}
-                    <FileBox
-                      className={`inputFile ${item}`}
-                      onClick={handleFileUploadModal}
-                    >
-                      등록
-                    </FileBox>
-                  </FileUplaodBox>
-                  {/* {fileVisible && <SelectFile />} */}
-                </FileUplaodCont>
-              );
-            })}
-          </form>
+          {data.required_documents.length !== 0 && (
+            <>
+              <TitleWithMsg
+                title={"제출 서류"}
+                msg={"제출 서류는 우측의 등록하기 버튼을 이용해주세요."}
+              />
+              <form onSubmit={handleUploadFile}>
+                {data.required_documents.map((item: string, idx: number) => {
+                  return (
+                    <FileUplaodCont key={idx}>
+                      <FileUplaodBox>
+                        <span title="sub_title">{item}</span>
+                        {selectFile && (
+                          <span title="selected_title">{selectFile}</span>
+                        )}
+                        <FileBox
+                          className={`inputFile ${item}`}
+                          onClick={() => {
+                            setCurDoc(item);
+                            handleModal("checkDoc");
+                          }}
+                        >
+                          <span>+등록</span>
+                        </FileBox>
+                      </FileUplaodBox>
+                      {/* {fileVisible && <SelectFile />} */}
+                    </FileUplaodCont>
+                  );
+                })}
+              </form>
+            </>
+          )}
         </PjSubmitDocu>
         <ButtonCont>
           {btn}
-          <BasicBtn
-            width="300"
-            height="56"
-            backColor="white"
-            fSize="18px"
-            fWeight="bold"
-            txt="취소하기"
-            click={moveToBeforePage}
-          />
+          <PrevBtn>취소</PrevBtn>
         </ButtonCont>
       </ProjectSubmitCont>
-      {modal && <Modal handleModal={handleModal} />}
-      {uploadModal && (
-        <UploadModal handleFileUploadModal={handleFileUploadModal} />
+
+      {modal && curModal === "editInfo" && (
+        <Modal mode={curModal} handleModal={handleModal} />
       )}
+      {modal && curModal === "checkDoc" && (
+        <Modal mode={curModal} data={curDoc} handleModal={handleModal} />
+      )}
+
+      {/* {uploadModal && (
+        <UploadModal handleFileUploadModal={handleFileUploadModal} />
+      )} */}
     </>
   );
 };
@@ -251,22 +264,22 @@ const FileUplaodBox = styled.div`
   align-items: center;
   width: 100%;
   span {
-    font-size: 1.313rem;
+    font-size: 1.1rem;
     font-weight: bold;
   }
 `;
 
 const FileBox = styled.div`
-  display: inline-block;
-  width: 2.438rem;
-  height: 1.563rem;
+  width: 80px;
+  height: 40px;
   border-radius: 1.5rem;
-  padding-top: 6px;
-  text-align: center;
-  font-size: 0.8em;
+  font-size: 15px;
   font-weight: 700;
-  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #c3bdf4;
+  color: white;
   cursor: pointer;
 `;
 
@@ -292,10 +305,6 @@ const ButtonCont = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 50px;
-
-  span {
-    margin-right: 20px;
-  }
 `;
 
 const PrevBtn = styled.button``;
