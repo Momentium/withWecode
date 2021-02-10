@@ -39,7 +39,7 @@ const EditProfileImg: React.FC<Props> = ({ data }) => {
     setRemoveImg(true);
     axios({
       method: "delete",
-      url: "http://10.0.1.29:3000/users/mypage/profilepic",
+      url: `${process.env.REACT_APP_URL}/mypage/profilepic`,
       headers: {
         // "Content-Type": "multipart/form-data",
         authorization: _token,

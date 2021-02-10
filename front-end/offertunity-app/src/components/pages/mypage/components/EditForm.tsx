@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ModalChangePw from "./ModalChangePw";
 import * as Mt from "api/methods";
-import { dataURLtoFile } from "api/methods";
 
 type Props = {
   data: any;
@@ -30,7 +29,7 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
 
     axios({
       method: "post",
-      url: "http://10.0.1.29:3000/users/mypage",
+      url: `${process.env.REACT_APP_URL}/users/mypage`,
       headers: {
         "Content-Type": "multipart/form-data",
         authorization: _token,
@@ -58,6 +57,10 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
     });
   };
 
+  const openModal = () => {
+    setModal(!Modal);
+  };
+
   // const validatePhoneNumber = () => {
   //   const regPhone = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
   //   if (!regPhone.test(phoneNumber)) {
@@ -81,13 +84,7 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
       </ID>
       <Pw>
         <Title>비밀번호</Title>
-        <button
-          onClick={() => {
-            setModal(!Modal);
-          }}
-        >
-          비밀번호 변경
-        </button>
+        <button onClick={openModal}>비밀번호 변경</button>
       </Pw>
       <Name>
         <Title>이름</Title>
@@ -119,6 +116,7 @@ const EditForm: React.FC<Props> = ({ data, profileSrc }) => {
           <CancleBtn>취소</CancleBtn>
         </Link>
       </BtnWrap>
+
       {Modal && <ModalChangePw />}
     </Wrap>
   );
