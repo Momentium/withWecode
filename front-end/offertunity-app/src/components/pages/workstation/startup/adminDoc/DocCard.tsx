@@ -1,35 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import * as Mt from 'api/methods';
 import styled from "styled-components";
 import { Close } from "@material-ui/icons";
 
-const DocCard: React.FC<any> = ({ data, deleteFile, selectable }) => {
-
-  const viewFile = () => {
-
-  }
+const DocCard: React.FC<any> = ({ data, deleteFile }) => {
+  const viewFile = () => {};
   const downloadFile = () => {
-    window.open(data.download, '_blank');
-  }
+    window.open(data.download, "_blank");
+  };
 
   return (
     <div className="card-wrap">
       <StCont className="data-cont">
-        <div className="close-btn" onClick={() => { deleteFile(data.id) }}><Close/></div>
+        <div
+          className="close-btn"
+          onClick={() => {
+            deleteFile(data.id);
+          }}
+        >
+          <Close />
+        </div>
         {data.name}
         <div className="btn-cont">
-          {
-            selectable ? 
-            <>
-              <StBtn onClick={() => {}}>선택하기</StBtn>
-            </>
-            :
-            <>
-              {/* <StBtn onClick={viewFile}>미리보기</StBtn> */}
-              <StBtn onClick={downloadFile}>다운로드</StBtn>
-            </>
-          }
+          {/* <StBtn onClick={viewFile}>미리보기</StBtn> */}
+          <StBtn onClick={downloadFile}>다운로드</StBtn>
         </div>
       </StCont>
     </div>
@@ -49,7 +41,8 @@ const StCont = styled.div`
   color: black;
   background-color: white;
 
-  &, * {
+  &,
+  * {
     transition: all 0.1s linear;
   }
 
@@ -57,7 +50,7 @@ const StCont = styled.div`
     position: absolute;
     top: 8px;
     right: 8px;
-    
+
     color: white;
   }
 
@@ -68,8 +61,6 @@ const StCont = styled.div`
 
     height: 0px;
     overflow: hidden;
-
-    /* transition: all 0.1s linear; */
   }
 
   :hover {
@@ -87,13 +78,13 @@ const StBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   width: 77px;
   height: 32px;
 
   font-size: 13px;
 
-  border: 1px solid #C2BDF0;
+  border: 1px solid #c2bdf0;
   border-radius: 20px;
   background: white;
   color: #5541ed;

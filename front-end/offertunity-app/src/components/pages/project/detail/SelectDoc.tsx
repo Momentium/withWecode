@@ -1,33 +1,24 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { ArrowBackIos,  } from "@material-ui/icons";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
 import * as St from "styles/styledComp";
 import * as Mt from "api/methods";
-import DocCard from "./DocCard";
+import DocCard from './DocCard';
 
-const DocCardList: React.FC<any> = ({ mode, label }) => {
+const SelectDoc:React.FC<any> = ({ mode, label, checkedDoc, selectedIdx }) => {
   const _userInfo = Mt.getUserInfo();
   const SIZE_LIMIT = 209715200;
   const [fileList, setFileList] = useState<any[]>([]);
+  const [checkIdx, setCheckIdx] = useState<{}>({});
 
   useEffect(() => {
     getFiles();
   }, []);
 
-  const getFiles = () => {
-    axios
-      .get(`${process.env.REACT_APP_URL}/doc/list/type/${mode}`, {
-        headers: {
-          Authorization: `Basic ${_userInfo.token}`,
-        },
-      })
-      .then((res) => {
-        const _resData = res.data.documents;
-        console.log(_resData);
-        setFileList(_resData);
-      });
-  };
+  const handleCheck = (_idx:number) => {
+    setCheckIdx(_idx);
+    selectedIdx(fileList[_idx].name);
+  }
 
   const uploadFile = (e: any) => {
     e.preventDefault();
@@ -64,26 +55,23 @@ const DocCardList: React.FC<any> = ({ mode, label }) => {
     _reader.readAsDataURL(_file);
   };
 
-  const deleteFile = (_id: number) => {
-      if(window.confirm("정말로 삭제 하시겠습니까?")) {
-        axios.delete(`${process.env.REACT_APP_URL}/doc/${_id}`,
-        {
-          headers: {
-            Authorization: `Basic ${_userInfo.token}`
-          }
-        })
-        .then(() => {
-          getFiles();
-        })
-      }
-      else {
-        return;
-      }
+  const getFiles = () => {
+    axios
+      .get(`${process.env.REACT_APP_URL}/doc/list/type/${mode}`, {
+        headers: {
+          Authorization: `Basic ${_userInfo.token}`,
+        },
+      })
+      .then((res) => {
+        const _resData = res.data.documents;
+        console.log(_resData);
+        setFileList(_resData);
+      });
   };
 
   return (
     <>
-      <StTopCont>
+    <StTopCont>
         <St.SectionTitle>{label}</St.SectionTitle>
         <div className="btn-cont"></div>
       </StTopCont>
@@ -108,8 +96,8 @@ const DocCardList: React.FC<any> = ({ mode, label }) => {
         {fileList.map((el: any, idx: number) => {
           const _date = new Date(el.updateDate).toLocaleDateString("ko-KR");
           return (
-            <StCardWrap key={idx}>
-              <DocCard data={el} deleteFile={deleteFile}/>
+            <StCardWrap key={idx} isCheck={idx === checkIdx}>
+              <DocCard data={el} isCheck={idx === checkIdx} idx={idx} handleCheck={handleCheck}/>
               <StTable>
                 <tbody>
                   <tr>
@@ -134,8 +122,7 @@ const DocCardList: React.FC<any> = ({ mode, label }) => {
     </>
   );
 };
-
-export default DocCardList;
+export default SelectDoc;
 
 const StTopCont = styled.div`
   display: flex;
@@ -159,7 +146,7 @@ const StCardCont = styled.div`
   }
 `;
 
-const StCardWrap = styled.div`
+const StCardWrap = styled.div<any>`
   
   margin-right: 28px;
 
@@ -177,9 +164,16 @@ const StCardWrap = styled.div`
     justify-content: center;
     align-items: center;
 
+    transition: all 0.1s linear;
+
     width: 300px;
     height: 200px;
-    border: solid 1px #cdcdcd;
+    border: solid 1px ${
+      props => props.isCheck ?
+      '#5541ee'
+      :
+      '#cdcdcd'
+    };
     margin: 16px 0;
 
     .plus {
