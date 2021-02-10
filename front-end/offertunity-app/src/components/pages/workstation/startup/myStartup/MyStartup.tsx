@@ -20,7 +20,7 @@ interface BasicState {
 }
 
 const MyStartup = () => {
-  const _token = sessionStorage.getItem("token");
+  const _token = Mt.getUserInfo().token;
 
   const [thumbnail, setThumb] = useState<string>("");
   const [logoImg, setLogo] = useState<string>("");
@@ -46,7 +46,7 @@ const MyStartup = () => {
   });
 
   useEffect(() => {
-    const _token = sessionStorage.getItem("token");
+    console.log(_token)
     axios
       .get(`${process.env.REACT_APP_URL}/companies/info/startup`, {
         headers: {

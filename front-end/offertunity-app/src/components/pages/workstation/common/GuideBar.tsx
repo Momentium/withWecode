@@ -88,7 +88,7 @@ const StCont = styled.span`
     font-size: 18px;
     font-weight: bold;
     margin-right: 112px;
-    width: 160px;
+    min-width: 160px;
   }
 
   .g-msg {
