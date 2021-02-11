@@ -9,7 +9,7 @@ import ProjectContentCard from "./ProjectContentCard";
 import * as Mt from "api/methods";
 
 const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
-  const [like, setLike] = useState<boolean>(data.hasLiked);
+  const [like, setLike] = useState(data.hasLiked);
   const [currPage, setCurrPage] = useState("article");
   const [bizDescription, setBizDescription] = useState<string>("");
   const [bizModel, setBizModel] = useState<string>();
@@ -18,7 +18,6 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
     e.preventDefault();
     if (isLogin) {
       axios
-        // .get(`http://10.0.1.29:3000/likes/project/${data.id}`, {
         .get(`${process.env.REACT_APP_URL}/likes/project/${data.id}`, {
           headers: {
             Authorization: `${token}`,
@@ -31,8 +30,6 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
     }
   };
 
-  console.log(data);
-
   const handleStartupArticleBtn = () => {
     setCurrPage("submit");
   };
@@ -43,21 +40,27 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
   };
 
   const handleStartupSubmitBtn = () => {
-    axios
-      .post(`${process.env.REACT_APP_URL}/applies/${data.id}`, _data, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      })
-      .then((res) => console.log(res));
+    if (data.hasApplied) {
+      alert("이미 지원 완료가 되었습니다.");
+    } else {
+      axios
+        .post(`${process.env.REACT_APP_URL}/applies/${data.id}`, _data, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        })
+        .then((res) => console.log(res));
+
+      alert("지원이 완료되었습니다.");
+    }
   };
 
   const handlePartnerArticleBtn = () => {
-    setCurrPage("article");
+    setCurrPage("reqList");
   };
 
   const handlePartnerReqBtn = () => {
-    console.log("sdfsdf");
+    setCurrPage("article");
   };
 
   const ctrlBtn = () => {
@@ -116,6 +119,19 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
         />
       );
     }
+
+    if (!userInfo) {
+      return (
+        <BasicBtn
+          width="300"
+          height="56"
+          backColor="gray"
+          fSize="18px"
+          fWeight="bold"
+          txt="지원하기"
+        />
+      );
+    }
   };
 
   return (
@@ -146,6 +162,7 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
       {userInfo === 2 && currPage === "reqList" && (
         <ProjectRequestList data={data} btn={ctrlBtn()} />
       )}
+      {!userInfo && <ProjectDetailInfo data={data} btn={ctrlBtn()} />}
     </>
   );
 };

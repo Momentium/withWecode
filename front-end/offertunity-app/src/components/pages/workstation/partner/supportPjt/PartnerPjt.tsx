@@ -21,7 +21,7 @@ const PartnerPjt: React.FC<any> = ({ match }) => {
         },
       })
       .then((res) => {
-        const _resData: any = res.data.cleanedProjectList;
+        const _resData: any = res.data;
         console.log(_resData);
         setPjtList(
           _resData.map((el: any, idx: number) => (
@@ -44,9 +44,9 @@ const PartnerPjt: React.FC<any> = ({ match }) => {
 
   return (
     <>
-      {_params.addon ? 
-        <AddPjt id={_params.id}/>
-       : 
+      {_params.addon ? (
+        <AddPjt id={_params.id} />
+      ) : (
         <>
           <St.SectionTitle>지원사업 관리</St.SectionTitle>
           <StADCont>
@@ -60,7 +60,7 @@ const PartnerPjt: React.FC<any> = ({ match }) => {
             {pjtList}
           </StADCont>
         </>
-      }
+      )}
     </>
   );
 };
@@ -69,9 +69,7 @@ export default withRouter(PartnerPjt);
 const StADCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-
   justify-content: space-between;
-
   background: white;
 
   position: relative;
@@ -79,20 +77,15 @@ const StADCont = styled.div`
 
 const StADWrap = styled.div<any>`
   position: relative;
-
   cursor: pointer;
   user-select: none;
-
   margin: 24px 0;
-
   width: 600px;
   height: 400px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   ${(props) =>
     props.img &&
     css`
@@ -101,14 +94,11 @@ const StADWrap = styled.div<any>`
       background-repeat: no-repeat;
       background-size: cover;
     `}
-
   border: 1px solid #CDCDCD;
-
   .plus {
     font-size: 60px;
     color: #b7b7b7;
   }
-
   .msg {
     margin-top: 24px;
     color: #b7b7b7;

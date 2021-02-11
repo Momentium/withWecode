@@ -9,13 +9,10 @@ import axios from "axios";
 const ProjectPrsnt: React.FC<any> = ({ data, token, isLogin }) => {
   const [like, setLike] = useState<boolean>(data.hasLiked);
 
-  console.log(like);
-
   const clickLike = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (isLogin) {
       axios
-        // .get(`http://10.0.1.29:3000/likes/project/${data.id}`, {
         .get(`${process.env.REACT_APP_URL}/likes/project/${data.id}`, {
           headers: {
             Authorization: `${token}`,
@@ -29,8 +26,6 @@ const ProjectPrsnt: React.FC<any> = ({ data, token, isLogin }) => {
     console.log("click");
   };
 
-  console.log(data);
-
   return (
     <StPjtWrap>
       <StImgWrap
@@ -38,7 +33,6 @@ const ProjectPrsnt: React.FC<any> = ({ data, token, isLogin }) => {
           data.project_images ? data.project_images : "/images/header/logo.png"
         }
       />
-
       <StContentsCont>
         <div className="up-wrap">
           <StNameCont className="name" to={`/project/detail/${data.id}`}>
@@ -59,7 +53,6 @@ const ProjectPrsnt: React.FC<any> = ({ data, token, isLogin }) => {
             })}
         </div>
       </StContentsCont>
-
       <StInfoCont>
         <StInfoTable>
           <tbody>
@@ -69,15 +62,15 @@ const ProjectPrsnt: React.FC<any> = ({ data, token, isLogin }) => {
             </tr>
             <tr>
               <th>지원분야</th>
-              <td>{data.sector_id}</td>
+              <td>{data.eligible_sectors}</td>
             </tr>
             <tr>
               <th>지원대상</th>
-              <td>{data.eligibility}</td>
+              <td>{data.eligibilities}</td>
             </tr>
             <tr>
               <th>마감일</th>
-              <td>{data.deleted_at}</td>
+              <td>{data.due_date.slice(0, 10)}</td>
             </tr>
           </tbody>
         </StInfoTable>

@@ -68,7 +68,6 @@ const ProjectSubmit: React.FC<any> = ({
   });
   useEffect(() => {
     axios
-      // .get(`http://10.0.1.29:3000/applies/${data.id}`, {
       .get(`${process.env.REACT_APP_URL}/applies/${data.id}`, {
         headers: {
           Authorization: `${token}`,
@@ -273,22 +272,22 @@ const FileUplaodBox = styled.div`
   align-items: center;
   width: 100%;
   span {
-    font-size: 1.313rem;
+    font-size: 1.1rem;
     font-weight: bold;
   }
 `;
 
 const FileBox = styled.div`
-  display: inline-block;
-  width: 2.438rem;
-  height: 1.563rem;
+  width: 80px;
+  height: 40px;
   border-radius: 1.5rem;
-  padding-top: 6px;
-  text-align: center;
-  font-size: 0.8em;
+  font-size: 15px;
   font-weight: 700;
-  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #c3bdf4;
+  color: white;
   cursor: pointer;
 `;
 

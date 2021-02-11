@@ -19,7 +19,6 @@ const Card = ({ data, name, background, service, isLogin, id }: any) => {
     e.preventDefault();
     if (isLogin) {
       axios
-        // .get(`http://10.0.1.44:3000/likes/company/${id}`, {
         .get(`${process.env.REACT_APP_URL}/likes/company/${id}`, {
           headers: {
             Authorization: `${_token}`,
@@ -71,7 +70,6 @@ const Wrapper = styled.div`
     width: 18.875rem;
     height: 435px;
     margin-bottom: 2rem;
-    padding: 2rem;
     border: 1px solid #c6c6c6;
   }
 
@@ -89,8 +87,7 @@ const Wrapper = styled.div`
 `;
 
 const Image = styled.div`
-  width: 14.875rem;
-  height: 10.375rem;
+  height: 12.375rem;
   display: flex;
   justify-content: flex-end;
 
@@ -124,7 +121,9 @@ const Description = styled.div`
 `;
 const LabelWrapper = styled.div`
   display: flex;
+  align-items: flex-end;
   flex-wrap: wrap;
+  padding: 2.5rem 1rem;
   width: 100%;
 `;
 
@@ -162,6 +161,7 @@ const ShortDescription = styled.div`
 `;
 
 const BottomCon = styled.div`
+  padding: 1rem;
   &.issueStartup {
     height: 120px;
   }
