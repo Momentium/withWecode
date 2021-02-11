@@ -8,41 +8,25 @@ import UploadModal from "./UploadModal";
 import axios from "axios";
 
 const ProjectSubmit: React.FC<any> = ({
-  selectFile,
   handleUploadFile,
   bizDescription,
   setBizDescription,
   bizModel,
   setBizModel,
   btn,
+  btnCancel,
   data,
   token,
 }) => {
-  // const uploadList = [
-  //   {
-  //     title: "사업계획서",
-  //     id: "plane",
-  //   },
-  //   {
-  //     title: "사업자등록 사본",
-  //     id: "bizLicense",
-  //   },
-  //   {
-  //     title: "대표자 주민등록증 (운전면허증)",
-  //     id: "idCard",
-  //   },
-  //   {
-  //     title: "자격 보유 현황 (지적재산권 포함)",
-  //     id: "license",
-  //   },
-  // ];
   const [modal, setModal] = useState<boolean>(false);
   const [curModal, setCurModal] = useState<string>("");
   const [curDoc, setCurDoc] = useState<string>("");
-  const [checkedDoc, setCheckedDoc] = useState<any>({
-    idx: -1,
-    url: "",
-    name: "",
+  const [checkedDoc, setCheckedDoc] = useState<any>(() => {
+    const _rd = {};
+    data.required_documents.forEach((el: string, idx: number) => {
+      (_rd as any)[el] = {};
+    });
+    return _rd;
   });
 
   const handleModal = (_mode: string) => {
@@ -56,9 +40,12 @@ const ProjectSubmit: React.FC<any> = ({
     }
     setModal(!modal);
   };
-  const saveCheck = (checked:any) => {
-    setCheckedDoc({});
-  }
+
+  const saveCheck = (checked: any) => {
+    const _temp = {};
+    (_temp as any)[curDoc] = checked;
+    setCheckedDoc({ ...checkedDoc, ..._temp });
+  };
 
   const [applyResult, setApplyResult] = useState({
     is_applied: false,
@@ -67,6 +54,12 @@ const ProjectSubmit: React.FC<any> = ({
     businessModel: "",
   });
   useEffect(() => {
+    // const _rd = {};
+    // data.required_documents.forEach((el: string, idx: number) => {
+    //   (_rd as any)[el] = {};
+    // });
+    // setCheckedDoc(_rd);
+
     axios
       .get(`${process.env.REACT_APP_URL}/applies/${data.id}`, {
         headers: {
@@ -74,7 +67,6 @@ const ProjectSubmit: React.FC<any> = ({
         },
       })
       .then((res) => {
-        // console.log(res.data.data)
         setApplyResult({
           ...applyResult,
           ...{
@@ -181,12 +173,13 @@ const ProjectSubmit: React.FC<any> = ({
                   return (
                     <FileUplaodCont key={idx}>
                       <FileUplaodBox>
-                        <span title="sub_title">{item}</span>
-                        {selectFile && (
-                          <>
-                            <span title="selected_title">{selectFile}</span>
-                            <span title="selected_file">{checkedDoc}</span>
-                          </>
+                        <div className="sub_title">{item}</div>
+                        {Object.keys(checkedDoc[item]).length !== 0 && (
+                          <div className="file-anchor">
+                          <a
+                            href={checkedDoc[item].url}
+                          >{`${checkedDoc[item].name}.${checkedDoc[item].type}`}</a>
+                          </div>
                         )}
                         <FileBox
                           className={`inputFile ${item}`}
@@ -198,7 +191,6 @@ const ProjectSubmit: React.FC<any> = ({
                           등록
                         </FileBox>
                       </FileUplaodBox>
-                      {/* {fileVisible && <SelectFile />} */}
                     </FileUplaodCont>
                   );
                 })}
@@ -208,7 +200,7 @@ const ProjectSubmit: React.FC<any> = ({
         </PjSubmitDocu>
         <ButtonCont>
           {btn}
-          <PrevBtn>취소</PrevBtn>
+          {btnCancel}
         </ButtonCont>
       </ProjectSubmitCont>
 
@@ -219,16 +211,11 @@ const ProjectSubmit: React.FC<any> = ({
         <Modal
           mode={curModal}
           handleModal={handleModal}
-
           data={curDoc}
           checkedDoc={checkedDoc}
           saveCheck={saveCheck}
         />
       )}
-
-      {/* {uploadModal && (
-        <UploadModal handleFileUploadModal={handleFileUploadModal} />
-      )} */}
     </>
   );
 };
@@ -271,10 +258,20 @@ const FileUplaodBox = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  span {
+
+  .sub_title {
+    width: 30%;
     font-size: 1.1rem;
     font-weight: bold;
   }
+
+  .file-anchor {
+    width: 60%;
+    a {
+      color: #5541ed;
+    }
+  }
+  
 `;
 
 const FileBox = styled.div`
@@ -313,6 +310,10 @@ const ButtonCont = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 50px;
+
+  span:first-child {
+    margin-right: 24px;
+  }
 `;
 
 const PrevBtn = styled.button``;

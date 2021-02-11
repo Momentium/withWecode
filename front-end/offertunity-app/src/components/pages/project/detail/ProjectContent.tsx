@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import BasicBtn from "components/common/button/BasicBtn";
@@ -6,7 +6,6 @@ import ProjectDetailInfo from "./ProjectDetailInfo";
 import ProjectSubmit from "./ProjectSubmit";
 import ProjectRequestList from "./ProjectRequestList";
 import ProjectContentCard from "./ProjectContentCard";
-import * as Mt from "api/methods";
 
 const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
   const [like, setLike] = useState(data.hasLiked);
@@ -86,8 +85,8 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
           backColor="white"
           fSize="18px"
           fWeight="bold"
-          txt="지원완료"
-          click={handleStartupSubmitBtn}
+          txt="공고보기"
+          click={() => {setCurrPage("article")}}
         />
       );
     }
@@ -148,7 +147,27 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
       {userInfo === 1 && currPage === "submit" && (
         <ProjectSubmit
           data={data}
-          btn={ctrlBtn()}
+          btn={
+            <BasicBtn
+              width="300"
+              height="56"
+              fSize="18px"
+              fWeight="bold"
+              txt="지원하기"
+              click={handleStartupSubmitBtn}
+            />
+          }
+          btnCancel={
+            <BasicBtn
+              width="300"
+              height="56"
+              backColor="white"
+              fSize="18px"
+              fWeight="bold"
+              txt="취소하기"
+              click={() => {setCurrPage("article")}}
+            />
+          }
           bizDescription={bizDescription}
           setBizDescription={setBizDescription}
           bizModel={bizModel}
@@ -169,8 +188,8 @@ const ProjectContent: React.FC<any> = ({ data, isLogin, token, userInfo }) => {
 
 export default ProjectContent;
 
-const ProjectRequestBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 7.563rem;
-`;
+// const ProjectRequestBtn = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   margin-top: 7.563rem;
+// `;

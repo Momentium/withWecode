@@ -145,9 +145,10 @@ const StTopCont = styled.div`
 const StScrollCont = styled.div`
   display: flex;
   flex-shrink: 0;
+  flex-wrap: wrap;
 
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
 `;
 
 const StCardCont = styled.div`

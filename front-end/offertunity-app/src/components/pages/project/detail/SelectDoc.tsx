@@ -17,7 +17,12 @@ const SelectDoc:React.FC<any> = ({ mode, label, checkedDoc, selectedIdx }) => {
 
   const handleCheck = (_idx:number) => {
     setCheckIdx(_idx);
-    selectedIdx(fileList[_idx].name);
+    selectedIdx({
+      id: fileList[_idx].id, 
+      name: fileList[_idx].name, 
+      url: fileList[_idx].download,
+      type: fileList[_idx].fileType,
+    });
   }
 
   const uploadFile = (e: any) => {
@@ -132,9 +137,10 @@ const StTopCont = styled.div`
 const StScrollCont = styled.div`
   display: flex;
   flex-shrink: 0;
+  flex-wrap: wrap;
 
-  width: 100%;
-  height: 100%;
+  /* width: 80%; */
+  /* height: 100%; */
 `;
 
 const StCardCont = styled.div`

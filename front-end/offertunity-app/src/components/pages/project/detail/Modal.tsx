@@ -19,8 +19,8 @@ const Modal = ({ mode, handleModal, data, checkedDoc, saveCheck }: any) => {
     "대표자 주민등록증(운전면허증)": "etc",
   };
   const [selectedFile, setSelectedFile] = useState<any>({});
-  const selectedIdx = (_name: string, ) => {
-    setSelectedFile(_name);
+  const selectedIdx = (_data:any) => {
+    setSelectedFile(_data); 
   };
 
   return (
@@ -46,6 +46,7 @@ const Modal = ({ mode, handleModal, data, checkedDoc, saveCheck }: any) => {
                   저장
                 </StBtn>
                 <StBtn
+                  className="cancel"
                   onClick={() => {
                     handleModal("close");
                   }}
@@ -108,15 +109,17 @@ const StBtn = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: white;
-  color: #5541ed;
+  background: #5541ed;
+  color: white;
+
+  &.cancel {
+    background: white;    
+    color: #5541ed;
+  }
+
   border: 1px solid #5541ed;
   border-radius: 5px;
 
   transition: all 0.1s linear;
 
-  :hover {
-    background: #5541ed;
-    color: white;
-  }
 `;
