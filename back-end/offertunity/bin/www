@@ -9,10 +9,17 @@ var debug = require("debug")("offertunity:server");
 var https = require("https");
 const fs = require('fs');
 
-const options = {
-  key: fs.readFileSync('../cert/agent2-key.pem'),
-  cert: fs.readFileSync('../cert/agent2-key.cert')
-};
+/*
+healthCheck
+*/
+app.get('/healthCheck', function(req, res)
+{
+	res.writeHead(200, { "Content-Type": "text/html" });
+	res.write("Health Check Page");
+	res.end();
+});
+
+
 /**
  * Get port from environment and store in Express.
  */
