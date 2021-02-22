@@ -8,6 +8,17 @@ var app = require("../app");
 var debug = require("debug")("offertunity:server");
 var http = require("http");
 
+/*
+healthCheck
+*/
+app.get('/healthCheck', function(req, res)
+{
+	res.writeHead(200, { "Content-Type": "text/html" });
+	res.write("Health Check Page");
+	res.end();
+});
+
+
 /**
  * Get port from environment and store in Express.
  */
