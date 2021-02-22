@@ -1,4 +1,4 @@
-const http = require('http')
+const https = require('https')
 const express = require('express')
 let { posts } = require('./db') // 서버를 킬 때마다 일시적으로 생성되는 데이터 입니다. 
 const app = express()
@@ -25,8 +25,8 @@ app.delete('/posts/:id', (req, res) => {
  // post id 로 posts 배열중 하나의 post를 삭제하는 함수
 })
 
-const server = http.createServer(app)
+const server = https.createServer(app)
 
-server.listen(3000, () => {
-  console.log('server is listening on PORT 3000')
+server.listen(process.env.PORT, () => {
+  console.log(`server is listening on PORT ${process.env.PORT}`)
 })
